@@ -85,8 +85,8 @@ WeChatLottery_new.js = type=cron,cronexp=0 6 0 * * *,script-path=https://raw.git
 # 微信小程序 - 喜马拉雅 - 我的： 签到 “ 获取 Cookie
 WeChatLottery_new.js = type=cron,cronexp=5 6 0 * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/xmly_wc.js
 # > Dler Cloud墙洞 签到
-dlercloud.js = type=cron,cronexp=0 8-20/4 * * *,script-path=https://raw.githubusercontent.com/Darren-X1/S/master/dlercloud.js,type=cron,script-update-interval=0
+dlercloud.js = type=cron,cronexp=0 8-20/4 * * *,script-path=https://raw.githubusercontent.com/Darren-X1/S/master/dlercloud.js,script-update-interval=0
 # > 天气预报 一周
-weather_pro.js = type=cron,cronexp=0 8-20/4 * * *,script-path=mutu/weather_pro.js,cronexp=0 8-20/4 * * *,type=cron,script-update-interval=0
+weather_pro.js = type=cron,cronexp=0 8-20/4 * * *,script-path=mutu/weather_pro.js,cronexp=0 8-20/4 * * *,script-update-interval=0
 # 电信流量话费提醒
 china_telecom.js = type=cron,cronexp=0 9 * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/china_telecom.js,script-update-interval=0
