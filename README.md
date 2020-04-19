@@ -17,14 +17,13 @@ Calendar.js = script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/
 # > 京东
 JD_DailyBonus.js = type=cron,cronexp=0 0 0 * * *,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
 # 浏览器访问并登录: https://music.163.com/m/login
-neteasemusic.js = type=cron,cronexp=0 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/quanx/neteasemusic.js,script-update-interval=0
 # 人人视频
 # 打开 APP, 访问下`个人中心`
 rrtv.js = type=cron,cronexp=15 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/rrtv/rrtv.js,script-update-interval=0
 # 喜马拉雅
 # 打开 APP, 访问下右下角`账号`
 ximalaya.js = type=cron,cronexp=40 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ximalaya/ximalaya.js,script-update-interval=0
-# 字幕组
+# 人人字幕组
 # 网页:打开浏览器访问: http://www.rrys2019.com, App: 打开 APP 即可
 zimuzu.js = type=cron,cronexp=50 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/zimuzu/zimuzu.js,script-update-interval=0
 # 中国电信套餐 
@@ -37,7 +36,7 @@ WeChatLottery_new.js = type=cron,cronexp=0 6 0 * * *,script-path=https://raw.git
 // dlercloud.js = type=cron,cronexp=0 8-20/4 * * *,script-path=https://raw.githubusercontent.com/Darren-X1/S/master/dlercloud.js,script-update-interval=0
 # 天气预报 一周
 weather_pro.js = type=cron,cronexp=0 8-20/4 * * *,script-path=mutu/weather_pro.js,cronexp=0 8-20/4 * * *,script-update-interval=0
-#饿了么
+# 饿了么
 current_user$,type=http-request
 elemSign.js = script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/elemSign.js,script-update-interval=0,cronexp=35 2 0 * * *,type=cron
 # 网易云音乐
