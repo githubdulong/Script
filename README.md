@@ -41,4 +41,4 @@ current_user$,type=http-request
 elemSign.js = script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/elemSign.js,script-update-interval=0,cronexp=35 2 0 * * *,type=cron
 # 网易云音乐
 # 浏览器访问并登录: https://music.163.com/m/login
-neteasemusic.js = type=cron,cronexp=0 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/quanx/neteasemusic.js,script-update-interval=0
+neteasemusic.js = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/neteasemusic.js,script-update-interval=0,cronexp=30 1 0 * * *,type=cron
