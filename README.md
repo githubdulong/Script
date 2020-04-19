@@ -19,7 +19,7 @@ JD_DailyBonus.js = type=cron,cronexp=0 0 0 * * *,script-path=https://raw.githubu
 # 浏览器访问并登录: https://music.163.com/m/login
 # 人人视频
 # 打开 APP, 访问下`个人中心`
-rrtv.js = type=cron,cronexp=15 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/rrtv/rrtv.js,script-update-interval=0
+rrtv.js = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/rrtv/rrtv.js,script-update-interval=0,cronexp=15 2 0 * * *,type=cron
 # 喜马拉雅
 # 打开 APP, 访问下右下角`账号`
 ximalaya.js = type=cron,cronexp=40 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ximalaya/ximalaya.js,script-update-interval=0
