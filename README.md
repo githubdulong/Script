@@ -37,6 +37,9 @@ WeChatLottery_new.js = type=cron,cronexp=0 6 0 * * *,script-path=https://raw.git
 // dlercloud.js = type=cron,cronexp=0 8-20/4 * * *,script-path=https://raw.githubusercontent.com/Darren-X1/S/master/dlercloud.js,script-update-interval=0
 # 天气预报 一周
 weather_pro.js = type=cron,cronexp=0 8-20/4 * * *,script-path=mutu/weather_pro.js,cronexp=0 8-20/4 * * *,script-update-interval=0
-#饿了吗
+#饿了么
 current_user$,type=http-request
 elemSign.js = script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/elemSign.js,script-update-interval=0,cronexp=35 2 0 * * *,type=cron
+# 网易云音乐
+# 浏览器访问并登录: https://music.163.com/m/login
+neteasemusic.js = type=cron,cronexp=0 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/quanx/neteasemusic.js,script-update-interval=0
