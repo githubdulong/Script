@@ -80,7 +80,7 @@ tvpreview.js = type=cron,cronexp=0 0 8 * * *,script-path=https://raw.githubuserc
 xmspeed.js = type=cron,cronexp=0 6 0 * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/xmspeed.js
 # 微信小程序-活动抽奖 (By @makexp & @zZPiglet)
 #打开微信小程序 进入“活动抽奖”，手动签到一次或点击“已签到”
-WeChatLottery_new.js = type=cron,cronexp=0 6 0 * * *,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/WeChatLottery/WeChatLottery_new.js
+WeChatLottery_new.js = type=cron,cronexp=0 6 0 * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/WeChatLottery_new.js
 # 微信小程序-喜马拉雅 (By @makexp)
 # 微信小程序 - 喜马拉雅 - 我的： 签到 “ 获取 Cookie
 WeChatLottery_new.js = type=cron,cronexp=5 6 0 * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/xmly_wc.js
@@ -88,5 +88,3 @@ WeChatLottery_new.js = type=cron,cronexp=5 6 0 * * *,script-path=https://raw.git
 dlercloud.js = type=cron,cronexp=0 8-20/4 * * *,script-path=https://raw.githubusercontent.com/Darren-X1/S/master/dlercloud.js,script-update-interval=0
 # > 天气预报 一周
 weather_pro.js = type=cron,cronexp=0 8-20/4 * * *,script-path=mutu/weather_pro.js,cronexp=0 8-20/4 * * *,script-update-interval=0
-# 电信流量话费提醒
-china_telecom.js = type=cron,cronexp=0 9 * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/china_telecom.js,script-update-interval=0
