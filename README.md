@@ -33,7 +33,7 @@ telecomInfinity.js = type=cron,cronexp=50 4 0 * * *,script-path=https://raw.gith
 #打开微信小程序 进入“活动抽奖”，手动签到一次或点击“已签到”
 WeChatLottery_new.js = type=cron,cronexp=0 6 0 * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/WeChatLottery_new.js
 # Dler Cloud墙洞 签到
-// dlercloud.js = type=cron,cronexp=0 8-20/4 * * *,script-path=https://raw.githubusercontent.com/Darren-X1/S/master/dlercloud.js,script-update-interval=0
+dlercloud.js = type=cron,cronexp=0 8-20/4 * * *,script-path=https://raw.githubusercontent.com/Darren-X1/S/master/dlercloud.js,script-update-interval=0
 # 天气预报 一周
 weather_pro.js = type=cron,cronexp=0 8-20/4 * * *,script-path=mutu/weather_pro.js,cronexp=0 8-20/4 * * *,script-update-interval=0
 # 饿了么
