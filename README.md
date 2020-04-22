@@ -1,5 +1,5 @@
 #!name=Task
-#!desc=Task定时签到脚本
+#!desc=Task定时脚本
 #!system=ios
 
 [Script]
