@@ -5,7 +5,7 @@
 [Script]
 
 # App价格版本监控，填ID
-// App价格版本监控.js = type=cron,cronexp=0 0 * * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Neurogram-R/AppMonitor.js,script-update-interval=0
+// App商店监控.js = type=cron,cronexp=0 0 * * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Neurogram-R/AppMonitor.js,script-update-interval=0
 # > TestFlight公测监控，填appkey
 // TF公测监控.js = script-path=https://raw.githubusercontent.com/songyangzz/QuantumultX/master/testflight.js,tag=TestFlight公测监控,type=cron,cronexp=0 0 * * * *
 # > 每日一言
@@ -22,7 +22,7 @@
 # 中国电信套餐，天翼账号中心
 中国电信套餐.js = type=cron,cronexp= 0 0 9 * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/telecomInfinity.js,script-update-interval=0
 # 微信小程序-活动抽奖
-微信小程序-活动抽奖.js = type=cron,cronexp=0 6 0 * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/WeChatLottery_new.js
+微信活动抽奖.js = type=cron,cronexp=0 6 0 * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/WeChatLottery_new.js
 # DlerCloud墙洞机场
 DlerCloud墙洞机场.js = type=cron,cronexp=0 8-22/4 * * *,script-path=https://raw.githubusercontent.com/Darren-X1/S/master/dlercloud.js
 # 天气预报
