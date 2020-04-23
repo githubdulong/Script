@@ -31,6 +31,8 @@ DlerCloud机场•Task = type=cron,cronexp=0 8-22/4 * * *,script-path=https://ra
 饿了么•Task = script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/elemSign.js,script-update-interval=0,cronexp=35 2 0 * * *,type=cron
 # 网易云音乐
 网易云音乐•Task = type=cron,cronexp=0 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/neteasemusic.js,script-update-interval=0
-# 趣头条
-qtt.js = type=cron,cronxp=10 0 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/qtt/qtt.js
-
+# # 趣头条
+# 打开 APP 进入签到:  `右上角` > `签到`
+# 阅读篇数获取Cookie:`小视频`中播放一段时间视频即可获取,具体的阅读篇数奖励请到应用内手动点击
+# 首页金币奖励:此Cookie在首页的推荐中随机出现,随机获取,并不一定会出现。
+qtt.js = type=cron,cronexp=20 4 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/qtt/qtt.js,script-update-interval=0
