@@ -27,8 +27,6 @@
 DlerCloud机场•Task = type=cron,cronexp=0 8-22/4 * * *,script-path=https://raw.githubusercontent.com/Darren-X1/S/master/dlercloud.js
 # 天气预报
 天气预报•Task = type=cron,cronexp=0 8-20/4 * * *,script-path=mutu/weather_pro.js,cronexp=0 8-20/4 * * *,script-update-interval=0
-# 墙洞机场
-墙洞机场•Task = type=cron,cronexp=0 8-20/4 * * *,script-path=mutu/Today_Flow.js,cronexp=0 8-20/4 * * *,script-update-interval=0
 # 饿了么
 饿了么•Task = script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/elemSign.js,script-update-interval=0,cronexp=35 2 0 * * *,type=cron
 # 网易云音乐
