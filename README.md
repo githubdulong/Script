@@ -32,5 +32,5 @@ DlerCloud机场•Task = type=cron,cronexp=0 8-22/4 * * *,script-path=https://ra
 # 网易云音乐
 网易云音乐•Task = type=cron,cronexp=0 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/neteasemusic.js,script-update-interval=0
 #趣头条
-趣头条•Task = cron "10 0 0 * * *" script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/qtt/qtt.js
+趣头条•Task = type=cron,cronxp=10 0 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/qtt/qtt.js
 
