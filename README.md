@@ -31,3 +31,5 @@ DlerCloud机场•Task = type=cron,cronexp=0 8-22/4 * * *,script-path=https://ra
 饿了么•Task = script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/elemSign.js,script-update-interval=0,cronexp=35 2 0 * * *,type=cron
 # 网易云音乐
 网易云音乐•Task = type=cron,cronexp=0 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/neteasemusic.js,script-update-interval=0
+# > 机场
+checkin.js = script-path=mutu/checkin.js,cronexp=0 8-20/4 * * *,type=cron
