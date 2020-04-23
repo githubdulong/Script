@@ -24,7 +24,7 @@
 # 微信小程序-活动抽奖
 微信活动抽奖•Task = type=cron,cronexp=0 6 0 * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/WeChatLottery_new.js
 # DlerCloud墙洞机场
-DlerCloud机场•Task = type=cron,cronexp=0 8-22/4 * * *,script-path=https://raw.githubusercontent.com/Darren-X1/S/master/dlercloud.js
+DlerCloud机场•Task = type=cron,cronexp=0 8-22/4 * * *,script-path=https://raw.githubusercontent.com/Darren-X1/S/master/dlercloud.js,script-update-interval=0
 # 天气预报
 天气预报•Task = type=cron,cronexp=0 8-20/4 * * *,script-path=mutu/weather_pro.js,script-update-interval=0
 # 饿了么
