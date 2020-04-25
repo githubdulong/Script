@@ -32,6 +32,6 @@ DlerCloud机场•Task = type=cron,cronexp=0 0 8 * * *,script-path=https://raw.g
 # 网易云音乐
 网易云音乐•Task = type=cron,cronexp=0 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/neteasemusic.js,script-update-interval=0
 # 趣头条
-趣头条•Task = type=cron,cronexp=20 1 0/2 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/qtt/qtt.js,script-update-interval=0
+趣头条•Task = type=cron,cronexp=20 1 0/1 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/qtt/qtt.js,script-update-interval=0
 # 美团
 // 美团•Task = type=cron,cronexp=40 2 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.js,script-update-interval=0
