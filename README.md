@@ -1,5 +1,5 @@
 #!name=Task
-#!desc=Task定时•常用签到脚本、无主机名；
+#!desc=Task定时•签到脚本、无主机名；
 #!system=ios
 
 [Script]
