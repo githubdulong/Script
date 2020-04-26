@@ -40,4 +40,4 @@ DlerCloud机场𝙏𝙖𝙨𝙠 = type=cron,cronexp=0 0 8 * * *,script-path=http
 # WPS
 // WPS𝙏𝙖𝙨𝙠 = type=cron,cronexp=35 3 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wps/wps.js,script-update-interval=0
 # 美团外卖
-美团外卖𝙏𝙖𝙨𝙠 = type=cron,cronexp=35 2 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wmmeituan/wmmeituan.js,script-update-interval=0
+// 美团外卖𝙏𝙖𝙨𝙠 = type=cron,cronexp=35 2 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wmmeituan/wmmeituan.js,script-update-interval=0
