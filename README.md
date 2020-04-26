@@ -1,5 +1,5 @@
 #!name=Task
-#!desc=Task定时脚本•常用签到JS、无主机名；
+#!desc=Task定时•常用签到脚本、无主机名；
 #!system=ios
 
 [Script]
@@ -35,6 +35,5 @@ DlerCloud机场Task = type=cron,cronexp=0 0 8 * * *,script-path=https://raw.gith
 网易云音乐Task = type=cron,cronexp=0 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/neteasemusic.js,script-update-interval=0
 # 趣头条
 趣头条Task = type=cron,cronexp=20 1 0/1 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/qtt/qtt.js,script-update-interval=0
-
 
 
