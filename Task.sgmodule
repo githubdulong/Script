@@ -4,54 +4,52 @@
 
 [Script]
 # > 京东多合一签到
-京东签到𝙏𝙖𝙨𝙠 = type=cron,cronexp=10 0 0 * * *,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
-# > 人人视频
-人人视频𝙏𝙖𝙨𝙠 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/rrtv/rrtv.js,script-update-interval=0,cronexp=30 0 0 * * *,type=cron
-# > 喜马拉雅
-喜马拉雅𝙏𝙖𝙨𝙠 = type=cron,cronexp=50 0 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ximalaya/ximalaya.js,script-update-interval=0
-# > 人人字幕组
-人人字幕组𝙏𝙖𝙨𝙠 = type=cron,cronexp=10 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/zimuzu/zimuzu.js,script-update-interval=0
-# > 中国电信 套餐余量
-电信余量𝙏𝙖𝙨𝙠 = type=cron,cronexp= 0 0 9 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomInfinity.js,script-update-interval=0
-# > 微信小程序 活动抽奖
-活动抽奖𝙏𝙖𝙨𝙠 = type=cron,cronexp=30 1 0 * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/WeChatLottery_new.js,script-update-interval=0
-# > 天气预报（本地）
-天气预报𝙏𝙖𝙨𝙠 = type=cron,cronexp=1 8-20/4 * * *,script-path=Script/weather_pro.js
-# > 实时汇率
-实时汇率𝙏𝙖𝙨𝙠 = type=cron,cronexp=50 0 9 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/exchangeRate.js,script-update-interval=0
-# > 电视节目预告
-// 电视预告𝙏𝙖𝙨𝙠 = type=cron,cronexp=10 0 9 * * *,script-path=Script/trainquery.js
-// 远程库地址 https://raw.githubusercontent.com/Sunert/Scripts/master/Task/tvpreview.js,script-update-interval=0
+京东商城 = type=cron,cronexp="5,15 0 0 * * *",script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
 # > 饿了么
-饿了么𝙏𝙖𝙨𝙠 = script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/elemSign.js,script-update-interval=0,cronexp=50 1 0 * * *,type=cron
-# > 网易云音乐
-网易云音乐𝙏𝙖𝙨𝙠 = type=cron,cronexp=10 2 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/neteasemusic.js,script-update-interval=0
-# > 趣头条
-趣头条𝙏𝙖𝙨𝙠 = type=cron,cronexp=8 0 0/1 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/qtt/qtt.js,script-update-interval=0
+饿 了 么 = type=cron,cronexp=30 0 0 * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/elemSign.js,script-update-interval=0
+# > 去哪儿
+去 哪 儿 = type=cron,cronexp=50 0 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/qunar/qunar.js,script-update-interval=0
+# > 人人字幕组
+人人字幕 = type=cron,cronexp=10 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/zimuzu/zimuzu.js,script-update-interval=0
+# > 人人视频
+人人视频 = type=cron,cronexp=30 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/rrtv/rrtv.js,script-update-interval=0
+# > 喜马拉雅
+喜马拉雅 = type=cron,cronexp=50 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ximalaya/ximalaya.js,script-update-interval=0
 # > 美团
-美团𝙏𝙖𝙨𝙠 = type=cron,cronexp=30 2 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.js,script-update-interval=0
+美团签到 = type=cron,cronexp=10 2 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.js,script-update-interval=0
+# > 网易云音乐
+网易音乐 = type=cron,cronexp=30 2 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/neteasemusic.js,script-update-interval=0
 # > 京东到家
-京东到家𝙏𝙖𝙨𝙠 = type=cron,cronexp=50 2 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jddj.js,script-update-interval=0
+京东到家 = type=cron,cronexp=50 2 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jddj.js,script-update-interval=0
 # > 新浪微博
-新浪微博𝙏𝙖𝙨𝙠 = type=cron,cronexp=10 3 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js,script-update-interval=0
-# > Dler Cloud机场（本地）
-DlerCloud机场𝙏𝙖𝙨𝙠 = type=cron,cronexp=0 8-22/2 * * *,script-path=Script/dlercloud 2.js,use-local-host-item-for-proxy = true
+新浪微博 = type=cron,cronexp=10 3 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js,script-update-interval=0
 # > 顺丰速运
-顺丰速运𝙏𝙖𝙨𝙠 = type=cron,cronexp=30 3 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js,script-update-interval=0
-# > 米读极速版 
-米读签到𝙏𝙖𝙨𝙠 = type=cron,cronexp=50 3 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/midu/miduSign.js,script-update-interval=0
-米读阅读𝙏𝙖𝙨𝙠 = type=cron,cronexp=*/30 * * * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/midu/miduRead.js,wake-system=true,script-update-interval=0
-# > 腾讯新闻      
-腾讯新闻𝙏𝙖𝙨𝙠 = type=cron,cronexp=0 5/3 8-18/1 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/txnews2.js,script-update-interval=0
+顺丰速运 = type=cron,cronexp=30 3 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js,script-update-interval=0
 # > 苏宁易购
-苏宁易购𝙏𝙖𝙨𝙠 = type=cron,cronexp=10 4 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/suning/suning.js,script-update-interval=0
-# > 微信小程序 来客有礼
-来客有礼𝙏𝙖𝙨𝙠 = type=cron,cronexp=0/10 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/lkyl.js,script-update-interval=0
+苏宁易购 = type=cron,cronexp=50 3 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/suning/suning.js,script-update-interval=0
 # > 金山WPS
-WPS𝙏𝙖𝙨𝙠 = type=cron,cronexp=30 4 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wps/wps.js,script-update-interval=0
-# > 移动10086
-10086移动𝙏𝙖𝙨𝙠 = type=cron,cronexp=50 4 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10086/10086.js,script-update-interval=0
-# > 中青看点极速版
-中青看点𝙏𝙖𝙨𝙠 = type=cron,cronexp=0 */7 */2 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/youth.js,wake-system=true,script-update-interval=0
+金山WPS = type=cron,cronexp=10 4 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wps/wps.js,script-update-interval=0
 # > 吾爱破解
-吾爱破解𝙏𝙖𝙨𝙠 = type=cron,cronexp=10 5 0 * * *,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/52pojie-DailyBonus/52pojie.js
+吾爱破解 = type=cron,cronexp=30 4 0 * * *,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/52pojie-DailyBonus/52pojie.js,script-update-interval=0
+# > 网易新闻
+网易新闻 = type=cron,cronexp=50 4 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasenews/neteasenews.js,script-update-interval=0
+# > 微信小程序 活动抽奖
+活动抽奖 = type=cron,cronexp=10 5 0 * * *,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Task/WeChatLottery_new.js,script-update-interval=0
+# > 有道云笔记
+有道笔记 = type=cron,cronexp=30 5 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/noteyoudao/noteyoudao.js,wake-system=true,script-update-interval=0
+# > 微信小程序 来客有礼
+来客有礼 = type=cron,cronexp=0/20 5 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/lkyl.js,script-update-interval=0
+# > 多账号切换
+// 账号切换 = type=cron,cronexp="0 12 * * *",script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,wake-system=true
+# > 中国电信 套餐余量
+电信余量 = type=cron,cronexp= 0 0 9 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomInfinity.js,script-update-interval=0
+# > 天气预报-益阳市（本地）
+天气预报 = type=cron,cronexp="0 1 8-20/4 * * *",script-path=Script/weather_pro.js
+# > Dler Cloud墙洞机场-统计版2（本地）
+墙洞机场 = type=cron,cronexp="0 0 8-22/2 * * *",script-path=Script/dlercloud 2.js,use-local-host-item-for-proxy = true
+# > 电视节目预告 
+// 电视预告 = type=cron,cronexp=30 0 9 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/tvpreview.js,script-update-interval=0
+# > 实时汇率
+// 实时汇率 = type=cron,cronexp=50 0 9 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/exchangeRate.js,script-update-interval=0
+
+-------- 分 - 割 - 线 -------- = type=http-request,pattern=分割线,script-path=Script/分割线.js
