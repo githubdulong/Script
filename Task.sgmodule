@@ -61,17 +61,19 @@ GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://
 # > 中国电信 余量
 电信余量 = type=cron,cronexp= 0 2 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomInfinity.js,script-update-interval=0
 # > 天气预报-益阳市（本地）
-天气预报 = type=cron,cronexp="0 1 8,18 * * *",wake-system=1,script-path=Script/weather_pro.js
+天气预报 = type=cron,cronexp="0 1 8,18 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/mutu/weather_pro2.js,script-update-interval=0
+# > 彩云天气
+彩云天气 = type=cron,cronexp="0 1 8-20/1 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js, script-update-interval=0
 # > 降雨提醒
-降雨提醒= type=cron,cronexp="0 2 8-18/1 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/toulanboy/scripts/master/weather/weather.js, script-update-interval=0
+//降雨提醒= type=cron,cronexp="0 2 8-20/4 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/toulanboy/scripts/master/weather/weather.js, script-update-interval=0
 # > Dler Cloud墙洞机场-统计版2（本地）
-墙洞机场 = type=cron,cronexp="0 0 8-22/2 * * *",wake-system=1,script-path=Script/dlercloud 2.js,use-local-host-item-for-proxy = true
+墙洞机场 = type=cron,cronexp="0 0 8-22/2 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/dlercloud.js,use-local-host-item-for-proxy = true
 # > 电视节目预告 
-电视预告 = type=cron,cronexp=0 5 9 * * *,wake-system=1,script-path=Script/trainquery.js
+电视预告 = type=cron,cronexp=0 5 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/tvpreview.js, script-update-interval=0
 # > 实时汇率
 //实时汇率 = type=cron,cronexp=50 0 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/exchange.js,script-update-interval=0
 # > Epic游戏限免
-//游戏限免 = type=cron,cronexp=0 8 10 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/epic.js,script-update-interval=0
+游戏限免 = type=cron,cronexp=0 8 10 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/epic.js,script-update-interval=0
 # > 疫情报告
 疫情报告 = type=cron,cronexp=0 8 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/nCov.js,script-update-interval=0
 
