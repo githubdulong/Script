@@ -50,7 +50,7 @@
 万达电影 = type=cron,cronexp=0 11 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wanda/wanda.js,wake-system=1,script-update-interval=0
 # > 威锋论坛
 威锋论坛 = type=cron,cronexp=30 11 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,wake-system=1,script-update-interval=0
-# > 可林商城 
+# > 欧可林商城 
 可林商城 = type=cron,cronexp=0 12 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Oclean/Oclean_mini.js,script-update-interval=0
 # > GitHub监控
 GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/github.js,script-update-interval=0
@@ -60,13 +60,13 @@ GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://
 移动余量 = type=cron,cronexp=0 0 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10086/10086.fee.js,wake-system=true,script-update-interval=0
 # > 中国电信 余量
 电信余量 = type=cron,cronexp= 0 2 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomInfinity.js,script-update-interval=0
-# > 天气预报-益阳市（本地）
+# > 天气预报-益阳市
 天气预报 = type=cron,cronexp="0 1 8,18 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/mutu/weather_pro2.js,script-update-interval=0
 # > 彩云天气
 彩云天气 = type=cron,cronexp="0 1 8-20/1 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js, script-update-interval=0
 # > 降雨提醒
 //降雨提醒= type=cron,cronexp="0 2 8-20/4 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/toulanboy/scripts/master/weather/weather.js, script-update-interval=0
-# > Dler Cloud墙洞机场-统计版2（本地）
+# > Dler Cloud 墙洞机场
 墙洞机场 = type=cron,cronexp="0 0 8-22/2 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/dlercloud.js,use-local-host-item-for-proxy = true
 # > 电视节目预告 
 电视预告 = type=cron,cronexp=0 5 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/tvpreview.js, script-update-interval=0
