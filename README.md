@@ -25,4 +25,4 @@
 * [@KOP-XIAO](https://github.com/KOP-XIAO/QuantumultX)
 
            
-     •自用不分享，如有侵权请告知删除•
+          •自用不分享，如有侵权请告知删除•
