@@ -1,2 +1,2 @@
-# Surge-module
-Surge/module
+# JavaScript合集
+Surge|QuantumultX•自用
