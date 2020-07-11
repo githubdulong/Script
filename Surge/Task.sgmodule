@@ -61,7 +61,7 @@ GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://
 # > 中国电信 余量
 电信余量 = type=cron,cronexp= 0 2 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomInfinity.js,script-update-interval=0
 # > 天气预报-益阳市
-天气预报 = type=cron,cronexp="0 1 8,18 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/mutu/weather_pro2.js,script-update-interval=0
+天气预报 = type=cron,cronexp="0 1 8,18 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/MuTu/weather2_pro.js,script-update-interval=0
 # > 彩云天气
 彩云天气 = type=cron,cronexp="0 1 8-20/1 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js, script-update-interval=0
 # > 降雨提醒
