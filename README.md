@@ -20,7 +20,7 @@
 * [@zZPiglet](https://github.com/zZPiglet/Task.git)
 * [@eHpo1](https://github.com/eHpo1/Rules)
 * [@songyangzz](https://github.com/songyangzz/QuantumultX.git)
-* [@Qure](https://github.com/Koolson/Qure)
+* [@Qure](https://github.com/Koolson/Qure)  •   [@Qure](https://github.com/Koolson/Qure) •  [@Orz-3](https://github.com/Orz-3/mini)
 * [@Peng-YM](https://github.com/Peng-YM/QuanX)
 * [@KOP-XIAO](https://github.com/KOP-XIAO/QuantumultX)
 
