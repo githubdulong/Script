@@ -23,6 +23,8 @@
 * [@Qure](https://github.com/Koolson/Qure)  •  [@Orz-3](https://github.com/Orz-3/mini)
 * [@Peng-YM](https://github.com/Peng-YM/QuanX)
 * [@KOP-XIAO](https://github.com/KOP-XIAO/QuantumultX)
+* [@Hell Cell YouTube教学](https://bit.ly/HellCellYouTube)
+
 
            
-          •自用不分享，如有侵权请告知删除•
+            •自用不分享，如有侵权请告知删除•
