@@ -6,7 +6,7 @@
 * [@nzw9314(整合版)](https://github.com/nzw9314/QuantumultX.git)  
 * [@NobyDa](https://github.com/NobyDa)
 * [@lhie1](https://github.com/lhie1)
-* [@ConnersHua](https://github.com/ConnersHua)  [点击新库](https://github.com/DivineEngine/Profiles/tree/master)
+* [@ConnersHua](https://github.com/ConnersHua)  •  [点击新库](https://github.com/DivineEngine/Profiles/tree/master)
 * [@chavyleung](https://github.com/chavyleung)
 * [@yichahucha](https://github.com/yichahucha)
 * [@langkhach270389](https://github.com/langkhach270389)
