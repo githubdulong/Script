@@ -1,7 +1,7 @@
 # JavaScript
 🐲 MuTu•QuantumultX｜Surge｜Loon•自用库
 
-# >转载来自以下原创作者及TG群收集；
+# >转载自以下作者及TG群收集；
 * [@MuTu自用库](https://github.com/githubdulong/Script)
 * [@nzw9314(整合版)](https://github.com/nzw9314/QuantumultX.git)  
 * [@NobyDa](https://github.com/NobyDa)
