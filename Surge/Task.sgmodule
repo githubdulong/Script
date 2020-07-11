@@ -50,7 +50,7 @@
 万达电影 = type=cron,cronexp=0 11 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wanda/wanda.js,wake-system=1,script-update-interval=0
 # > 威锋论坛
 威锋论坛 = type=cron,cronexp=30 11 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,wake-system=1,script-update-interval=0
-# > 可林商城 
+# > 欧可林商城 
 可林商城 = type=cron,cronexp=0 12 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Oclean/Oclean_mini.js,script-update-interval=0
 # > GitHub监控
 GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/github.js,script-update-interval=0
