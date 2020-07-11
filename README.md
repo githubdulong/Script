@@ -6,7 +6,7 @@
 * [@nzw9314(整合版)](https://github.com/nzw9314/QuantumultX.git)  
 * [@NobyDa](https://github.com/NobyDa)
 * [@lhie1](https://github.com/lhie1)
-* [@ConnersHua](https://github.com/ConnersHua)  •  [点击新库](https://github.com/DivineEngine/Profiles/tree/master)
+* [@ConnersHua](https://github.com/ConnersHua)  •  [点击进入新库](https://github.com/DivineEngine/Profiles/tree/master)
 * [@chavyleung](https://github.com/chavyleung)
 * [@yichahucha](https://github.com/yichahucha)
 * [@langkhach270389](https://github.com/langkhach270389)
@@ -20,7 +20,7 @@
 * [@zZPiglet](https://github.com/zZPiglet/Task.git)
 * [@eHpo1](https://github.com/eHpo1/Rules)
 * [@songyangzz](https://github.com/songyangzz/QuantumultX.git)
-* [@Qure](https://github.com/Koolson/Qure)  •   [@Qure](https://github.com/Koolson/Qure) •  [@Orz-3](https://github.com/Orz-3/mini)
+* [@Qure](https://github.com/Koolson/Qure)  •  [@Orz-3](https://github.com/Orz-3/mini)
 * [@Peng-YM](https://github.com/Peng-YM/QuanX)
 * [@KOP-XIAO](https://github.com/KOP-XIAO/QuantumultX)
 
