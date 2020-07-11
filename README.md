@@ -1,2 +1,2 @@
-# JavaScript合集
-Surge|QuantumultX•自用
+# JavaScript
+Surge|QuantumultX•MuTu
