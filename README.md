@@ -1,2 +1,2 @@
 # JavaScript
- 🐲 MuTu•Surge|QuantumultX
+ 🐲 MuTu•QuantumultX｜Surge｜Loon
