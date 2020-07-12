@@ -1,7 +1,7 @@
 # JavaScript
 🐲 MuTu•QuantumultX｜Surge｜Loon•自用库
 
-# >转载自以下作者及TG群收集；
+# >转载自以下作者及TG群收集； 顺序随机，不分排名；
 * [@nzw9314(整合版)](https://github.com/nzw9314/QuantumultX.git)  
 * [@NobyDa](https://github.com/NobyDa)
 * [@lhie1](https://github.com/lhie1)
@@ -22,7 +22,8 @@
 * [@Qure](https://github.com/Koolson/Qure)  •  [@Orz-3](https://github.com/Orz-3/mini)
 * [@Peng-YM](https://github.com/Peng-YM/QuanX)
 * [@KOP-XIAO](https://github.com/KOP-XIAO/QuantumultX)
-* [@Hell Cell YouTube教学](https://bit.ly/HellCellYouTube)
+———————————————————————
+* [@Hell Cell YouTube入门视频教程](https://bit.ly/HellCellYouTube))
 
 
            
