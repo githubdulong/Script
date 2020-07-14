@@ -68,8 +68,8 @@ GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://
 //降雨提醒= type=cron,cronexp="0 2 8-20/4 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/toulanboy/scripts/master/weather/weather.js, script-update-interval=0
 # > Dler Cloud 墙洞机场
 墙洞机场 = type=cron,cronexp="0 0 8-22/2 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/dlercloud.js,use-local-host-item-for-proxy = true
-# > 每日一言
-每日一言 = type=cron,cronexp=8 8 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Calendar.js,script-update-interval=0
+# > 每日一句
+每日一句 = type=cron,cronexp=8 8 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Calendar.js,script-update-interval=0
 # > 电视节目预告 
 电视预告 = type=cron,cronexp=0 5 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/tvpreview.js, script-update-interval=0
 # > 实时汇率
