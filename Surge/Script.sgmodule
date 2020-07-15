@@ -118,9 +118,6 @@ PDF 破解 = requires-body=1,max-size=0,script-path=https://raw.githubuserconten
 日历破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Script/fantastical.js,type=http-response,pattern=^https:\/\/api\.flexibits\.com\/v1\/(auth|account)\/(device|details|appstore-receipt)\/$
 # > 闪电下载 vip 
 闪电下载 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Script/sdxz.js,type=http-response,pattern=^http\:\/\/app\.flashdown365\.com\/ios\/login
-# > 彩云天气 vip
-//彩云天气 = type=http-response,pattern=https://biz.caiyunapp.com/v2/user\?app_name=weather,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/nzw9314/Surge/master/Script/caiyun.js
-彩云天气 = type=http-response,pattern=https://biz.caiyunapp.com/v2/user\?app_name=weather,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/LeeeMooo/ScriptOwn/master/myQx/js/caiyun.js
 # > Pear 雪梨(本地）
 雪梨破解 = requires-body=1,max-size=0,script-path=Script/pear.js,type=http-response,pattern=^https:\/\/(www\.baidu.com2\.club|ayk\.tmdidi\.com|m\.pearkin\.com|souhu\.mett\.me|bkcd\.b-cdn\.net)\/(api\/movie\/WatchMovie|api\/Account\/CheckVip|api\/account\/IndexDetail)
 # > apple下载加速
@@ -138,4 +135,4 @@ PDF 破解 = requires-body=1,max-size=0,script-path=https://raw.githubuserconten
 天气定位 = require-body=false,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js,type=http-request, pattern=https://weather-data.apple.com
 
 [MITM]
-hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, education.github.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.me, license.pdfexpert.com, app.flashdown365.com, api.flexibits.com, api.gyrosco.pe, ios.prod.ftl.netflix.com, biz.caiyunapp.com, *.musical.ly, *.tiktokv.com, *.byteoversea.com, *.snssdk.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.xiaoxiaoimg.com,*.xiaoxiaoapps.com,*.xiaoxiaoappxs.co, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, bkcd.b-cdn.net, souhu.mett.me, ayk.tmdidi.com, m.pearkin.com, www.baidu.com2.club, api.meiyan.com, raw.githubusercontent.com, gist.githubusercontent.com, 8.8.8.8, note.youdao.com, p.du.163.com, app.bilibili.com, weather-data.apple.com
+hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, education.github.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.me, license.pdfexpert.com, app.flashdown365.com, api.flexibits.com, api.gyrosco.pe, ios.prod.ftl.netflix.com, *.musical.ly, *.tiktokv.com, *.byteoversea.com, *.snssdk.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.xiaoxiaoimg.com,*.xiaoxiaoapps.com,*.xiaoxiaoappxs.co, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, bkcd.b-cdn.net, souhu.mett.me, ayk.tmdidi.com, m.pearkin.com, www.baidu.com2.club, api.meiyan.com, raw.githubusercontent.com, gist.githubusercontent.com, 8.8.8.8, note.youdao.com, p.du.163.com, app.bilibili.com, weather-data.apple.com
