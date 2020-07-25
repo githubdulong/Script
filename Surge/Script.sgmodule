@@ -59,7 +59,9 @@ URL-REGEX,https://api.bilibili.com/x/v2/dm/ad,REJECT
 
 [URL Rewrite]
 # > TikTok封区解锁
-(?<=_region=)CN(?=&) VN 307
+
+# > TikTok封区解锁
+(?<=_region=)CN(?=&) JP 307
 (?<=&app_version=)16..(?=.?.?&) 1 307
 (?<=\?version_code=)16..(?=.?.?&) 1 307
 
