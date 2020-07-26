@@ -68,6 +68,8 @@ URL-REGEX,https://api.bilibili.com/x/v2/dm/ad,REJECT
 [Header Rewrite]
 # > 小小影视解锁
 https:\/\/.*.xiaoxiao(img|apps|appxs).com header-replace Cookie xxx_api_auth=6131333537653261363463323331666265663763396239663835636662373930
+# > 百度更换UA
+^https?:\/\/.*\.baidu\.com header-replace User-Agent Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/16C50 Quark/604.1 T7/10.3 SearchCraft/2.6.3 (Baidu; P1 8.0.0)$2
 
 [Script]
 # > 京东 历史价格
@@ -135,8 +137,6 @@ PDF 破解 = requires-body=1,max-size=0,script-path=https://raw.githubuserconten
 天气定位 = require-body=false,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js,type=http-request, pattern=https://weather-data.apple.com
 # > SSID网络切换
 SSID模式 = type=event,event-name=network-changed,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tools/RunningMode/running-mode.js,script-update-interval=0
-# > 知乎网页
-知乎网页 = type=http-request,pattern=https:\/\/link\.zhihu\.com\/\?target=,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/noredirect.js,script-update-interval=0
 
 [MITM]
-hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, education.github.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.me , link.zhihu.com, license.pdfexpert.com, api.flexibits.com, api.gyrosco.pe, ios.prod.ftl.netflix.com, *.musical.ly, *.tiktokv.com, *.byteoversea.com, *.snssdk.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.xiaoxiaoimg.com,*.xiaoxiaoapps.com,*.xiaoxiaoappxs.co, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, bkcd.b-cdn.net, souhu.mett.me, ayk.tmdidi.com, m.pearkin.com, www.baidu.com2.club, api.meiyan.com, raw.githubusercontent.com, gist.githubusercontent.com, 8.8.8.8, note.youdao.com, p.du.163.com, app.bilibili.com, weather-data.apple.com
+hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, education.github.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.me, license.pdfexpert.com, api.flexibits.com, api.gyrosco.pe, ios.prod.ftl.netflix.com, *.musical.ly, *.tiktokv.com, *.byteoversea.com, *.snssdk.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.xiaoxiaoimg.com,*.xiaoxiaoapps.com,*.xiaoxiaoappxs.co, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, bkcd.b-cdn.net, souhu.mett.me, ayk.tmdidi.com, m.pearkin.com, www.baidu.com2.club, api.meiyan.com, raw.githubusercontent.com, gist.githubusercontent.com, 8.8.8.8, note.youdao.com, p.du.163.com, app.bilibili.com, weather-data.apple.com, *.baidu.com
