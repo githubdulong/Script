@@ -52,6 +52,8 @@
 万达电影 = type=cron,cronexp=0 11 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wanda/wanda.js,wake-system=1,script-update-interval=0
 # > 威锋论坛
 威锋论坛 = type=cron,cronexp=30 11 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,wake-system=1,script-update-interval=0
+# > IT之家
+I T 之 家 = type=cron,cronexp=0 12 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ithome/ithome.js,wake-system=true
 # > GitHub监控
 GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/github.js,script-update-interval=0
 # > 金山WPS
