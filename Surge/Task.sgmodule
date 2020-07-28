@@ -46,7 +46,7 @@ I T 之 家 = type=cron,cronexp=30 1 0 * * *,script-path=https://raw.githubuserc
 # > 中国移动
 移动签到 = type=cron,cronexp=0 10 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10086/10086.js,script-update-interval=0
 # > 百度贴吧
-百度贴吧 = type=cron,cronexp=30 10 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/tieba/tieba.js,timeout=60,script-update-interval=0
+百度贴吧 = type=cron,cronexp=30 10 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/BDTieBa-DailyBonus/TieBa.js,timeout=60,script-update-interval=0
 # > 万达电影
 万达电影 = type=cron,cronexp=0 11 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wanda/wanda.js,wake-system=1,script-update-interval=0
 # > 饿了么
