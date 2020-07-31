@@ -51,6 +51,8 @@ I T 之 家 = type=cron,cronexp=30 1 0 * * *,script-path=https://raw.githubuserc
 万达电影 = type=cron,cronexp=0 11 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wanda/wanda.js,wake-system=1,script-update-interval=0
 # > 饿了么
 饿了签到 = type=cron,cronexp=30 11 0 * * *,script-path=https://raw.githubusercontent.com/songyangzz/QuantumultX/master/elem/elemSign.js,wake-system=1,script-update-interval=0
+# > 小黑盒
+游戏黑盒 = type=cron,cronexp=0 12 0 * * *,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/heybox/heybox.js,script-update-interval=0
 # > GitHub监控
 GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/github.js,script-update-interval=0
 # > 金山WPS
@@ -69,7 +71,7 @@ GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://
 墙洞机场 = type=cron,cronexp="0 0 8-22/2 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/dlercloud.js,use-local-host-item-for-proxy = true
 流量监控 = type=cron,cronexp="30 30 8,22 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/flow.js,script-update-interval=0
 # > 每日一句
-每日一句 = type=cron,cronexp=8 8 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Calendar.js,script-update-interval=0
+//每日一句 = type=cron,cronexp=8 8 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Calendar.js,script-update-interval=0
 # > 电视节目预告 
 //电视预告 = type=cron,cronexp=0 5 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/tvpreview.js, script-update-interval=0
 # > 实时汇率
