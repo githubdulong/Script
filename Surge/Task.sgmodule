@@ -53,6 +53,8 @@ I T 之 家 = type=cron,cronexp=30 1 0 * * *,script-path=https://raw.githubuserc
 饿了签到 = type=cron,cronexp=30 11 0 * * *,script-path=https://raw.githubusercontent.com/songyangzz/QuantumultX/master/elem/elemSign.js,wake-system=1,script-update-interval=0
 # > 小黑盒
 游戏黑盒 = type=cron,cronexp=0 12 0 * * *,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/heybox/heybox.js,script-update-interval=0
+# > 百度贴吧
+百度贴吧 = type=cron,cronexp=30 12 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/tieba/tieba.js,script-update-interval=0
 # > GitHub监控
 GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/github.js,script-update-interval=0
 # > 金山WPS
