@@ -59,8 +59,6 @@ URL-REGEX,https://api.bilibili.com/x/v2/dm/ad,REJECT
 
 [URL Rewrite]
 # > TikTok封区解锁
-
-# > TikTok封区解锁
 (?<=_region=)CN(?=&) JP 307
 (?<=&app_version=)16..(?=.?.?&) 1 307
 (?<=\?version_code=)16..(?=.?.?&) 1 307
@@ -73,7 +71,7 @@ https:\/\/.*.xiaoxiao(img|apps|appxs).com header-replace Cookie xxx_api_auth=613
 
 [Script]
 # > 京东 历史价格
-京东比价 = type=http-response,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/jd_price.js,use-local-host-item-for-proxy = true,script-update-interval=0
+京东比价 = type=http-response,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/jd_price.js,use-local-host-item-for-proxy = true,script-update-interval=0
 # > 淘宝 历史价格
 淘宝比价 = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/tb_price.js,type=http-request,pattern=^http://.+/amdc/mobileDispatch,use-local-host-item-for-proxy = true
 淘宝比价 = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/tb_price.js,type=http-response,pattern=^https?://trade-acs\.m\.taobao\.com/gw/mtop\.taobao\.detail\.getdetail,use-local-host-item-for-proxy = true
@@ -133,7 +131,7 @@ PDF 破解 = requires-body=1,max-size=0,script-path=https://raw.githubuserconten
 # > 彩云天气定位 
 天气定位 = require-body=false,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js,type=http-request, pattern=https://weather-data.apple.com
 # > SSID自动策略
-自动策略 = type=event,event-name=network-changed,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tools/AutoPolicy/auto-policy.js,script-update-interval=0
+//自动策略 = type=event,event-name=network-changed,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tools/AutoPolicy/auto-policy.js,script-update-interval=0
 
 [MITM]
 hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, education.github.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.me, license.pdfexpert.com, api.flexibits.com, api.gyrosco.pe, ios.prod.ftl.netflix.com, *.musical.ly, *.tiktokv.com, *.byteoversea.com, *.snssdk.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.xiaoxiaoimg.com,*.xiaoxiaoapps.com,*.xiaoxiaoappxs.co, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, bkcd.b-cdn.net, souhu.mett.me, ayk.tmdidi.com, m.pearkin.com, www.baidu.com2.club, api.meiyan.com, raw.githubusercontent.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, app.bilibili.com, weather-data.apple.com, *.baidu.com
