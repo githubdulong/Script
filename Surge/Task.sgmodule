@@ -3,8 +3,6 @@
 #!system=ios
 
 [Script]
-# > 多账号切换
-// 切换会话 = type=cron,cronexp="0 12 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,script-update-interval=0
 # > 京东多合一签到
 京东商城 = type=cron,cronexp="0,30 0 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
 # > 威锋论坛
@@ -84,5 +82,7 @@ GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://
 //疫情报告 = type=cron,cronexp=0 8 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/nCov.js,script-update-interval=0
 # > 热门监控
 //热门监控 = type=cron,cronexp="30 0 8-22/2 * * *",script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/hotsearch/hot.js,wake-system=1,timeout=600
+# > 多账号切换
+//切换会话 = type=cron,cronexp="0 13 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,script-update-interval=0
 
 -------- 分 - 割 - 线 -------- = type=http-request,pattern=分割线,script-path=Script/分割线.js
