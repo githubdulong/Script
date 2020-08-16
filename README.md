@@ -1,9 +1,7 @@
 # JavaScript
 🐲 MuTu•QuantumultX｜Surge｜Loon•自用库
 
-**#GitHub脚本库地址**
-**🜲顺序随机不分排名**
-**——————————**
+**GitHub脚本库地址**•**顺序随机不分排名**
 **——————————**
 * [nzw9314(整合版)](https://github.com/nzw9314/QuantumultX.git)  
 
@@ -56,6 +54,7 @@
 * [lxk0301](https://gitee.com/lxk0301/scripts/)
 
 * [toulanboy](https://github.com/toulanboy/scripts)
+
 ———————————————
 * [Hell Cell YouTube入门视频教程](https://bit.ly/HellCellYouTube)
 
