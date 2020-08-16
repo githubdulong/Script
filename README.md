@@ -2,7 +2,7 @@
 🐲 MuTu•QuantumultX｜Surge｜Loon•自用库
 
 **GitHub脚本库地址**•**顺序随机不分排名**
-**——————————**
+
 * [nzw9314(整合版)](https://github.com/nzw9314/QuantumultX.git)  
 
 * [NobyDa](https://github.com/NobyDa)
@@ -55,7 +55,7 @@
 
 * [toulanboy](https://github.com/toulanboy/scripts)
 
-———————————————
+
 * [Hell Cell YouTube入门视频教程](https://bit.ly/HellCellYouTube)
 
 
