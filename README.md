@@ -1,7 +1,7 @@
 # JavaScript
 🐲 MuTu•QuantumultX｜Surge｜Loon•自用库
 
-**引用以下脚本•GitHub脚本库地址**•**顺序随机不分排名**
+**GitHub脚本库地址**•**顺序随机不分排名**
 
 * [nzw9314(整合版)](https://github.com/nzw9314/QuantumultX.git)  
 
@@ -61,4 +61,4 @@
 
 
            
-          •自用不分享，如有侵权请告知删除•
+          •引用以上作者脚本•自用不分享•如有侵权请告知删除•
