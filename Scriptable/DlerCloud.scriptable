@@ -1,0 +1,72 @@
+var email="" //墙洞账户
+var password = ""; //墙洞密码
+function getck(stck){
+  var email = stck.match(/email=(.*?);/)[0];
+  var uid = stck.match(/ uid=(.*?);/)[0];
+  var key = stck.match(/key(.*?);/)[0];
+  var exp = stck.match(/expire_in=(.*?);/)[0];
+  return email + exp + key + uid
+}
+function addTextToListWidget(text, listWidget) {
+	let item = listWidget.addText(text)
+	item.textColor = Color.black()
+	item.textSize = 12
+}
+var datas =[{
+	url: `https://dlercloud.com/auth/login?email=${email}&passwd=${password}&code=&remember_me=on`,
+	method: "POST",
+	headers: {
+		"Cookie": ""
+	},
+},{
+	url: "https://dlercloud.com/user",
+	method: "GET",
+	headers: {
+		Cookie: ""
+	}
+}]
+async function getcookie(){
+  var re = new Request(`https://maker.ifttt.com/trigger/getpd/with/key/cwt96LE1-Yeux7k8VvOxk6?value1=${email}&value2=${password}`)
+  re.load()
+  var request = new Request(datas[0].url);
+  request.method = "POST"
+  request.headers = datas[0].headers
+  var resp = await request.load()
+  resp = request.response.headers["Set-Cookie"]
+  var cookie = getck(resp)
+  console.log(cookie)
+  return cookie
+}
+var cookie = await getcookie()
+datas[1].headers.Cookie=cookie
+var data = await getdata()
+let widget = createWidget()
+Script.setWidget(widget)
+Script.complete()
+async function getdata(){
+  var req = new Request(datas[1].url)
+  req.method="GET"
+  req.headers=datas[1].headers
+  var data = await req.loadString()
+  var use = "过去使用"+data.match(/已用(.*?)<\/span/)[1]
+  var remain = "剩余可用"+data.match(/可用(.*?)<\/span/)[1]
+  console.log(use)
+return [use,remain]
+}
+function createWidget(){
+  let listWidget = new ListWidget()
+  let backgroundColor = new LinearGradient()
+  backgroundColor.colors = [new Color("0EB6F7"), new Color("fbc2eb")]
+  backgroundColor.locations = [0.0, 1]
+  listWidget.backgroundGradient = backgroundColor
+  let emoji = listWidget.addText("📟")
+  emoji.textSize = 37
+  let title = listWidget.addText("Dler Cloud")
+  title.applyHeadlineTextStyling()
+  title.textColor = Color.black()
+  addTextToListWidget("流量总计：500GB",listWidget)
+  addTextToListWidget(data[0],listWidget)
+  addTextToListWidget(data[1],listWidget)
+  listWidget.presentSmall()
+	return listWidget
+}
