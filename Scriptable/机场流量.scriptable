@@ -2,8 +2,8 @@
 author：boruiqiao
 telegram：https://t.me/qiaoborui
 */
-var url = ""//订阅链接
-var titles = "" //机场名称
+var url = "填写带流量通知的订阅"//订阅链接
+var titles = "填写名字" //机场名称
 var size = 12 //显示字体大小
 function addTextToListWidget(text, listWidget) {
 	let item = listWidget.addText(text)
@@ -26,7 +26,7 @@ return resp
 function createWidget(){
   let listWidget = new ListWidget()
   let backgroundColor = new LinearGradient()
-  backgroundColor.colors = [new Color("0EB6F7"), new Color("fbc2eb")] //Color色值
+  backgroundColor.colors = [new Color("a18cd1"), new Color("fbc2eb")] //Color更改色值
   backgroundColor.locations = [0.0, 1]
   listWidget.backgroundGradient = backgroundColor
   let emoji = listWidget.addText("📟")
