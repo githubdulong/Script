@@ -7,10 +7,10 @@ var titles = "" //机场名称
 var size = 12//显示字体大小
 var colors = []
 var isdark=Device.isUsingDarkAppearance()
-if(isdark){colors=["868f96","596164"];textcl=Color.white()}
-// 上面两个为暗黑模式渐变
-else{colors=["0EB6F7","fbc2eb"];textcl=Color.black()}  
-// 上面为正常模式渐变
+if(isdark){colors=["#1c1c1c","#29323c"];textcl=Color.white()}
+// 暗黑模式色值
+else{colors=["#0EB6F7","#fbc2eb"];textcl=Color.black()}  
+// 明亮模式色值
 function addTextToListWidget(text, listWidget) {
 	let item = listWidget.addText(text)
 	item.textColor = textcl
