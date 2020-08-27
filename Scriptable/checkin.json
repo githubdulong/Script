@@ -1,0 +1,14 @@
+{
+  "c1": {
+    "title": "name",
+    "url": "https://your.loginurl.com/auth/login",
+    "email": "example@email.com",
+    "password": "password"
+  },
+  "c2": {
+    "title": "name",
+    "url": "https://your.loginurl.com/auth/login",
+    "email": "example@email.com",
+    "password": "password"
+  }
+}
