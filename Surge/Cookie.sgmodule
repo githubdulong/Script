@@ -53,8 +53,10 @@ I T 之 家 = type=http-request,pattern=^https:\/\/my\.ruanmei\.com\/api\/usersi
 饿了签到 = type=http-request,pattern=^https:\/\/h5\.ele\.me\/restapi\/eus\/v\d\/current_user$,script-path=https://raw.githubusercontent.com/songyangzz/QuantumultX/master/elem/elemGetCookies.js,script-update-interval=0
 # > 百度贴吧 浏览器https://tieba.baidu.com/
 百度贴吧 = type=http-request,pattern=^https?:\/\/tieba\.baidu\.com\/?.?,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/tieba/tieba.cookie.js,script-update-interval=0
-  
+# > GLaDOS机场签到 浏览器https://glados.rocks/
+GLaDOS = type=http-request,pattern=https:\/\/glados\.rocks\/api\/user\/status,script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/glados/glados.js,script-update-interval=0
+
 -------- 分 - 割 - 线 -------- = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
 [MITM]
-hostname = %INSERT% api.m.jd.com, music.163.com, *.rrys2020.com, ios.zmzapi.com, mobwsa.ximalaya.com, *.rr.tv, e.189.cn, i.meituan.com, api.weibo.cn, pay.sc.weibo.com, sf-integral-sign-in.weixinjia.net, mcs-mimp-web.sf-express.com, passport.suning.com, luckman.suning.com, sign.suning.com, gameapi.suning.com, draw.jdfcloud.com, zt.wps.cn, www.52pojie.cn, *.m.163.com, user.qunar.com, as.xiaojukeji.com, proapi.115.com, clientaccess.10086.cn, my.ruanmei.com, h5.ele.me, tieba.baidu.com
+hostname = %INSERT% api.m.jd.com, music.163.com, *.rrys2020.com, ios.zmzapi.com, mobwsa.ximalaya.com, *.rr.tv, e.189.cn, i.meituan.com, api.weibo.cn, pay.sc.weibo.com, sf-integral-sign-in.weixinjia.net, mcs-mimp-web.sf-express.com, passport.suning.com, luckman.suning.com, sign.suning.com, gameapi.suning.com, draw.jdfcloud.com, zt.wps.cn, www.52pojie.cn, *.m.163.com, user.qunar.com, as.xiaojukeji.com, proapi.115.com, clientaccess.10086.cn, my.ruanmei.com, h5.ele.me, tieba.baidu.com, glados.rocks
