@@ -38,7 +38,7 @@ I T 之 家 = type=cron,cronexp=30 1 0 * * *,script-path=https://raw.githubuserc
 # > 百度贴吧
 百度贴吧 = type=cron,cronexp=30 8 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/tieba/tieba.js,script-update-interval=0
 # > GLaDOS
-GLaDOS = type=cron,cronexp=0 9 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/glados/glados.js,script-update-interval=0
+GLa DOS = type=cron,cronexp=0 9 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/glados/glados.js,script-update-interval=0
 # > 新浪微博
 新浪微博 = type=cron,cronexp=30 5 5 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js,script-update-interval=0
 # > GitHub监控
