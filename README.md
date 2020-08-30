@@ -1,5 +1,5 @@
 # JavaScript
-🐲 MuTu•QuantumultX｜Surge｜Loon•自用库
+🐲 MuTu•QuantumultX｜Surge｜Loon｜Scriptable•自用库
 
           **脚本库地址**•**顺序不分排名**
 
@@ -61,4 +61,4 @@
 
 
            
- •来源以上作者大大•自用不分享•如有侵权请告知删除•
+ •感谢以上作者•自用不分享•如有侵权请告知删除•
