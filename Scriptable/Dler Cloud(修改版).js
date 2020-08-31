@@ -12,13 +12,17 @@
 const goupdate = false; //默认关闭，需要时打开，更新后会覆盖脚本已有的签到信息，建议使用Config或Scriptable的iCloud文件夹存入checkin.json文件的方式
 const $ = importModule("Env");
 $.autoLogout = false; //退出登录后再签到
-const para = args.widgetParameter || "c1";
-const fileName = "checkin.json";
-const res = JSON.parse($.read(fileName));
-var checkintitle = res[para].title || ""; //填写签到标题
-var checkinloginurl = res[para].url || ""; //填写签到登陆链接
-var checkinemail = res[para].email || ""; //填写签到邮箱
-var checkinpwd = res[para].password || ""; //填写签到密码
+try {
+  const para = args.widgetParameter || "c1";
+  const fileName = "checkin.json";
+  const res = JSON.parse($.read(fileName));
+  var checkintitle = res[para].title || ""; //填写签到标题
+  var checkinloginurl = res[para].url || ""; //填写签到登陆链接
+  var checkinemail = res[para].email || ""; //填写签到邮箱
+  var checkinpwd = res[para].password || ""; //填写签到密码
+} catch (e) {
+  log("获取JSON文件失败");
+}
 const size = 12; //字体大小
 const isDark = Device.isUsingDarkAppearance();
 const bgColor = new LinearGradient();
@@ -41,7 +45,7 @@ const scripts = [
   {
     moduleName: "Checkin",
     url:
-      "https://raw.githubusercontent.com/evilbutcher/Scriptables/master/Checkin.js",
+      "https://raw.githubusercontent.com/evilbutcher/Scriptables/master/Dler%20Cloud.js",
   },
 ];
 
@@ -76,6 +80,15 @@ function getinfo() {
     $.checkinloginurl = con.checkinloginurl();
     $.checkinemail = con.checkinemail();
     $.checkinpwd = con.checkinpwd();
+    if (
+      $.checkintitle == "" ||
+      $.checkinloginurl == "" ||
+      $.checkinemail == "" ||
+      $.checkinpwd == ""
+    ) {
+      log("配置文件内签到信息不完整");
+      throw new Error(err)
+    }
     log("将使用配置文件内签到信息");
   } catch (err) {
     $.checkintitle = checkintitle;
@@ -100,7 +113,7 @@ function init() {
   if ($.isFileExists("recordcheckintime.txt") == true) {
     var recordtime = $.read("recordcheckintime.txt");
     log(recordtime);
-    if ($.nowtime - recordtime > 86400000) {
+    if ($.nowtime - recordtime > 8640) {
       $.cancheckin = true;
       $.write("recordcheckintime.txt", JSON.stringify($.nowtime));
     } else {
@@ -225,9 +238,9 @@ async function dataResults(url, checkinMsg, title) {
           let usedData = flowData[0];
           let todatUsed = flowData[1];
           let restData = flowData[2];
-          $.todayUsed = `今日已用：${flowData[0]}`;
-          $.usedData = `累计使用：${flowData[1]}`;
-          $.restData = `剩余流量：${flowData[2]}`;
+          $.todayUsed = `今日已用：${flowData[1]}`;
+          $.usedData = `本月已用：${flowData[0]}`;
+          $.restData = `套餐余量：${flowData[2]}`;
           result.push(
             `今日：${todatUsed}\n已用：${usedData}\n剩余：${restData}`
           );
@@ -264,21 +277,21 @@ async function dataResults(url, checkinMsg, title) {
         if (usedData) {
           usedData = flowFormat(usedData[0]);
           result.push(`已用：${usedData}`);
-          $.usedData = `累计使用：${usedData}`;
+          $.usedData = `本月已用：${usedData}`;
         } else {
-          $.usedData = `累计使用获取失败`;
-          result.push(`累计使用获取失败`);
+          $.usedData = `本月已用获取失败`;
+          result.push(`本月已用获取失败`);
         }
         let restData = data.match(
           /(Remaining Transfer|>剩余流量|>流量剩余|>可用|\"剩余)[^B]+/
         );
         if (restData) {
           restData = flowFormat(restData[0]);
-          result.push(`剩余：${restData}`);
-          $.restData = `剩余流量：${restData}`;
+          result.push(`余量：${restData}`);
+          $.restData = `套餐余量：${restData}`;
         } else {
-          $.restData = `剩余流量获取失败`;
-          result.push(`剩余流量获取失败`);
+          $.restData = `套餐余量获取失败`;
+          result.push(`套餐余量获取失败`);
         }
         resultData = result.join("\n");
       }
@@ -299,7 +312,7 @@ function createWidget(checkintitle, checkinMsg, todayUsed, usedData, restData) {
   w.backgroundGradient = bgColor;
   w.centerAlignContent();
 
-  const emoji = w.addText(`🪐`);
+  const emoji = w.addText(`💋`);
   emoji.textSize = 30;
 
   addTitleTextToListWidget(checkintitle, w);
