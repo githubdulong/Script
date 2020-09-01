@@ -113,7 +113,7 @@ function init() {
   if ($.isFileExists("recordcheckintime.txt") == true) {
     var recordtime = $.read("recordcheckintime.txt");
     log(recordtime);
-    if ($.nowtime - recordtime > 8640) {
+    if ($.nowtime - recordtime > 864) {
       $.cancheckin = true;
       $.write("recordcheckintime.txt", JSON.stringify($.nowtime));
     } else {
@@ -310,7 +310,8 @@ function flowFormat(data) {
 function createWidget(checkintitle, checkinMsg, todayUsed, usedData, restData) {
   const w = new ListWidget();
   w.backgroundGradient = bgColor;
-  w.centerAlignContent();
+  w.addSpacer();
+  w.spacing = 5
 
   const emoji = w.addText(`💋`);
   emoji.textSize = 30;
@@ -320,7 +321,9 @@ function createWidget(checkintitle, checkinMsg, todayUsed, usedData, restData) {
   addTextToListWidget(todayUsed, w);
   addTextToListWidget(usedData, w);
   addTextToListWidget(restData, w);
-
+  
+  w.addSpacer();
+  w.spacing = 5
   w.presentSmall();
   return w;
 }
