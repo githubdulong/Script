@@ -113,7 +113,7 @@ function init() {
   if ($.isFileExists("recordcheckintime.txt") == true) {
     var recordtime = $.read("recordcheckintime.txt");
     log(recordtime);
-    if ($.nowtime - recordtime > 864) {
+    if ($.nowtime - recordtime > 8640) {
       $.cancheckin = true;
       $.write("recordcheckintime.txt", JSON.stringify($.nowtime));
     } else {
@@ -313,7 +313,7 @@ function createWidget(checkintitle, checkinMsg, todayUsed, usedData, restData) {
   w.addSpacer();
   w.spacing = 5
 
-  const emoji = w.addText(`💋`);
+  const emoji = w.addText(`⛷`);
   emoji.textSize = 30;
 
   addTitleTextToListWidget(checkintitle, w);
