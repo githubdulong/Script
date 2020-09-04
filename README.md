@@ -3,7 +3,6 @@
 **🜲顺序随机不分排名**
 **——————————**
 **——————————**
-* [MuTu自用库](https://github.com/githubdulong/Script)
 
 * [nzw9314(整合版)](https://github.com/nzw9314/QuantumultX.git)  
 
