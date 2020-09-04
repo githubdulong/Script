@@ -1,7 +1,9 @@
 # JavaScript
-🐲 MuTu•QuantumultX｜Surge｜Loon｜Scriptable•自用库
-
-          **脚本库地址**•**顺序不分排名**
+🐲 MuTu•QuantumultX｜Surge｜Loon｜Scriptable•自用**#GitHub脚本库地址     **
+**🜲顺序随机不分排名**
+**——————————**
+**——————————**
+* [MuTu自用库](https://github.com/githubdulong/Script)
 
 * [nzw9314(整合版)](https://github.com/nzw9314/QuantumultX.git)  
 
@@ -37,7 +39,9 @@
 
 * [songyangzz](https://github.com/songyangzz/QuantumultX.git)
 
-* [Qure](https://github.com/Koolson/Qure) •  [Orz-3](https://github.com/Orz-3/mini)
+• [Orz-3](https://github.com/Orz-3/mini)
+
+* [Qure](https://github.com/Koolson/Qure) 
 
 * [xinian](https://github.com/58xinian/icon)
 
@@ -55,9 +59,11 @@
 
 * [toulanboy](https://github.com/toulanboy/scripts)
 
+* [id77](https://github.com/id77/QuantumultX/tree/master)
 
+* [Box.json订阅](https://chavyleung.gitbook.io/boxjs/awesome/subscriptions)
+———————————————
 * [Hell Cell YouTube入门视频教程](https://bit.ly/HellCellYouTube)
-
 
 
            
