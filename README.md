@@ -39,7 +39,7 @@
 
 * [songyangzz](https://github.com/songyangzz/QuantumultX.git)
 
-• [Orz-3](https://github.com/Orz-3/mini)
+* [Orz-3](https://github.com/Orz-3/mini)
 
 * [Qure](https://github.com/Koolson/Qure) 
 
