@@ -131,9 +131,9 @@ Box ＴＦ = type=http-request,pattern=^https?://boxjs.net,script-path=https://g
 # > Gyroscope vip
 G Y 运动 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/gyroscope.js,type=http-response,pattern=^https:\/\/api\.gyrosco\.pe\/v1\/account\/$
 # > embypremiere
-E M B Y = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/validateDevice,script-path=https://raw.githubusercontent.com/Co2333/embyUnlocked/master/Surge/emby-adr-vD.js
-E M B Y = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/validate,script-path=https://raw.githubusercontent.com/Co2333/embyUnlocked/master/Surge/emby-adr-v.js
-E M B Y = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/getStatus,script-path=https://raw.githubusercontent.com/Co2333/embyUnlocked/master/Surge/emby-adr-gS.js
+Emby解锁 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/validateDevice,script-path=https://raw.githubusercontent.com/Co2333/embyUnlocked/master/Surge/emby-adr-vD.js
+Emby解锁 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/validate,script-path=https://raw.githubusercontent.com/Co2333/embyUnlocked/master/Surge/emby-adr-v.js
+Emby解锁 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/getStatus,script-path=https://raw.githubusercontent.com/Co2333/embyUnlocked/master/Surge/emby-adr-gS.js
 
 [MITM]
 hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, education.github.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.me, license.pdfexpert.com, api.flexibits.com, ios.prod.ftl.netflix.com, *.musical.ly, *.tiktokv.com, *.byteoversea.com, *.snssdk.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, bkcd.b-cdn.net, souhu.mett.me, ayk.tmdidi.com, m.pearkin.com, www.baidu.com2.club, api.meiyan.com, raw.githubusercontent.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, app.bilibili.com, weather-data.apple.com, *.xxjjappss.com, sub.store, api.gyrosco.pe, mb3admin.com
