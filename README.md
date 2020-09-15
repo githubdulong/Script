@@ -1,70 +1,82 @@
 # JavaScript
-🐲 MuTu•QuantumultX｜Surge｜Loon｜Scriptable•自用**#GitHub脚本库地址     **
-**🜲顺序随机不分排名**
-**——————————**
-**——————————**
+🐲 MuTu•QuantumultX｜Surge｜Loon｜Scriptable•自用
 
-* [nzw9314(整合版)](https://github.com/nzw9314/QuantumultX.git)  
+#收集来源以下作者大佬🙏     
+🜲顺序随机不分排名
+——————————
+——————————
 
-* [NobyDa](https://github.com/NobyDa)
+•  nzw9314(整合版)  
 
-* [lhie1](https://github.com/lhie1)
+•  Tartarus2014(Loon整合版)
 
-* [ConnersHua](https://github.com/ConnersHua)  •  [点击神机新库](https://github.com/DivineEngine/Profiles/tree/master)
+•  NobyDa
 
-* [chavyleung](https://github.com/chavyleung)
+•  lhie1
 
-* [yichahucha](https://github.com/yichahucha)
+•  ConnersHua  •  DivineEngine
 
-* [langkhach270389](https://github.com/langkhach270389)
+•  chavyleung
 
-* [Choler](https://github.com/Choler)
+•  yichahucha
 
-* [onewayticket255](https://github.com/onewayticket255)
+•  langkhach270389
 
-* [NavePnow](https://github.com/NavePnow)
+•  Choler
 
-* [Meeta](https://github.com/MeetaGit)
+•  onewayticket255
 
-* [Neurogram-R](https://github.com/Neurogram-R)
+•  NavePnow
 
-* [sazs34](https://github.com/sazs34)
+•  Meeta
 
-* [Sunert](https://github.com/Sunert/Scripts)
+•  Neurogram-R
 
-* [zZPiglet](https://github.com/zZPiglet/Task.git)
+•  sazs34
 
-* [eHpo1](https://github.com/eHpo1/Rules)
+•  Sunert
 
-* [songyangzz](https://github.com/songyangzz/QuantumultX.git)
+•  zZPiglet
 
-* [Orz-3](https://github.com/Orz-3/mini)
+•  eHpo1
 
-* [Qure](https://github.com/Koolson/Qure) 
+•  songyangzz
 
-* [xinian](https://github.com/58xinian/icon)
+•  Orz-3
 
-* [Peng-YM](https://github.com/Peng-YM/QuanX)
+•  Qure 
 
-* [KOP-XIAO](https://github.com/KOP-XIAO/QuantumultX)
+•  xinian
 
-* [lowking](https://github.com/lowking/Scripts)
+•  Peng-YM
 
-* [evilbutcher](https://github.com/evilbutcher/Quantumult_X/tree/master)
+•  KOP-XIAO
 
-* [vinewx](https://ooxx.be/js/)
+•  lowking
 
-* [lxk0301](https://gitee.com/lxk0301/scripts/)
+•  evilbutcher
 
-* [toulanboy](https://github.com/toulanboy/scripts)
+•  vinewx
 
-* [id77](https://github.com/id77/QuantumultX/tree/master)
+•  lxk0301
 
-* [Box.json订阅](https://chavyleung.gitbook.io/boxjs/awesome/subscriptions)
+•  toulanboy
 
-———————————————
-* [Hell Cell YouTube入门视频教程](https://bit.ly/HellCellYouTube)
+•  id77
 
+•  wangdelu2020
+
+•  barrym-chen
+
+•  iisams
+
+•  ziye12
+
+•  iepngs
+
+•  Box.json订阅
+ ———————————————
+•  Hell Cell YouTube入门视频教程
 
            
  •感谢以上作者•自用不分享•如有侵权请告知删除•
