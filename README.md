@@ -1,7 +1,7 @@
 # JavaScript
 🐲 MuTu•QuantumultX｜Surge｜Loon｜Scriptable•自用
 
-#收集来源以下作者大佬🙏     
+#收集来源以下作者大佬
 🜲顺序随机不分排名
 
 ——————————
