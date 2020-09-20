@@ -7,8 +7,8 @@
 京东商城 = type=cron,cronexp="0,30 0 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
 # > 威锋论坛
 威锋论坛 = type=cron,cronexp=0 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,wake-system=1,script-update-interval=0
-# > IT之家
-I T 之 家 = type=cron,cronexp=30 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ithome/ithome.js,wake-system=true
+# > 京东到家
+京东到家 = type=cron,cronexp=30 1 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jddj.js,script-update-interval=0
 # > 人人字幕组
 人人字幕 = type=cron,cronexp=0 2 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/zimuzu/zimuzu.js,script-update-interval=0
 # > 人人视频
@@ -50,7 +50,7 @@ GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://
 # > 天气预报-益阳市
 //天气预报 = type=cron,cronexp="0 1 8,18 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/MuTu/weather2_pro.js,script-update-interval=0
 # > 彩云天气
-彩云天气 = type=cron,cronexp="0 1 8-20/4 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js, script-update-interval=0
+//彩云天气 = type=cron,cronexp="0 1 8,18 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js, script-update-interval=0
 # > Dler Cloud 墙洞机场 
 //墙洞机场 = type=cron,cronexp="0 0 8-22/4 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/glados/checkin_env.js,script-update-interval=0
 # > 京东取关
