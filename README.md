@@ -3,11 +3,7 @@
 
 #收集来源以下作者大佬•顺序随机不分排名
 
-——————————
-
 * [nzw9314(整合版)](https://github.com/nzw9314/QuantumultX.git)  
-
-* [Tartarus2014(Loon整合版)](https://github.com/Tartarus2014)
 
 * [NobyDa](https://github.com/NobyDa)
 
@@ -16,6 +12,8 @@
 * [ConnersHua](https://github.com/ConnersHua)  •  [DivineEngine](https://github.com/DivineEngine/Profiles/tree/master)
 
 * [chavyleung](https://github.com/chavyleung)
+
+* [GideonSenku](https://github.com/GideonSenku)
 
 * [yichahucha](https://github.com/yichahucha)
 
@@ -76,7 +74,3 @@
 * [Box.json订阅](https://chavyleung.gitbook.io/boxjs/awesome/subscriptions)
  ———————————————
 * [Hell Cell YouTube入门视频教程](https://bit.ly/HellCellYouTube)
-
-
-           
- •感谢以上作者•自用不分享•如有侵权请告知删除•
