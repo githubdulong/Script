@@ -33,12 +33,16 @@ bgColor.locations = [0.0, 1.0];
 function addTextToListWidget(text, listWidget) {
   let item = listWidget.addText(text);
   item.textColor = isDark ? Color.white() : Color.white();
-  item.textSize = size;
+  item.font = new Font('SF Mono', size);
 }
 function addTitleTextToListWidget(text, listWidget) {
   let item = listWidget.addText(text);
   item.textColor = isDark ? Color.white() : Color.white();
-  item.applyHeadlineTextStyling();
+  try {
+    item.applyHeadlineTextStyling();
+  } catch(e) {
+    item.font = new Font('SF Mono', 18);
+  }
 }
 
 const scripts = [
@@ -87,7 +91,7 @@ function getinfo() {
       $.checkinpwd == ""
     ) {
       log("配置文件内签到信息不完整");
-      throw new Error(err)
+      throw new Error(err);
     }
     log("将使用配置文件内签到信息");
   } catch (err) {
@@ -311,19 +315,19 @@ function createWidget(checkintitle, checkinMsg, todayUsed, usedData, restData) {
   const w = new ListWidget();
   w.backgroundGradient = bgColor;
   w.addSpacer();
-  w.spacing = 5
+  w.spacing = 5;
 
   const emoji = w.addText(`⛷`);
-  emoji.textSize = 30;
+  emoji.font = new Font('SF Mono', 30);
 
   addTitleTextToListWidget(checkintitle, w);
   addTextToListWidget(checkinMsg, w);
   addTextToListWidget(todayUsed, w);
   addTextToListWidget(usedData, w);
   addTextToListWidget(restData, w);
-  
+
   w.addSpacer();
-  w.spacing = 5
+  w.spacing = 5;
   w.presentSmall();
   return w;
 }
