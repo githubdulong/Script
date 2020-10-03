@@ -2,14 +2,12 @@
 🐲 MuTu•QuantumultX｜Surge｜Loon｜Scriptable•自用
 
 #收集来源以下作者大佬•顺序随机不分排名
-
-* [nzw9314(整合版)](https://github.com/nzw9314/QuantumultX.git)  
-
+---
 * [NobyDa](https://github.com/NobyDa)
 
 * [lhie1](https://github.com/lhie1)
 
-* [ConnersHua](https://github.com/ConnersHua)  •  [DivineEngine](https://github.com/DivineEngine/Profiles/tree/master)
+* [ConnersHua](https://github.com/ConnersHua)  •  [DivineEngine(新)](https://github.com/DivineEngine/Profiles/tree/master)
 
 * [chavyleung](https://github.com/chavyleung)
 
@@ -39,12 +37,6 @@
 
 * [songyangzz](https://github.com/songyangzz/QuantumultX.git)
 
-* [Orz-3](https://github.com/Orz-3/mini)
-
-* [Qure](https://github.com/Koolson/Qure) 
-
-* [xinian](https://github.com/58xinian/icon)
-
 * [Peng-YM](https://github.com/Peng-YM/QuanX)
 
 * [KOP-XIAO](https://github.com/KOP-XIAO/QuantumultX)
@@ -70,7 +62,17 @@
 * [ziye12](https://github.com/ziye12/JavaScript)
 
 * [iepngs](https://github.com/iepngs/Script)
+----
+* [Orz-3 图标](https://github.com/Orz-3/mini)
 
-* [Box.json订阅](https://chavyleung.gitbook.io/boxjs/awesome/subscriptions)
- ———————————————
-* [Hell Cell YouTube入门视频教程](https://bit.ly/HellCellYouTube)
+* [Qure 图标](https://github.com/Koolson/Qure) 
+
+* [xinian 图标](https://github.com/58xinian/icon)
+
+* [Box.json 订阅](https://chavyleung.gitbook.io/boxjs/awesome/subscriptions)
+
+* [nzw9314 👈️脚本整合](https://github.com/nzw9314/QuantumultX.git) 
+
+* [Tartarus2014 👈️脚本整合](https://github.com/Tartarus2014)
+
+* [HellCell YouTube 👈️入门视频教程 ](https://bit.ly/HellCellYouTube)
