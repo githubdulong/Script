@@ -5,10 +5,6 @@
 ---
 * [NobyDa](https://github.com/NobyDa)
 
-* [lhie1](https://github.com/lhie1)
-
-* [ConnersHua](https://github.com/ConnersHua)  •  [DivineEngine(新)](https://github.com/DivineEngine/Profiles/tree/master)
-
 * [chavyleung](https://github.com/chavyleung)
 
 * [GideonSenku](https://github.com/GideonSenku)
@@ -32,8 +28,6 @@
 * [Sunert](https://github.com/Sunert/Scripts)
 
 * [zZPiglet](https://github.com/zZPiglet/Task.git)
-
-* [eHpo1](https://github.com/eHpo1/Rules)
 
 * [songyangzz](https://github.com/songyangzz/QuantumultX.git)
 
@@ -62,6 +56,12 @@
 * [ziye12](https://github.com/ziye12/JavaScript)
 
 * [iepngs](https://github.com/iepngs/Script)
+
+* [lhie1](https://github.com/lhie1)
+
+* [eHpo1](https://github.com/eHpo1/Rules)
+
+* [ConnersHua](https://github.com/ConnersHua)  •  [DivineEngine(新)](https://github.com/DivineEngine/Profiles/tree/master)
 ----
 * [Orz-3 图标](https://github.com/Orz-3/mini)
 
