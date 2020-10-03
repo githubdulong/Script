@@ -1,7 +1,7 @@
 # JavaScript
 🐲 MuTu•QuantumultX｜Surge｜Loon｜Scriptable•自用
 
-#收集以下作者•顺序不分排名
+#收集来源列表•顺序不分排名
 ---
 * [NobyDa](https://github.com/NobyDa)
 
