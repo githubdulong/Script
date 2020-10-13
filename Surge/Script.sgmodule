@@ -127,11 +127,11 @@ Box ＴＦ = type=http-request,pattern=^https?://boxjs.net,script-path=https://g
 # > Sub-Store 订阅转换
 订阅转换 = type=http-request,pattern=^https?:\/\/sub\.store,script-path=https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/backend/sub-store.js,requires-body=true,timeout=120
 # > Gyroscope vip
-G Y 运动 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/gyroscope.js,type=http-response,pattern=^https:\/\/api\.gyrosco\.pe\/v1\/account\/$
+G Y 运动 = requires-body=1,script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/Gyroscope.vip.js,type=http-response,pattern=^https:\/\/api\.gyrosco\.pe\/v1\/account\/$
 # > embypremiere
-Emby解锁 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/validateDevice,script-path=https://raw.githubusercontent.com/Co2333/embyUnlocked/master/Surge/emby-adr-vD.js
-Emby解锁 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/validate,script-path=https://raw.githubusercontent.com/Co2333/embyUnlocked/master/Surge/emby-adr-v.js
-Emby解锁 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/getStatus,script-path=https://raw.githubusercontent.com/Co2333/embyUnlocked/master/Surge/emby-adr-gS.js
+Emby解锁 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/validateDevice,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/emby-adr-vD.js
+Emby解锁 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/validate,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/emby-adr-v.js
+Emby解锁 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/getStatus,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/emby-adr-gS.js
 
 [MITM]
 hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, education.github.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.me, license.pdfexpert.com, api.flexibits.com, ios.prod.ftl.netflix.com, *.musical.ly, *.tiktokv.com, *.byteoversea.com, *.snssdk.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, app.bilibili.com, weather-data.apple.com, *.xxjjappss.com, sub.store, api.gyrosco.pe, mb3admin.com
