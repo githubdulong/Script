@@ -56,12 +56,16 @@ URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-
 # > 哔哩哔哩  去广告
 URL-REGEX,https://app.bilibili.com/x/v2/(splash|search/(defaultword|square)),REJECT
 URL-REGEX,https://api.bilibili.com/x/v2/dm/ad,REJECT
+# > YouTube去广告
+URL-REGEX,^https:\/\/.+\.googlevideo\.com\/.+&oad,REJECT
 
 [URL Rewrite]
 # > TikTok封区解锁
 (?<=_region=)CN(?=&) JP 307
 (?<=&app_version=)16..(?=.?.?&) 1 307
 (?<=\?version_code=)16..(?=.?.?&) 1 307
+# > YouTube去广告
+ctier=[A-Z] citer=A 302
 
 [Script]
 # > 京东 历史价格
@@ -81,8 +85,6 @@ URL-REGEX,https://api.bilibili.com/x/v2/dm/ad,REJECT
 # > 微信 去广告
 公众广告 = script-path=https://Choler.github.io/Surge/Script/WeChat.js,type=http-request,pattern=^https://mp\.weixin\.qq\.com/mp/getappmsgad
 openad$
-# > YouTube 去广告
-油管广告 = script-path=https://Choler.github.io/Surge/Script/YouTube.js,type=http-request,pattern=^https://[\s\S]*\.googlevideo\.com/.*&(oad|ctier)
 # > 人人视频 去广告
 人人广告 = type=http-response,requires-body=true,pattern=^https?:\/\/api\.rr\.tv\/watch\/v\d\/get_movie_info,script-path=https://Choler.github.io/Surge/Script/rrsp.js
 人人广告 = type=http-response,requires-body=true,pattern=^https?:\/\/api\.rr\.tv\/v\dplus\/index\/channel$,script-path=https://Choler.github.io/Surge/Script/rrsp.js
