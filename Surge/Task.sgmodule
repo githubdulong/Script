@@ -35,6 +35,8 @@
 饿了签到 = type=cron,cronexp=30 7 0 * * *,script-path=https://raw.githubusercontent.com/songyangzz/QuantumultX/master/elem/elemSign.js,wake-system=1,script-update-interval=0
 # > 百度贴吧
 百度贴吧 = type=cron,cronexp=0 8 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/tieba/tieba.js,script-update-interval=0
+# > 云闪付
+闪付钱包 = type=cron,cronexp=30 8 0 * * *,script-path=https://gitee.com/passerby-b/javascript/raw/master/unipay.js,script-update-interval=0
 # > 新浪微博
 新浪微博 = type=cron,cronexp=30 5 5 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js,script-update-interval=0
 # > GitHub监控
