@@ -45,7 +45,7 @@ GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://
 移动余量 = type=cron,cronexp=0 0 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10086/10086.fee.js,wake-system=true,script-update-interval=0
 # > 中国电信 余量
 电信余量 = type=cron,cronexp= 0 2 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomInfinity.js,script-update-interval=0
-# >京豆通知
+# > 京豆通知
 京豆通知 = type=cron,cronexp=0 3 9 * * *,wake-system=1,timeout=440,script-path=https://raw.githubusercontent.com/lxk0301/scripts/master/jd_bean_change.js
 # > 天气预报-益阳市
 //天气预报 = type=cron,cronexp="0 1 8,18 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/MuTu/weather2_pro.js,script-update-interval=0
@@ -69,7 +69,7 @@ GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://
 //热门监控 = type=cron,cronexp="30 0 8-22/2 * * *",script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/hotsearch/hot.js,wake-system=1,timeout=600
 # > 多账号切换
 //切换会话 = type=cron,cronexp="0 13 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,script-update-interval=0
-# >临时脚本
+# > 临时脚本
 京东星推 = type=cron,cronexp="0,30 0 0 * * *",wake-system=1,timeout=320,script-path=https://raw.githubusercontent.com/lxk0301/scripts/master/jd_xtg.js
 京东狂欢 = type=cron,cronexp=1 0-18/6 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/scripts/master/jd_818.js
 
