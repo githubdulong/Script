@@ -63,8 +63,8 @@ URL-REGEX,^https:\/\/.+\.googlevideo\.com\/.+&oad,REJECT
 # > TikTok封区解锁
 ^https://api[\w-]*?.tiktokv.com/aweme/v\d/policy/notice/? - reject
 (?<=_region=)CN(?=&) JP 307
-(?<=&app_version=)1[6-9]..(?=.?.?&) 100. 307
-(?<=\?version_code=)1[6-9]..(?=.?.?&) 100. 307
+(?<=&app_version=)1[7-9]..(?=.?.?&) 100. 307
+(?<=\?version_code=)1[7-9]..(?=.?.?&) 100. 307
 # > YouTube去广告
 ctier=[A-Z] citer=A 302
 
@@ -97,8 +97,6 @@ openad$
 香蕉破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/xjsp.js,type=http-response,pattern=^https?:\/\/.*\.(lago|fuli|xiang(jiao|xiang))apps\.com\/(ucp\/index|getGlobalData|.+\/reqplay\/)
 # > 金山WPS vip
 WPS破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Wps.js,type=http-response,pattern=^https://account.wps.*/api/users/
-# > 大千视界 pro
-//大千破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/dqsj.js,type=http-response,pattern=^https:\/\/api\.mvmtv\.com\/index\.php.*(c=user.*a=info|a=addr.*vid=.*)
 # > 扫描全能王 pro
 扫描破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/CamScanner.js,type=http-response,pattern=^https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\?
 # > Bear熊掌记 vip
