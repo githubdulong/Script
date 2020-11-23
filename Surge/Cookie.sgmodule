@@ -39,7 +39,7 @@
 # > 网易新闻 app获取
 网易新闻 = type=http-request,pattern=^https:\/\/(.*?)c\.m\.163\.com\/uc\/api\/sign\/v3\/commit,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasenews/neteasenews.cookie.js,script-update-interval=0
 # > 滴滴出行 app获取
-滴滴出行 = type=http-request,pattern=^https:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\?,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/DiDi/DiDi.js,script-update-interval=0
+滴滴出行 = type=http-request,pattern=^https:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\?,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/DiDi/DiDi_new.js,script-update-interval=0
 # > 115云盘 app获取
 1 1 5 云盘 = type=http-request,pattern=^https?:\/\/proapi\.115\.com\/ios\/user\/takespc\?,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/115/115.js,script-update-interval=0
 # > 中国移动 余量 app获取
