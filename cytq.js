@@ -1,8 +1,8 @@
 /**转自TG脚本群
  * [MITM]
  * hostname = biz.caiyunapp.com
- * surge  彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/caiyun/caiyun_svip.js
- * 圈X  https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user) url script-response-body https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/caiyun/caiyun_svip.js
+ * surge  彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path= https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js
+ * 圈X  https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user) url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js
  */
 
 const SCRIPT_NAME = '彩云天气';
