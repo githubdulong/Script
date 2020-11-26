@@ -133,11 +133,10 @@ G Y 运动 = requires-body=1,script-path=https://raw.githubusercontent.com/langk
 微信链接 = type=http-response,pattern=^https?:\/\/weixin110\.qq\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi,script-path=https://raw.githubusercontent.com/HotKids/Rules/master/Script/weixin110.js
 # > 彩云天气_SVIP
 彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js
-
-#Emby普斯拉
-emby普斯拉 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/validateDevice,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/emby-adr-vD.js
-emby普斯拉 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/validate,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/emby-adr-v.js
-emby普斯拉 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/getStatus,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/emby-adr-gS.js
+# >Emby普拉斯
+emby电影 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/validateDevice,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/emby-adr-vD.js
+emby电影 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/validate,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/emby-adr-v.js
+emby电影 = type=http-response,requires-body=1,max-size=0,pattern=^https://mb3admin.com/admin/service/registration/getStatus,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/emby-adr-gS.js
 
 [MITM]
 hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, education.github.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.me, license.pdfexpert.com, api.flexibits.com, ios.prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, app.bilibili.com, weather-data.apple.com, *.xxjjappss.com,*.huaerdadi.com, sub.store, api.gyrosco.pe ,*.tiktokv.com, *.byteoversea.com, *.musical.ly, *.snssdk.com, biz.caiyunapp.com, weixin110.qq.com, mb3admin.com
