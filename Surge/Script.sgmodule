@@ -42,6 +42,8 @@ amplifi.lan = server:system
 *.lan = server:system
 
 [General]
+# > 兼容模式
+compatibility-mode = 3
 # > 优酷 去广告
 //force-http-engine-hosts = %APPEND% vali.cp31.ott.cibntv.net
 
