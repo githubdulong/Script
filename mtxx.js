@@ -1,7 +1,7 @@
 /*
-#美图秀秀 v9.0.51版本（by-黑黑酱）
+#美图秀秀 v9.0.51版本
 QX:
-^https:\/\/api\.xiuxiu\.meitu\.com\/v1\/user\/show\.json url script-response-body mtxx.js
+^https:\/\/api\.xiuxiu\.meitu\.com\/v1\/user\/show\.json url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/mtxx.js
 
 MITM = api.xiuxiu.meitu.com
 */
