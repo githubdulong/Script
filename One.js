@@ -1,6 +1,6 @@
 /*
 README：https://raw.githubusercontent.com/githubdulong/Script/master/One.js
-每日壹句（有道词典）
+点击通知进入支付宝蚂蚁森林搜集能量+每日壹句（有道词典）
 */
 
 const $tool = new Tool()
