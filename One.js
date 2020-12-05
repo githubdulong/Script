@@ -11,7 +11,7 @@ $tool.get('https://dict.youdao.com/infoline/style/cardList?mode=publish&client=m
     let title = '每日' + (isAM ? ' 壹句' : ' 壹句') + (isAM ? ' ☀️' : ' 🌙');
     let subtitle = '';
     let scheme = 'alipay://platformapi/startapp?appId=60000002';
-    let content = "收能量啦👉"+scheme;
+    let content = ""+scheme;
     let option = {"open-url" : scheme};
     if (!error) {
         if (obj && obj.length > 1) {
