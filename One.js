@@ -1,6 +1,6 @@
-/*
+/*修改自nzw9314脚本
 
-*/
+//https://raw.githubusercontent.com/githubdulong/Script/master/One.js
 
 const $tool = new Tool()
 $tool.get('https://dict.youdao.com/infoline/style/cardList?mode=publish&client=mobile&style=daily&size=2', function (error, response, data) {
