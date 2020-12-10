@@ -52,7 +52,7 @@ GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://
 # > 京豆通知
 京豆通知 = type=cron,cronexp=0 3 9 * * *,wake-system=1,timeout=440,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_bean_change.js
 # > 天气预报-益阳市
-//天气预报 = type=cron,cronexp="0 1 8,18 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/MuTu/weather2_pro.js,script-update-interval=0
+//墨迹天气 = type=cron,cronexp="0 1 8,18 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/moji.js,script-update-interval=0
 # > 彩云天气
 //彩云天气 = type=cron,cronexp="0 1 8,18 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js, script-update-interval=0
 # > Dler Cloud 墙洞机场 
