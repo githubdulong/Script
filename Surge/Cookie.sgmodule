@@ -46,8 +46,6 @@
 饿了签到 = type=http-request,pattern=^https:\/\/h5\.ele\.me\/restapi\/eus\/v\d\/current_user$,script-path=https://raw.githubusercontent.com/songyangzz/QuantumultX/master/elem/elemGetCookies.js,script-update-interval=0
 # > 百度贴吧 浏览器https://tieba.baidu.com/
 百度贴吧 = type=http-request,pattern=^https?:\/\/tieba\.baidu\.com\/?.?,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/tieba/tieba.cookie.js,script-update-interval=0
-# > 京东赚赚 微信小程序获取
-京东赚赚 = type=http-request,pattern=^https\:\/\/api\.m\.jd\.com\/client\.action\?functionId\=interactIndex,requires-body=0,max-size=0,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jdzz.cookie.js
 # > 小小影视
 小小影视= type=http-request,pattern=^https:\/\/.*\..*\.com\/ucp\/index,script-path=https://raw.githubusercontent.com/sngxpro/quantumultX-1/master/xxys.cookie.js
 
