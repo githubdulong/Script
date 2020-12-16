@@ -35,7 +35,6 @@
 百度贴吧 = type=cron,cronexp=30 7 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/tieba/tieba.js,script-update-interval=0
 # > 京东赚赚
 京东赚1 = type=cron,cronexp=0 8 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_jdzz.js
-京东赚2 = type=cron,cronexp=30 8 0 * * *,timeout=60,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jdzz.js
 # > 小小影视
 小小影视 = type=cron,cronexp=0 10,22 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/xxysrw.js
 # > 新浪微博
