@@ -55,6 +55,8 @@ GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://
 京东取关 = type=cron,cronexp=55 23 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/scripts/raw/master/jd_unsubscribe.js
 # > 每日一句
 每日一句 = type=cron,cronexp=8 8 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/One.js,script-update-interval=0
+# > 小米运动
+小米运动 = type=cron,cronexp="15 17 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/backUp/xmSports.js
 # > 电视节目预告 
 //电视预告 = type=cron,cronexp=0 5 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/tvpreview.js, script-update-interval=0
 # > 实时汇率
