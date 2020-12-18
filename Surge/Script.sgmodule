@@ -104,7 +104,7 @@ WPS破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa
 //日记破解 = debug=1,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Script/dayone-pre.js,type=http-request,pattern=^https:\/\/dayone\.me\/api\/users$
 日记破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/dayone.surge.js,script-update-interval=0,type=http-response,pattern=^https:\/\/dayone\.me\/api\/(users|v2\/users\/(account-status|receipt))
 #> WorkingCopy库 pro
-Copy破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/workingcopy.js,script-update-interval=0,type=http-response,pattern=^https:\/\/education\.github\.com\/api\/user$
+//Copy破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/workingcopy.js,script-update-interval=0,type=http-response,pattern=^https:\/\/education\.github\.com\/api\/user$
 # > PDF Expert办公 pro
 PDF 破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/Pdfexpert.vip.js,script-update-interval=0,type=http-response,pattern=^https:\/\/license\.pdfexpert\.com\/api\/.+\/subscription\/(refresh$|check$)
 # > Fantastical日历 vip
@@ -118,7 +118,7 @@ PDF 破解 = requires-body=1,max-size=0,script-path=https://raw.githubuserconten
 # > 网易蜗牛读书 vip
 // 蜗牛读书 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/wnyd.js,type=http-response,pattern=^https?:\/\/p\.du\.163\.com\/gain\/readtime\/info\.json
 # > 彩云天气定位 
-天气定位 = require-body=false,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js,type=http-request, pattern=https://weather-data.apple.com
+//天气定位 = require-body=false,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js,type=http-request, pattern=https://weather-data.apple.com
 # > SSID自动策略
 //自动策略 = type=event,event-name=network-changed,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tools/AutoPolicy/auto-policy.js,script-update-interval=0
 # > Box会话
@@ -127,7 +127,7 @@ Box ＴＦ = type=http-request,pattern=^https?://boxjs.net,script-path=https://g
 # > Sub-Store 订阅转换
 订阅转换 = type=http-request,pattern=^https?:\/\/sub\.store,script-path=https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/backend/sub-store.js,requires-body=true,timeout=120
 # > Gyroscope vip
-G Y 运动 = requires-body=1,script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/Gyroscope.vip.js,type=http-response,pattern=^https:\/\/api\.gyrosco\.pe\/v1\/account\/$
+//G Y 运动 = requires-body=1,script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/Gyroscope.vip.js,type=http-response,pattern=^https:\/\/api\.gyrosco\.pe\/v1\/account\/$
 # > 微信链接
 微信链接 = type=http-response,pattern=^https?:\/\/weixin110\.qq\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi,script-path=https://raw.githubusercontent.com/HotKids/Rules/master/Script/weixin110.js
 # > 彩云天气_SVIP
