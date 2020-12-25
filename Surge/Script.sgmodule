@@ -61,10 +61,9 @@ URL-REGEX,^https:\/\/.+\.googlevideo\.com\/.+&oad,REJECT
 
 [URL Rewrite]
 # > TikTok封区解锁
-^https://api[\w-]*?.tiktokv.com/aweme/v\d/policy/notice/? - reject
 (?<=_region=)CN(?=&) JP 307
-(?<=&app_version=)1[7-9]..(?=.?.?&) 100. 307
-(?<=\?version_code=)1[7-9]..(?=.?.?&) 100. 307
+(?<=&mcc_mnc=)4 2 307
+^(https?:\/\/dm[\w-]+\.\w+\.com\/.+)(\?)(.+) $1$3 302
 # > YouTube去广告
 ctier=[A-Z] citer=A 302
 
@@ -136,4 +135,4 @@ Box ＴＦ = type=http-request,pattern=^https?://boxjs.net,script-path=https://g
 emby电影 = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice,requires-body=1,max-size=0,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/embyPremiere.js
 
 [MITM]
-hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, education.github.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.me, license.pdfexpert.com, api.flexibits.com, ios.prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, app.bilibili.com, weather-data.apple.com, *.xxjjappss.com,*.huaerdadi.com, sub.store, api.gyrosco.pe ,*.tiktokv.com, *.byteoversea.com, *.musical.ly, *.snssdk.com, biz.caiyunapp.com, weixin110.qq.com, mb3admin.com
+hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, education.github.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.me, license.pdfexpert.com, api.flexibits.com, ios.prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, app.bilibili.com, weather-data.apple.com, *.xxjjappss.com,*.huaerdadi.com, sub.store, api.gyrosco.pe , biz.caiyunapp.com, weixin110.qq.com, mb3admin.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com
