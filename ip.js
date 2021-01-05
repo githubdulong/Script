@@ -52,7 +52,7 @@ emoji=City_ValidCheck(obj['province']) == "香港"? "🇭🇰️":emoji
 emoji=City_ValidCheck(obj['province']) == "澳门"? "️🇲🇴️":emoji
 // emoji=City_ValidCheck(obj['province']) == "台湾"? "️️🇹🇼":emoji
 var title =  emoji +' '+ City_ValidCheck(obj['province'])+' ';//+Area_check(obj['country']);
-var subtitle =  " "+ ISP_ValidCheck(obj['isp']) + " ➠ "+ obj['country'];
+var subtitle =  ISP_ValidCheck(obj['isp']) +"™️ " + " ➠ "+ obj['country'];
 var ip = obj['addr']; 
 var description = '服务商:'+obj['isp'] + '\n'+'定位: [' +obj["latitude"]+","+obj["longitude"]+"]"+ '\n' + 'IP:'+ obj['addr'] + '\n' +'时区:'+ obj['timezone'];
 $done({title, subtitle, ip, description});
