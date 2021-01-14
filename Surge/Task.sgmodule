@@ -4,7 +4,7 @@
 
 [Script]
 # > 汽车兑换
-汽车兑换 = type=cron,cronexp="0 0 * * *",wake-system=1,timeout=2000,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_car_exchange.js
+汽车兑换 = type=cron,cronexp="0 0 * * *",wake-system=1,timeout=2000,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_car_exchange.js
 # > 京东商城
 京东商城 = type=cron,cronexp="8 0,15 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
 # > 威锋论坛
@@ -22,7 +22,7 @@
 # > 网易云音乐
 网易音乐 = type=cron,cronexp=0 4 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/neteasemusic.js,script-update-interval=0
 # > 京东汽车
-京东汽车 = type=cron,cronexp="0 1,4 0 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_car.js,script-update-interval=0
+京东汽车 = type=cron,cronexp="0 1,4 0 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_car.js,script-update-interval=0
 # > 苏宁易购
 苏宁易购 = type=cron,cronexp=0 5 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/suning/suning.js,script-update-interval=0
 # > 吾爱破解
@@ -36,77 +36,77 @@
 # > 百度贴吧
 百度贴吧 = type=cron,cronexp=30 7 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/tieba/tieba.js,script-update-interval=0
 # > 京东赚赚
-京东赚赚 = type=cron,cronexp=0 8 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_jdzz.js,script-update-interval=0
+京东赚赚 = type=cron,cronexp=0 8 0 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_jdzz.js,script-update-interval=0
 # > 京东十元
-京东十元 = type=cron,cronexp=0 9 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_syj.js,script-update-interval=0
-# > 京喜财富
-京喜财富 = type=cron,cronexp=30 9 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/MoPoQAQ/Script/main/Me/jx_cfd.js,script-update-interval=0
+京东十元 = type=cron,cronexp=0 9 0 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_syj.js,script-update-interval=0
 # > 京东点券
-京东点券 = type=cron,cronexp="20 0,20 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_necklace.js,script-update-interval=0
+京东点券 = type=cron,cronexp="20 0,20 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_necklace.js,script-update-interval=0
 # > 种豆得豆
-种豆得豆 = type=cron,cronexp="10 7-21/2 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_plantBean.js,script-update-interval=0
+种豆得豆 = type=cron,cronexp="10 7-21/2 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_plantBean.js,script-update-interval=0
 # > 天天加速
-天天加速 = type=cron,cronexp="8 */3 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_speed.js,script-update-interval=0
+天天加速 = type=cron,cronexp="8 */3 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_speed.js,script-update-interval=0
 # > 健康抽奖
-健康抽奖 = type=cron,cronexp=30 10 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_health.js,script-update-interval=0
+健康抽奖 = type=cron,cronexp=30 10 0 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_health.js,script-update-interval=0
 # > 额外奖励
-额外奖励 = type=cron,cronexp=0 11 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_bean_home.js,script-update-interval=0
+额外奖励 = type=cron,cronexp=0 11 0 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bean_home.js,script-update-interval=0
 # > 京东快递
-京东快递 = type=cron,cronexp=30 11 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_kd.js,script-update-interval=0
+京东快递 = type=cron,cronexp=30 11 0 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_kd.js,script-update-interval=0
 # > 进店领豆
-进店领豆 = type=cron,cronexp=0 12 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_shop.js,script-update-interval=0
+进店领豆 = type=cron,cronexp=0 12 0 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_shop.js,script-update-interval=0
 # > 摇摇京豆
-摇摇京豆 = type=cron,cronexp=30 12 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_club_lottery.js,script-update-interval=0
+摇摇京豆 = type=cron,cronexp=30 12 0 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_club_lottery.js,script-update-interval=0
 # > 全民红包
-全民红包 = type=cron,cronexp=0 13 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_redPacket.js,script-update-interval=0
+全民红包 = type=cron,cronexp=0 13 0 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_redPacket.js,script-update-interval=0
 # > 京东小窝
-京东小窝 = type=cron,cronexp=0 14 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_small_home.js,script-update-interval=0
+京东小窝 = type=cron,cronexp=0 14 0 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_small_home.js,script-update-interval=0
 # > Joy任务
-Joy 任务 = type=cron,cronexp=30 14 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_crazy_joy.js,script-update-interval=0
+Joy 任务 = type=cron,cronexp=30 14 0 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_crazy_joy.js,script-update-interval=0
 # > 京喜签到
-京喜签到 = type=cron,cronexp="0 15 0 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jx_sign.js,script-update-interval=0
+京喜签到 = type=cron,cronexp="0 15 0 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jx_sign.js,script-update-interval=0
 # > 惊喜工厂
-惊喜工厂 = type=cron,cronexp=10 * * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_dreamFactory.js,script-update-interval=0
+惊喜工厂 = type=cron,cronexp=10 * * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_dreamFactory.js,script-update-interval=0
 # > 东东工厂
-东东工厂 = type=cron,cronexp=10 * * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_jdfactory.js,script-update-interval=0
+东东工厂 = type=cron,cronexp=10 * * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_jdfactory.js,script-update-interval=0
 # > 小超兑换
-小超兑换 = type=cron,cronexp=0 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_blueCoin.js,script-update-interval=0
+小超兑换 = type=cron,cronexp=0 0 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_blueCoin.js,script-update-interval=0
 # > 京东小超
-京东小超 = type=cron,cronexp="11 1-23/5 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_superMarket.js,script-update-interval=0
+京东小超 = type=cron,cronexp="11 1-23/5 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_superMarket.js,script-update-interval=0
 # > 京东直播
-京东直播 = type=cron,cronexp="10-20/5 12 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_live.js,script-update-interval=0
+京东直播 = type=cron,cronexp="10-20/5 12 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_live.js,script-update-interval=0
 # > 京东摇钱
-京东摇钱 = type=cron,cronexp="15 */5 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_moneyTree.js,script-update-interval=0
+京东摇钱 = type=cron,cronexp="15 */5 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_moneyTree.js,script-update-interval=0
 # > 京东农场
-京东农场 = type=cron,cronexp="5 6-18/6 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_fruit.js,script-update-interval=0
+京东农场 = type=cron,cronexp="5 6-18/6 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_fruit.js,script-update-interval=0
 # > 京喜农场
-京喜农场 = type=cron,cronexp="0 9,12,18 * * *",timeout=60,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_nc.js,script-update-interval=0
+京喜农场 = type=cron,cronexp="0 9,12,18 * * *",timeout=60,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/quanx/jx_nc.js,script-update-interval=0
 # > 京东年货
-京东年货 = type=cron,cronexp="1 7 * * *",wake-system=1,timeout=1120,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_nh.js
+京东年货 = type=cron,cronexp="1 7 * * *",wake-system=1,timeout=1120,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_nh.js
 # > 京东萌宠
-京东萌宠 = type=cron,cronexp="20 7-19/6 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_pet.js,script-update-interval=0
+京东萌宠 = type=cron,cronexp="20 7-19/6 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_pet.js,script-update-interval=0
 # > 京东汪汪
-京东汪汪 = type=cron,cronexp="15 */2 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_joy.js,script-update-interval=0
+京东汪汪 = type=cron,cronexp="15 */2 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_joy.js,script-update-interval=0
 # > 汪汪喂食
-汪汪喂食 = type=cron,cronexp="12 */1 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_joy_feedPets.js,script-update-interval=0
+汪汪喂食 = type=cron,cronexp="12 */1 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_joy_feedPets.js,script-update-interval=0
 # > 汪汪兑换
-汪汪兑换 = type=cron,cronexp="1 0,8,12,16 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_joy_reward.js,script-update-interval=0
+汪汪兑换 = type=cron,cronexp="1 0,8,12,16 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_joy_reward.js,script-update-interval=0
 # > 积分狗粮
-积分狗粮 = type=cron,cronexp="0 0,6 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_joy_steal.js,script-update-interval=0
+积分狗粮 = type=cron,cronexp="0 0,6 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_joy_steal.js,script-update-interval=0
 # > 口袋书店
-口袋书店 = type=cron,cronexp="1 8,12,18* * *",wake-system=1,timeout=1120,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_bookshop.js
+口袋书店 = type=cron,cronexp="1 8,12,18* * *",wake-system=1,timeout=1120,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bookshop.js
 # > 签到现金
-签到现金 = type=cron,cronexp="0 14 0 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_cash.js
+签到现金 = type=cron,cronexp="0 14 0 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_cash.js
 # > 京东互助
 京东互助 = type=cron,cronexp="0 30 2 1,10,20 * *",wake-system=1,timeout=20,script-path=Script/nohb.js
 京东互助 = type=cron,cronexp="0 30 2 1,10,20 * *",wake-system=1,timeout=20,script-path=Script/nohb2.js
-京东互助 = type=cron,cronexp="0 0 10 1,10,20 * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_get_share_code.js,script-update-interval=0
+京东互助 = type=cron,cronexp="0 0 10 1,10,20 * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_get_share_code.js,script-update-interval=0
+# > 京东家庭
+京东家庭 = type=cron,cronexp="1 */1 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_family.js
 # > 京东取关
 京东取关 = type=cron,cronexp=55 23 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/scripts/raw/master/jd_unsubscribe.js,script-update-interval=0
 # > 京东销卡
-京东销卡 = type=cron,cronexp=56 23 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_unbind.js,script-update-interval=0
+京东销卡 = type=cron,cronexp=56 23 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_unbind.js,script-update-interval=0
 # > 京豆通知
-京豆通知 = type=cron,cronexp=0 5 9 * * *,wake-system=1,timeout=440,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/jd_bean_change.js,script-update-interval=0
+京豆通知 = type=cron,cronexp=0 5 9 * * *,wake-system=1,timeout=440,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bean_change.js,script-update-interval=0
 # > 小小影视
 小小影视 = type=cron,cronexp=0 10,22 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/xxysrw.js,script-update-interval=0
 # > 新浪微博
@@ -124,7 +124,7 @@ GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://
 # > 每日一句
 每日一句 = type=cron,cronexp=8 8 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/One.js,script-update-interval=0
 # > 小米运动
-小米运动 = type=cron,cronexp="15 17 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/lxk0301/jd_scripts/master/backUp/xmSports.js
+小米运动 = type=cron,cronexp="15 17 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/backUp/xmSports.js
 # > 电视节目预告 
 //电视预告 = type=cron,cronexp=0 5 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/tvpreview.js, script-update-interval=0
 # > 实时汇率
