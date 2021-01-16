@@ -1,84 +1,84 @@
 # JavaScript
 🐲 MuTu•QuantumultX｜Surge｜Loon｜Scriptable•自用
 
-•  脚本库地址•顺序不分排名
-————————
-•  NobyDa
+• 脚本库地址•顺序不分排名
+---
+* [NobyDa](https://github.com/NobyDa)
 
-•  chavyleung
+* [chavyleung](https://github.com/chavyleung)
 
-•  GideonSenku
+* [GideonSenku](https://github.com/GideonSenku)
 
-•  yichahucha
+* [yichahucha](https://github.com/yichahucha)
 
-•  langkhach270389
+* [langkhach270389](https://github.com/langkhach270389)
 
-•  Choler
+* [Choler](https://github.com/Choler)
 
-•  onewayticket255
+* [onewayticket255](https://github.com/onewayticket255)
 
-•  NavePnow
+* [NavePnow](https://github.com/NavePnow)
 
-•  Meeta
+* [Meeta](https://github.com/MeetaGit)
 
-•  Neurogram-R
+* [Neurogram-R](https://github.com/Neurogram-R)
 
-•  sazs34
+* [sazs34](https://github.com/sazs34)
 
-•  Sunert
+* [Sunert](https://github.com/Sunert/Scripts)
 
-•  zZPiglet
+* [zZPiglet](https://github.com/zZPiglet/Task.git)
 
-•  songyangzz
+* [songyangzz](https://github.com/songyangzz/QuantumultX.git)
 
-•  Peng-YM
+* [Peng-YM](https://github.com/Peng-YM/QuanX)
 
-•  KOP-XIAO
+* [KOP-XIAO](https://github.com/KOP-XIAO/QuantumultX)
 
-•  lowking
+* [lowking](https://github.com/lowking/Scripts)
 
-•  evilbutcher
+* [evilbutcher](https://github.com/evilbutcher/Quantumult_X/tree/master)
 
-•  vinewx
+* [vinewx](https://ooxx.be/js/)
 
-•  lxk0301/gitee  github
+* [lxk0301/gitee](https://gitee.com/lxk0301/jd_scripts/tree/master/)  [github](https://github.com/LXK9301/jd_scripts)
 
-•  toulanboy
+* [toulanboy](https://github.com/toulanboy/scripts)
 
-•  id77
+* [id77](https://github.com/id77/QuantumultX/tree/master)
 
-•  wangdelu2020
+* [wangdelu2020](https://github.com/wangdelu2020)
 
-•  barrym-chen
+* [barrym-chen](https://github.com/barrym-chen/Script)
 
-•  iisams
+* [iisams](https://github.com/iisams/Scripts)
 
-•  ziye12
+* [ziye12](https://github.com/ziye12/JavaScript)
 
-•  iepngs
+* [iepngs](https://github.com/iepngs/Script)
 
-•  dompling-2Y
+* [dompling-2Y](https://github.com/dompling)
 
-•  ZhiYi-N
+* [ZhiYi-N](https://github.com/ZhiYi-N)
 
-•  lhie1
+* [lhie1](https://github.com/lhie1)
 
-•  eHpo1
+* [eHpo1](https://github.com/eHpo1/Rules)
 
-•  blackmatrix7
+* [blackmatrix7](https://github.com/blackmatrix7/ios_rule_script)
 
-•  ConnersHua  •  DivineEngine(新)
-————————
-•  Orz-3 图标
+* [ConnersHua](https://github.com/ConnersHua)  •  [DivineEngine(新)](https://github.com/DivineEngine/Profiles/tree/master)
+----
+* [Orz-3 图标](https://github.com/Orz-3/mini)
 
-•  Qure 图标 
+* [Qure 图标](https://github.com/Koolson/Qure) 
 
-•  xinian 图标
+* [xinian 图标](https://github.com/58xinian/icon)
 
-•  Box.json 订阅
+* [Box.json 订阅](https://chavyleung.gitbook.io/boxjs/awesome/subscriptions)
 
-•  nzw9314 👈️脚本整合 
+* [nzw9314 👈️脚本整合](https://github.com/nzw9314/QuantumultX.git) 
 
-•  Tartarus2014 👈️脚本整合
+* [Tartarus2014 👈️脚本整合](https://github.com/Tartarus2014)
 
-•  HellCell YouTube 👈️入门视频教程
+* [HellCell YouTube 👈️入门视频教程 ](https://bit.ly/HellCellYouTube)
