@@ -78,7 +78,7 @@ Joy 任务 = type=cron,cronexp=30 14 0 * * *,wake-system=1,timeout=20,script-pat
 # > 京喜农场
 京喜农场 = type=cron,cronexp="0 9,12,18 * * *",timeout=60,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_nc.js,script-update-interval=0
 # > 京东年货
-京东年货 = type=cron,cronexp="1 7 * * *",wake-system=1,timeout=1120,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_nh.js
+京东年货 = type=cron,cronexp="0 8 * * *",wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_nian.js
 # > 京东萌宠
 京东萌宠 = type=cron,cronexp="20 7-19/6 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_pet.js,script-update-interval=0
 # > 京东汪汪
@@ -93,8 +93,10 @@ Joy 任务 = type=cron,cronexp=30 14 0 * * *,wake-system=1,timeout=20,script-pat
 口袋书店 = type=cron,cronexp="1 8,12,18* * *",wake-system=1,timeout=1120,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bookshop.js
 # > 签到现金
 签到现金 = type=cron,cronexp="0 14 0 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_cash.js
+# > 京东年兽
+京东年兽 = type=cron,cronexp="0 8 * * *",wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_nian.js
 # > 京东互助
-京东互助 = type=cron,cronexp="0 35 2 1,10,20 * *",wake-system=1,timeout=120,script-path=https://gitee.com/qq34347476/quantumult-x/raw/master/get_share_jd_code.js
+京东互助 = type=cron,cronexp="0 35 2 1,10,20 * *",wake-system=1,timeout=120,script-path=https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_get_share_code.js
 # > 京东家庭
 京东家庭 = type=cron,cronexp="1 */1 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_family.js
 # > 京东取关
