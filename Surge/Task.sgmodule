@@ -37,6 +37,8 @@
 百度贴吧 = type=cron,cronexp=30 7 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/tieba/tieba.js,script-update-interval=0
 # > 京东赚赚
 京东赚赚 = type=cron,cronexp=0 8 0 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_jdzz.js,script-update-interval=0
+# > 京东秒币
+京东秒币 = type=cron,cronexp=30 8 * * *,wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_ms.js
 # > 京东十元
 京东十元 = type=cron,cronexp=0 9 0 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_syj.js,script-update-interval=0
 # > 京东点券
@@ -94,11 +96,17 @@ Joy 任务 = type=cron,cronexp=30 14 0 * * *,wake-system=1,timeout=20,script-pat
 # > 签到现金
 签到现金 = type=cron,cronexp="0 14 0 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_cash.js
 # > 京东年兽
-京东年兽 = type=cron,cronexp="0 8 * * *",wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_nian.js
+京东年兽 = type=cron,cronexp="0 8,9,10 * * *",wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_nian.js
+# > 收集爆竹
+收集爆竹 = type=cron,cronexp=0 8 * * *,wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_nianCollect.js
 # > 京东互助
 京东互助 = type=cron,cronexp="0 35 2 1,10,20 * *",wake-system=1,timeout=120,script-path=https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_get_share_code.js
 # > 京东家庭
 京东家庭 = type=cron,cronexp="1 */1 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_family.js
+# > 直播红包
+直播红包 = type=cron,cronexp="0,1 19-21/1 * * *",wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_live_redrain2.js
+# > 京东工业
+京东工业 = type=cron,cronexp="0 0/30 * * * *",wake-system=1,timeout=200,script-path=https://raw.githubusercontent.com/shylocks/Loon/main/jd_gyec.js
 # > 京东取关
 京东取关 = type=cron,cronexp=55 23 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/scripts/raw/master/jd_unsubscribe.js,script-update-interval=0
 # > 京东销卡
