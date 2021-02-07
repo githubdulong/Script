@@ -11,8 +11,6 @@
 威锋论坛 = type=cron,cronexp=0 1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,wake-system=1,script-update-interval=0
 # > 京东到家
 京东到家 = type=cron,cronexp=30 1 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jddj.js,script-update-interval=0
-# > 人人字幕组
-人人字幕 = type=cron,cronexp="0 2,13 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/zimuzu/zimuzu.js,script-update-interval=0
 # > 人人视频
 人人视频 = type=cron,cronexp=30 2 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/rrtv/rrtv.js,script-update-interval=0
 # > 喜马拉雅
@@ -40,7 +38,7 @@
 # > 京东十元
 京东十元 = type=cron,cronexp=0 9 0 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_syj.js,script-update-interval=0
 # > 海底捞
-海 底 捞 = type=cron,cronexp=30 10 0 * * *,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Haidilao/Haidilao.js,script-update-interval=0
+海 底 捞 = type=cron,cronexp=30 10 0 * * *,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Haidilao/HaidilaoUsebonus.js,script-update-interval=0
 # > 京东点券
 京东点券 = type=cron,cronexp="20 0,20 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_necklace.js,script-update-interval=0
 # > 种豆得豆
@@ -77,8 +75,6 @@ Joy 任务 = type=cron,cronexp=30 14 0 * * *,wake-system=1,timeout=20,script-pat
 京喜农场 = type=cron,cronexp="0 9,12,18 * * *",timeout=60,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_nc.js,script-update-interval=0
 # > 京喜工厂
 京喜工厂 = type=cron,cronexp="10 * * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_dreamFactory.js
-# > 京东年货
-京东年货 = type=cron,cronexp="0 8 * * *",wake-system=1,timeout=200,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_nian.js
 # > 京东萌宠
 京东萌宠 = type=cron,cronexp="20 7-19/6 * * *",wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_pet.js,script-update-interval=0
 # > 京东汪汪
@@ -101,8 +97,6 @@ Joy 任务 = type=cron,cronexp=30 14 0 * * *,wake-system=1,timeout=20,script-pat
 京东互助 = type=cron,cronexp="0 35 2 1,10,20 * *",wake-system=1,timeout=120,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_get_share_code.js
 # > 京东取关
 京东取关 = type=cron,cronexp=55 23 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_unsubscribe.js,script-update-interval=0
-# > 京东销卡
-京东销卡 = type=cron,cronexp=56 23 * * *,wake-system=1,timeout=20,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_unbind.js,script-update-interval=0
 # > 京豆通知
 京豆通知 = type=cron,cronexp=0 5 9 * * *,wake-system=1,timeout=440,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_bean_change.js,script-update-interval=0
 # > 小小影视
