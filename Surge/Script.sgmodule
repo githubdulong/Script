@@ -58,6 +58,10 @@ URL-REGEX,https://app.bilibili.com/x/v2/(splash|search/(defaultword|square)),REJ
 URL-REGEX,https://api.bilibili.com/x/v2/dm/ad,REJECT
 # > YouTube去广告
 URL-REGEX,^https:\/\/.+\.googlevideo\.com\/.+&oad,REJECT
+# > Spotify去广告
+URL-REGEX,^https?://spclient.wg.spotify.com/ad-logic/*,REJECT
+URL-REGEX,^https?://spclient.wg.spotify.com/ads/*,REJECT
+URL-REGEX,^https?://spclient.wg.spotify.com/.+ad_slot,REJECT
 
 [URL Rewrite]
 # > TikTok封区解锁
@@ -66,10 +70,6 @@ URL-REGEX,^https:\/\/.+\.googlevideo\.com\/.+&oad,REJECT
 ^(https?:\/\/dm[\w-]+\.\w+\.com\/.+)(\?)(.+) $1$3 302
 # > YouTube去广告
 ctier=[A-Z] citer=A 302
-# > Spotify去广告
-^https?://spclient.wg.spotify.com/ad-logic/*,REJECT
-^https?://spclient.wg.spotify.com/ads/*,REJECT
-^https?://spclient.wg.spotify.com/.+ad_slot,REJECT
 
 [Script]
 # > 京东 历史价格
@@ -91,12 +91,12 @@ ctier=[A-Z] citer=A 302
 # > 人人视频 去广告
 人人广告 = type=http-response,requires-body=true,pattern=^https?:\/\/api\.rr\.tv\/watch\/v\d\/get_movie_info,script-path=https://Choler.github.io/Surge/Script/rrsp.js
 人人广告 = type=http-response,requires-body=true,pattern=^https?:\/\/api\.rr\.tv\/v\dplus\/index\/channel$,script-path=https://Choler.github.io/Surge/Script/rrsp.js
-# > 小小影视TF 破解
-小小影视 = type=http-response,pattern=https:\/\/.*\..*\.com\/(ssp-svr\/ssp\/list3|ucp/index|getGlobalData),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/xxys.js,script-update-interval=0
+# > 小小影视
+小小影视 = type=http-response,pattern=https:\/\/.*\.(xiaoxiaoapps|xiaoxiaoimg)\.com\/(ssp-svr\/ssp\/list3|ucp/index|getGlobalData),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/xxys.js,script-update-interval=0
 # > 哔哩哔哩 去广告
 哔哩广告 = type=http-response,requires-body=1,max-size=0,pattern=https://app.bilibili.com/x/resource/show/tab\?access_key,script-path=https://raw.githubusercontent.com/onewayticket255/Surge-Script/master/surge%20bilibili%20tab.js
 # > 香蕉视频 vip
-香蕉破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/xjsp.js,type=http-response,pattern=^https?:\/\/.*\.(lago|fuli|xiang(jiao|xiang))apps\.com\/(ucp\/index|getGlobalData|.+\/reqplay\/)
+//香蕉破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/xjsp.js,type=http-response,pattern=^https?:\/\/.*\.(lago|fuli|xiang(jiao|xiang))apps\.com\/(ucp\/index|getGlobalData|.+\/reqplay\/)
 # > 金山WPS vip
 WPS破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Wps.js,type=http-response,pattern=^https://account.wps.*/api/users/
 # > 扫描全能王 pro
@@ -143,4 +143,4 @@ TF DOWN = type=http-request,pattern=^https?:\/\/testflight\.apple\.com\/v2\/acco
 应用安装 = type=http-request,pattern=^https:\/\/nobyda/(install|download)(\/jsbox)?$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/IPA_install.js
 
 [MITM]
-hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, education.github.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.me, license.pdfexpert.com, api.flexibits.com, ios.prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, app.bilibili.com, weather-data.apple.com, *.xxjjappss.com,*.huaerdadi.com, sub.store, api.gyrosco.pe , biz.caiyunapp.com, weixin110.qq.com, mb3admin.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, testflight.apple.com, nobyda
+hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, education.github.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.me, license.pdfexpert.com, api.flexibits.com, ios.prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, app.bilibili.com, weather-data.apple.com, sub.store, api.gyrosco.pe , biz.caiyunapp.com, weixin110.qq.com, mb3admin.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, *.xxjjappss.com, *.huaerdadi.com, *.xiaoxiaoapps.com, *.xiaoxiaoimg.com 
