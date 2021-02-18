@@ -90,7 +90,7 @@ ctier=[A-Z] citer=A 302
 微信广告 = type=http-response,pattern=^https?:\/\/mp\.weixin\.qq\.com\/mp\/getappmsgad,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/Wechat.js,script-update-interval=0
 # > 人人视频 去广告
 人人广告 = type=http-response,requires-body=true,pattern=^https?:\/\/api\.rr\.tv\/watch\/v\d\/get_movie_info,script-path=https://Choler.github.io/Surge/Script/rrsp.js
-人人广告 = type=http-response,requires-body=true,pattern=^https?:\/\/api\.rr\.tv\/v\dplus\/index\/channel$,script-path=https://Choler.github.io/Surge/Script/rrsp.js
+人人广告 = type=http-response,requires-body=true,pattern=^https?:\/\/api\.rr\.tv\/v\dplus\/index\/channel,script-path=https://Choler.github.io/Surge/Script/rrsp.js
 # > 小小影视
 小小影视 = type=http-response,pattern=https:\/\/.*\.(xiaoxiaoapps|xiaoxiaoimg)\.com\/(ssp-svr\/ssp\/list3|ucp/index|getGlobalData),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/xxys.js,script-update-interval=0
 # > 哔哩哔哩 去广告
