@@ -7,4 +7,4 @@
 ^https\:\/\/raw\.githubusercontentd\.com\/Orz-3\/mini\/master\/ https://raw.githubusercontent.com/Orz-3/mini/master/Alpha/ 302
 
 [MITM]
-hostname = %INSERT%, *.githubusercontent.com
+hostname = %INSERT% *.githubusercontent.com
