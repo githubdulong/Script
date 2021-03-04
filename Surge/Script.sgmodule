@@ -41,6 +41,8 @@ hotspot.cslwifi.com = server:system
 amplifi.lan = server:system
 *.lan = server:system
 
+[Header Rewrite]
+
 [General]
 # > 优酷 去广告
 //force-http-engine-hosts = %APPEND% *.cp31.ott.cibntv.net
@@ -107,7 +109,7 @@ URL-REGEX,^https?://spclient.wg.spotify.com/.+ad_slot,REJECT
 # > 金山WPS vip
 WPS破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Wps.js,type=http-response,pattern=^https://account.wps.*/api/users/
 # > 扫描全能王 pro
-扫描破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/CamScanner.js,type=http-response,pattern=^https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\?
+扫描破解 = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/surge_module/main/camscanner.js,type=http-response,pattern=^https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\?
 # > Bear熊掌记 vip
 // Bear破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Script/bear.js,type=http-response,pattern=^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt
 # > Day one日记 vip（成功后禁用第一条）
@@ -118,7 +120,7 @@ WPS破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa
 # > Fantastical日历 vip
 日历破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Script/fantastical.js,type=http-response,pattern=^https:\/\/api\.flexibits\.com\/v1\/(auth|account)\/(device|details|appstore-receipt)\/$
 # > apple下载加速
-// dns 商店加速 script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/Surge/dnspod.js,use-local-host-item-for-proxy = true,script-update-interval=0
+dns 商店加速 script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/Surge/dnspod.js,use-local-host-item-for-proxy = true,script-update-interval=0
 # > 脚本转换（圈X、LOON、surge脚本自动转换）
 //脚本转换 = type=http-response,pattern=^https?:\/\/(raw|gist)\.githubusercontent.com/.*\.js$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Peng-YM/ScriptConverter/master/js-converter.js,script-update-interval=0
 # > 有道云笔记 vip
