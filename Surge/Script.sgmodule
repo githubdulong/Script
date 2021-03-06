@@ -67,7 +67,7 @@ URL-REGEX,^https?://spclient.wg.spotify.com/.+ad_slot,REJECT
 
 [URL Rewrite]
 # > 抖音去水印广告
-//^https?:\/\/(.*)\.amemv\.com\/aweme\/v2\/(follow\/)?feed\/ https://$1.amemv.com/aweme/v1/$2feed/ header
+^https?:\/\/(.*)\.amemv\.com\/aweme\/v2\/(follow\/)?feed\/ https://$1.amemv.com/aweme/v1/$2feed/ header
 # > YouTube去广告
 //ctier=[A-Z] citer=A 302
 # > TikTok国际抖音解锁封区(更换307后面JP JP=日本 KR=韩国 HK=香港 US=美国）
@@ -150,8 +150,8 @@ TFDOWN = type=http-request,pattern=^https?:\/\/testflight\.apple\.com\/v2\/accou
 bilbii换区 = type=http-response,pattern=^https:\/\/ap(p|i)\.bilibili\.com\/(pgc\/view\/(v\d\/)?app|x(\/v\d)?\/view\/video)\/(season|online)\?access_key,requires-body=1,max-size=0,control-api=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
 # > YouTube去广告
 油管视频 = type=http-request,pattern=^https?:\/\/.+?\.googlevideo\.com\/.+&(oad|ctier)=(?!A),script-path=https://choler.github.io/Surge/Script/YouTube.js
-# > 抖音去水印广告
-//抖音水印 = type=http-response,pattern=^https?:\/\/.*\.amemv\.com\/aweme\/v1\/(feed|mix\/aweme|aweme\/post|(multi\/)?aweme\/detail|follow\/feed|nearby\/feed|search\/item|general\/search\/single|hot\/search\/video\/list)\/,requires-body=1,max-size=-1,script-path=https://Choler.github.io/Surge/Script/douyin.js
+# > 抖音去水印广告 https://raw.githubusercontent.com/Choler/Surge/master/Module/douyin.sgmodule
+抖音水印 = type=http-response,pattern=^https?:\/\/.*\.amemv\.com\/aweme\/v1\/(feed|mix\/aweme|aweme\/post|(multi\/)?aweme\/detail|follow\/feed|nearby\/feed|search\/item|general\/search\/single|hot\/search\/video\/list)\/,requires-body=1,max-size=-1,script-path=https://Choler.github.io/Surge/Script/douyin.js
 # > Endel解锁 https://raw.githubusercontent.com/cpphut/surge_module/main/endel.sgmodule
 EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/surge_module/main/endel.js,type=http-response,pattern=^https?:\/\/api-production.endel.io\/v3\/call
 # > 百度云盘 解锁
