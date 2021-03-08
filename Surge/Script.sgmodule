@@ -60,10 +60,6 @@ URL-REGEX,https://app.bilibili.com/x/v2/(splash|search/(defaultword|square)),REJ
 URL-REGEX,https://api.bilibili.com/x/v2/dm/ad,REJECT
 # > YouTube去广告
 //URL-REGEX,^https:\/\/.+\.googlevideo\.com\/.+&oad,REJECT
-# > Spotify去广告
-URL-REGEX,^https?://spclient.wg.spotify.com/ad-logic/*,REJECT
-URL-REGEX,^https?://spclient.wg.spotify.com/ads/*,REJECT
-URL-REGEX,^https?://spclient.wg.spotify.com/.+ad_slot,REJECT
 
 [URL Rewrite]
 # > 抖音去水印广告
