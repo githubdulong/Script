@@ -63,7 +63,7 @@ URL-REGEX,https://api.bilibili.com/x/v2/dm/ad,REJECT
 
 [URL Rewrite]
 # > 抖音去水印广告
-^https?:\/\/(.*)\.amemv\.com\/aweme\/v2\/(follow\/)?feed\/ https://$1.amemv.com/aweme/v1/$2feed/ header
+//^https?:\/\/(.*)\.amemv\.com\/aweme\/v2\/(follow\/)?feed\/ https://$1.amemv.com/aweme/v1/$2feed/ header
 # > YouTube去广告
 //ctier=[A-Z] citer=A 302
 # > TikTok国际抖音解锁封区(更换307后面JP JP=日本 KR=韩国 HK=香港 US=美国）
@@ -114,7 +114,7 @@ WPS破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa
 # > PDF Expert办公 pro
 //PDF 破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/Pdfexpert.vip.js,script-update-interval=0,type=http-response,pattern=^https:\/\/license\.pdfexpert\.com\/api\/.+\/subscription\/(refresh$|check$)
 # > Fantastical日历 vip
-日历破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Script/fantastical.js,type=http-response,pattern=^https:\/\/api\.flexibits\.com\/v1\/(auth|account)\/(device|details|appstore-receipt)\/$
+//日历破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Script/fantastical.js,type=http-response,pattern=^https:\/\/api\.flexibits\.com\/v1\/(auth|account)\/(device|details|appstore-receipt)\/$
 # > apple下载加速
 dns 商店加速 script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/Surge/dnspod.js,use-local-host-item-for-proxy = true,script-update-interval=0
 # > 脚本转换（圈X、LOON、surge脚本自动转换）
@@ -147,7 +147,7 @@ bilbii换区 = type=http-response,pattern=^https:\/\/ap(p|i)\.bilibili\.com\/(pg
 # > YouTube去广告
 油管视频 = type=http-request,pattern=^https?:\/\/.+?\.googlevideo\.com\/.+&(oad|ctier)=(?!A),script-path=https://choler.github.io/Surge/Script/YouTube.js
 # > 抖音去水印广告 https://raw.githubusercontent.com/Choler/Surge/master/Module/douyin.sgmodule
-抖音水印 = type=http-response,pattern=^https?:\/\/.*\.amemv\.com\/aweme\/v1\/(feed|mix\/aweme|aweme\/post|(multi\/)?aweme\/detail|follow\/feed|nearby\/feed|search\/item|general\/search\/single|hot\/search\/video\/list)\/,requires-body=1,max-size=-1,script-path=https://Choler.github.io/Surge/Script/douyin.js
+//抖音水印 = type=http-response,pattern=^https?:\/\/.*\.amemv\.com\/aweme\/v1\/(feed|mix\/aweme|aweme\/post|(multi\/)?aweme\/detail|follow\/feed|nearby\/feed|search\/item|general\/search\/single|hot\/search\/video\/list)\/,requires-body=1,max-size=-1,script-path=https://Choler.github.io/Surge/Script/douyin.js
 # > Endel解锁 https://raw.githubusercontent.com/cpphut/surge_module/main/endel.sgmodule
 EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/surge_module/main/endel.js,type=http-response,pattern=^https?:\/\/api-production.endel.io\/v3\/call
 # > 百度云盘 解锁
