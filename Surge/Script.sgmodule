@@ -3,7 +3,6 @@
 #!system=ios
 
 [Host]
-iosapps.itunes.apple.com = script:商店加速
 ip6-localhost = ::1
 ip6-loopback = ::1
 taobao.com = server:223.6.6.6
@@ -44,8 +43,6 @@ amplifi.lan = server:system
 [Header Rewrite]
 
 [General]
-# > 优酷 去广告
-//force-http-engine-hosts = %APPEND% *.cp31.ott.cibntv.net
 
 [Rule]
 # > 人人视频 去广告
@@ -55,22 +52,12 @@ URL-REGEX,^https?:\/\/api\.rr\.tv\/(?:ad\/getAll$|storage/business/rootName/app/
 URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 # > 京东  去广告
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
-# > 哔哩哔哩  去广告
-URL-REGEX,https://app.bilibili.com/x/v2/(splash|search/(defaultword|square)),REJECT
-URL-REGEX,https://api.bilibili.com/x/v2/dm/ad,REJECT
-# > YouTube去广告
-//URL-REGEX,^https:\/\/.+\.googlevideo\.com\/.+&oad,REJECT
 
 [URL Rewrite]
 # > 抖音去水印广告
 //^https?:\/\/(.*)\.amemv\.com\/aweme\/v2\/(follow\/)?feed\/ https://$1.amemv.com/aweme/v1/$2feed/ header
-# > YouTube去广告
-//ctier=[A-Z] citer=A 302
-# > TikTok国际抖音解锁封区(更换307后面JP JP=日本 KR=韩国 HK=香港 US=美国）
-//(?<=_region=)CN(?=&) JP 307
-//(?<=&mcc_mnc=)4 2 307
-//^(https?:\/\/(tnc|dm)[\w-]+\.\w+\.com\/.+)(\?)(.+) $1$4 302
-//(^https?:\/\/*\.\w{4}okv.com\/.+&.+)(\d{2}\.3\.\d)(.+) $118.0$3 302
+# > TikTok换区
+//(更换307后面JP JP=日本 KR=韩国 HK=香港 US=美国）
 (?<=_region=)CN(?=&) JP 307
 (?<=&mcc_mnc=)4 2 307
 ^(https?:\/\/(tnc|dm)[\w-]+\.\w+\.com\/.+)(\?)(.+) $1$4 302
@@ -89,8 +76,8 @@ URL-REGEX,https://api.bilibili.com/x/v2/dm/ad,REJECT
 // 奈飞评分 = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js,type=http-response,pattern=^https?://ios\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D
 // 单集评分 = type=http-response,pattern=^https?://ios\.prod\.ftl\.netflix\.com/iosui/warmer/.+type=show-ath,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating_season.js
 # > 新浪微博 去广告
-//微博广告 = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/wb_launch.js,type=http-response,pattern=^https?://(sdk|wb)app\.uve\.weibo\.com(/interface/sdk/sdkad.php|/wbapplua/wbpullad.lua)
-//微博广告 = type=http-response,requires-body=1,max-size=-1,pattern=^https?://m?api\.weibo\.c(n|om)/2/(statuses/(unread|extend|positives/get|(friends|video)(/|_)(mix)?timeline)|stories/(video_stream|home_list)|(groups|fangle)/timeline|profile/statuses|comments/build_comments|photo/recommend_list|service/picfeed|searchall|cardlist|page|!/photos/pic_recommend_status|video/tiny_stream_video_list),script-path=https://raw.githubusercontent.com/yichahucha/surge/master/wb_ad.js
+微博广告 = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/wb_launch.js,type=http-response,pattern=^https?://(sdk|wb)app\.uve\.weibo\.com(/interface/sdk/sdkad.php|/wbapplua/wbpullad.lua)
+微博广告 = type=http-response,requires-body=1,max-size=-1,pattern=^https?://m?api\.weibo\.c(n|om)/2/(statuses/(unread|extend|positives/get|(friends|video)(/|_)(mix)?timeline)|stories/(video_stream|home_list)|(groups|fangle)/timeline|profile/statuses|comments/build_comments|photo/recommend_list|service/picfeed|searchall|cardlist|page|!/photos/pic_recommend_status|video/tiny_stream_video_list),script-path=https://raw.githubusercontent.com/yichahucha/surge/master/wb_ad.js
 # > 微信 去广告
 微信广告 = type=http-response,pattern=^https?:\/\/mp\.weixin\.qq\.com\/mp\/getappmsgad,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/Wechat.js,script-update-interval=0
 # > 人人视频 去广告
@@ -98,8 +85,6 @@ URL-REGEX,https://api.bilibili.com/x/v2/dm/ad,REJECT
 人人广告 = type=http-response,requires-body=true,pattern=^https?:\/\/api\.rr\.tv\/v\dplus\/index\/channel,script-path=https://Choler.github.io/Surge/Script/rrsp.js
 # > 小小影视 
 //小小影视 = type=http-response,requires-body=true,pattern=https:\/\/.*\.(xiaoxiaoapps|xiaoxiaoimg)\.com\/(ssp-svr\/ssp\/list3|ucp/index|getGlobalData),script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/xxys.js
-# > 哔哩哔哩 去广告
-哔哩广告 = type=http-response,requires-body=1,max-size=0,pattern=https://app.bilibili.com/x/resource/show/tab\?access_key,script-path=https://raw.githubusercontent.com/onewayticket255/Surge-Script/master/surge%20bilibili%20tab.js
 # > 香蕉视频 vip
 //香蕉破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/xjsp.js,type=http-response,pattern=^https?:\/\/.*\.(lago|fuli|xiang(jiao|xiang))apps\.com\/(ucp\/index|getGlobalData|.+\/reqplay\/)
 # > 金山WPS vip
@@ -115,8 +100,6 @@ WPS破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa
 //PDF 破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/Pdfexpert.vip.js,script-update-interval=0,type=http-response,pattern=^https:\/\/license\.pdfexpert\.com\/api\/.+\/subscription\/(refresh$|check$)
 # > Fantastical日历 vip
 //日历破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Script/fantastical.js,type=http-response,pattern=^https:\/\/api\.flexibits\.com\/v1\/(auth|account)\/(device|details|appstore-receipt)\/$
-# > apple下载加速
-dns 商店加速 script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/Surge/dnspod.js,use-local-host-item-for-proxy = true,script-update-interval=0
 # > 脚本转换（圈X、LOON、surge脚本自动转换）
 //脚本转换 = type=http-response,pattern=^https?:\/\/(raw|gist)\.githubusercontent.com/.*\.js$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Peng-YM/ScriptConverter/master/js-converter.js,script-update-interval=0
 # > 有道云笔记 vip
@@ -152,4 +135,4 @@ EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/
 百度云盘 = type=http-response,pattern=https:\/\/pan\.baidu\.com\/rest\/2\.0\/membership\/user,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/BaiduCloud.js,script-update-interval=0
 
 [MITM]
-hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.me, license.pdfexpert.com, api.flexibits.com, ios.prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, api.meiyan.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, app.bilibili.com, weather-data.apple.com, sub.store, api.gyrosco.pe , biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, *.amemv.com, *.xxjjappss.com,*.huaerdadi.com,*.xiaoxiaoapps.com,*.xiaoxiaoimg.com, api-production.endel.io, pan.baidu.com
+hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.me, license.pdfexpert.com, api.flexibits.com, ios.prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, api.meiyan.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, weather-data.apple.com, sub.store, api.gyrosco.pe , biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, *.amemv.com, *.xxjjappss.com,*.huaerdadi.com,*.xiaoxiaoapps.com,*.xiaoxiaoimg.com, api-production.endel.io, pan.baidu.com
