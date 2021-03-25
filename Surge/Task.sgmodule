@@ -62,7 +62,7 @@ GitHub库 = type=cron,cronexp="0 5 0/1 * * *",wake-system=1,script-path=https://
 超市兑换 = type=cron,cronexp="10 0 0 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_blueCoin.js
 口袋书店 = type=cron,cronexp="1 8,12,18 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_bookshop.js
 京东汽车 = type=cron,cronexp="30 8 0 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_car.js
-汽车兑换 = type=cron,cronexp="0 0 0 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_car_exchange.js
+汽车兑换 = type=cron,cronexp="59 59 23 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_car_exchange.js
 签到现金 = type=cron,cronexp="2 0-23/4 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_cash.js
 京喜财富 = type=cron,cronexp="20 0,8,13,19 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_cfd.js
 摇摇京豆 = type=cron,cronexp="0 9 0 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_club_lottery.js
@@ -113,11 +113,9 @@ Joy 分红 = type=cron,cronexp="0 10 0 * * *",wake-system=1,timeout=3600,script-
 超级直播 = type=cron,cronexp="30,31 20-23/1 9,12 3 *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_live_redrain.js
 超级盲盒 = type=cron,cronexp="5 1,6,11,16,21 * 3-4 * ",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/i-chenzhe/qx/main/z_super5g.js
 一加盲盒 = type=cron,cronexp="11 12 17-30 3 *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/i-chenzhe/qx/main/z_oneplus.js
-金口碑奖 = type=cron,cronexp="5 10 * 3 *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/i-chenzhe/qx/main/z_mgold.js
 答题赢豆 = type=cron,cronexp="5 1 23-25 3 *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/i-chenzhe/qx/main/z_grassy.js
 母婴跳跳 = type=cron,cronexp="5 8,14,20 17-25 3 *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/i-chenzhe/qx/main/z_mother_jump.js
 联想集卡 = type=cron,cronexp="12 15 15-29 3 *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/i-chenzhe/qx/main/z_lenovo.js
-众筹许愿 = type=cron,cronexp="10 10,15 13-20 3 *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/i-chenzhe/qx/main/z_wish.js
 美的家电 = type=cron,cronexp="15 10 10-31 3 *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/i-chenzhe/qx/main/z_unionPoster.js
 超市转盘 = type=cron,cronexp="3 10 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/i-chenzhe/qx/main/z_marketLottery.js
 粉丝互动 = type=cron,cronexp="3 10 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/i-chenzhe/qx/main/jd_fanslove.js
