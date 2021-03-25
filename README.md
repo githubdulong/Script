@@ -1,11 +1,8 @@
-# JavaScript
-🐲 MuTu•QuantumultX｜Surge｜Loon｜Scriptable•自用
-
-• 脚本库地址•顺序不分排名
+• 脚本库地址•顺序不分排名--引用以下作者库资源
 ---
 * [NobyDa](https://github.com/NobyDa)
 
-* [chavyleung](https://github.com/chavyleung)
+* [chavyleung](https://github.com/chavyleung)/[gitee](https://gitee.com/chavyleung/scripts)
 
 * [GideonSenku](https://github.com/GideonSenku)
 
@@ -41,7 +38,7 @@
 
 * [vinewx](https://ooxx.be/js/)
 
-* [lxk0301/gitee](https://gitee.com/lxk0301/jd_scripts/tree/master/)  [github](https://github.com/LXK9301/jd_scripts)
+* [lxk0301/docker](https://gitee.com/lxk0301/jd_docker)  [订阅模块](https://t.me/c/1446927138/881982)
 
 * [toulanboy](https://github.com/toulanboy/scripts)
 
@@ -56,8 +53,12 @@
 * [ziye12](https://github.com/ziye12/JavaScript)
 
 * [iepngs](https://github.com/iepngs/Script)
+ 
+* [photonmang](https://github.com/photonmang/quantumultX)
 
 * [dompling-2Y](https://github.com/dompling)
+
+* [anker1209](https://github.com/anker1209/Scriptable)
 
 * [ZhiYi-N](https://github.com/ZhiYi-N)
 
@@ -67,9 +68,7 @@
 
 * [blackmatrix7](https://github.com/blackmatrix7/ios_rule_script)
 
-* [ConnersHua](https://github.com/ConnersHua)  •  [DivineEngine(新)](https://github.com/DivineEngine/Profiles/tree/master)
-----
-* [Orz-3 图标](https://github.com/Orz-3/mini)
+* [DivineEngine](https://github.com/DivineEngine/Profiles/tree/master)
 
 * [Qure 图标](https://github.com/Koolson/Qure) 
 
@@ -77,7 +76,9 @@
 
 * [Box.json 订阅](https://chavyleung.gitbook.io/boxjs/awesome/subscriptions)
 
-* [nzw9314 👈️脚本整合](https://github.com/nzw9314/QuantumultX.git) 
+* [ChuheGit👈薅羊毛整合](https://github.com/ChuheGit/1/blob/main/README.md)
+
+* [nzw9314 👈️脚本整合(暂停更)](https://github.com/nzw9314/QuantumultX.git) 
 
 * [Tartarus2014 👈️脚本整合](https://github.com/Tartarus2014)
 
