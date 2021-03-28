@@ -62,7 +62,7 @@ URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-
 (?<=&mcc_mnc=)4 2 307
 ^(https?:\/\/(tnc|dm)[\w-]+\.\w+\.com\/.+)(\?)(.+) $1$4 302
 (?<=\d\/\?\w{7}_\w{4}=)1[6-9]..(?=.?.?&) 18.6 307
-# > 京东注销会员
+# > 京东注销会员跳转
 ^(https://shopmember.m.jd.com/)(shopcard/\?)(venderId=[0-9]+).* $1member/memberCloseAccount?$3 302
 
 [Script]
@@ -71,9 +71,9 @@ URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-
 # > 淘宝 历史价格
 淘宝比价 = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/tb_price.js,type=http-request,pattern=^http://.+/amdc/mobileDispatch,use-local-host-item-for-proxy = true
 淘宝比价 = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/tb_price.js,type=http-response,pattern=^https?://trade-acs\.m\.taobao\.com/gw/mtop\.taobao\.detail\.getdetail,use-local-host-item-for-proxy = true
-//淘宝  lite = type=http-request,pattern=^https?://.+/amdc/mobileDispatch,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/tb_price_lite.js,script-update-interval=0
-//淘宝  lite = type=http-response,pattern=^https?://trade-acs\.m\.taobao\.com/gw/mtop\.taobao\.detail\.getdetail,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/tb_price_lite.js,script-update-interval=0
-# > 奈飞 评分
+//淘宝弹窗 = type=http-request,pattern=^https?://.+/amdc/mobileDispatch,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/tb_price_lite.js,script-update-interval=0
+//淘宝弹窗 = type=http-response,pattern=^https?://trade-acs\.m\.taobao\.com/gw/mtop\.taobao\.detail\.getdetail,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/tb_price_lite.js,script-update-interval=0
+# > 奈飞评分
 // 奈飞评分 = script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js,type=http-request,pattern=^https?://ios\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D
 // 奈飞评分 = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js,type=http-response,pattern=^https?://ios\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D
 // 单集评分 = type=http-response,pattern=^https?://ios\.prod\.ftl\.netflix\.com/iosui/warmer/.+type=show-ath,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating_season.js
@@ -93,9 +93,9 @@ URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-
 WPS破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Wps.js,type=http-response,pattern=^https://account.wps.*/api/users/
 # > 扫描全能王 pro
 扫描破解 = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/surge_module/main/camscanner.js,type=http-response,pattern=^https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\?
-# > Bear熊掌记 vip 试用取消
+# > 通用解锁 试用取消
 // Bear破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Quantumult-X-LK/master/Scripts/langkhach/verify_receipt.js,type=http-response,pattern=^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt$
-# > Day one日记 vip
+# > Day one vip
 Day One = type=http-response,pattern=^https:\/\/dayone\.(me|app)\/api\/(users|v2\/users\/(account-status|receipt))$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/dayone.js,script-update-interval=0
 # > PDF Expert办公 pro
 //PDF 破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/Pdfexpert.vip.js,script-update-interval=0,type=http-response,pattern=^https:\/\/license\.pdfexpert\.com\/api\/.+\/subscription\/(refresh$|check$)
