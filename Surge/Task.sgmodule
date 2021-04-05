@@ -108,8 +108,6 @@ Joy 分红 = type=cron,cronexp="0 10 0 * * *",wake-system=1,timeout=3600,script-
 超级直播 = type=cron,cronexp="30,31 20-23/1 9,12 3 *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_live_redrain.js
 城城现金 = type=cron,cronexp="0 0-23/1 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_city.js
 京东抽奖 = type=cron,cronexp=11 1 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_lotteryMachine.js
-直播抽奖 = type=cron,cronexp="30 8-22/4 * * *",wake-system=1,timeout=20,script-path=Script/19C06EC732FD.js
-整点红包 = type=cron,cronexp="0 8-23 * * *",script-path=Script/john_live_redrain.js
 手机狂欢 = type=cron,cronexp=0 0-18/6 * * *,wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_carnivalcity.js
 关注有礼 = type=cron,cronexp="15 15 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/monk-coder/dust/dust/normal/monk_shop_follow_sku.js
 店铺签到 = type=cron,cronexp="0 0 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/monk-coder/dust/dust/normal/monk_inter_shop_sign.js
