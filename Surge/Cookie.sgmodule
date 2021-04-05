@@ -14,7 +14,7 @@
 喜马拉雅 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ximalaya/ximalaya.cookie.js,type=http-request,pattern=^https?:\/\/.*\/mobile\-user\/homePage\/.*
 # > 人人视频 app获取
 人人视频 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/rrtv/rrtv.cookie.js,type=http-request,pattern=^https:\/\/api\.rr\.tv\/user\/profile
-# > 中国电信套餐余量 天翼账号中心app获取
+# > 中国电信 天翼账号中心app获取
 电信套餐 = type=http-request,pattern=https:\/\/mkt\.21cn\.com\/mkt\/api\/user\/queryActivityInfo\.do\?activityId=\d+,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomSky.js
 电信套餐 = type=http-request,pattern=^https?:\/\/e\.189\.cn\/store\/user\/package_detail\.do,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomSky.js
 # > 美团 app获取
@@ -57,8 +57,9 @@
 小米运动 = type=http-response,pattern=^https:\/\/account\.huami\.com\/v2\/client\/login, requires-body=1, max-size=0, script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/xmSports.js
 # > 威锋论坛
 威锋论坛 = type=http-request,pattern=^http:\/\/49.234.36.200:9091\/v1\/auth\/signin,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.cookie.js,requires-body=true
-# > 中国联通 app获取
+# > 联通签到 app搜索抽奖
 联通签到 = type=http-request,pattern=^https?:\/\/m\.client\.10010\.com\/dailylottery\/static\/(integral|doubleball)\/firstpage,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/10010/unicom_signin.min.js
+# > 联通ck app点流量
 联通组件 = type=http-request,pattern=^https:\/\/m\.client\.10010\.com\/mobileserviceimportant\/smart\/smartwisdomCommon,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,script-update-interval=0
 # 顺丰速运
 顺丰速运 = type=http-request, pattern=^https:\/\/ccsp-egmas.sf-express.com\/cx-app-member\/member\/app\/user\/universalSign,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.cookie.js,requires-body=true
