@@ -59,8 +59,6 @@
 威锋论坛 = type=http-request,pattern=^http:\/\/49.234.36.200:9091\/v1\/auth\/signin,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.cookie.js,requires-body=true
 # > 中国联通 app获取
 联通签到 = type=http-request,pattern=^https?:\/\/m\.client\.10010\.com\/dailylottery\/static\/(integral|doubleball)\/firstpage,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/10010/unicom_signin.min.js
-联通获取 = type=http-request,pattern=^https?:\/\/act.10010.com\/SigninApp\/signin\/querySigninActivity.htm,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10010/10010.cookie.js
-联通获取 = type=http-request,pattern=^https?:\/\/act.10010.com\/SigninApp(.*?)\/signin\/daySign,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10010/10010.cookie.js
 联通组件 = type=http-request,pattern=^https:\/\/m\.client\.10010\.com\/mobileserviceimportant\/smart\/smartwisdomCommon,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,script-update-interval=0
 # 顺丰速运
 顺丰速运 = type=http-request, pattern=^https:\/\/ccsp-egmas.sf-express.com\/cx-app-member\/member\/app\/user\/universalSign,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.cookie.js,requires-body=true
