@@ -31,5 +31,3 @@
 * [Qure 图标](https://github.com/Koolson/Qure) 
 
 * [xinian 图标](https://github.com/58xinian/icon)
-
-* [Box.json 订阅](https://chavyleung.gitbook.io/boxjs/awesome/subscriptions)
