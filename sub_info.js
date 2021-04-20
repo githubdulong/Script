@@ -86,5 +86,6 @@ function formatTimestamp( timestamp ) {
     let month = dateObj.getMonth() + 1;
     month = month < 10 ? '0' + month : month
     let day = dateObj.getDate();
-    return year +"-"+ month +"-" + day;      
+    day = day < 10 ? '0' + day : day
+    return year +"年"+ month +"月" + day + "日";
 }
