@@ -134,6 +134,8 @@ EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/
 百度云盘 = type=http-response,pattern=https:\/\/pan\.baidu\.com\/rest\/2\.0\/membership\/user,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Crack/bdcloud.js,script-update-interval=0
 # > 微信跳转
 微信跳转 = type=http-response,pattern=^https?:\/\/weixin110\.qq\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi,requires-body=1,script-path=https://raw.githubusercontent.com/HotKids/Rules/master/Script/weixin110.js
+# > 机场信息
+机场信息 = type=http-request,pattern=http://t\.tt,script-path=https://raw.githubusercontent.com/congcong0806/surge-list/master/Script/sub_info.js
 # > Xmind思维导图
 //思维导图 = type=http-response,pattern=https?:\/\/.*\.xmind\..*\/_res\/(devices|user_sub_status|appstore/sub),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/xmind.js,script-update-interval=0
 # > 模块订阅
