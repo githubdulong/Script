@@ -28,7 +28,7 @@ Sub_info = type=http-request,pattern=http://sub\.info,script-path=https://raw.gi
   let body = `${used} | ${total}=${http}`;
   if (reset_day) {
     let days = getRmainingDays(reset_day);
-    body += `\n流量重置: ${days} 天${days == 1 ? "" : "s"}=${http}`;
+    body += `\n流量重置: ${days}天=${http}`;
   }
   if (expire) {
     expire = formatTimestamp(expire*1000);
