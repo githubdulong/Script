@@ -1,17 +1,17 @@
 /*
-Surge配置参考注释，感谢@asukanana.作者: @mieqq
+Surge配置参考注释，转载来自@mieqq
 ----------------------------------------
 先将带有流量信息的订阅链接encode，用encode后的链接替换"url="后面的xxx，"reset_day="后面的数字替换成流量每月重置的日期，如1号就写1，8号就写8。
 如需显示多个机场的信息，可以参照上述方法创建多个策略组以显示不同机场的信息，将Name替换成机场名字即可，脚本只需要一个。
 示例↓↓↓
 ----------------------------------------
 [Proxy Group]
-Name1 = select, policy-path=http://sub.info?url=xxx&reset_day=1
+机场1 = select, policy-path=http://sub.info?url=xxx&reset_day=1
 
-Name2 = select, policy-path=http://sub.info?url=xxx&reset_day=8
+机场2 = select, policy-path=http://sub.info?url=xxx&reset_day=8
 
 [Script]
-Sub_info = type=http-request,pattern=http://sub\.info,script-path= http://sub\.info,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info.js
+机场信息 = type=http-request,pattern=http://sub\.info,script-path= http://sub\.info,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info.js
 ----------------------------------------
 */
 
