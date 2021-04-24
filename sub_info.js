@@ -43,10 +43,8 @@ Surge配置参考注释，转载来自@mieqq
     infoList.push(`流量重置: 剩余${resetLeft}天`);
   }
   if (expire) {
-    if (/^[\d]+$/.test(expire)) {
-      expire = formatTimestamp(expire*1000);
-    }
-    infoList.push(`机场到期: ${expire}`);
+    if (/^[\d]+$/.test(expire)) expire *= 1000;
+    infoList.push(`机场到期: ${formatTime(expire)}`);
   }
     sendNotification(usage, resetLeft, expire, params, infoList);
     let body = infoList.map(item => item + localProxy).join("\n");
@@ -103,14 +101,12 @@ function bytesToSize(bytes) {
     return (bytes / Math.pow(k, i)).toFixed(2) + " " + sizes[i];
 }
 
-function formatTimestamp( timestamp ) {
-    let dateObj = new Date( timestamp );
+function formatTime( time ) {
+    let dateObj = new Date( time );
     let year = dateObj.getFullYear();
     let month = dateObj.getMonth() + 1;
-    month = month < 10 ? '0' + month : month
     let day = dateObj.getDate();
-    day = day < 10 ? '0' + day : day
-    return year +"年"+ month +"月" + day+"日";
+    return year +"年"+ month +"月" + day + "日";
 }
 
 function sendNotification(usage, resetLeft, expire, params, infoList) {
@@ -144,7 +140,7 @@ function sendNotification(usage, resetLeft, expire, params, infoList) {
       count.resetLeft += 1; 
     }
   }
-  if (expire && count.expire < 1) {
+  if (expire && count.expire < 10) {
     let diff = (new Date(expire) - new Date()) / (1000*3600*24);
     if (diff < 10) {
       $notification.post(`${title} | 机场剩余时间不足${Math.ceil(diff)}天`, subtitle, body);
