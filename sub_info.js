@@ -32,7 +32,7 @@ Surge配置参考注释，转载来自@mieqq
   }
   if (expire) {
     expire = formatTimestamp(expire*1000);
-    body += `\n到期日期: ${expire}=${http}`;
+    body += `\n机场到期: ${expire}=${http}`;
   }
   
     $done({response: {body}});
