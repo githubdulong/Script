@@ -6,7 +6,7 @@
 # > 京东商城
 京东商城 = type=cron,cronexp=0 1 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
 # > 京东到家
-京东到家 = type=cron,cronexp=30 1 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/jddj.js,script-update-interval=0
+京东到家 = type=cron,cronexp=30 1 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/jddj.js,script-update-interval=0
 # > 威锋论坛
 威锋论坛 = type=cron,cronexp=0 2 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,script-update-interval=0
 # > 喜马拉雅
@@ -35,7 +35,7 @@
 # > 顺丰速运
 顺丰速运 = type=cron,cronexp=0 8 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js,script-update-interval=0
 # > 新浪微博
-新浪微博 = type=cron,cronexp=30 5 5 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js,script-update-interval=0
+新浪微博 = type=cron,cronexp=30 5 5 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js,script-update-interval=0
 # > 微博推送
 // 微博推送 = type=cron,cronexp=0 */30 9-21 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js,script-update-interval=0
 # > GitHub监控
@@ -43,7 +43,7 @@ GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://ra
 # > 金山WPS
 金山WPS = type=cron,cronexp=0 2 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wps/wps.js,script-update-interval=0
 # > 中国电信 套餐
-// 电信套餐 = type=cron,cronexp=0 2 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomSky.js,script-update-interval=0
+// 电信套餐 = type=cron,cronexp=50 8 0 * * *,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/telecomSky.js,script-update-interval=0
 # > 中国联通
 联通签到 = type=cron,cronexp=0 3 9 * * *,timeout=120,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/10010/unicom_signin.min.js
 # > 每日一句
@@ -115,4 +115,5 @@ Joy 分红 = type=cron,cronexp=0 10 0 * * *,wake-system=1,timeout=3600,script-pa
 母婴跳跳 = type=cron,cronexp="5 8,14,20 6-13 4 *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/monk-coder/dust/dust/i-chenzhe/z_mother_jump.js
 创维全勤 = type=cron,cronexp=15 08 2-18 4 *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/monk-coder/dust/dust/car/monk_skyworth_car.js
 整点京豆 = type=cron,cronexp="1 0,8-23 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_super_redrain.js
+健康社区 = type=cron,cronexp=10 0-23/4 * * *,wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_health.js
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
