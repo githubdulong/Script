@@ -61,6 +61,8 @@
 联通组件 = type=http-request,pattern=^https:\/\/m\.client\.10010\.com\/mobileserviceimportant\/smart\/smartwisdomCommon,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,script-update-interval=0
 # > 顺丰速运
 顺丰速运 = type=http-request, pattern=^https:\/\/ccsp-egmas.sf-express.com\/cx-app-member\/member\/app\/user\/universalSign,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.cookie.js,requires-body=true
+
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
+
 [MITM]
 hostname = %INSERT% api.m.jd.com, music.163.com, mobwsa.ximalaya.com, e.189.cn, mkt.21cn.com, i.meituan.com, api.weibo.cn, m.weibo.cn, passport.suning.com, luckman.suning.com, sign.suning.com, gameapi.suning.com, draw.jdfcloud.com, zt.wps.cn, www.52pojie.cn, *.m.163.com, as.xiaojukeji.com, common.diditaxi.com.cn, daojia.jd.com, h5.ele.me, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, account.huami.com, superapp.kiwa-tech.com, activity-1.m.duiba.com.cn, zhiyou.smzdm.com, draw.jdfcloud.com, jdjoy.jd.com, account.huami.com, 49.234.36.200:9091, m.client.10010.com, act.10010.com, ccsp-egmas.sf-express.com
