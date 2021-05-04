@@ -22,6 +22,8 @@
 
 * [lxk0301/docker](https://gitee.com/lxk0301/jd_docker)  [订阅模块](https://t.me/c/1446927138/881982)
 
+* [photonmang](https://github.com/photonmang/quantumultX)
+
 * [dompling-2Y](https://github.com/dompling)
 
 * [blackmatrix7](https://github.com/blackmatrix7/ios_rule_script)
