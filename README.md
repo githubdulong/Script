@@ -12,7 +12,7 @@
 
 * [Choler](https://github.com/Choler)
 
-* [Sunert](https://github.com/Sunert/Scripts)
+* [Sunert](https://github.com/Sunert/Script)
 
 * [zZPiglet](https://github.com/zZPiglet/Task.git)
 
