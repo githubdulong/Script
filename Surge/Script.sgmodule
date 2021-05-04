@@ -138,7 +138,9 @@ EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/
 # > 机场信息
 机场信息 = type=http-request,pattern=http://sub\.info,script-path=http://sub\.info,script-path=http://sub\.info,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info.js
 # > 财新解锁
-财新解锁 = type=http-response,pattern=https://mappsv5.caixin.com/articlev5/* ,requires-body=1,script-path=Script/caixin.js
+财新解锁 = type=http-response,pattern=https://mappsv5.caixin.com/articlev5/* ,requires-body=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/caixin.js
+# > 作业帮解锁音频
+作业音频 = requires-body=1,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/JS/zuoyebang.js,type=http-response,pattern=https://mall.zuoyebang.com/mall/goods/audio/voice/list?audioId=\d+
 # > Xmind思维导图
 //思维导图 = type=http-response,pattern=https?:\/\/.*\.xmind\..*\/_res\/(devices|user_sub_status|appstore/sub),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/xmind.js,script-update-interval=0
 # > 模块订阅
@@ -149,4 +151,4 @@ EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
 [MITM]
-hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, license.pdfexpert.com, api.flexibits.com, ios-h2.prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, api.meiyan.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, sub.store, api.gyrosco.pe , biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, *.amemv.com, *.xxjjappss.com,*.huaerdadi.com,*.xiaoxiaoapps.com,*.xiaoxiaoimg.com, api-production.endel.io, pan.baidu.com, shopmember.m.jd.com, *.xmind.*, weixin110.qq.com, *.caixin.com
+hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, license.pdfexpert.com, api.flexibits.com, ios-h2.prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, api.meiyan.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, sub.store, api.gyrosco.pe , biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, *.amemv.com, *.xxjjappss.com,*.huaerdadi.com,*.xiaoxiaoapps.com,*.xiaoxiaoimg.com, api-production.endel.io, pan.baidu.com, shopmember.m.jd.com, *.xmind.*, weixin110.qq.com, *.caixin.com, mall.zuoyebang.com
