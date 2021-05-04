@@ -60,7 +60,6 @@ GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://ra
 运动领豆 = type=cron,cronexp=16 17 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd.js
 京东取关 = type=cron,cronexp="30 */1 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_unsubscribe.js
 获取互助 = type=cron,cronexp="20 13 * * 6",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_get_share_code.js
-直播红包 = type=cron,cronexp="30,31 20-23/1 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_live_redrain.js
 京东赚赚 = type=cron,cronexp="10 0 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_jdzz.js
 汽车兑换 = type=cron,cronexp=59 59 23 * * *,wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_car_exchange.js
 超市兑换 = type=cron,cronexp=10 0 0 * * *,wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_blueCoin.js
@@ -73,5 +72,6 @@ GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://ra
 收集能量 = type=cron,cronexp=5-45/20 * * * *,wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_health_collect.js
 幸运转盘 = type=cron,cronexp="4 10 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_market_lottery.js
 组队奖品 = type=cron,cronexp="25 3 * * 2",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/monk-coder/dust/dust/i-chenzhe/z_shop_captain.js
+京喜签到 = type=cron,cronexp="30 8 0 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jx_sign.js
 
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
