@@ -24,6 +24,8 @@
 
 * [photonmang](https://github.com/photonmang/quantumultX)
 
+* [anker1209](https://github.com/anker1209/Scriptable)
+
 * [dompling-2Y](https://github.com/dompling)
 
 * [blackmatrix7](https://github.com/blackmatrix7/ios_rule_script)
