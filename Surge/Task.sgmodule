@@ -1,5 +1,5 @@
 #!name=𝙏𝙖𝙨𝙠✨
-#!desc=Task定时 • 签到脚本(精简版)；
+#!desc=Task定时 • 签到脚本；
 #!system=ios
 
 [Script]
@@ -34,12 +34,14 @@
 # > 什么值得买(签到+任务)
 什么值买 = script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_signin.js,timeout=120,type=cron,cronexp=0 7 0 * * *
 // 什么值买 = script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_mission.js,timeout=120,type=cron,cronexp=30 7 0 * * *
+# > 作业帮
+作业帮帮 = type=cron,cronexp="30 7 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/Task/zyb.js,script-update-interval=0
 # > 顺丰速运
-顺丰速运 = type=cron,cronexp="0,30 8 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js,script-update-interval=0
+顺丰速运 = type=cron,cronexp="0 8 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js,script-update-interval=0
 # > 新浪微博
 新浪微博 = type=cron,cronexp=30 5 5 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js,script-update-interval=0
 # > 微博推送
-// 微博推送 = type=cron,cronexp=0 */30 9-21 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js,script-update-interval=0
+//微博推送 = type=cron,cronexp=0 */30 9-21 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js,script-update-interval=0
 # > GitHub监控
 GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/github.js,script-update-interval=0
 # > 金山WPS
@@ -68,6 +70,6 @@ GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://ra
 健康社区 = type=cron,cronexp=10 0-23/4 * * *,wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_health.js
 收集能量 = type=cron,cronexp=5-45/20 * * * *,wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_health_collect.js
 幸运转盘 = type=cron,cronexp="4 10 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_market_lottery.js
-球队好礼 = type=cron,cronexp="10 16 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_tcl.js
+组队奖品 = type=cron,cronexp="25 3 * * 2",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/monk-coder/dust/dust/i-chenzhe/z_shop_captain.js
 
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
