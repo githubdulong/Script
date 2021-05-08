@@ -52,6 +52,11 @@ URL-REGEX,^https?:\/\/api\.rr\.tv\/(?:ad\/getAll$|storage/business/rootName/app/
 URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 # > 京东  去广告
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
+# > 作业帮 去广告
+URL-REGEX,^^https?:\/\/img\.zuoyebang\.cc\/zyb-image[\s\S]*?\.jpg data=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/blank/blank.gif,REJECT-TINYGIF
+# > 腾讯视频 去广告
+URL-REGEX,^https?:\/\/btrace\.qq\.com data=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/blank/blank.txt,REJECT-TINYGIF
+URL-REGEX,^https?:\/\/c1\.ifengimg\.com\/.+?_w1080_h1410\.jpg data=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/blank/blank.gif,REJECT-TINYGIF
 
 [URL Rewrite]
 # > 抖音去水印广告
@@ -78,8 +83,8 @@ URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-
 奈飞评分 = type=http-response,pattern=^https?://ios-h2\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js,script-update-interval=0
 单集评分 = type=http-response,pattern=^https?://ios-h2\.prod\.ftl\.netflix\.com/iosui/warmer/.+type=show-ath,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating_season.js,script-update-interval=0
 # > 新浪微博 去广告
-//微博广告 = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/wb_launch.js,type=http-response,pattern=^https?://(sdk|wb)app\.uve\.weibo\.com(/interface/sdk/sdkad.php|/wbapplua/wbpullad.lua)
-//微博广告 = type=http-response,requires-body=1,max-size=-1,pattern=^https?://m?api\.weibo\.c(n|om)/2/(statuses/(unread|extend|positives/get|(friends|video)(/|_)(mix)?timeline)|stories/(video_stream|home_list)|(groups|fangle)/timeline|profile/statuses|comments/build_comments|photo/recommend_list|service/picfeed|searchall|cardlist|page|!/photos/pic_recommend_status|video/tiny_stream_video_list),script-path=https://raw.githubusercontent.com/yichahucha/surge/master/wb_ad.js
+微博广告 = requires-body=1,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/wb_launch.js,type=http-response,pattern=^https?://(sdk|wb)app\.uve\.weibo\.com(/interface/sdk/sdkad.php|/wbapplua/wbpullad.lua)
+微博广告 = type=http-response,requires-body=1,max-size=-1,pattern=^https?://m?api\.weibo\.c(n|om)/2/(statuses/(unread|extend|positives/get|(friends|video)(/|_)(mix)?timeline)|stories/(video_stream|home_list)|(groups|fangle)/timeline|profile/statuses|comments/build_comments|photo/recommend_list|service/picfeed|searchall|cardlist|page|!/photos/pic_recommend_status|video/tiny_stream_video_list),script-path=https://raw.githubusercontent.com/yichahucha/surge/master/wb_ad.js
 # > 微信 去广告
 微信广告 = type=http-response,pattern=^https?:\/\/mp\.weixin\.qq\.com\/mp\/getappmsgad,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/Wechat.js,script-update-interval=0
 # > 人人视频 去广告
@@ -107,7 +112,7 @@ Day One = type=http-response,pattern=^https:\/\/dayone\.(me|app)\/api\/(users|v2
 // 有道破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Alex0510/Eric/master/surge/Script/ydybj.js,type=http-response,pattern=https://note.youdao.com/yws/(mapi/payment|api/self)
 # > 网易蜗牛读书 vip
 // 蜗牛读书 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/wnyd.js,type=http-response,pattern=^https?:\/\/p\.du\.163\.com\/gain\/readtime\/info\.json
-# > Box会话
+# > Boxjs
 Box会话 = type=http-request,pattern=^https?://boxjs.com,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/chavy.box.js, requires-body=true, timeout=120
 Box ＴＦ = type=http-request,pattern=^https?://boxjs.net,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/chavy.boxjs.js, requires-body=true, timeout=120
 # > Sub-Store 订阅转换
@@ -151,4 +156,4 @@ EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
 [MITM]
-hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, license.pdfexpert.com, api.flexibits.com, ios-h2.prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, api.meiyan.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, sub.store, api.gyrosco.pe , biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, *.amemv.com, *.xxjjappss.com,*.huaerdadi.com,*.xiaoxiaoapps.com,*.xiaoxiaoimg.com, api-production.endel.io, pan.baidu.com, shopmember.m.jd.com, *.xmind.*, weixin110.qq.com, *.caixin.com, mall.zuoyebang.com
+hostname = %INSERT% mp.weixin.qq.com, *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, license.pdfexpert.com, api.flexibits.com, ios-h2.prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, ios.fuliapps.com, apple.fuliapps.com, ios.xiangjiaoapps.com, apple.xiangjiaoapps.com, *.xiangxiangapps.com, *.lagoapps.com, api.meiyan.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, sub.store, api.gyrosco.pe , biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, *.amemv.com, *.xxjjappss.com,*.huaerdadi.com,*.xiaoxiaoapps.com,*.xiaoxiaoimg.com, api-production.endel.io, pan.baidu.com, shopmember.m.jd.com, *.xmind.*, weixin110.qq.com, *.caixin.com, mall.zuoyebang.com, img.zuoyebang.cc, btrace.qq.com
