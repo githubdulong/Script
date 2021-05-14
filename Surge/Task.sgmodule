@@ -62,6 +62,9 @@ GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://ra
 超市兑换 = type=cron,cronexp=59 59 23 * * *,wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_blueCoin.js
 汪汪兑换 = type=cron,cronexp=0 0-16/8 * * *,wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_joy_reward.js
 京东保价 = type=cron,cronexp=0 10 0 * * *,wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_price.js
-财富提现 = type=cron,cronexp=59 59 23 * * *,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_cft_tx.js,wake-system=true
+半点下雨 = type=cron,cronexp="30 0-23/1 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_half_redrain.js
+整点下雨 = type=cron,cronexp="1 0-23/1 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_super_redrain.js
+财富提现 = type=cron,cronexp=59 59 23 * * *,script-path=Script/cfd.js
+财富提现 = type=cron,cronexp=0 0 0 * * *,script-path=Script/cfd.js
 
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
