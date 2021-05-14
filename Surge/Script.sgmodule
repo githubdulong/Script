@@ -150,6 +150,7 @@ EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/
 //爬虫抖音去广告https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/external/Surge/DouyinNoAd/DouyinNoAd.sgmodule
 //微博跳转https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/weibo/weibo.redirect.sgmodule
 //知乎网页https://raw.githubusercontent.com/githubdulong/Script/master/Zhihu.sgmodule
+//京东系列https://jdsharedresourcescdn.azureedge.net/jdresource/lxk0301_Task.sgmodule.sgmodule
 
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
