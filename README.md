@@ -18,6 +18,8 @@
 
 * [Peng-YM](https://github.com/Peng-YM/QuanX)
 
+* [id77](https://github.com/id77/QuantumultX/tree/master)
+
 * [KOP-XIAO](https://github.com/KOP-XIAO/QuantumultX)
 
 * [lxk0301/docker](https://gitee.com/lxk0301/jd_docker)  [订阅模块](https://t.me/c/1446927138/881982)
