@@ -54,8 +54,6 @@ URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
 
 [URL Rewrite]
-# > 抖音去水印广告
-//^https?:\/\/(.*)\.amemv\.com\/aweme\/v2\/(follow\/)?feed\/ https://$1.amemv.com/aweme/v1/$2feed/ header
 # > TikTok换区
 //(更换307后面JP JP=日本 KR=韩国 HK=香港 US=美国）
 (?<=_region=)CN(?=&) JP 307
@@ -111,8 +109,6 @@ Day One = type=http-response,pattern=^https:\/\/dayone\.(me|app)\/api\/(users|v2
 # > Boxjs（稳定版+测试版）
 boxjscom = type=http-request,pattern=^https?://boxjs.com,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/chavy.box.js, requires-body=true, timeout=120
 boxjsnet = type=http-request,pattern=^https?://boxjs.net,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/chavy.boxjs.js, requires-body=true, timeout=120
-# > Sub-Store 订阅转换
-//订阅转换 = type=http-request,pattern=^https?:\/\/sub\.store,script-path=https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/backend/sub-store.js,requires-body=true,timeout=120
 # > Gyroscope vip
 //G Y 运动 = requires-body=1,script-path=https://raw.githubusercontent.com/langkhach270389/Scripting/master/Gyroscope.vip.js,type=http-response,pattern=^https:\/\/api\.gyrosco\.pe\/v1\/account\/$
 # > 彩云天气_SVIP
@@ -128,8 +124,6 @@ bilbii换区 = type=http-response,pattern=^https:\/\/ap(p|i)\.bilibili\.com\/(pg
 bilbii搜索 = type=http-request,pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/search\/type\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)&,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
 # > YouTube去广告
 油管视频 = type=http-request,pattern=^https?:\/\/.+?\.googlevideo\.com\/.+&(oad|ctier)=(?!A),script-path=https://choler.github.io/Surge/Script/YouTube.js
-# > 抖音去水印广告 https://raw.githubusercontent.com/Choler/Surge/master/Module/douyin.sgmodule
-//抖音水印 = type=http-response,pattern=^https?:\/\/.*\.amemv\.com\/aweme\/v1\/(feed|mix\/aweme|aweme\/post|(multi\/)?aweme\/detail|follow\/feed|nearby\/feed|search\/item|general\/search\/single|hot\/search\/video\/list)\/,requires-body=1,max-size=-1,script-path=https://Choler.github.io/Surge/Script/douyin.js
 # > Endel解锁 https://raw.githubusercontent.com/cpphut/surge_module/main/endel.sgmodule
 EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/surge_module/main/endel.js,type=http-response,pattern=^https?:\/\/api-production.endel.io\/v3\/call
 # > 百度云盘 解锁
@@ -155,4 +149,4 @@ EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
 [MITM]
-hostname = %INSERT% *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, license.pdfexpert.com, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, sub.store, api.gyrosco.pe , biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, *.amemv.com, *.xxjjappss.com,*.huaerdadi.com,*.xiaoxiaoapps.com,*.xiaoxiaoimg.com, api-production.endel.io, pan.baidu.com, shopmember.m.jd.com, *.xmind.*, weixin110.qq.com, *.caixin.com, mall.zuoyebang.com, img.zuoyebang.cc, btrace.qq.com
+hostname = %INSERT% *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, license.pdfexpert.com, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, api.gyrosco.pe , biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, *.xxjjappss.com,*.huaerdadi.com,*.xiaoxiaoapps.com,*.xiaoxiaoimg.com, api-production.endel.io, pan.baidu.com, shopmember.m.jd.com, *.xmind.*, weixin110.qq.com, *.caixin.com, mall.zuoyebang.com, img.zuoyebang.cc, btrace.qq.com
