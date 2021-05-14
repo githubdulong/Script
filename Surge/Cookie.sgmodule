@@ -59,8 +59,16 @@
 顺丰速运 = type=http-request, pattern=^https:\/\/ccsp-egmas.sf-express.com\/cx-app-member\/member\/app\/user\/universalSign,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.cookie.js,requires-body=true
 # > 作业帮 app获取
 作业帮帮 = type=http-request,pattern=https://napi.zuoyebang.com/napi/signin/signinpage,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/Task/zyb.js,script-update-interval=0
+# > 京喜 注释获取
+#0. 完成以下三个任务之一获取token
+#1. 打开京喜农场，手动完成任意任务，必须完成任务领到水滴，提示获取cookie成功
+#2. 打开京喜工厂，收取电力，提示获取cookie成功
+#3. 打开京喜财富岛，手动成功提现一次，提示获取cookie成功
+京喜农场 = type=http-request,pattern=^https\:\/\/wq\.jd\.com\/cubeactive\/farm\/dotask,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_tokens.js
+京喜工厂 = type=http-request,pattern=^https\:\/\/m\.jingxi\.com\/dreamfactory\/generator\/CollectCurrentElectricity,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_tokens.js
+京喜财富 = type=http-request,pattern=^https\:\/\/m\.jingxi\.com\/jxcfd\/consume\/CashOut,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_tokens.js
 
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
 [MITM]
-hostname = %INSERT% api.m.jd.com, music.163.com, mobwsa.ximalaya.com, e.189.cn, mkt.21cn.com, i.meituan.com, api.weibo.cn, m.weibo.cn, passport.suning.com, luckman.suning.com, sign.suning.com, gameapi.suning.com, draw.jdfcloud.com, zt.wps.cn, www.52pojie.cn, *.m.163.com, as.xiaojukeji.com, common.diditaxi.com.cn, daojia.jd.com, h5.ele.me, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, account.huami.com, superapp.kiwa-tech.com, activity-1.m.duiba.com.cn, zhiyou.smzdm.com, jdjoy.jd.com, account.huami.com, 49.234.36.200:9091, m.client.10010.com, act.10010.com, ccsp-egmas.sf-express.com, napi.zuoyebang.com
+hostname = %INSERT% api.m.jd.com, music.163.com, mobwsa.ximalaya.com, e.189.cn, mkt.21cn.com, i.meituan.com, api.weibo.cn, m.weibo.cn, passport.suning.com, luckman.suning.com, sign.suning.com, gameapi.suning.com, draw.jdfcloud.com, zt.wps.cn, www.52pojie.cn, *.m.163.com, as.xiaojukeji.com, common.diditaxi.com.cn, daojia.jd.com, h5.ele.me, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, account.huami.com, superapp.kiwa-tech.com, activity-1.m.duiba.com.cn, zhiyou.smzdm.com, jdjoy.jd.com, account.huami.com, 49.234.36.200:9091, m.client.10010.com, act.10010.com, ccsp-egmas.sf-express.com, napi.zuoyebang.com, wq.jd.com, m.jingxi.com
