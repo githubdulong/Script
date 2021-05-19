@@ -125,9 +125,9 @@ if (url.indexOf(path2) != -1 || url.indexOf(path4) != -1) {
             let msg = "";
             if (detail[1] == "useJXOrigin") detail[1] = detail[2];
             let convertmsg = detail[1].convertURL ? detail[1].msg : detail[1];
-            msg += convertmsg ? convertmsg + "\n" : "";
+            msg += convertmsg ? convertmsg : "";
             let oprnUrl = detail[1].convertURL ? detail[1].convertURL : "";
-            $tool.notify("", "", msg, oprnUrl);
+            $tool.notify("京粉转链", "", msg, oprnUrl);
         })
         .finally(() => {
             $done({ body });
