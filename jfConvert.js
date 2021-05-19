@@ -125,7 +125,7 @@ if (url.indexOf(path2) != -1 || url.indexOf(path4) != -1) {
             let msg = "";
             if (detail[1] == "useJXOrigin") detail[1] = detail[2];
             let convertmsg = detail[1].convertURL ? detail[1].msg : detail[1];
-            msg += convertmsg ? convertmsg : "😕该商品暂无转链链接";
+            msg += convertmsg ? convertmsg : "🛍️该商品暂无佣金转链";
             let oprnUrl = detail[1].convertURL ? detail[1].convertURL : "";
             $tool.notify("京粉转链", "", msg, oprnUrl);
         })
