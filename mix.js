@@ -1,6 +1,9 @@
-//转自越南老哥作品
-//
-surge：
+/*
+转自越南老哥作品
+=======Quantumult X=======
+#MIX解锁
+
+========Surge==========
 [Script]
 camera360-Mix = requires-body=1,script-path= https://raw.githubusercontent.com/githubdulong/Script/master/mix.js,type=http-response,pattern= ^https:\/\/bmall\.camera360\.com\/api\/mix\/recovery$
 
