@@ -1,11 +1,19 @@
 /*
-转自越南老哥作品 
+转自越南老哥作品 @hiepkimcdtk55
 
-* MIX解锁
+* MIX解锁订阅功能
+* 配置好脚本、点击先三天试用、恢复购买。
 =======Quantumult X=======
 
+[rewrite_local]
 ^https:\/\/bmall\.camera360\.com\/api\/mix\/recovery$ url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/mix.js
+
+[MITM]
+hostname = bmall.camera360.com
+
 ========Surge==========
+
+[Script]
 camera360-Mix = requires-body=1,script-path= https://raw.githubusercontent.com/githubdulong/Script/master/mix.js,type=http-response,pattern= ^https:\/\/bmall\.camera360\.com\/api\/mix\/recovery$
 
 [MITM]
