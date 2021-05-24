@@ -139,8 +139,10 @@ EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/
 作业音频 = requires-body=1,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/JS/zuoyebang.js,type=http-response,pattern=https://mall.zuoyebang.com/mall/goods/audio/voice/list?audioId=\d+
 # > MIX解锁
 MIX解锁 = requires-body=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/mix.js,type=http-response,pattern= ^https:\/\/bmall\.camera360\.com\/api\/mix\/recovery$
-# > 京东账号辅助
-登陆辅助 = type=http-response,pattern=^https?:\/\/.*.(jd|jingxi).com.*,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js,script-update-interval=0
+# > 京东账号辅助 （普通辅助+全局辅助）
+//登陆辅助 = type=http-response,pattern=^https?:\/\/home\.m\.jd\.com\/userinfom\/QueryUserInfoM,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js,script-update-interval=0
+//登陆辅助 = type=http-response,pattern=^https?:\/\/plogin\.m\.jd\.com\/login\/login,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js,script-update-interval=0
+全局辅助 = type=http-response,pattern=^https?:\/\/.*.(jd|jingxi).com.*,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js,script-update-interval=0
 # > Xmind思维导图
 //思维导图 = type=http-response,pattern=https?:\/\/.*\.xmind\..*\/_res\/(devices|user_sub_status|appstore/sub),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/xmind.js,script-update-interval=0
 # > 模块订阅
@@ -154,4 +156,4 @@ MIX解锁 = requires-body=1,script-path=https://raw.githubusercontent.com/github
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
 [MITM]
-hostname = %INSERT% *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, license.pdfexpert.com, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, api.gyrosco.pe , biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, *.xxjjappss.com,*.huaerdadi.com,*.xiaoxiaoapps.com,*.xiaoxiaoimg.com, api-production.endel.io, pan.baidu.com, shopmember.m.jd.com, *.xmind.*, weixin110.qq.com, *.caixin.com, mall.zuoyebang.com, img.zuoyebang.cc, btrace.qq.com, bmall.camera360.com, *.jd.com
+hostname = %INSERT% *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, license.pdfexpert.com, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, api.gyrosco.pe , biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, *.xxjjappss.com,*.huaerdadi.com,*.xiaoxiaoapps.com,*.xiaoxiaoimg.com, api-production.endel.io, pan.baidu.com, shopmember.m.jd.com, *.xmind.*, weixin110.qq.com, *.caixin.com, mall.zuoyebang.com, img.zuoyebang.cc, btrace.qq.com, bmall.camera360.com, plogin.m.jd.com,home.m.jd.com, *.jd.com
