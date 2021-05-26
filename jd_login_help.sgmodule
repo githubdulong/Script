@@ -1,0 +1,11 @@
+#!name=京东系辅助
+#!desc=京东、惊喜账号、CK辅助登陆
+#!system=ios
+
+[Script]
+京东辅助 = type=http-response,pattern=^https:\/\/((?!(api|mapi|lbsapi|im\-x|hermes|uranus|saturn|ccf|ccflbs|ccfjma|perf|msg|lite\-msg|firevent|lbsgw|lbsgd|ex|policy|mars|blackhole|homepage\-gw|un|bh|orbit|wlmonitor)\.).*\.?jd\.com\/?((?!\.(js|json|jpg|gif|png|webp|dpg)).)*)*$,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+
+京喜辅助 = type=http-response,pattern=^https:\/\/.*.jingxi.com\/?((?!\.(js|json|jpg|gif|png|webp|dpg)).)*$,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+
+[MITM]
+hostname = %INSERT% *.jd.com, *.*.jd.com, *.jingxi.com, *.*.jingxi.com
