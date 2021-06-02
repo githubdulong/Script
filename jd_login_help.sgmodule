@@ -35,4 +35,4 @@
 
 
 [MITM]
-hostname = %INSERT% *.jd.com, *.*.jd.com, *.jingxi.com, *.*.jingxi.com
+hostname = %INSERT% m.jd.com, plogin.m.jd.com, home.m.jd.com, shopmember.m.jd.com, cardpackage.jd.com, coupon.m.jd.com, wqs.jd.com, item.m.jd.com, bean.m.jd.com
