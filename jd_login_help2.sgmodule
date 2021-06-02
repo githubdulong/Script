@@ -1,10 +1,38 @@
 #!name=京东系辅助
-#!desc=京东+京喜账号CK辅助登陆(新UI)
+#!desc=京东+京喜账号CK辅助登陆(新UI链接名+2)
 #!system=ios
 
 [Script]
-京东辅助 = type=http-response,pattern=^https:\/\/((?!(api|mapi|lbsapi|im\-x|hermes|uranus|saturn|ccf|ccflbs|ccfjma|perf|msg|lite\-msg|firevent|lbsgw|lbsgd|ex|policy|mars|blackhole|homepage\-gw|un|bh|orbit|wlmonitor|fireactive)\.).*\.?jd\.com\/?((?!\.(js|json|jpg|gif|png|webp|dpg)).)*)*$,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help2.js
-京喜辅助 = type=http-response,pattern=^https:\/\/.*\.?jingxi.com\/?((?!\.(js|json|jpg|gif|png|webp|dpg)).)*$,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help2.js
+# > 京东系列
+京东首页 = type=http-response,pattern=^https:\/\/m\.jd\.com,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东登陆 = type=http-response,pattern=^https:\/\/plogin\.m\.jd\.com,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东我的 = type=http-response,pattern=^https:\/\/home\.m\.jd\.com\/myJd\/newhome\.action,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东订单 = type=http-response,pattern=^https:\/\/wqs\.jd\.com\/order\/orderlist_merge\.shtml,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东购物 = type=http-response,pattern=^https:\/\/p\.m\.jd\.com\/cart\/cart\.action,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东分类 = type=http-response,pattern=^https:\/\/so\.m\.jd\.com\/webportal\/channel\/m_category,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东到家 = type=http-response,pattern=^https:\/\/daojia\.jd\.com\/html\/index,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京豆明细 = type=http-response,pattern=^https:\/\/bean\.m\.jd\.com\/beanDetail\/index\.action,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东商品 = type=http-response,pattern=^https:\/\/item\.m\.jd\.com\/product\/\s+\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东店铺 = type=http-response,pattern=^https:\/\/shop\.m\.jd\.com\/shopv2\/mzpage?venderId,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东入会 = type=http-response,pattern=^https:\/\/shopmember\.m\.jd\.com\/shopcard\/?venderId=\s+&shopId=\s+,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东退卡 = type=http-response,pattern=^https:\/\/cardpackage\.jd\.com,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+多数活动 = type=http-response,pattern=^https:\/\/.*\.jd\.com/babelDiy/Zeus/.*/index\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+部分活动 = type=http-response,pattern=^https:\/\/mpdz-isv\.isvjcloud\.com,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+领券中心 = type=http-response,pattern=^https:\/\/coupon\.m\.jd\.com\/center\/getCouponCenter\.action,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+单张领券 = type=http-response,pattern=^https:\/\/coupon\.m\.jd\.com\/coupons\/show\.action,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东养鹅 = type=http-response,pattern=^https:\/\/active\.jd\.com\/forever\/btgoose,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+签到日历 = type=http-response,pattern=^https:\/\/bean\.m\.jd\.com\/bean\/signIndex\.action,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+
+# > 惊喜系列
+京喜首页 = type=http-response,pattern=^https:\/\/m\.jingxi\.com\/mcoss\/wxmall\/home,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京喜分类 = type=http-response,pattern=^https:\/\/st\.jingxi\.com\/wxsq_project\/wqvue\/pingou_cate\/cate\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京喜购物 = type=http-response,pattern=^https:\/\/u\.jingxi\.com\/cart\/mycart?fromnav,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京喜我的 = type=http-response,pattern=st\.jingxi\.com\/pingou\/account\/index\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京喜订单 = type=http-response,pattern=^https:\/\/st\.jingxi\.com\/order\/orderlist_merge\.shtml,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京喜农场 = type=http-response,pattern=^https:\/\/actst\.jingxi\.com\/sns\/201912\/12\/jxnc\/detail\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京喜财富 = type=http-response,pattern=^https:\/\/st\.jingxi\.com\/fortune_island\/index\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京喜工厂 = type=http-response,pattern=^https:\/\/actst\.jingxi\.com\/pingou\/dream_factory,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+
 
 [MITM]
 hostname = %INSERT% *.jd.com, *.*.jd.com, *.jingxi.com, *.*.jingxi.com
