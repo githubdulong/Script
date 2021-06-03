@@ -16,7 +16,7 @@
 领券中心 = type=http-response,pattern=^https:\/\/coupon\.m\.jd\.com\/center\/getCouponCenter\.action,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
 签到日历 = type=http-response,pattern=^https:\/\/bean\.m\.jd\.com\/bean\/signIndex\.action,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
 
-# > 惊喜系列
+# > 京喜系列
 京喜首页 = type=http-response,pattern=^https:\/\/m\.jingxi\.com\/mcoss\/wxmall\/home,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
 京喜购物 = type=http-response,pattern=^https:\/\/u\.jingxi\.com\/cart\/mycart?fromnav,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
 京喜我的 = type=http-response,pattern=st\.jingxi\.com\/pingou\/account\/index\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
