@@ -2,9 +2,6 @@
 #!desc=知乎网页显示优化 2021-6-3 15:24
 #!system=ios
 
-[MITM]
-hostname =  %APPEND% www.zhihu.com, zhuanlan.zhihu.com,link.zhihu.com,oia.zhihu.com
-
 [URL Rewrite]
 # 知乎网页去广告&推荐列表
 https://www\.zhihu\.com/api/v4/questions/\d+/related-readings - reject
@@ -22,3 +19,6 @@ https://zhuanlan\.zhihu\.com/api/articles/\d+/recommendation - reject
 
 [Script]
 知乎直接看  = type=http-response,pattern=https://(www\.zhihu\.com/question|zhuanlan\.zhihu\.com/p)/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/zhihu.js
+
+[MITM]
+hostname =  %APPEND% www.zhihu.com, zhuanlan.zhihu.com,link.zhihu.com,oia.zhihu.com
