@@ -146,7 +146,7 @@ MIX解锁 = requires-body=1,script-path=https://raw.githubusercontent.com/github
 //知乎网页https://raw.githubusercontent.com/githubdulong/Script/master/Zhihu.sgmodule
 //京东系列https://jdsharedresourcescdn.azureedge.net/jdresource/lxk0301_Task.sgmodule.sgmodule
 //京东跳转销卡https://raw.githubusercontent.com/githubdulong/Script/master/Jd_unbindCard.sgmodule
-//京东账号辅助https://raw.githubusercontent.com/githubdulong/Script/master/jd_login_help.sgmodule
+//京东账号辅助https://raw.githubusercontent.com/Fokit/Quantumult-X/main/rewrite/jd_login_help2.sgmodule
 
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
