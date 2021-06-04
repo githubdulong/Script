@@ -1,5 +1,5 @@
 #!name=𝙏𝙖𝙨𝙠
-#!desc=京东挂机脚本(备份)
+#!desc=京东系挂机脚本(备份)
 #!system=ios
 
 [Script]
@@ -58,5 +58,7 @@
 沸腾之夜 = type=cron,cronexp="55,1 21-23/1 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_party_night.js
 超级盲盒 = type=cron,cronexp="0 0,1-23/3 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_mohe.js
 明星小店 = type=cron,cronexp="0 1,21 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_star_shop.js
+京东宝洁 = type=cron,cronexp="18 9 1-18 6 *",wake-system=1,timeout=3600,script-path=https://cdn.jsdelivr.net/gh/zooPanda/zoo@dev/zooBaojiexiaoxiaole.js
+新潮品牌 = type=cron,cronexp="30 9,10 1-18 6 *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Wenmoux/scripts/master/jd/jd_mcxhd_brandcity.js
 
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
