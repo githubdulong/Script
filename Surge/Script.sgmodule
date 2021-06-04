@@ -137,18 +137,22 @@ EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/
 作业音频 = requires-body=1,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/JS/zuoyebang.js,type=http-response,pattern=https://mall.zuoyebang.com/mall/goods/audio/voice/list?audioId=\d+
 # > MIX解锁
 MIX解锁 = requires-body=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/mix.js,type=http-response,pattern= ^https:\/\/bmall\.camera360\.com\/api\/mix\/recovery$
+# > 抖音去水印+广告
+抖音水印 = type=http-request,pattern=^https?:\/\/.+?\.amemv\.com\/aweme\/v\d\/(feed|aweme\/post|follow\/feed|nearby\/feed|search\/item|general\/search\/single|hot\/search\/video\/list)\/,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Aweme.js
+抖音广告 = type=http-response,pattern=^https?:\/\/.+?\.amemv\.com\/aweme\/v\d\/(feed|aweme\/post|follow\/feed|nearby\/feed|search\/item|general\/search\/single|hot\/search\/video\/list)\/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Aweme.js
 # > Xmind思维导图
 //思维导图 = type=http-response,pattern=https?:\/\/.*\.xmind\..*\/_res\/(devices|user_sub_status|appstore/sub),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/xmind.js,script-update-interval=0
 # > 模块订阅
 //爬虫复写去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/Advertising/Advertising.sgmodule
 //爬虫脚本去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/AdvertisingScript/AdvertisingScript.sgmodule
-//爬虫抖音去广告https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/external/Surge/DouyinNoAd/DouyinNoAd.sgmodule
+//抖音广告https://raw.githubusercontent.com/NobyDa/Script/master/Surge/Module/TikTokChinaAds.sgmodule
 //知乎网页https://raw.githubusercontent.com/githubdulong/Script/master/Zhihu.sgmodule
 //京东系列https://jdsharedresourcescdn.azureedge.net/jdresource/lxk0301_Task.sgmodule.sgmodule
 //京东跳转销卡https://raw.githubusercontent.com/githubdulong/Script/master/Jd_unbindCard.sgmodule
 //京东账号辅助https://raw.githubusercontent.com/Fokit/Quantumult-X/main/rewrite/jd_login_help2.sgmodule
 //快捷搜引擎https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Q-Search_All_in_one.sgmodule
+
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
 [MITM]
-hostname = %INSERT% *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, license.pdfexpert.com, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, api.gyrosco.pe , biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, *.xxjjappss.com,*.huaerdadi.com,*.xiaoxiaoapps.com,*.xiaoxiaoimg.com, api-production.endel.io, pan.baidu.com, *.xmind.*, weixin110.qq.com, *.caixin.com, mall.zuoyebang.com, img.zuoyebang.cc, btrace.qq.com, bmall.camera360.com
+hostname = %INSERT% *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, license.pdfexpert.com, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, api.gyrosco.pe , biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, *.xxjjappss.com,*.huaerdadi.com,*.xiaoxiaoapps.com,*.xiaoxiaoimg.com, api-production.endel.io, pan.baidu.com, *.xmind.*, weixin110.qq.com, *.caixin.com, mall.zuoyebang.com, img.zuoyebang.cc, btrace.qq.com, bmall.camera360.com, *.amemv.com
