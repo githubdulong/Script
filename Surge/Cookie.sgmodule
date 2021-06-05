@@ -33,18 +33,12 @@
 吾爱破解 = type=http-request,pattern=https:\/\/www\.52pojie\.cn\/home\.php\?,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/52pojie-DailyBonus/52pojie.js
 # > 网易新闻 app获取
 网易新闻 = type=http-request,pattern=^https:\/\/(.*?)c\.m\.163\.com\/uc\/api\/sign\/v3\/commit,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasenews/neteasenews.cookie.js,script-update-interval=0
-# > 滴滴出行 app+小程序
-滴滴出行 = type=http-request,pattern=^https:\/\/as\.xiaojukeji\.com\/ep\/as\/toggles\?,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/DiDi/DiDi_new.js
-滴滴出行 = type=http-request,pattern=^https:\/\/common\.diditaxi\.com\.cn\/webapp\/config\/sidebar\?,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/DiDi/DiDi_new.js
 # > 京东到家 app获取
 京东到家 = type=http-request,pattern=https:\/\/daojia\.jd\.com\/client\?_jdrandom=\d{13}&functionId=%2Fsignin,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/jddj.js
 # > 饿了么 app获取
 饿了签到 = type=http-request,pattern=^https:\/\/h5\.ele\.me\/restapi\/eus\/v\d\/current_user$,script-path=https://raw.githubusercontent.com/songyangzz/QuantumultX/master/elem/elemGetCookies.js,script-update-interval=0
 # > 百度贴吧 app获取
 百度贴吧 = type=http-request,pattern=^https?:\/\/c\.tieba\.baidu\.com\/c\/s\/login,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_checkin.js
-# > 海底捞 app获取
-海底捞锅 = type=http-request,pattern=^https:\/\/superapp\.kiwa-tech\.com\/app\/coupon\/customerLevelShow,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Haidilao/HaidilaoUsebonus.js,script-update-interval=0
-海底捞锅 = type=http-request,pattern=^https:\/\/activity-1\.m\.duiba\.com\.cn\/signactivity\/getSignInfo,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Haidilao/HaidilaoUsebonus.js,script-update-interval=0
 # > 什么值得买 浏览器https://zhiyou.smzdm.com/
 什么值买 = script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_signin.js,type=http-request,requires-body=true,pattern=^https?:\/\/zhiyou\.smzdm\.com\/user$
 # > 小米运动 app登录获取
@@ -75,4 +69,4 @@
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
 [MITM]
-hostname = %INSERT% api.m.jd.com, music.163.com, mobwsa.ximalaya.com, e.189.cn, mkt.21cn.com, i.meituan.com, api.weibo.cn, m.weibo.cn, passport.suning.com, luckman.suning.com, sign.suning.com, gameapi.suning.com, draw.jdfcloud.com, zt.wps.cn, www.52pojie.cn, *.m.163.com, as.xiaojukeji.com, common.diditaxi.com.cn, daojia.jd.com, h5.ele.me, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, account.huami.com, superapp.kiwa-tech.com, activity-1.m.duiba.com.cn, zhiyou.smzdm.com, jdjoy.jd.com, account.huami.com, 49.234.36.200:9091, m.client.10010.com, act.10010.com, ccsp-egmas.sf-express.com, napi.zuoyebang.com, wq.jd.com, m.jingxi.com, ms.jr.jd.com, apph5.manmanbuy.com
+hostname = %INSERT% api.m.jd.com, music.163.com, mobwsa.ximalaya.com, e.189.cn, mkt.21cn.com, i.meituan.com, api.weibo.cn, m.weibo.cn, passport.suning.com, luckman.suning.com, sign.suning.com, gameapi.suning.com, draw.jdfcloud.com, zt.wps.cn, www.52pojie.cn, *.m.163.com, daojia.jd.com, h5.ele.me, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, account.huami.com, zhiyou.smzdm.com, jdjoy.jd.com, account.huami.com, 49.234.36.200:9091, m.client.10010.com, act.10010.com, ccsp-egmas.sf-express.com, napi.zuoyebang.com, wq.jd.com, m.jingxi.com, ms.jr.jd.com, apph5.manmanbuy.com
