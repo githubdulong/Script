@@ -7,8 +7,6 @@
 京东商城 = type=cron,cronexp=30 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
 # > 京东到家
 京东到家 = type=cron,cronexp=0 1 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/jddj.js,script-update-interval=0
-# > 滴滴出行
-滴滴出行 = type=cron,cronexp=30 1 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/DiDi/DiDi_new.js,script-update-interval=0
 # > 威锋论坛
 威锋论坛 = type=cron,cronexp=0 2 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,script-update-interval=0
 # > 喜马拉雅
@@ -27,11 +25,9 @@
 饿了签到 = type=cron,cronexp=30 5 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/songyangzz/QuantumultX/master/elem/elemSign.js,wake-system=1,script-update-interval=0
 # > 百度贴吧
 百度贴吧 = type=cron,cronexp=0 6 0 * * *,timeout=60,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_checkin.js,script-update-interval=0
-# > 海底捞
-海底捞锅 = type=cron,cronexp=30 6 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Haidilao/HaidilaoUsebonus.js,script-update-interval=0
 # > 什么值得买(签到+任务)
-什么值买 = type=cron,cronexp=0 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_signin.js,script-update-interval=0
-// 什么值买 = type=cron,cronexp=30 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_mission.js,script-update-interval=0
+什么值买 = type=cron,cronexp=30 6 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_signin.js,script-update-interval=0
+// 什么值买 = type=cron,cronexp=0 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_mission.js,script-update-interval=0
 # > 作业帮
 作业帮帮 = type=cron,cronexp=30 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/Task/zyb.js,script-update-interval=0
 # > 顺丰速运
@@ -75,4 +71,3 @@ GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://ra
 天天加速 = type=cron,cronexp=0 30 10  * * *,wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_speed.js
 
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
-
