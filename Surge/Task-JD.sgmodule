@@ -59,6 +59,10 @@
 超级盲盒 = type=cron,cronexp="0 0,1-23/3 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_mohe.js
 明星小店 = type=cron,cronexp="0 1,21 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_star_shop.js
 京东宝洁 = type=cron,cronexp="18 9 1-18 6 *",wake-system=1,timeout=3600,script-path=https://cdn.jsdelivr.net/gh/zooPanda/zoo@dev/zooBaojiexiaoxiaole.js
-新潮品牌 = type=cron,cronexp="30 9,10 1-18 6 *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Wenmoux/scripts/master/jd/jd_mcxhd_brandcity.js
-
+新潮品牌 = type=cron,cronexp="4 10 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_mcxhd.js
+翻翻翻乐 = type=cron,cronexp="1 0-23/1 * 6 *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Wenmoux/scripts/master/jd/jd_618redpacket.js
+京喜红包 = type=cron,cronexp="4 10 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_jxlhb.js
+京享值PK = type=cron,cronexp="15 0,6,13,19,21 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/hyzaw/scripts/main/ddo_pk.js
+省钱赢家 = type=cron,cronexp="20 * * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_big_winner.js
+限时盲盒 = type=cron,cronexp="15 12 1-18 6 *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/zooPanda/zoo/dev/zooLimitbox.js
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
