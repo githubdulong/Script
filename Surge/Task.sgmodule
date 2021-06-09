@@ -50,6 +50,9 @@ GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://ra
 每日一句 = type=cron,cronexp=8 8 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/One.js,script-update-interval=0
 # > 慢慢买
 慢买签到 = type=cron,cronexp=0 11 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/manmanbuy/manmanbuy_checkin.js,script-update-interval=0
+# > 机场签到
+机场签到 = type=cron,cronexp="0 2 9-21/2 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/glados/checkin_env.js
+,script-update-interval=0
 # > Boxjs会话
 //切换会话 = type=cron,cronexp=0 13 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,script-update-interval=0
 # > 京东系列
