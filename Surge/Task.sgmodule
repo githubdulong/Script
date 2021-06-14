@@ -60,7 +60,7 @@ GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://ra
 京东取关 = type=cron,cronexp=55 23 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_unsubscribe.js
 汽车兑换 = type=cron,cronexp=59 59 23 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_car_exchange.js
 汽车兑换 = type=cron,cronexp=0 0 0 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_car_exchange.js
-超市兑换 = type=cron,cronexp=59 59 23 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_blueCoin.js
+超市兑换 = type=cron,cronexp=0 0 0 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/blueCoin.js
 汪汪兑换 = type=cron,cronexp=0 0-16/8 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_joy_reward.js
 京东保价 = type=cron,cronexp=0 10 0 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js
 财富提现 = type=cron,cronexp=0 0 0 * * *,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/cfd.js
@@ -70,4 +70,3 @@ GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://ra
 主会场雨 = type=cron,cronexp="1 20 1-18 6 *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/longzhuzhu/nianyu/main/qx/long_hby_lottery.js
 
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
-
