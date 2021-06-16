@@ -25,6 +25,7 @@ const notify = $.isNode() ? require('./sendNotify') : '';
 let allMessage = '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+const obtainType = 4; //0为兑换实物，兑换京豆请将此值改为4
 let coinToBeans = $.getdata('coinToBeans') || 0; //兑换多少数量的京豆（20或者1000），0表示不兑换，默认不兑换京豆，如需兑换把0改成20或者1000，或者'商品名称'(商品名称放到单引号内)即可
 let jdNotify = false;//是否开启静默运行，默认false关闭(即:奖品兑换成功后会发出通知提示)
 //IOS等用户直接用NobyDa的jd cookie
@@ -107,52 +108,52 @@ async function PrizeIndex() {
   const prizeList = [...$.queryPrizeData];
   if (prizeList && prizeList.length) {
     if (`${coinToBeans}` === '1000') {
-      if (prizeList[0] && prizeList[0].type === 3) {
-        console.log(`查询换${prizeList[0].name}ID成功，ID:${prizeList[0].prizeId}`)
-        $.title = prizeList[0].name;
-        $.blueCost = prizeList[0].cost;
-      } else {
-        console.log(`查询换1000京豆ID失败`)
-        $.beanerr = `东哥今天不给换`;
-        return ;
-      }
-      if (prizeList[0] && prizeList[0].inStock === 506) {
-        $.beanerr = `失败，1000京豆领光了，请明天再来`;
-        return ;
-      }
-      if (prizeList[0] && prizeList[0].limit === prizeList[0] && prizeList[0].finished) {
-        $.beanerr = `${prizeList[0].name}`;
-        return ;
-      }
-      //兑换1000京豆
-      if ($.totalBlue > $.blueCost) {
-        await smtg_obtainPrize(prizeList[0].prizeId);
-      } else {
-        console.log(`兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`);
-        $.beanerr = `兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`;
-      }
-    } else if (`${coinToBeans}` === '20') {
       if (prizeList[1] && prizeList[1].type === 3) {
         console.log(`查询换${prizeList[1].name}ID成功，ID:${prizeList[1].prizeId}`)
         $.title = prizeList[1].name;
         $.blueCost = prizeList[1].cost;
       } else {
+        console.log(`查询换1000京豆ID失败`)
+        $.beanerr = `东哥今天不给换`;
+        return ;
+      }
+      if (prizeList[1] && prizeList[1].inStock === 506) {
+        $.beanerr = `失败，1000京豆领光了，请明天再来`;
+        return ;
+      }
+      if (prizeList[1] && prizeList[1].limit === prizeList[1] && prizeList[1].finished) {
+        $.beanerr = `${prizeList[1].name}`;
+        return ;
+      }
+      //兑换1000京豆
+      if ($.totalBlue > $.blueCost) {
+        await smtg_obtainPrize(prizeList[1].prizeId);
+      } else {
+        console.log(`兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`);
+        $.beanerr = `兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`;
+      }
+    } else if (`${coinToBeans}` === '20') {
+      if (prizeList[0] && prizeList[0].type === 3) {
+        console.log(`查询换${prizeList[0].name}ID成功，ID:${prizeList[0].prizeId}`)
+        $.title = prizeList[0].name;
+        $.blueCost = prizeList[0].cost;
+      } else {
         console.log(`查询换万能的京豆ID失败`)
         $.beanerr = `东哥今天不给换`;
         return ;
       }
-      if (prizeList[0] && prizeList[0].inStock === 506) {
+      if (prizeList[1] && prizeList[1].inStock === 506) {
         console.log(`失败，万能的京豆领光了，请明天再来`);
         $.beanerr = `失败，万能的京豆领光了，请明天再来`;
         return ;
       }
-      if ((prizeList[0] && prizeList[0].limit) === (prizeList[0] && prizeList[0].finished)) {
-        $.beanerr = `${prizeList[0].name}`;
+      if ((prizeList[1] && prizeList[1].limit) === (prizeList[1] && prizeList[1].finished)) {
+        $.beanerr = `${prizeList[1].name}`;
         return ;
       }
       //兑换万能的京豆(1-20京豆)
       if ($.totalBlue > $.blueCost) {
-        await smtg_obtainPrize(prizeList[0].prizeId,1000);
+        await smtg_obtainPrize(prizeList[1].prizeId,1000);
       } else {
         console.log(`兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`);
         $.beanerr = `兑换失败,您目前蓝币${$.totalBlue}个,不足以兑换${$.title}所需的${$.blueCost}个`;
@@ -178,11 +179,11 @@ async function PrizeIndex() {
           return ;
         }
         if ((prizeList[i].targetNum) && prizeList[i].targetNum === prizeList[i].finishNum) {
-          $.beanerr = `${prizeList[0].subTitle}`;
+          $.beanerr = `${prizeList[1].subTitle}`;
           return ;
         }
         if ($.totalBlue > $.blueCost) {
-          if ($.type === 4 && !$.beanType) {
+          if ($.type === 2) {
             await smtg_obtainPrize(prizeId, 0, "smtg_lockMaterialPrize")
           } else {
             await smtg_obtainPrize(prizeId);
@@ -241,7 +242,7 @@ function smtg_queryPrize(timeout = 0){
   return new Promise((resolve) => {
     setTimeout( ()=>{
       let url = {
-        url : `${JD_API_HOST}&functionId=smt_queryPrizeAreas&clientVersion=8.0.0&client=m&body=%7B%22channel%22%3A%2218%22%7D&t=${Date.now()}`,
+        url : `https://api.m.jd.com/api?appid=jdsupermarket&functionId=smt_queryPrizeAreas&clientVersion=8.0.0&client=m&body=%7B%22channel%22%3A%2218%22%7D&t=${Date.now()}`,
         headers : {
           'Origin' : `https://jdsupermarket.jd.com`,
           'Cookie' : cookie,
@@ -265,7 +266,7 @@ function smtg_queryPrize(timeout = 0){
             }
             if (data.data.bizCode === 0) {
               const { areas } = data.data.result;
-              const prizes = areas.filter(vo => vo['type'] === 4);
+              const prizes = areas.filter(vo => vo['type'] === obtainType);
               if (prizes && prizes[0]) {
                 $.areaId = prizes[0].areaId;
                 $.periodId = prizes[0].periodId;
