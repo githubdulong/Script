@@ -1,0 +1,6 @@
+#!name=𝙏𝙪𝙣 𝙊𝙣𝙡𝙮
+#!desc=Surge兼容模式
+#!system=ios
+
+[General]
+compatibility-mode = 3
