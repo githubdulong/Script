@@ -20,7 +20,8 @@
 # > 新浪微博 app获取（清除boxjs数据再获取）
 微博签到 = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/users\/show,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js
 微博签到 = type=http-request,pattern=https:\/\/m\.weibo\.cn\/c\/checkin\/ug\/v2\/signin\/module\?module,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js
-微博推送 = type=http-request,pattern=^https:\/\/m\.weibo\.cn\/feed\/ script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js
+# > 微博推送 登陆https://m.weibo.cn获取
+微博推送 = type=http-request,pattern=^https:\/\/m\.weibo\.cn\/feed\/,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js
 # > 苏宁易购 app获取
 苏宁易购 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/suning/suning.cookie.js,requires-body=true,type=http-request,pattern=^https:\/\/passport.suning.com\/ids\/login$
 苏宁易购 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/suning/suning.cookie.js,type=http-request,pattern=^https:\/\/luckman.suning.com\/luck-web\/sign\/api\/clock_sign.do
