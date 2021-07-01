@@ -88,7 +88,7 @@ URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-
 # > 金山WPS vip
 WPS破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Wps.js,type=http-response,pattern=^https://account.wps.*/api/users/
 # > 扫描全能王 pro
-扫描破解 = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/surge_module/main/camscanner.js,type=http-response,pattern=^https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\?
+扫描破解 = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/scripts/main/js/camscanner.js,type=http-response,pattern=^https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\?
 # > 通用解锁 试用取消 主机名buy.itunes.apple.com
 //Bear破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Quantumult-X-LK/master/Scripts/langkhach/verify_receipt.js,type=http-response,pattern=^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt$
 # > Day one vip
@@ -118,7 +118,7 @@ bilbii搜索 = type=http-request,pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/s
 # > YouTube去广告
 油管视频 = type=http-request,pattern=^https?:\/\/.+?\.googlevideo\.com\/.+&(oad|ctier)=(?!A),script-path=https://choler.github.io/Surge/Script/YouTube.js
 # > Endel解锁 https://raw.githubusercontent.com/cpphut/surge_module/main/endel.sgmodule
-EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/surge_module/main/endel.js,type=http-response,pattern=^https?:\/\/api-production.endel.io\/v3\/call
+EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/scripts/main/js/endel.js,type=http-response,pattern=^https?:\/\/api-production.endel.io\/v3\/call
 # > 百度云盘 解锁
 百度云盘 = type=http-response,pattern=https:\/\/pan\.baidu\.com\/rest\/2\.0\/membership\/user,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Crack/bdcloud.js,script-update-interval=0
 # > 微信跳转
