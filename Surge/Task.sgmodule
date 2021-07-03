@@ -53,7 +53,7 @@ GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://ra
 # > Boxjs会话
 //切换会话 = type=cron,cronexp=0 13 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,script-update-interval=0
 
-# 分割线——————————————————————————
+#::::::::::::::::::::::::::::::::::::::#
 
 # > 京东系列
 //小米运动 = type=cron,cronexp=15 17 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/xmSports.js,script-update-interval=0
