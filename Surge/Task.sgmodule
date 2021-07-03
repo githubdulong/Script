@@ -67,7 +67,6 @@ GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://ra
 京东保价 = type=cron,cronexp=0 10 0 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js
 财富提现 = type=cron,cronexp=0 0 0 * * *,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/cfd.js
 天天加速 = type=cron,cronexp=0 30 10  * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_speed.js
-京享值PK = type=cron,cronexp="15 0,6,13,19,21 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/hyzaw/scripts/main/ddo_pk.js
 //半点下雨 = type=cron,cronexp="30 16-23/1 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/longzhuzhu/nianyu/main/qx/long_half_redrain.js
 //整点下雨 = type=cron,cronexp="0 0-23/1 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/longzhuzhu/nianyu/main/qx/long_super_redrain.js
 //京东删券 = type=cron,cronexp=0 11 0 30 * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_deleteCoupon.js
