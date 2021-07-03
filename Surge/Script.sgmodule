@@ -2,6 +2,8 @@
 #!desc=Java Script合集 • 包含Host映射、Rule规则、Rewrite重写、Script破解、集成主机名；
 #!system=ios
 
+# 分割线——————————————————————————
+
 [Host]
 ip6-localhost = ::1
 ip6-loopback = ::1
@@ -40,9 +42,15 @@ hotspot.cslwifi.com = server:system
 amplifi.lan = server:system
 *.lan = server:system
 
+# 分割线——————————————————————————
+
 [Header Rewrite]
 
+# 分割线——————————————————————————
+
 [General]
+
+# 分割线——————————————————————————
 
 [Rule]
 # > 人人视频 去广告
@@ -53,6 +61,8 @@ URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 # > 京东  去广告
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
 
+# 分割线——————————————————————————
+
 [URL Rewrite]
 # > TikTok换区
 //(更换307后面JP JP=日本 KR=韩国 HK=香港 US=美国）
@@ -62,6 +72,8 @@ URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-
 (?<=\d\/\?\w{7}_\w{4}=)1[6-9]..(?=.?.?&) 18.6 307
 # > 腾讯视频 去广告
 ^https?:\/\/btrace\.qq\.com data=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/blank/blank.txt,REJECT-TINYGIF
+
+# 分割线——————————————————————————
 
 [Script]
 # > 京东比价
@@ -142,8 +154,9 @@ vsco解锁 = type=http-response,pattern=^https:\/\/api\.revenuecat\.com\/v\d\/su
 //京东跳转销卡https://raw.githubusercontent.com/githubdulong/Script/master/Jd_unbindCard.sgmodule
 //京东账号辅助https://raw.githubusercontent.com/Fokit/Quantumult-X/main/rewrite/jd_login_help2.sgmodule
 //快捷搜引擎https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Q-Search_All_in_one.sgmodule
-
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
+
+# 分割线——————————————————————————
 
 [MITM]
 hostname = %INSERT% *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, gist.githubusercontent.com, note.youdao.com, p.du.163.com, biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, *.xxjjappss.com,*.huaerdadi.com,*.xiaoxiaoapps.com,*.xiaoxiaoimg.com, api-production.endel.io, pan.baidu.com, *.xmind.*, weixin110.qq.com, *.caixin.com, mall.zuoyebang.com, img.zuoyebang.cc, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com
