@@ -2,11 +2,11 @@
 #!desc=Task定时 • 签到脚本、无主机名；
 #!system=ios
 
+# 分割线——————————————————————————
+
 [Script]
 # > 京东商城
-京东商城 = type=cron,cronexp=30 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
-# > 京东到家
-京东到家 = type=cron,cronexp=0 1 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/jddj.js,script-update-interval=0
+京东商城 = type=cron,cronexp="30 0,1 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
 # > 威锋论坛
 威锋论坛 = type=cron,cronexp=0 2 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,script-update-interval=0
 # > 喜马拉雅
@@ -35,7 +35,7 @@
 # > 新浪微博
 微博签到 = type=cron,cronexp=30 5 5 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js,script-update-interval=0
 # > 微博推送
-微博推送 = type=cron,cronexp=0 */30 9-21 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js,script-update-interval=0
+//微博推送 = type=cron,cronexp=0 */30 9-21 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js,script-update-interval=0
 # > GitHub监控
 GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/github.js,script-update-interval=0
 # > 福彩双色球
@@ -52,6 +52,9 @@ GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://ra
 慢买签到 = type=cron,cronexp=0 11 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/manmanbuy/manmanbuy_checkin.js,script-update-interval=0
 # > Boxjs会话
 //切换会话 = type=cron,cronexp=0 13 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,script-update-interval=0
+
+# 分割线——————————————————————————
+
 # > 京东系列
 //小米运动 = type=cron,cronexp=15 17 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/xmSports.js,script-update-interval=0
 //运动领豆 = type=cron,cronexp=17 17 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd.js
@@ -64,8 +67,8 @@ GitHub库 = type=cron,cronexp=0 5 0/1 * * *,wake-system=1,script-path=https://ra
 京东保价 = type=cron,cronexp=0 10 0 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js
 财富提现 = type=cron,cronexp=0 0 0 * * *,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/cfd.js
 天天加速 = type=cron,cronexp=0 30 10  * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_speed.js
+京享值PK = type=cron,cronexp="15 0,6,13,19,21 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/hyzaw/scripts/main/ddo_pk.js
 //半点下雨 = type=cron,cronexp="30 16-23/1 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/longzhuzhu/nianyu/main/qx/long_half_redrain.js
 //整点下雨 = type=cron,cronexp="0 0-23/1 * * *",wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/longzhuzhu/nianyu/main/qx/long_super_redrain.js
 //京东删券 = type=cron,cronexp=0 11 0 30 * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_deleteCoupon.js
-
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
