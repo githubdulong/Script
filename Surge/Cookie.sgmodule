@@ -40,8 +40,6 @@
 百度贴吧 = type=http-request,pattern=^https?:\/\/c\.tieba\.baidu\.com\/c\/s\/login,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_checkin.js
 # > 什么值得买 浏览器https://zhiyou.smzdm.com/
 什么值买 = script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_signin.js,type=http-request,requires-body=true,pattern=^https?:\/\/zhiyou\.smzdm\.com\/user$
-# > 小米运动 app登录获取
-小米运动 = type=http-response,pattern=^https:\/\/account\.huami\.com\/v2\/client\/login, requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/githubdulong/Script/master/xmSports.js
 # > 威锋论坛 app获取
 威锋论坛 = type=http-request,pattern=^http:\/\/49.234.36.200:9091\/v1\/auth\/signin,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.cookie.js,requires-body=true
 # > 联通签到 app搜索抽奖
@@ -63,4 +61,4 @@
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% api.m.jd.com, music.163.com, mobwsa.ximalaya.com, e.189.cn, mkt.21cn.com, i.meituan.com, api.weibo.cn, m.weibo.cn, passport.suning.com, luckman.suning.com, sign.suning.com, gameapi.suning.com, draw.jdfcloud.com, zt.wps.cn, *.m.163.com, h5.ele.me, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, account.huami.com, zhiyou.smzdm.com, jdjoy.jd.com, account.huami.com, 49.234.36.200:9091, m.client.10010.com, act.10010.com, ccsp-egmas.sf-express.com, napi.zuoyebang.com, ms.jr.jd.com, apph5.manmanbuy.com, www.52pojie.cn
+hostname = %INSERT% api.m.jd.com, music.163.com, mobwsa.ximalaya.com, e.189.cn, mkt.21cn.com, i.meituan.com, api.weibo.cn, m.weibo.cn, passport.suning.com, luckman.suning.com, sign.suning.com, gameapi.suning.com, draw.jdfcloud.com, zt.wps.cn, *.m.163.com, h5.ele.me, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, jdjoy.jd.com, account.huami.com, 49.234.36.200:9091, m.client.10010.com, act.10010.com, ccsp-egmas.sf-express.com, napi.zuoyebang.com, ms.jr.jd.com, apph5.manmanbuy.com, www.52pojie.cn
