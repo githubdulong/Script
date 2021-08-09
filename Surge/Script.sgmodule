@@ -95,8 +95,6 @@ URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-
 # > 人人视频 去广告
 人人视频 = type=http-response,requires-body=true,pattern=^https?:\/\/api\.rr\.tv\/watch\/v\d\/get_movie_info,script-path=https://Choler.github.io/Surge/Script/rrsp.js
 人人视频 = type=http-response,requires-body=true,pattern=^https?:\/\/api\.rr\.tv\/v\dplus\/index\/channel,script-path=https://Choler.github.io/Surge/Script/rrsp.js
-# > 小小影视 
-小小影视 = type=http-response,requires-body=true,pattern=https:\/\/.*\.(xiaoxiaoapps|xiaoxiaoimg)\.com\/(ssp-svr\/ssp\/list3|ucp/index|getGlobalData),script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/xxys.js
 # > 金山WPS vip
 WPS破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Wps.js,type=http-response,pattern=^https://account.wps.*/api/users/
 # > 扫描全能王 pro
@@ -131,8 +129,6 @@ bilbii搜索 = type=http-request,pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/s
 EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/scripts/main/js/endel.js,type=http-response,pattern=^https?:\/\/api-production.endel.io\/v3\/call
 # > 百度云盘 解锁
 百度云盘 = type=http-response,pattern=https:\/\/pan\.baidu\.com\/rest\/2\.0\/membership\/user,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Crack/bdcloud.js,script-update-interval=0
-# > 微信跳转
-微信跳转 = type=http-response,pattern=^https?:\/\/weixin110\.qq\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi,requires-body=1,script-path=https://raw.githubusercontent.com/HotKids/Rules/master/Script/weixin110.js
 # > 机场信息
 机场信息 = type=http-request,pattern=http://sub\.info,script-path=http://sub\.info,script-path=http://sub\.info,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info.js
 # > 财新解锁
@@ -157,4 +153,4 @@ vsco解锁 = type=http-response,pattern=^https:\/\/api\.revenuecat\.com\/v\d\/su
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, note.youdao.com, p.du.163.com, biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, *.xxjjappss.com,*.huaerdadi.com,*.xiaoxiaoapps.com,*.xiaoxiaoimg.com, api-production.endel.io, pan.baidu.com, *.xmind.*, weixin110.qq.com, *.caixin.com, mall.zuoyebang.com, img.zuoyebang.cc, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com
+hostname = %INSERT% *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, note.youdao.com, p.du.163.com, biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, api-production.endel.io, pan.baidu.com, *.xmind.*, *.caixin.com, mall.zuoyebang.com, img.zuoyebang.cc, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com
