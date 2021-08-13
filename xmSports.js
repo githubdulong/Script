@@ -1,7 +1,7 @@
 /*
  * 更新时间: 2021-8-8 13:43:28
- * TG频道: https://t.me/ioshkj7
- * 原作者不知道是谁了，本人只是修复，感谢原作者
+ * 转载来自TG脚本群
+ *
  */
 /*
 小米运动修改微信支付宝运动步数
@@ -64,7 +64,7 @@ async function start() {
       await change_step(app_token, user_id);
       if ($.changeStepRes && $.changeStepRes.code === 1) {
         console.log(`步数修改成功:${step}步`);
-        $.msg($.name, `${step}步🏃修改成功`, `时间：${timeFormat(localtime())}‍`, { "open-url": "alipays://platformapi/startapp?appId=20000869" })
+        $.msg($.name, `${step}步🏃🏿‍♂️修改成功`, `时间：${timeFormat(localtime())}‍`, { "open-url": "alipays://platformapi/startapp?appId=20000869" })
       } else {
         console.log(`修改运动步数失败`)
       }
