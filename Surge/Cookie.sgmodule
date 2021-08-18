@@ -55,11 +55,13 @@
 慢买获取 = script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/manmanbuy/manmanbuy_checkin.js,type=http-request,requires-body=true,pattern=^https?:\/\/apph5\.manmanbuy\.com\/taolijin\/(login.aspx|logserver.aspx)
 # > 吾爱破解 登陆https://www.52pojie.cn/home.php
 吾爱破解 = type=http-request,pattern=https:\/\/www\.52pojie\.cn\/home\.php\?,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/52pojie-DailyBonus/52pojie.js
-# > 小米运动
+# > 小米运动 app登陆时获取
 小米运动 = type=http-response,pattern=^https:\/\/account\.huami\.com\/v2\/client\/login, requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/githubdulong/Script/master/xmSports.js
+# > 爱奇艺 app获取
+奇艺获取 = type=http-request,pattern=^https?:\/\/iface(\d)?\.iqiyi\.com\/,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% ms.jr.jd.com, me-api.jd.com, music.163.com, mobwsa.ximalaya.com, e.189.cn, mkt.21cn.com, i.meituan.com, api.weibo.cn, m.weibo.cn, passport.suning.com, luckman.suning.com, sign.suning.com, gameapi.suning.com, draw.jdfcloud.com, zt.wps.cn, *.m.163.com, h5.ele.me, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, jdjoy.jd.com, account.huami.com, 49.234.36.200:9091, m.client.10010.com, act.10010.com, ccsp-egmas.sf-express.com, napi.zuoyebang.com, apph5.manmanbuy.com, www.52pojie.cn, account.huami.com
+hostname = %INSERT% ms.jr.jd.com, me-api.jd.com, music.163.com, mobwsa.ximalaya.com, e.189.cn, mkt.21cn.com, i.meituan.com, api.weibo.cn, m.weibo.cn, passport.suning.com, luckman.suning.com, sign.suning.com, gameapi.suning.com, draw.jdfcloud.com, zt.wps.cn, *.m.163.com, h5.ele.me, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, jdjoy.jd.com, account.huami.com, 49.234.36.200:9091, m.client.10010.com, act.10010.com, ccsp-egmas.sf-express.com, napi.zuoyebang.com, apph5.manmanbuy.com, www.52pojie.cn, account.huami.com, ifac*.iqiyi.com
