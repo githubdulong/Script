@@ -104,7 +104,7 @@ boxjsnet = type=http-request,pattern=^https?://boxjs.net,script-path=https://raw
 # > 彩云天气_SVIP
 彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js
 # > Emby解锁
-//emby解锁 = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice,requires-body=1,max-size=0,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/embyPremiere.js
+emby解锁 = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice,requires-body=1,max-size=0,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/embyPremiere.js
 # > TFDOWN
 TFDOWN = type=http-request,pattern=^https?:\/\/testflight\.apple\.com\/v2\/accounts\/.*\/apps\/\d*/builds/\d*/install,requires-body=1,max-size=0,script-path=https://gist.githubusercontent.com/NobyDa/9be418b93afc5e9c8a8f4d28ae403cf2/raw/TF_Download.js
 # > 应用安装
@@ -122,8 +122,6 @@ EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/
 机场信息 = type=http-request,pattern=http://sub\.info,script-path=http://sub\.info,script-path=http://sub\.info,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info.js
 # > 财新解锁
 财新解锁 = type=http-response,pattern=https://mappsv5.caixin.com/articlev5/* ,requires-body=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/caixin.js
-# > 作业帮 解锁音频
-作业音频 = requires-body=1,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/JS/zuoyebang.js,type=http-response,pattern=https://mall.zuoyebang.com/mall/goods/audio/voice/list?audioId=\d+
 # > MIX解锁
 MIX解锁 = requires-body=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/mix.js,type=http-response,pattern= ^https:\/\/bmall\.camera360\.com\/api\/mix\/recovery$
 # > Xmind思维导图
@@ -145,4 +143,4 @@ Grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% *.googlevideo.com, api.m.jd.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, note.youdao.com, biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, api-production.endel.io, pan.baidu.com, *.xmind.*, *.caixin.com, mall.zuoyebang.com, img.zuoyebang.cc, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, api.revenuecat.com
+hostname = %INSERT% *.googlevideo.com, api.m.jd.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, note.youdao.com, biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, api-production.endel.io, pan.baidu.com, *.xmind.*, *.caixin.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, api.revenuecat.com
