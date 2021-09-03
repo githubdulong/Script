@@ -3,7 +3,7 @@
 
 [Script]
 #京东wskey自动上传
-京东wskey自动上传 = type=http-request,pattern=^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome),requires-body=1,max-size=0,timeout=1000,script-path= https://raw.githubusercontent.com/githubdulong/Script/master/JDWSKey.js,script-update-interval=0
+京东上传器 = type=http-request,pattern=^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome),requires-body=1,max-size=0,timeout=1000,script-path= https://raw.githubusercontent.com/githubdulong/Script/master/JDWSKey.js,script-update-interval=0
 
 [MITM]
 hostname = %APPEND% api.m.jd.com
