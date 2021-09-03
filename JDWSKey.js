@@ -22,7 +22,7 @@ http-request ^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig
  *
  */
 
-const $ = new Env('🍪上传 wskey');
+const $ = new Env('♨️上传 wskey');
 let CK = $request.headers['Cookie'] || $request.headers['cookie'];
 
 const pin = CK.match(/pin=([^=;]+?);/)[1];
