@@ -94,7 +94,7 @@ if (_TGUserID) {
         await showMsg(userId);
       }
     } else {
-      console.log(`🍪wskey 没有改变`);
+      console.log(`♨️wskey 没有改变`);
     }
 
     return;
