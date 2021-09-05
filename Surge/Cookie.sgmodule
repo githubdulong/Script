@@ -16,8 +16,8 @@
 # > 喜马拉雅 app获取
 喜马拉雅 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ximalaya/ximalaya.cookie.js,type=http-request,pattern=^https?:\/\/.*\/mobile\-user\/homePage\/.*
 # > 中国电信 天翼账号中心app获取
-电信套餐 = type=http-request,pattern=https:\/\/mkt\.21cn\.com\/mkt\/api\/user\/queryActivityInfo\.do\?activityId=\d+,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/telecomSky.js
-电信套餐 = type=http-request,pattern=^https?:\/\/e\.189\.cn\/store\/user\/package_detail\.do,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/telecomSky.js
+中国电信 = type=http-request,pattern=https:\/\/mkt\.21cn\.com\/mkt\/api\/user\/queryActivityInfo\.do\?activityId=\d+,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/telecomSky.js
+中国电信 = type=http-request,pattern=^https?:\/\/e\.189\.cn\/store\/user\/package_detail\.do,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/telecomSky.js
 # > 美团 app获取
 美团获取 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.cookie.js,requires-body=true,type=http-request,pattern=^https:\/\/i.meituan.com\/evolve\/signin\/signpost\/
 # > 新浪微博 app获取（清除boxjs数据再获取）
@@ -25,11 +25,6 @@
 微博签到 = type=http-request,pattern=https:\/\/m\.weibo\.cn\/c\/checkin\/ug\/v2\/signin\/module\?module,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js
 # > 微博推送 登陆https://m.weibo.cn获取
 微博推送 = type=http-request,pattern=^https:\/\/m\.weibo\.cn\/feed\/,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js
-# > 苏宁易购 app获取
-苏宁易购 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/suning/suning.cookie.js,requires-body=true,type=http-request,pattern=^https:\/\/passport.suning.com\/ids\/login$
-苏宁易购 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/suning/suning.cookie.js,type=http-request,pattern=^https:\/\/luckman.suning.com\/luck-web\/sign\/api\/clock_sign.do
-苏宁易购 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/suning/suning.cookie.js,type=http-request,pattern=^https:\/\/sign.suning.com\/sign-web\/m\/promotion\/sign\/doSign.do
-苏宁易购 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/suning/suning.cookie.js,type=http-request,pattern=^https:\/\/gameapi.suning.com\/sngame-web\/(api\/signin\/private\/customerSignOperation.do|gateway\/api\/queryPrize.do)
 # > 网易新闻 app获取
 网易新闻 = type=http-request,pattern=^https:\/\/(.*?)c\.m\.163\.com\/uc\/api\/sign\/v3\/commit,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasenews/neteasenews.cookie.js,script-update-interval=0
 # > 饿了么 app获取
@@ -41,7 +36,7 @@
 # > 威锋论坛 app获取
 威锋论坛 = type=http-request,pattern=^http:\/\/49.234.36.200:9091\/v1\/auth\/signin,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.cookie.js,requires-body=true
 # > 联通签到 app搜索抽奖
-联通签到 = type=http-request,pattern=^https?:\/\/m\.client\.10010\.com\/dailylottery\/static\/(integral|doubleball)\/firstpage,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/10010/unicom_signin.min.js
+中国联通 = type=http-request,pattern=^https?:\/\/m\.client\.10010\.com\/dailylottery\/static\/(integral|doubleball)\/firstpage,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/10010/unicom_signin.min.js
 # > 联通组件ck app点流量
 联通组件 = type=http-request,pattern=^https:\/\/m\.client\.10010\.com\/serviceimportantbusiness\/smart\/smartwisdomCommon,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,script-update-interval=0
 # > 顺丰速运 app获取
