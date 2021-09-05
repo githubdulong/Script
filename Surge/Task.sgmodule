@@ -34,12 +34,12 @@
 微博签到 = type=cron,cronexp=30 5 5 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js,script-update-interval=0
 # > 微博推送
 //微博推送 = type=cron,cronexp=0 */30 9-21 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js,script-update-interval=0
-# > 福彩双色球
-福彩开奖 = type=cron,cronexp="0 30 21 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/ssq/ssq.js,script-update-interval=0
+# > 彩票开奖
+彩票开奖 = type=cron,cronexp="0 30 21 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/ssq/ssq.js,script-update-interval=0
 # > 中国电信 
-电信套餐 = type=cron,cronexp=0 2 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/telecomSky.js,script-update-interval=0
+中国电信 = type=cron,cronexp=0 2 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/telecomSky.js,script-update-interval=0
 # > 中国联通
-联通签到 = type=cron,cronexp=0 3 9 * * *,timeout=120,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/10010/unicom_signin.min.js,script-update-interval=0
+中国联通 = type=cron,cronexp=0 3 9 * * *,timeout=120,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/10010/unicom_signin.min.js,script-update-interval=0
 # > 每日一句
 每日一句 = type=cron,cronexp=8 8 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/One.js,script-update-interval=0
 # > 慢慢买
