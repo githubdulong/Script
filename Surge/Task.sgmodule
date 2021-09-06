@@ -60,6 +60,6 @@
 东东电竞 = type=cron,cronexp=10 9 * * *,wake-system=1,timeout=3600,script-path=Script/jd_esManager.js
 金榜创造 = type=cron,cronexp=13 1,22 * * *,wake-system=1,timeout=3600,script-path=Script/jd_gold_creator.js
 京东特务 = type=cron,cronexp=23 8,9 3 9 *,wake-system=1,timeout=3600,script-path=Script/jd_productBrand.js
-//京东取关 = type=cron,cronexp=55 23 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_unsubscribe.js
+京东取关 = type=cron,cronexp=55 23 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_unsubscribe.js
 
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
