@@ -6,7 +6,7 @@
 
 [Script]
 # > 威锋论坛
-威锋论坛 = type=cron,cronexp=0 2 0,8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,script-update-interval=0
+威锋论坛 = type=cron,cronexp="0 2 0,8 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,script-update-interval=0
 # > 喜马拉雅
 喜马拉雅 = type=cron,cronexp=30 2 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ximalaya/ximalaya.js,script-update-interval=0
 # > 美团
