@@ -12,17 +12,17 @@
 ============Quantumultx===============
 [task_local]
 #京东汽车兑换
-0 0 * * * jd_car_exchange.js, tag=京东汽车兑换, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_redPacket.png, enabled=true
+58,59,0,1,2 59,0 23,0 * * * jd_car_exchange.js, tag=京东汽车兑换, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_redPacket.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "0 0 * * *" script-path=jd_car_exchange.js, tag=京东汽车兑换
+cron "58,59,0,1,2 59,0 23,0 * * *" script-path=jd_car_exchange.js, tag=京东汽车兑换
 
 ===============Surge=================
-京东汽车兑换 = type=cron,cronexp="0 0 * * *",wake-system=1,timeout=3600,script-path=jd_car_exchange.js
+京东汽车兑换 = type=cron,cronexp="58,59,0,1,2 59,0 23,0 * * *",wake-system=1,timeout=3600,script-path=jd_car_exchange.js
 
 ============小火箭=========
-京东汽车兑换 = type=cron,script-path=jd_car_exchange.js, cronexpr="0 0 * * *", timeout=3600, enable=true
+京东汽车兑换 = type=cron,script-path=jd_car_exchange.js, cronexpr="58,59,0,1,2 59,0 23,0 * * *", timeout=3600, enable=true
  */
 const $ = new Env('京东汽车兑换');
 
