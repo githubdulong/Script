@@ -137,6 +137,8 @@ vsco解锁 = type=http-response,pattern=^https:\/\/api\.revenuecat\.com\/v\d\/su
 Grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/revenuecat.js,script-update-interval=-1
 # > 微信跳转
 微信跳转 = type=http-response,pattern=^https\:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/asset/UnblockURLinWeChat.js
+# > 百度跳转
+百度跳转 = type=http-response,pattern=^https\:\/\/boxer\.baidu\.com\/scheme\?scheme,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/baidu-no-redirect.js
 # > 模块订阅(单独添加)
 //爬虫复写去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/Advertising/Advertising.sgmodule
 //爬虫脚本去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/AdvertisingScript/AdvertisingScript.sgmodule
@@ -153,4 +155,4 @@ Grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% *.googlevideo.com, api.m.jd.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, note.youdao.com, biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, api-production.endel.io, pan.baidu.com, *.xmind.*, *.caixin.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, api.revenuecat.com, img.zuoyebang.cc, security.wechat.com, weixin110.qq.com
+hostname = %INSERT% *.googlevideo.com, api.m.jd.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, note.youdao.com, biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, api-production.endel.io, pan.baidu.com, *.xmind.*, *.caixin.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, api.revenuecat.com, img.zuoyebang.cc, security.wechat.com, weixin110.qq.com, boxer.baidu.com
