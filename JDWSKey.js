@@ -1,25 +1,26 @@
 /**
- * ⚠️不懂请勿使用；py-@id77_GitHub
- * 1、打开App，自动获取 wskey 上传
+ * 1、打开App，自动捕抓 wskey 上传
  * 2、点击APP-个人中心，或 个人中心 下拉刷新，自动捕抓 wskey 上传
  * 注：如有变更才会上传，如果 wskey 没变，不会重复上传。
  *
  * hostname = api.m.jd.com
  *
+ * 注意：使用前请添加boxjs订阅写入bot token https://gist.githubusercontent.com/lowking/ffc020964c1980c6f2187353606cb200/raw/JD-boxjs.json
+ *
 【Surge脚本配置】:
 ===================
 [Script]
-京东上传 = type=http-request,pattern=^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome),requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/JDWSKey.js,script-update-interval=0
+自动上车-id77 = type=http-request,pattern=^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome),requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/Script/uploadJDWSKey.js,script-update-interval=0
 ===================
 【Loon脚本配置】:
 ===================
 [Script]
-http-request ^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome) tag=京东上传, script-path=https://raw.githubusercontent.com/githubdulong/Script/master/JDWSKey.js,requires-body=1
+http-request ^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome) tag=自动上车-id77, script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/Script/uploadJDWSKey.js,requires-body=1
 ===================
 【 QX  脚本配置 】:
 ===================
 [rewrite_local]
-^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome) url script-echo-response https://raw.githubusercontent.com/githubdulong/Script/master/JDWSKey.js
+^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome) url script-echo-response https://raw.githubusercontent.com/id77/QuantumultX/master/Script/uploadJDWSKey.js
  *
  */
 
@@ -30,8 +31,8 @@ const pin = CK.match(/pin=([^=;]+?);/)[1];
 const key = CK.match(/wskey=([^=;]+?);/)[1];
 const _TGUserID = $.getData('id77_TGUserID');
 
-$.TGBotToken = '1946161121:AAG8Xp-oYELR15fXxxtnYS_cp-bw2kbsiU8';
-$.TGUserIDs = [-1001241545347];
+$.TGBotToken = $.getData('lkJdUploadWskeyBotToken');
+$.TGUserIDs = !$.getData('lkJdUploadWskeyToTgUserid') ? ["-1001241545347"] : JSON.parse($.getData('lkJdUploadWskeyToTgUserid'));
 if (_TGUserID) {
   $.TGUserIDs.push(_TGUserID);
 }
@@ -128,8 +129,8 @@ function updateCookie(cookie, TGUserID) {
         } else {
           data = JSON.parse(data);
           if (data.ok) {
-            console.log(`已发送 wskey 至 ${TGUserID}🎉\n`);
-            $.resData = `已发送 wskey 至 ${TGUserID}🎉`;
+            console.log(`已发送 wskey 至 ${TGUserID}🎉。\n`);
+            $.resData = `已发送 wskey 至 ${TGUserID}🎉。`;
           } else if (data.error_code === 400) {
             console.log(`发送失败，请联系 ${TGUserID}。\n`);
             $.resData = `发送失败，请联系 ${TGUserID}。`;
