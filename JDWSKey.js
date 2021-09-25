@@ -10,17 +10,17 @@
 【Surge脚本配置】:
 ===================
 [Script]
-自动上车-id77 = type=http-request,pattern=^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome),requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/Script/uploadJDWSKey.js,script-update-interval=0
+京东上传 = type=http-request,pattern=^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome),requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/JDWSKey.js,script-update-interval=0
 ===================
 【Loon脚本配置】:
 ===================
 [Script]
-http-request ^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome) tag=自动上车-id77, script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/Script/uploadJDWSKey.js,requires-body=1
+http-request ^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome) tag=京东上传, script-path=https://raw.githubusercontent.com/githubdulong/Script/master/JDWSKey.js,requires-body=1
 ===================
 【 QX  脚本配置 】:
 ===================
 [rewrite_local]
-^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome) url script-echo-response https://raw.githubusercontent.com/id77/QuantumultX/master/Script/uploadJDWSKey.js
+^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome) url script-echo-response https://raw.githubusercontent.com/githubdulong/Script/master/JDWSKey.js
  *
  */
 
