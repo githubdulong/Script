@@ -5,7 +5,7 @@
  *
  * hostname = api.m.jd.com
  *
- * 注意：使用前请添加boxjs订阅写入bot token https://gist.githubusercontent.com/lowking/ffc020964c1980c6f2187353606cb200/raw/JD-boxjs.json
+ * 注意：使用前请添加boxjs订阅写入bottoken https://gist.githubusercontent.com/lowking/ffc020964c1980c6f2187353606cb200/raw/JD-boxjs.json
  *
 【Surge脚本配置】:
 ===================
@@ -129,8 +129,8 @@ function updateCookie(cookie, TGUserID) {
         } else {
           data = JSON.parse(data);
           if (data.ok) {
-            console.log(`已发送 wskey 至 ${TGUserID}🎉。\n`);
-            $.resData = `已发送 wskey 至 ${TGUserID}🎉。`;
+            console.log(`已发送 wskey 至 ${TGUserID}🎉\n`);
+            $.resData = `已发送 wskey 至 ${TGUserID}🎉`;
           } else if (data.error_code === 400) {
             console.log(`发送失败，请联系 ${TGUserID}。\n`);
             $.resData = `发送失败，请联系 ${TGUserID}。`;
