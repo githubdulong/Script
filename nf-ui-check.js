@@ -2,11 +2,7 @@
 
 Thanks to & modified from https://gist.githubusercontent.com/Hyseen/b06e911a41036ebc36acf04ddebe7b9a/raw/nf_check.js
 
-For Quantumult-X / 
-
-[task-local]
-
-event-interaction https://raw.githubusercontent.com/githubdulong/Script/master/nfcheck.is, tag=奈飞查询, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/Netflix.png
+For Quantumult-X / [task-local]
 
 @XIAO_KOP
 
