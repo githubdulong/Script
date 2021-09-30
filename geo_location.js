@@ -34,7 +34,7 @@ function json2info(cnt,paras) {
   cnt =JSON.parse(cnt)
   for (i=0;i<paras.length;i++) {
     res = cnt[paras[i]]? res + paran[i] + " : " + cnt[paras[i]] : res
-    res = paras[i] == "country_code"? res+" "+flags.get(cnt[paras[i]].toUpperCase())+"\n\n":res+"\n\n"
+    res = paras[i] == "country_code"? res+" "+flags.get(cnt[paras[i]].toUpperCase())+"":res+""
   }
   res =res+ ""
   return res
