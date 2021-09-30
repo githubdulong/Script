@@ -49,7 +49,7 @@ var flags = new Map([[ "AC" , "🇦🇨" ] , [ "AF" , "🇦🇫" ] , [ "AI" , "�
     } else if (code === "timeout") {
       result['content'] = "测试超时"
     } else {
-      result['content'] = '该节点完整支持 Netflix ➟ ⟦'+flags.get(code.toUpperCase())+code.toUpperCase()+"⟧"
+      result['content'] = '该节点支持 Netflix ➟ ⟦'+flags.get(code.toUpperCase())+code.toUpperCase()+"⟧"
     }
     
     //$notify(result["title"], output, result["content"], link)
