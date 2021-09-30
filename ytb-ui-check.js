@@ -31,19 +31,19 @@ var flags = new Map([[ "AC" , "🇦🇨" ] , [ "AF" , "🇦🇫" ] , [ "AI" , "�
 !(async () => {
   let result = {
     title: 'YouTube Premium 检测',
-    content: '----------------------\n\n检测失败，请重试',
+    content: '检测失败，请重试',
   }
   await Promise.race([test(FILM_ID),timeOut(5000)])
   .then((code) => {
     console.log(code)
     
     if (code === 'Not Available') {
-      result['content'] = '----------------------\n\n该节点未支持 YouTube Premium'
+      result['content'] = '该节点未支持 YouTube Premium'
       //return
     } else if (code === "timeout") {
-      result['content'] = "----------------------\n\n测试超时"
+      result['content'] = "测试超时"
     } else {
-      result['content'] = '----------------------\n\n该节点支持 YouTube Premium '
+      result['content'] = '该节点支持 YouTube Premium '
     }
     //$notify(result["title"], output, result["content"], link)
     
