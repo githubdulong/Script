@@ -3,7 +3,7 @@
   For Quantumult-X 598+
   
   [task_local]
-  event-interaction geo_location.js, tag=GeoIP 查询, img-url=location.fill.viewfinder.system
+  event-interaction geo_location.js, tag=GeoIP查询, img-url=location.fill.viewfinder.system
   
   @XIAO_KOP
 

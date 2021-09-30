@@ -6,7 +6,7 @@ For Quantumult-X 598+
 
 [task_local]
 
-event-interaction https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/ytb-ui-check.js, tag=YouTube 查询, img-url=text.magnifyingglass.system, enabled=true
+event-interaction https://raw.githubusercontent.com/githubdulong/Script/master/ytb-ui-check.js, tag=油管查询, img-url=https://raw.githubusercontent.com/anker1209/icon/main/YouTube.png, enabled=true
 
 @XIAO_KOP
 

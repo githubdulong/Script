@@ -6,7 +6,7 @@ For Quantumult-X 598+
 
 [task-local]
 
-event-interaction https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/nf-ui-check.js, tag=奈飞查询, img-url=text.magnifyingglass.system, enabled=true
+event-interaction https://raw.githubusercontent.com/githubdulong/Script/master/nf-ui-check.js, tag=奈飞查询, img-url=https://raw.githubusercontent.com/anker1209/icon/main/netflix.png, enabled=true
 
 @XIAO_KOP
 
