@@ -6,7 +6,7 @@ For Quantumult-X 598+
 
 [task-local]
 
-event-interaction https://raw.githubusercontent.com/githubdulong/Script/master/nf-ui-check.js, tag=奈飞查询, img-url=https://raw.githubusercontent.com/anker1209/icon/main/netflix.png, enabled=true
+event-interaction https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/nf-ui-check.js, tag=Netflix 查询, img-url=text.magnifyingglass.system, enabled=true
 
 @XIAO_KOP
 
@@ -17,7 +17,7 @@ const BASE_URL = 'https://www.netflix.com/title/'
 
 const FILM_ID = 81215567
 const link = { "media-url": "https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/img/southpark/7.png" } 
-const policy_name = "奈飞视频" //填入你的 netflix 策略组名
+const policy_name = "Netflix" //填入你的 netflix 策略组名
 
 const arrow = "➟"
 var output = ""
@@ -40,16 +40,16 @@ var flags = new Map([[ "AC" , "🇦🇨" ] , [ "AF" , "🇦🇫" ] , [ "AI" , "�
     console.log(code)
     
     if (code === 'Not Available') {
-      result['content'] = '该节点未支持 Netflix'
+      result['content'] = '该节点未解锁 Netflix'
       //return 
       //console.log(result)
     } else if (code === 'Not Found') {
-      result['content'] = '该节点仅支持 Netflix 自制剧'
+      result['content'] = '该节点仅解锁 Netflix 自制剧'
       //return
     } else if (code === "timeout") {
       result['content'] = "测试超时"
     } else {
-      result['content'] = '该节点支持 Netflix ➟ ⟦'+flags.get(code.toUpperCase())+code.toUpperCase()+"⟧"
+      result['content'] = '该节点已解锁 Netflix ➟ ⟦'+flags.get(code.toUpperCase())+" 地区⟧"
     }
     
     //$notify(result["title"], output, result["content"], link)
