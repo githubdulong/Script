@@ -1,4 +1,4 @@
-/***
+ /***
   [task_local]
   event-interaction https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/geo_location.js, tag=GeoIP 查询, img-url=location.fill.viewfinder.system
   
@@ -23,17 +23,17 @@
     message = response? json2info(response.body,paras) : ""
       $done({"title":"IP.SB 查询结果","message":message});
   }, reason => {
-    message = "\n查询超时"
+    message = "\n\n查询超时"
       $done({"title": "IP.SB 查询结果", "message": message});
   })
 
 
 function json2info(cnt,paras) {
-  var res = "\n"
+  var res = "\n\n"
   cnt =JSON.parse(cnt)
   for (i=0;i<paras.length;i++) {
     res = cnt[paras[i]]? res + paran[i] + " : " + cnt[paras[i]] : res
-    res = paras[i] == "country_code"? res+" "+flags.get(cnt[paras[i]].toUpperCase())+"\n":res+"\n"
+    res = paras[i] == "country_code"? res+" "+flags.get(cnt[paras[i]].toUpperCase())+"\n\n":res+"\n\n"
   }
   res =res+ ""
   return res
