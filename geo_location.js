@@ -18,22 +18,22 @@
  
   var message = ""
   const paras = ["ip","isp","country_code","city"]
-  const paran = ["IP","   ISP","   地区","   城市"]
+  const paran = ["IP","ISP","地区","城市"]
   $task.fetch(myRequest).then(response => {
     message = response? json2info(response.body,paras) : ""
       $done({"title":"IP.SB 查询结果","message":message});
   }, reason => {
-    message = "查询超时"
+    message = "\n查询超时"
       $done({"title": "IP.SB 查询结果", "message": message});
   })
 
 
 function json2info(cnt,paras) {
-  var res = ""
+  var res = "\n"
   cnt =JSON.parse(cnt)
   for (i=0;i<paras.length;i++) {
     res = cnt[paras[i]]? res + paran[i] + " : " + cnt[paras[i]] : res
-    res = paras[i] == "country_code"? res+" "+flags.get(cnt[paras[i]].toUpperCase())+"":res+""
+    res = paras[i] == "country_code"? res+" "+flags.get(cnt[paras[i]].toUpperCase())+"\n":res+"\n"
   }
   res =res+ ""
   return res
