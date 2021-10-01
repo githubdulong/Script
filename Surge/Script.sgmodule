@@ -139,6 +139,8 @@ Grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 微信跳转 = type=http-response,pattern=^https\:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/asset/UnblockURLinWeChat.js
 # > 百度跳转
 百度跳转 = type=http-response,pattern=^https\:\/\/boxer\.baidu\.com\/scheme\?scheme,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/baidu-no-redirect.js
+# > 泼辣修图
+泼辣修图 = type=http-response,pattern=^https:\/\/api\.polaxiong\.com\/v1\/payments\/appleiap\/receipts\/confirmation,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Polarr.js
 # > 模块订阅(单独添加)
 //爬虫复写去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/Advertising/Advertising.sgmodule
 //爬虫脚本去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/AdvertisingScript/AdvertisingScript.sgmodule
@@ -150,9 +152,10 @@ Grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 //（不懂勿用）京东上传https://raw.githubusercontent.com/githubdulong/Script/master/Surge/JDWSKey.sgmodule
 //百度防跳转https://raw.githubusercontent.com/app2smile/rules/master/module/baidu-no-redirect.sgmodule
 //微信跳转https://raw.githubusercontent.com/zZPiglet/Task/master/UnblockURLinWeChat.sgmodule
+//spotify解锁https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% *.googlevideo.com, api.m.jd.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, note.youdao.com, biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, api-production.endel.io, pan.baidu.com, *.xmind.*, *.caixin.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, api.revenuecat.com, img.zuoyebang.cc, security.wechat.com, weixin110.qq.com, boxer.baidu.com
+hostname = %INSERT% *.googlevideo.com, api.m.jd.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, *.lagoapps.com, api.meiyan.com, note.youdao.com, biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, api-production.endel.io, pan.baidu.com, *.xmind.*, *.caixin.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, api.revenuecat.com, img.zuoyebang.cc, security.wechat.com, weixin110.qq.com, boxer.baidu.com, api.polaxiong.com
