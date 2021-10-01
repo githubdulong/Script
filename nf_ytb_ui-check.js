@@ -34,9 +34,9 @@ var flags = new Map([[ "AC" , "🇦🇨" ] , [ "AF" , "🇦🇫" ] , [ "AI" , "�
 
 !(async () => {
   let result = {
-    title: 'Netflix/YouTube 查询',
+    title: 'Netflix/YouTube 解锁查询',
     content: '检测失败，请重试',
-    content1: '检测失败，请重试'
+    content1: '\n\n检测失败，请重试'
   }
 
   await Promise.race([test(FILM_ID),timeOut(5000)])
@@ -44,16 +44,16 @@ var flags = new Map([[ "AC" , "🇦🇨" ] , [ "AF" , "🇦🇫" ] , [ "AI" , "�
     console.log(code)
     
     if (code === 'Not Available') {
-      result['content'] = '该节点未解锁 Netflix'
+      result['content'] = '\n\n该节点未解锁 Netflix'
       //return 
       //console.log(result)
     } else if (code === 'Not Found') {
-      result['content'] = '该节点仅解锁 Netflix 自制剧'
+      result['content'] = '\n\n该节点仅解锁 Netflix 自制剧'
       //return
     } else if (code === "timeout") {
-      result['content'] = "测试超时"
+      result['content'] = "\n\n测试超时"
     } else {
-      result['content'] = '该节点已解锁 Netflix ➟ ⟦'+flags.get(code.toUpperCase())+code.toUpperCase()+"⟧"
+      result['content'] = '\n\n该节点已解锁 Netflix ➟ ⟦'+flags.get(code.toUpperCase())+code.toUpperCase()+"⟧"
     }
     
     return testYTB()
