@@ -34,7 +34,7 @@ var flags = new Map([[ "AC" , "🇦🇨" ] , [ "AF" , "🇦🇫" ] , [ "AI" , "�
 
 !(async () => {
   let result = {
-    title: 'Netflix/YouTube解锁查询',
+    title: 'Netflix/YouTube 查询',
     content: '检测失败，请重试',
     content1: '检测失败，请重试'
   }
@@ -44,16 +44,16 @@ var flags = new Map([[ "AC" , "🇦🇨" ] , [ "AF" , "🇦🇫" ] , [ "AI" , "�
     console.log(code)
     
     if (code === 'Not Available') {
-      result['content'] = '未解锁 Netflix'
+      result['content'] = '该节点未解锁 Netflix'
       //return 
       //console.log(result)
     } else if (code === 'Not Found') {
-      result['content'] = '仅解锁 Netflix 自制剧'
+      result['content'] = '该节点仅解锁 Netflix 自制剧'
       //return
     } else if (code === "timeout") {
       result['content'] = "测试超时"
     } else {
-      result['content'] = '已解锁 Netflix ➟ ⟦'+flags.get(code.toUpperCase())+code.toUpperCase()+"⟧"
+      result['content'] = '该节点已解锁 Netflix ➟ ⟦'+flags.get(code.toUpperCase())+code.toUpperCase()+"⟧"
     }
     
     return testYTB()
@@ -64,12 +64,12 @@ var flags = new Map([[ "AC" , "🇦🇨" ] , [ "AF" , "🇦🇫" ] , [ "AI" , "�
     
     console.log(code)
     if (code === 'Not Available') {
-      result['content1'] = '未解锁 YouTube Premium'
+      result['content1'] = '未支持 YouTube Premium'
       //return
     } else if (code === "timeout") {
       result['content1'] = "测试超时"
     } else {
-      result['content1'] = "已解锁 YouTube Premium ➟ ⟦"+flags.get(code.toUpperCase())+code.toUpperCase()+"⟧"
+      result['content1'] = "已支持 YouTube Premium ➟ ⟦"+flags.get(code.toUpperCase())+code.toUpperCase()+"⟧"
     }
     $done({"title":result["title"],"message":result["content"]+"\n\n"+result["content1"]})
     
