@@ -7,6 +7,7 @@
 [Host]
 ip6-localhost = ::1
 ip6-loopback = ::1
+ip-api.com = 208.95.112.1
 taobao.com = server:223.6.6.6
 *.taobao.com = server:223.6.6.6
 tmall.com = server:223.6.6.6
@@ -123,8 +124,6 @@ bilbii搜索 = type=http-request,pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/s
 EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/scripts/main/js/endel.js,type=http-response,pattern=^https?:\/\/api-production.endel.io\/v3\/call
 # > 百度云盘 解锁
 百度云盘 = type=http-response,pattern=https:\/\/pan\.baidu\.com\/rest\/2\.0\/membership\/user,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Crack/bdcloud.js,script-update-interval=0
-# > 机场信息
-机场信息 = type=http-request,pattern=http://sub\.info,script-path=http://sub\.info,script-path=http://sub\.info,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info.js
 # > 财新解锁
 财新解锁 = type=http-response,pattern=https://mappsv5.caixin.com/articlev5/* ,requires-body=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/caixin.js
 # > MIX解锁
@@ -141,6 +140,12 @@ Grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 百度跳转 = type=http-response,pattern=^https\:\/\/boxer\.baidu\.com\/scheme\?scheme,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/baidu-no-redirect.js
 # > 泼辣修图
 泼辣修图 = type=http-response,pattern=^https:\/\/api\.polaxiong\.com\/v1\/payments\/appleiap\/receipts\/confirmation,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Polarr.js
+# > Panel
+机场流量 = type=generic,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/sub_info_panel.js,script-update-interval=0,argument=url=转换的链接&reset_day=1&title=Dler Cloud&icon=airplane.circle&color=#0089A7
+奈飞策略 = type=cron,cronexp=0 6 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/fishingworld/something/main/NetflixSelect/nf_autocheck.js,script-update-interval=0
+奈飞检测 = type=generic, script-path=https://raw.githubusercontent.com/githubdulong/Script/master/nf_autoselect.js, argument=icon1=checkmark.circle&color1=#55ba94&icon2=checkmark.circle.trianglebadge.exclamationmark&color2=#9a9ced&icon3=hand.raised.circle&color3=#ea5532&netflixGroup=𝙉𝙚𝙩𝙛𝙡𝙞𝙭
+DNS检测 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/flushDNS.js,argument=title=DNS FLush&icon=repeat.circle&color=#ED402E&server=false
+
 # > 模块订阅(单独添加)
 //爬虫复写去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/Advertising/Advertising.sgmodule
 //爬虫脚本去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/AdvertisingScript/AdvertisingScript.sgmodule
