@@ -143,7 +143,7 @@ Grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 # > Panel
 机场流量 = type=generic,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/sub_info_panel.js,script-update-interval=0,argument=url=转换的链接&reset_day=1&title=Dler Cloud&icon=airplane.circle&color=#0089A7
 奈飞策略 = type=cron,cronexp=0 6 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/fishingworld/something/main/NetflixSelect/nf_autocheck.js,script-update-interval=0
-奈飞检测 = type=generic, script-path=https://raw.githubusercontent.com/githubdulong/Script/master/nf_autoselect.js, argument=icon1=checkmark.circle&color1=#55ba94&icon2=checkmark.circle.trianglebadge.exclamationmark&color2=#9a9ced&icon3=hand.raised.circle&color3=#ea5532&netflixGroup=𝙉𝙚𝙩𝙛𝙡𝙞𝙭
+奈飞检测 = type=generic, script-path=https://raw.githubusercontent.com/githubdulong/Script/master/nf_autoselect.js, argument=icon1=checkmark.circle&color1=#45995E&icon2=checkmark.circle.trianglebadge.exclamationmark&color2=#9a9ced&icon3=hand.raised.circle&color3=#ea5532&netflixGroup=𝙉𝙚𝙩𝙛𝙡𝙞𝙭
 DNS检测 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/flushDNS.js,argument=title=DNS FLush&icon=repeat.circle&color=#ED402E&server=false
 
 # > 模块订阅(单独添加)
