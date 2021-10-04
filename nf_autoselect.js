@@ -158,7 +158,7 @@ let panel = {
 
   
   if (status==2) {
-    panel['content'] = `完整解锁Netflix 区域：${regionCode}`
+    panel['content'] = `完整解锁Netflix  区域:${regionCode}`
     panel['icon'] = params.icon1
 	 panel['icon-color'] = params.color1
   } else if (status==1) {
