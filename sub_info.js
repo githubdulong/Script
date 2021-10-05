@@ -10,7 +10,7 @@ Surge配置参考注释，转载来自@mieqq
 机场2 = select, policy-path=http://sub.info?url=xxx&reset_day=8
 
 [Script]
-机场信息 = type=http-request,pattern=http://sub\.info,script-path= http://sub\.info,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info.js
+机场信息 = type=http-request,pattern=http://sub\.info,script-path= https://raw.githubusercontent.com/githubdulong/Script/master/sub_info.js
 ----------------------------------------
 
 脚本不用修改，直接配置就好。
