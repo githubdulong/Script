@@ -6,11 +6,13 @@ let traffic = (await httpAPI("/v1/traffic","GET"))
 let dateNow = new Date()
 let dateTime = Math.floor(traffic.startTime*1000)
 let startTime = timeTransform(dateNow,dateTime)
+let title = params.title
+
 
 if ($trigger == "button") await httpAPI("/v1/dns/flush");
 
   $done({
-      title:"𝙎𝙐𝙍𝙂𝙀 𝙋𝙍𝙊",
+      title:"title",
       content:`启动时长: ${startTime}`,
 		icon: params.icon,
 		"icon-color":params.color
