@@ -12,7 +12,7 @@ let title = params.title
 if ($trigger == "button") await httpAPI("/v1/dns/flush");
 
   $done({
-      title:"title",
+      title:title,
       content:`启动时长: ${startTime}`,
 		icon: params.icon,
 		"icon-color":params.color
