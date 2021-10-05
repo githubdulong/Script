@@ -6,7 +6,6 @@ let traffic = (await httpAPI("/v1/traffic","GET"))
 let dateNow = new Date()
 let dateTime = Math.floor(traffic.startTime*1000)
 let startTime = timeTransform(dateNow,dateTime)
-let title = params.title
 
 
 if ($trigger == "button") await httpAPI("/v1/dns/flush");
@@ -31,6 +30,7 @@ let minutes=Math.floor(leave2/(60*1000))//计算相差分钟数
 //计算相差秒数
 let leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数
 let seconds=Math.round(leave3/1000)
+let title = params.title
 
 if(days==0){
 
