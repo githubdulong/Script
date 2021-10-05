@@ -129,7 +129,7 @@ EndelVIP = requires-body=1,script-path=https://raw.githubusercontent.com/cpphut/
 # > MIX解锁
 MIX解锁 = requires-body=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/mix.js,type=http-response,pattern= ^https:\/\/bmall\.camera360\.com\/api\/mix\/recovery$
 # > Xmind思维导图
-//思维导图 = type=http-response,pattern=https?:\/\/.*\.xmind\..*\/_res\/(devices|user_sub_status|appstore/sub),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/xmind.js,script-update-interval=0
+思维导图 = type=http-response,pattern=https?:\/\/.*\.xmind\..*\/_res\/(devices|user_sub_status|appstore/sub),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/xmind.js,script-update-interval=0
 # > vsco解锁
 vsco解锁 = type=http-response,pattern=^https:\/\/api\.revenuecat\.com\/v\d\/subscribers\/\d+$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/vsco.js,script-update-interval=0
 # > Grow解锁
@@ -140,11 +140,12 @@ Grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 百度跳转 = type=http-response,pattern=^https\:\/\/boxer\.baidu\.com\/scheme\?scheme,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/baidu-no-redirect.js
 # > 泼辣修图
 泼辣修图 = type=http-response,pattern=^https:\/\/api\.polaxiong\.com\/v1\/payments\/appleiap\/receipts\/confirmation,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Polarr.js
+# > 机场信息
+机场信息 = type=http-request,pattern=http://sub\.info,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info.js
 # > Panel
-机场流量 = type=generic,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/sub_info_panel.js,script-update-interval=0,argument=url=转换的链接&reset_day=1&title=Dler Cloud&icon=airplane.circle&color=#0089A7
+SurgePro = type=generic,timeout=10,script-path= https://raw.githubusercontent.com/fishingworld/something/main/PanelScripts/surgepro_flushdns.js ,argument=icon=power.circle&color=#FF9400
 奈飞策略 = type=cron,cronexp=0 6 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/fishingworld/something/main/NetflixSelect/nf_autocheck.js,script-update-interval=0
 奈飞检测 = type=generic, script-path=https://raw.githubusercontent.com/githubdulong/Script/master/nf_autoselect.js, argument=icon1=checkmark.circle&color1=#45995E&icon2=checkmark.circle.trianglebadge.exclamationmark&color2=#B06BF7&icon3=hand.raised.circle&color3=#ea5532&netflixGroup=𝙉𝙚𝙩𝙛𝙡𝙞𝙭
-DNS检测 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/flushDNS.js,argument=title=DNS FLush&icon=repeat.circle&color=#ED402E&server=false
 
 # > 模块订阅(单独添加)
 //爬虫复写去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/Advertising/Advertising.sgmodule
@@ -158,6 +159,7 @@ DNS检测 = type=generic,timeout=10,script-path=https://raw.githubusercontent.co
 //百度防跳转https://raw.githubusercontent.com/app2smile/rules/master/module/baidu-no-redirect.sgmodule
 //微信跳转https://raw.githubusercontent.com/zZPiglet/Task/master/UnblockURLinWeChat.sgmodule
 //spotify解锁https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module
+
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
 # 分割线——————————————————————————
