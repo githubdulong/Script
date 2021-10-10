@@ -157,6 +157,7 @@ SurgePro = type=generic,timeout=10,script-path= https://raw.githubusercontent.co
 //百度防跳转https://raw.githubusercontent.com/app2smile/rules/master/module/baidu-no-redirect.sgmodule
 //微信跳转https://raw.githubusercontent.com/zZPiglet/Task/master/UnblockURLinWeChat.sgmodule
 //spotify解锁https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module
+//历史价格（不兼容京粉）https://raw.githubusercontent.com/githubdulong/Script/master/jd_tb_price.sgmodule
 
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
