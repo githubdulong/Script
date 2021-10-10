@@ -3,7 +3,6 @@
  * Github: https://github.com/evilbutcher
  * 本脚本使用了@Gideon_Senku的Env.scriptable，感谢！
  * 感谢@MuTu88帮忙测试！
- 
  * 自动更新打开后会运行覆盖脚本内已有修改，多种解决方案：
  * 一、配置Config文件，请参考https://github.com/evilbutcher/Scriptables/blob/master/Config.js，下载后导入Scriptable，脚本运行会❗️优先❗️调取Config文件中信息，此方法只能显示❗️一个❗️机场。
  * 二、【推荐】Scriptable的iCloud文件夹内，配置checkin.json文件(注意文件名)，具体格式参考https://github.com/evilbutcher/Scriptables/blob/master/checkin_example.json，可以通过创建桌面小组件时填入不同参数如“c1”、“c2”等实现读取多个机场信息。
