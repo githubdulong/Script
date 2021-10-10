@@ -1,5 +1,5 @@
 #!name=历史比价格
-#!desc=最后更新时间 2021-06-25 23:44:45
+#!desc=京东+淘宝比价（如需京粉转链需取消此比价模块）
 
 [Script]
 京东比价 = type=http-response,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig),requires-body=1,max-size=0,script-path=https://service.2ti.st/QuanX/Script/jd_tb_price/main.js,script-update-interval=0
