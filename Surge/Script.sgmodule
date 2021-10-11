@@ -163,6 +163,7 @@ SurgePro = type=generic,timeout=10,script-path= https://raw.githubusercontent.co
 //历史价格（不兼容弹窗京粉）https://raw.githubusercontent.com/githubdulong/Script/master/jd_tb_price.sgmodule
 //转链比价（个人配置boxjs用）https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.sgmodule
 //哔哩哔哩去广告https://raw.githubusercontent.com/yjqiang/surge_scripts/main/modules/bilibili/bilibili_big.sgmodule
+//微信公众号去广告https://raw.githubusercontent.com/yjqiang/surge_scripts/main/modules/wechat/wechat.sgmodule
 
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
