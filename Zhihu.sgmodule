@@ -2,23 +2,33 @@
 #!desc=最后更新时间 2021-06-03 15:31:15
 #!system=ios
 
-[URL Rewrite]
-# 知乎网页去广告&推荐列表
-https://www\.zhihu\.com/api/v4/questions/\d+/related-readings - reject
-https://www\.zhihu\.com/api/v4/answers/\d+/related-readings - reject
-https://www\.zhihu\.com/api/v4/hot_recommendation - reject
-https://www\.zhihu\.com/commercial_api/banners_v3/mobile_banner - reject
-https://zhuanlan\.zhihu\.com/api/articles/\d+/recommendation - reject
-^https?://link\.zhihu\.com/\?target=https?%3A//(.*) https://$1 302
-^https?://oia\.zhihu\.com https://zhuanlan.zhihu.com 302
+# 屏蔽网页登陆
+[Rule]
+# https://www.v2ex.com/t/730727
+# eg: https://static.zhihu.com/heifetz/main.signflow.8981b23e28b3de684698.js
 
-[Header Rewrite]
-# 知乎（部分替换为手机百度 Quark 的 User-Agent）
-"^https:\/\/www\.zhihu\.com\/ " header-replace User-Agent "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1 Quark/604.1 T7/10.7 SearchCraft/2.7.7 (Baidu; P1 9.0.0)"
+# https://www.v2ex.com/t/784612
+# eg: https://static.zhihu.com/heifetz/column.signflow.288f3addd8e584a7bca6.js
+URL-REGEX, ^https://static\.zhihu\.com/[^/]+/(main|column)\.signflow\.[^.]+.js, REJECT
+# 去广告
+// https://github.com/blackmatrix7/ios_rule_script/issues/156
+// 知乎的广告拦截，依赖于拦截 118.89.204.198:443 这个地址的请求，迫使知乎 APP 回退到以 api.zhihu.com 请求数据，才能进行 MITM 清理广告内容。
+DOMAIN,118.89.204.198,REJECT
+URL-REGEX,https://api\.zhihu\.com/commercial_api,REJECT
 
 [Script]
-知乎直接看  = type=http-response,pattern=https://(www\.zhihu\.com/question|zhuanlan\.zhihu\.com/p)/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/zhihu.js
+// 首页 -> 关注
+http-response ^https://api\.zhihu\.com/moments/recommend requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yjqiang/surge_scripts/main/scripts/zhihu/zhihu_moments_recommend.js
+
+// 首页 -> 推荐
+http-response ^https://api\.zhihu\.com/topstory/recommend requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yjqiang/surge_scripts/main/scripts/zhihu/zhihu_topstory_recommend.js
+
+// 知乎某问题的页面
+http-response ^https://api\.zhihu\.com/v4/questions/\d+/answers requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yjqiang/surge_scripts/main/scripts/zhihu/zhihu_question_answers.js
+
+// 回答最下方的广告
+http-response ^https://www\.zhihu\.com/api/v4/answers/\d+/recommendations requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yjqiang/surge_scripts/main/scripts/zhihu/zhihu_answer.js
 
 
 [MITM]
-hostname =  %APPEND% www.zhihu.com, zhuanlan.zhihu.com,link.zhihu.com,oia.zhihu.com
+hostname = %APPEND% static.zhihu.com, api.zhihu.com, www.zhihu.com
