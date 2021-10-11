@@ -1,0 +1,8 @@
+#!name=京东系助手
+#!desc=京东商品转链+跳转值得买 最后更新时间2021-10-11
+
+[Script]
+京东助手 = type=http-response,pattern=^https:\/\/((?!(api|mapi|lbsapi|im\-x|hermes|uranus|saturn|ccf|ccflbs|ccfjma|perf|msg|lite\-msg|firevent|fireactive|lbsgw|lbsgd|ex|policy|mars|blackhole|homepage\-gw|sh|un|bh|orbit|wlmonitor|neptune|jxa|sinan\-agent|ws1\-dd|httpfereport|jingfenapp|jdpull|wlogin|we|live\-ws1|payfinish)\.).*\.?jd\.com\/?((?!\.(js|json|jpg|gif|png|webp|dpg|flv|mp3|mp4)).)*)*$,requires-body=1,max-size=-1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.js
+
+[MITM]
+hostname = %APPEND% in.m.jd.com, me-api.jd.com
