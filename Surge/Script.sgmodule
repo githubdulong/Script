@@ -79,8 +79,8 @@ DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/adaway.txt
 # 分割线——————————————————————————
 
 [Script]
-# > 京粉转链
-京粉转链 = type=http-response,pattern=^https?://api\.m\.jd\.com/(client\.action|api)\?functionId=(wareBusiness|serverConfig|basicConfig|lite_wareBusiness|pingou_item),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jfConvert.js,use-local-host-item-for-proxy = true,script-update-interval=0
+# > 京粉转链（个人改用转链模块）
+//京粉转链 = type=http-response,pattern=^https?://api\.m\.jd\.com/(client\.action|api)\?functionId=(wareBusiness|serverConfig|basicConfig|lite_wareBusiness|pingou_item),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jfConvert.js,use-local-host-item-for-proxy = true,script-update-interval=0
 # > 奈飞评分
 奈飞评分 = type=http-request,pattern=^https?://ios(-h2|)\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js,script-update-interval=0
 奈飞评分 = type=http-response,pattern=^https?://ios(-h2|)\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js,script-update-interval=0
@@ -158,7 +158,7 @@ SurgePro = type=generic,timeout=10,script-path= https://raw.githubusercontent.co
 //微信跳转https://raw.githubusercontent.com/zZPiglet/Task/master/UnblockURLinWeChat.sgmodule
 //spotify解锁https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module
 //历史价格（不兼容京粉）https://raw.githubusercontent.com/githubdulong/Script/master/jd_tb_price.sgmodule
-
+//转链比价（个人配置boxjs用）https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.sgmodule
 ✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
 # 分割线——————————————————————————
