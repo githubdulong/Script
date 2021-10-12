@@ -57,5 +57,3 @@
 //京豆通知 = type=cron,cronexp=0 9 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_bean_change.js
 //汽车兑换 = type=cron,cronexp=58,59,0,1,2 59,0 23,0 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jdqc.js
 //京东取关 = type=cron,cronexp=55 23 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_unsubscribe.js
-
-✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js

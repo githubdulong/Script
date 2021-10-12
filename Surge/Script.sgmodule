@@ -1,54 +1,6 @@
-#!name=𝙎𝙘𝙧𝙞𝙥𝙩✨
-#!desc=Java Script合集 • 包含Host映射、Rule规则、Rewrite重写、Script破解、集成主机名；
+#!name=4⃝脚本合集
+#!desc=去广告+解锁脚本
 #!system=ios
-
-# 分割线——————————————————————————
-
-[Host]
-ip6-localhost = ::1
-ip6-loopback = ::1
-taobao.com = server:223.6.6.6
-*.taobao.com = server:223.6.6.6
-tmall.com = server:223.6.6.6
-*.tmall.com = server:223.6.6.6
-jd.com = server:119.29.29.29
-*.jd.com = server:119.28.28.28
-*.qq.com = server:119.28.28.28
-*.bilibili.com = server:119.29.29.29
-*.tencent.com = server:119.28.28.28
-*.alicdn.com = server:223.5.5.5
-aliyun.com = server:223.5.5.5
-*.aliyun.com = server:223.5.5.5
-weixin.com = server:119.28.28.28
-*.weixin.com = server:119.28.28.28
-hdslb.com = server:119.29.29.29
-163.com = server:119.29.29.29
-*.163.com = server:119.29.29.29
-126.com = server:119.29.29.29
-*.126.com = server:119.29.29.29
-*.126.net = server:119.29.29.29
-*.127.net = server:119.29.29.29
-*.netease.com = server:119.29.29.29
-mi.com = server:119.29.29.29
-*.mi.com = server:119.29.29.29
-xiaomi.com = server:119.29.29.29
-*.xiaomi.com = server:119.29.29.29
-dler.cloud = server:180.76.76.76
-dleris.best = server:180.76.76.76
-routerlogin.net = server:system
-_hotspot_.m2m = server:system
-router.asus.com = server:system
-hotspot.cslwifi.com = server:system
-amplifi.lan = server:system
-*.lan = server:system
-
-# 分割线——————————————————————————
-
-[Header Rewrite]
-
-# 分割线——————————————————————————
-
-[General]
 
 # 分割线——————————————————————————
 
@@ -63,11 +15,6 @@ DOMAIN, iyes.youku.com, REJECT
 URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 # > 京东  去广告
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
-# > AdGuard Rule Lite
-DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/dns-filter.txt,REJECT
-DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/neohosts.txt,REJECT
-DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/neohosts-full.txt,REJECT
-DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/adaway.txt,REJECT
 
 # 分割线——————————————————————————
 
@@ -83,7 +30,9 @@ DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/adaway.txt
 
 [Script]
 # > 京粉转链（个人改用转链模块）
-//京粉转链 = type=http-response,pattern=^https?://api\.m\.jd\.com/(client\.action|api)\?functionId=(wareBusiness|serverConfig|basicConfig|lite_wareBusiness|pingou_item),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jfConvert.js,use-local-host-item-for-proxy = true,script-update-interval=0
+// 京粉转链 = type=http-response,pattern=^https?://api\.m\.jd\.com/(client\.action|api)\?functionId=(wareBusiness|serverConfig|basicConfig|lite_wareBusiness|pingou_item),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jfConvert.js,use-local-host-item-for-proxy = true,script-update-interval=0
+# > 京东比价
+京东比价 = type=http-response,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig),requires-body=1,max-size=0,script-path=https://service.2ti.st/QuanX/Script/jd_tb_price/main.js,script-update-interval=0
 # > 奈飞评分
 奈飞评分 = type=http-request,pattern=^https?://ios(-h2|)\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js,script-update-interval=0
 奈飞评分 = type=http-response,pattern=^https?://ios(-h2|)\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js,script-update-interval=0
@@ -147,11 +96,9 @@ Grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 # > Panel面板
 SurgePro = type=generic,timeout=10,script-path= https://raw.githubusercontent.com/githubdulong/Script/master/surgepro_flushdns.js ,argument=icon=power.circle&color=#FF9400&title=𝙎𝙐𝙍𝙂𝙀 ©｜2022-10-03
 策略选择 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/fishingworld/something/main/groupPanel.js,argument=icon=bolt.circle&color=#1CA454&group=𝙋𝙍𝙊𝙓𝙔
-
 # > 模块订阅(单独添加)
 //爬虫复写去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/Advertising/Advertising.sgmodule
 //什么值得买去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_remove_ads.sgmodule
-//知乎网页https://raw.githubusercontent.com/githubdulong/Script/master/Zhihu.sgmodule
 //京东跳转销卡https://raw.githubusercontent.com/githubdulong/Script/master/Jd_unbindCard.sgmodule
 //京东账号辅助https://raw.githubusercontent.com/githubdulong/Script/master/jd_login_help2.sgmodule
 //快捷搜引擎https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Q-Search_All_in_one.sgmodule
@@ -163,9 +110,6 @@ SurgePro = type=generic,timeout=10,script-path= https://raw.githubusercontent.co
 //历史价格（不兼容弹窗京粉）https://raw.githubusercontent.com/githubdulong/Script/master/jd_tb_price.sgmodule
 //转链比价（个人配置boxjs用）https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.sgmodule
 //哔哩哔哩去广告https://raw.githubusercontent.com/yjqiang/surge_scripts/main/modules/bilibili/bilibili_big.sgmodule
-//微信公众号去广告https://raw.githubusercontent.com/yjqiang/surge_scripts/main/modules/wechat/wechat.sgmodule
-
-✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨ = type=http-request,pattern=分割线,script-path=Script/分割线.js
 
 # 分割线——————————————————————————
 
