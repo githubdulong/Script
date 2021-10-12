@@ -99,16 +99,8 @@ SurgePro = type=generic,timeout=10,script-path= https://raw.githubusercontent.co
 # > 模块订阅(单独添加)
 //爬虫复写去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/Advertising/Advertising.sgmodule
 //什么值得买去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_remove_ads.sgmodule
-//京东跳转销卡https://raw.githubusercontent.com/githubdulong/Script/master/Jd_unbindCard.sgmodule
-//京东账号辅助https://raw.githubusercontent.com/githubdulong/Script/master/jd_login_help2.sgmodule
-//快捷搜引擎https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Q-Search_All_in_one.sgmodule
 //贴吧去除广告https://raw.githubusercontent.com/app2smile/rules/master/module/tieba.sgmodule
-//（不懂勿用）京东上传https://raw.githubusercontent.com/githubdulong/Script/master/Surge/JDWSKey.sgmodule
-//百度防跳转https://raw.githubusercontent.com/app2smile/rules/master/module/baidu-no-redirect.sgmodule
-//微信跳转https://raw.githubusercontent.com/zZPiglet/Task/master/UnblockURLinWeChat.sgmodule
 //spotify解锁https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module
-//历史价格（不兼容弹窗京粉）https://raw.githubusercontent.com/githubdulong/Script/master/jd_tb_price.sgmodule
-//转链比价（个人配置boxjs用）https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.sgmodule
 //哔哩哔哩去广告https://raw.githubusercontent.com/yjqiang/surge_scripts/main/modules/bilibili/bilibili_big.sgmodule
 
 # 分割线——————————————————————————
