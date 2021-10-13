@@ -15,6 +15,11 @@ DOMAIN, iyes.youku.com, REJECT
 URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 # > 京东  去广告
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
+# > AdGuard Rule Lite
+DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/dns-filter.txt,REJECT
+DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/neohosts.txt,REJECT
+DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/neohosts-full.txt,REJECT
+DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/adaway.txt,REJECT
 
 # 分割线——————————————————————————
 
