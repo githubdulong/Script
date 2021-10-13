@@ -6,27 +6,27 @@
 
 [Rule]
 # > 爱奇艺 去暂停广告
-DOMAIN-SUFFIX, cupid.iqiyi.com, REJECT
+DOMAIN-SUFFIX, cupid.iqiyi.com,REJECT
 # > 人人视频 去广告
 AND,((USER-AGENT,PUClient*), (NOT,((DOMAIN-SUFFIX,rr.tv)))),REJECT
 URL-REGEX,^https?:\/\/api\.rr\.tv\/(?:ad\/getAll$|storage/business/rootName/app/homePage),REJECT
 # > 优酷 去广告
-DOMAIN, iyes.youku.com, REJECT
+DOMAIN, iyes.youku.com,REJECT
 URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
-# > 京东  去广告
+# > 京东 去广告
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
 # > boxjs代理
 DOMAIN,boxjs.net,PROXY
 # > 墙洞官网
 DOMAIN-SUFFIX,dlercloud.com,PROXY
-# > 网易
+# > 网易代理
 DOMAIN-SUFFIX,music.163.com,PROXY
 DOMAIN-SUFFIX,movie.xeton.dev,PROXY
-# > 京东系
+# > 京东库代理
 DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,PROXY
 # > dayone
 URL-REGEX,^https:\/\/dayone\.me,PROXY
-# > Surge捷径
+# > Surge提交Ck捷径
 IP-CIDR6,112.226.139.216,DIRECT
 # > AdGuard Rule Lite
 DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/dns-filter.txt,REJECT
