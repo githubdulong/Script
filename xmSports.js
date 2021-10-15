@@ -9,6 +9,8 @@ APP Store下载小米运动APP
 登入小米运动(登录方式必须是手机号码+密码(没有就用手机号码注册),下面的第三方账号(小米账号,Apple,微信)授权登录不行)
 登录成功后在 我的->第三方接入->绑定支付宝,微信
 小米运动只要不退出登录，就会自动获取新的token,即永久有效
+boxjs
+https://raw.githubusercontent.com/githubdulong/Script/master/boxjs.json
 [MITM]
 hostname = account.huami.com
 Surge
