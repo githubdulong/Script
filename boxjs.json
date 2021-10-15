@@ -6,7 +6,7 @@
   "repo": "https://github.com/githubdulong/Script",
     "apps": [
  {
-        "id": "jf",
+        "id": "jfConvert",
         "name": "京粉转链",
         "desc": "在京东比价中增加京粉转链，如显示有转链信息（即使显示无详细返利信息）则可点击跳转跟单，如未显示返利信息则为未参加推广的商品，不会跳转。",
         "keys": ["jfCookie", "jfUseConvert", "jfAutoScheme", "jfusejsapp", "jfChooseScheme", "chooseBrowser", "jfDIYScheme"],
@@ -85,7 +85,7 @@
         ]
       } ,
     {
-      "id": "xmYd",
+      "id": "xmSports",
       "name": "小米运动",
       "keys": [
         "xmSportsToken",
