@@ -1,11 +1,11 @@
  {
   "id": "githubdulong.app.sub",
-  "name": "githubdulong 自用配置",
+  "name": "githubdulong 脚本订阅",
   "author": "@MuTu888",
   "icon": "https://raw.githubusercontent.com/githubdulong/Script/master/Images/dulong.png",
   "repo": "https://github.com/githubdulong/Script",
     "apps": [
-       {
+ {
         "id": "jf",
         "name": "京粉转链",
         "desc": "在京东比价中增加京粉转链，如显示有转链信息（即使显示无详细返利信息）则可点击跳转跟单，如未显示返利信息则为未参加推广的商品，不会跳转。",
@@ -116,97 +116,11 @@
         }
       ],
       "author": "@MuTu888",
-      "repo": "https://github.com/githubdulong/Script",
-      "script": "https://raw.githubusercontent.com/githubdulong/Script/master/xmSports.js",
+      "repo": "https://github.com/Worryfrees/https://github.com/githubdulong/Script",
+      "script": "https://raw.githubusercontent.com/ChuheGit/1/main/Script/jd_scripts/backUp/xmSports.js",
       "icons": [
         "https://raw.githubusercontent.com/58xinian/icon/master/xmyd_mini.png",
         "https://raw.githubusercontent.com/58xinian/icon/master/xmyd.png"
       ]
-      } ,
-              {
-            "id": "githubdulong.app.sub",
-            "name": "上传wskey配置",
-            "keys": [
-                "lkJdUploadWskeyBotToken"
-            ],
-            "author": "@MuTu888",
-            "repo": "https://github.com/githubdulong/Script",
-            "icons": [
-                "https://raw.githubusercontent.com/Orz-3/mini/master/Alpha/jd.png",
-                "https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png"
-            ],
-            "settings": [
-                {
-                    "id": "lkJdUploadWskeyBotToken",
-                    "name": "Telegram机器人token",
-                    "val": "",
-                    "type": "text",
-                    "desc": "去@BotFather获取bot token之后填在这里"
-                },
-                {
-                    "id": "lkJdUploadWskeyToTgUserid",
-                    "name": "wskey发送目标Id",
-                    "val": "[\"-1001241545347\"]",
-                    "type": "text",
-                    "desc": "wskey发送目标Id。数组形式保存[\"-1001241545347\"]"
-                }
-            ]
-        },
-		{
-			"id": "lkJdHelper",
-			"name": "京东助手",
-			"desc_html": "⚠️个人使用",
-			"icons": [
-				"https://raw.githubusercontent.com/Orz-3/mini/master/Alpha/jd.png",
-				"https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png"
-			],
-			"keys": [
-				"lkJdHelperSidebarHorizontal",
-				"lkJdHelperCk",
-				"lkJdHelperCallKey"
-			],
-			"settings": [
-				{
-					"id": "lkJdHelperSidebarHorizontal",
-					"name": "京东助手显示位置",
-					"val": "left",
-					"type": "radios",
-					"items": [
-						{
-							"key": "left",
-							"label": "左边"
-						},
-						{
-							"key": "right",
-							"label": "右边"
-						}
-					],
-					"desc": "默认-左边"
-				},
-				{
-					"id": "lkJdHelperCk",
-					"name": "ck",
-					"val": "",
-					"type": "text",
-					"desc": "用于京粉转链的ck，格式：pt_key=xxx;pt_pin=xxx;wskey=xxx;"
-				},
-				{
-					"id": "lkJdHelperApiDomain",
-					"name": "接口url",
-					"val": "",
-					"type": "text",
-					"desc": "用于京粉转链请求的接口"
-				},
-				{
-					"id": "lkJdHelperCallKey",
-					"name": "调用接口的callKey",
-					"val": "",
-					"type": "text",
-					"desc": "用于京粉转链请求接口的callKey"
-				}
-			],
-			"author": "@MuTu888",
-			"repo": "https://github.com/githubdulong/Script"
-    ]
   }]
 }
