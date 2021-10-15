@@ -157,8 +157,8 @@
       "name": "京东助手",
       "desc_html": "个人使用",
       "icons": [
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Alpha/jd.png",
-        "https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png"
+        "https://raw.githubusercontent.com/anker1209/icon/main/jdsc.png",
+        "https://raw.githubusercontent.com/anker1209/icon/main/jdsc.png"
       ],
       "keys": [
         "lkJdHelperSidebarHorizontal",
