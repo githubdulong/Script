@@ -1,6 +1,6 @@
  {
   "id": "githubdulong.app.sub",
-  "name": "githubdulong 脚本订阅",
+  "name": "Githubdulong 脚本订阅",
   "author": "@MuTu888",
   "icon": "https://raw.githubusercontent.com/githubdulong/Script/master/Images/dulong.png",
   "repo": "https://github.com/githubdulong/Script",
@@ -77,7 +77,7 @@
             "desc": "使用京粉的京东账号 Cookie，如不填则为京东系脚本中的第一个 Cookie。"
           }
         ],
-        "author": "MuTu888",
+        "author": "@MuTu888",
         "repo": "https://github.com/githubdulong/Script",
         "icons": [
           "https://is5-ssl.mzstatic.com/image/thumb/Purple125/v4/eb/a8/f6/eba8f63a-b550-4586-b5d3-f22c0718ef81/source/100x100bb.jpg",
