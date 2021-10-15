@@ -5,7 +5,7 @@
   "icon": "https://raw.githubusercontent.com/githubdulong/Script/master/Images/mu.jpeg",
   "repo": "https://github.com/githubdulong/Script",
     "apps": [
- {
+      {
         "id": "jf",
         "name": "京粉转链",
         "desc": "在京东比价中增加京粉转链，如显示有转链信息（即使显示无详细返利信息）则可点击跳转跟单，如未显示返利信息则为未参加推广的商品，不会跳转。",
@@ -84,7 +84,7 @@
           "https://is5-ssl.mzstatic.com/image/thumb/Purple125/v4/eb/a8/f6/eba8f63a-b550-4586-b5d3-f22c0718ef81/source/100x100bb.jpg"
         ]
       } ,
-    {
+      {
       "id": "xmYd",
       "name": "小米运动",
       "keys": [
@@ -122,8 +122,8 @@
         "https://raw.githubusercontent.com/58xinian/icon/master/xmyd_mini.png",
         "https://raw.githubusercontent.com/58xinian/icon/master/xmyd.png"
       ]
-    } ,
-    {          
+      } ,
+      {          
       "id": "lk.jd.wskeyupload",
       "name": "wskey配置",
       "keys": [
@@ -151,8 +151,8 @@
           "desc": "wskey发送目标Id。数组形式保存[\"-1001241545347\"]"
         }
       ]
-    },
-    {
+      },
+      {
       "id": "lkJdHelper",
       "name": "京东助手",
       "desc_html": "个人使用",
