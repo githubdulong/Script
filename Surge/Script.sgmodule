@@ -26,7 +26,7 @@ DOMAIN-SUFFIX,movie.xeton.dev,PROXY
 DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,PROXY
 # > dayone
 URL-REGEX,^https:\/\/dayone\.me,PROXY
-# > Surge提交Ck捷径
+# > 提交Ck捷径
 IP-CIDR6,112.226.139.216,DIRECT
 # > AdGuard Rule Lite
 DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/dns-filter.txt,REJECT
