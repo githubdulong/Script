@@ -37,8 +37,7 @@ DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/adaway.txt
 # 分割线——————————————————————————
 
 [URL Rewrite]
-# > TikTok换区
-//(更换307后面JP JP=日本 KR=韩国 HK=香港 US=美国）
+# > TikTok换区(更换307后面JP JP=日本 KR=韩国 HK=香港 US=美国）
 //(?<=_region=)CN(?=&) JP 307
 //(?<=&mcc_mnc=)4 2 307
 //^(https?:\/\/(tnc|dm)[\w-]+\.\w+\.com\/.+)(\?)(.+) $1$4 302
