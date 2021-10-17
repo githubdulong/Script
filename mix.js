@@ -1,5 +1,5 @@
 /*
-转自越南老哥作品 @hiepkimcdtk55
+py @hiepkimcdtk55
 
 * MIX解锁订阅功能
 * 配置好脚本、点击三天试用、恢复购买、取消订阅。
