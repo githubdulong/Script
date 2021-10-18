@@ -6,33 +6,33 @@
 
 [Rule]
 # > 爱奇艺 去暂停广告
-DOMAIN-SUFFIX, cupid.iqiyi.com,REJECT
+DOMAIN-SUFFIX, cupid.iqiyi.com,𝙍𝙀𝙅𝙀𝘾𝙏
 # > 人人视频 去广告
-AND,((USER-AGENT,PUClient*), (NOT,((DOMAIN-SUFFIX,rr.tv)))),REJECT
-URL-REGEX,^https?:\/\/api\.rr\.tv\/(?:ad\/getAll$|storage/business/rootName/app/homePage),REJECT
+AND,((USER-AGENT,PUClient*), (NOT,((DOMAIN-SUFFIX,rr.tv)))),𝙍𝙀𝙅𝙀𝘾𝙏
+URL-REGEX,^https?:\/\/api\.rr\.tv\/(?:ad\/getAll$|storage/business/rootName/app/homePage),𝙍𝙀𝙅𝙀𝘾𝙏
 # > 优酷 去广告
-DOMAIN, iyes.youku.com,REJECT
-URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
+DOMAIN, iyes.youku.com,𝙍𝙀𝙅𝙀𝘾𝙏
+URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,𝙍𝙀𝙅𝙀𝘾𝙏-𝙏𝙄𝙉𝙔𝙂𝙄𝙁
 # > 京东 去广告
-URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
+URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,𝙍𝙀𝙅𝙀𝘾𝙏-𝙏𝙄𝙉𝙔𝙂𝙄𝙁
 # > boxjs代理
-DOMAIN,boxjs.net,PROXY
+DOMAIN,boxjs.net,𝙋𝙍𝙊𝙓𝙔
 # > 墙洞官网
-DOMAIN-SUFFIX,dlercloud.com,PROXY
+DOMAIN-SUFFIX,dlercloud.com,𝙋𝙍𝙊𝙓𝙔
 # > 网易代理
-DOMAIN-SUFFIX,music.163.com,PROXY
-DOMAIN-SUFFIX,movie.xeton.dev,PROXY
+DOMAIN-SUFFIX,music.163.com,𝙋𝙍𝙊𝙓𝙔
+DOMAIN-SUFFIX,movie.xeton.dev,𝙋𝙍𝙊𝙓𝙔
 # > 京东库代理
-DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,PROXY
+DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝙋𝙍𝙊𝙓𝙔
 # > dayone
-URL-REGEX,^https:\/\/dayone\.me,PROXY
-# > 提交Ck捷径
-IP-CIDR6,112.226.139.216,DIRECT
+URL-REGEX,^https:\/\/dayone\.me,𝙋𝙍𝙊𝙓𝙔
+# > Surge提交Ck捷径
+IP-CIDR6,112.226.139.216,𝘿𝙄𝙍𝙀𝘾𝙏
 # > AdGuard Rule Lite
-DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/dns-filter.txt,REJECT
-DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/neohosts.txt,REJECT
-DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/neohosts-full.txt,REJECT
-DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/adaway.txt,REJECT
+DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/dns-filter.txt,𝙍𝙀𝙅𝙀𝘾𝙏
+DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/neohosts.txt,𝙍𝙀𝙅𝙀𝘾𝙏
+DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/neohosts-full.txt,𝙍𝙀𝙅𝙀𝘾𝙏
+DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/adaway.txt,𝙍𝙀𝙅𝙀𝘾𝙏
 
 # 分割线——————————————————————————
 
