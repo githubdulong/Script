@@ -1,9 +1,29 @@
-#!name=京粉转链
-#!desc=京东、京喜、极速版转链弹窗版
+#!name=京东辅助
+#!desc=京东多账号辅助登陆(UI1)
 #!system=ios
 
 [Script]
-京粉转链 = type=http-response,pattern=^https?://api\.m\.jd\.com/(client\.action|api)\?functionId=(wareBusiness|serverConfig|basicConfig|lite_wareBusiness|pingou_item),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jfConvert.js,use-local-host-item-for-proxy = true,script-update-interval=0
+# > 京东系列
+京东首页 = type=http-response,pattern=^https:\/\/m\.jd\.com,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东登陆 = type=http-response,pattern=^https:\/\/plogin\.m\.jd\.com,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东我的 = type=http-response,pattern=^https:\/\/home\.m\.jd\.com\/myJd\/newhome\.action,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东购物 = type=http-response,pattern=^https:\/\/p\.m\.jd\.com\/cart\/cart\.action,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京豆明细 = type=http-response,pattern=^https:\/\/bean\.m\.jd\.com\/beanDetail\/index\.action,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东商品 = type=http-response,pattern=^https:\/\/item\.m\.jd\.com\/product\/\s+\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东店铺 = type=http-response,pattern=^https:\/\/shop\.m\.jd\.com\/shopv2\/mzpage?venderId,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东入会 = type=http-response,pattern=^https:\/\/shopmember\.m\.jd\.com,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京东销卡 = type=http-response,pattern=^https:\/\/cardpackage\.jd\.com,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+领券中心 = type=http-response,pattern=^https:\/\/coupon\.m\.jd\.com\/center\/getCouponCenter\.action,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+签到日历 = type=http-response,pattern=^https:\/\/bean\.m\.jd\.com\/bean\/signIndex\.action,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+
+# > 京喜系列
+京喜首页 = type=http-response,pattern=^https:\/\/m\.jingxi\.com\/mcoss\/wxmall\/home,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京喜购物 = type=http-response,pattern=^https:\/\/u\.jingxi\.com\/cart\/mycart?fromnav,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京喜我的 = type=http-response,pattern=st\.jingxi\.com\/pingou\/account\/index\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京喜农场 = type=http-response,pattern=^https:\/\/actst\.jingxi\.com\/sns\/201912\/12\/jxnc\/detail\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京喜财富 = type=http-response,pattern=^https:\/\/st\.jingxi\.com\/fortune_island\/index\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+京喜工厂 = type=http-response,pattern=^https:\/\/actst\.jingxi\.com\/pingou\/dream_factory,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help.js
+
 
 [MITM]
-hostname = %INSERT% me-api.jd.com
+hostname = %INSERT% m.jd.com, plogin.m.jd.com, home.m.jd.com, p.m.jd.com, bean.m.jd.com, item.m.jd.com, shop.m.jd.com, shopmember.m.jd.com, cardpackage.jd.com, coupon.m.jd.com, m.jingxi.com, u.jingxi.com, st.jingxi.com, actst.jingxi.com
