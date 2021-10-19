@@ -114,6 +114,8 @@ SurgePro = type=generic,timeout=10,script-path= https://raw.githubusercontent.co
 //哔哩哔哩去广告https://raw.githubusercontent.com/yjqiang/surge_scripts/main/modules/bilibili/bilibili_big.sgmodule
 //微博去广告https://raw.githubusercontent.com/yjqiang/surge_scripts/main/modules/weibo/weibo.sgmodule
 //换UA https://raw.githubusercontent.com/zZPiglet/Task/master/ChangeUA.sgmodule
+//Siri与搜索https://github.com/VirgilClyne/iRingo/blob/main/sgmodule/Siri_Suggestions.sgmodule?raw=true
+//定位服务https://github.com/VirgilClyne/iRingo/blob/main/sgmodule/Geo_Services.sgmodule?raw=true
 
 # 分割线——————————————————————————
 
