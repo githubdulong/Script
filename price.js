@@ -1,17 +1,17 @@
 /*
-jd tb 商品历史价格查询，比价
+京东+淘宝商品历史价格查询
 
-QuantumultX:
-^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) url script-response-body https://raw.githubusercontent.com/zwf234/rules/master/js/price.js
+QuantumultX：
+京东比价
+^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/price.js
+淘宝比价
+^http://.+/amdc/mobileDispatch url script-request-body https://raw.githubusercontent.com/githubdulong/Script/master/price.js
+^https?://trade-acs\.m\.taobao\.com/gw/mtop\.taobao\.detail\.getdetail url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/price.js
 
-^http://.+/amdc/mobileDispatch url script-request-body https://raw.githubusercontent.com/zwf234/rules/master/js/price.js
-^https?://trade-acs\.m\.taobao\.com/gw/mtop\.taobao\.detail\.getdetail url script-response-body https://raw.githubusercontent.com/zwf234/rules/master/js/price.js
-
-Surge4:
-http-response ^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) requires-body=1,script-path=https://raw.githubusercontent.com/zwf234/rules/master/js/price.js
-
-http-request ^http://.+/amdc/mobileDispatch requires-body=1,script-path=https://raw.githubusercontent.com/zwf234/rules/master/js/price.js
-http-response ^https?://trade-acs\.m\.taobao\.com/gw/mtop\.taobao\.detail\.getdetail requires-body=1,script-path=https://raw.githubusercontent.com/zwf234/rules/master/js/price.js
+#Surge：
+京东比价 = type=http-response,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/price.js
+淘宝比价 = type=http-response,pattern=^http://.+/amdc/mobileDispatch,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/price.js
+淘宝比价 = type=http-response,pattern=^https?://trade-acs\.m\.taobao\.com/gw/mtop\.taobao\.detail\.getdetail,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/price.js
 
 MITM = api.m.jd.com, trade-acs.m.taobao.com
 */
