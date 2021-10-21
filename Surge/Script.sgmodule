@@ -28,12 +28,6 @@ DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝙋𝙍𝙊𝙓𝙔
 URL-REGEX,^https:\/\/dayone\.me,𝙋𝙍𝙊𝙓𝙔
 # > Surge提交Ck捷径
 IP-CIDR6,112.226.139.216,𝘿𝙄𝙍𝙀𝘾𝙏
-# > Siri与搜索
-PROCESS-NAME,LookupViewService,𝙋𝙍𝙊𝙓𝙔
-PROCESS-NAME,/System/Library/PrivateFrameworks/Lookup.framework/Versions/A/XPCServices/LookupViewService.xpc/Contents/MacOS/LookupViewService,𝙋𝙍𝙊𝙓𝙔
-DOMAIN,lookup-api.apple.com,𝙋𝙍𝙊𝙓𝙔
-DOMAIN,lookup-api.apple.com.edgekey.net,𝙋𝙍𝙊𝙓𝙔
-DOMAIN,e16991.b.akamaiedge.net,𝙋𝙍𝙊𝙓𝙔
 # > AdGuard Rule Lite
 DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/dns-filter.txt,𝙍𝙀𝙅𝙀𝘾𝙏
 DOMAIN-SET,https://cdn.jsdelivr.net/gh/geekdada/surge-list/domain-set/neohosts.txt,𝙍𝙀𝙅𝙀𝘾𝙏
@@ -84,8 +78,6 @@ boxjsnet = type=http-request,pattern=^https?://boxjs.net,script-path=https://raw
 emby解锁 = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice,requires-body=1,max-size=0,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/embyPremiere.js
 # > TFDOWN
 TFDOWN = type=http-request,pattern=^https?:\/\/testflight\.apple\.com\/v2\/accounts\/.*\/apps\/\d*/builds/\d*/install,requires-body=1,max-size=0,script-path=https://gist.githubusercontent.com/NobyDa/9be418b93afc5e9c8a8f4d28ae403cf2/raw/TF_Download.js
-# > 应用安装
-应用安装 = type=http-request,pattern=^https:\/\/nobyda/(install|download)(\/jsbox)?$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/IPA_install.js
 # > bilbii换区、评分
 bilbii换区 = type=http-response,pattern=^https:\/\/ap(p|i)\.bilibili\.com\/(pgc\/view\/(v\d\/)?app|x(\/v\d)?\/view\/video)\/(season|online)\?access_key,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
 bilbii搜索 = type=http-request,pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/search\/type\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)&,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
@@ -130,4 +122,4 @@ SurgePro = type=generic,timeout=10,script-path= https://raw.githubusercontent.co
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, nobyda, ap?.bilibili.com, api-production.endel.io, pan.baidu.com, *.xmind.*, *.caixin.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, api.revenuecat.com, img.zuoyebang.cc, security.wechat.com, weixin110.qq.com, boxer.baidu.com, api.polaxiong.com
+hostname = %INSERT% *.googlevideo.com, api.m.jd.com, trade-acs.m.taobao.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, api.flexibits.com, ios(-h2|).prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, mb3admin.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, ap?.bilibili.com, api-production.endel.io, pan.baidu.com, *.xmind.*, *.caixin.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, api.revenuecat.com, img.zuoyebang.cc, security.wechat.com, weixin110.qq.com, boxer.baidu.com, api.polaxiong.com
