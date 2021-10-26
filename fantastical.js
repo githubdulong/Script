@@ -1,5 +1,10 @@
 /*
-^https:\/\/api\.flexibits\.com\/v1\/(auth|account)\/(device|details|appstore-receipt)\/$ url script-response-body fantastical.js
+圈X
+^https:\/\/api\.flexibits\.com\/v1\/(auth|account)\/(device|details|appstore-receipt)\/$ url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/fantastical.js
+
+Surge
+Fantastical = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/fantastical.js,type=http-response,pattern=^https:\/\/api\.flexibits\.com\/v1\/(auth|account)\/(device|details|appstore-receipt)\/$
+
 hostname=api.flexibits.com
 */
 
