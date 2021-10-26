@@ -1,5 +1,5 @@
 /*
-圈X
+Quantumult_X
 ^https:\/\/api\.flexibits\.com\/v1\/(auth|account)\/(device|details|appstore-receipt)\/$ url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/fantastical.js
 
 Surge
