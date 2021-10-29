@@ -5,6 +5,29 @@
   "icon": "https://raw.githubusercontent.com/githubdulong/Script/master/Images/mu.jpeg",
   "repo": "https://github.com/githubdulong/Script",
     "apps": [
+     {
+            "id": "hackl0us.aqius",
+        "name": "将 iOS 系统原生 天气 App 的空气质量标准改为 AQI-US",
+        "keys": ["hackl0us_aqi_token"],
+        "settings": [
+          {
+            "id": "hackl0us_aqi_token",
+            "name": "aqicn API Token",
+            "val": "",
+            "type": "textarea",
+            "placeholder": "token",
+            "autoGrow": true,
+            "rows": 3,
+            "desc": ""
+          }
+        ],
+        "author": "@hackl0us@MuTu888",
+        "repo": "https://github.com/githubdulong/Script",
+        "icons": [
+          "https://raw.githubusercontent.com/Orz-3/mini/master/Alpha/weather.png",
+          "https://raw.githubusercontent.com/Orz-3/mini/master/Color/weather.png"
+        ]
+      } ,
       {
         "id": "jf",
         "name": "京粉转链",
@@ -129,7 +152,7 @@
       "keys": [
         "lkJdUploadWskeyBotToken"
       ],
-      "author": "@MuTu888",
+      "author": "@lowking@MuTu888",
       "repo": "https://github.com/githubdulong/Script",
       "icons": [
         "https://raw.githubusercontent.com/id77/QuantumultX/master/icon/link.png",
@@ -205,8 +228,8 @@
           "desc": "用于京粉转链请求接口的callKey"
         }
       ],
-      "author": "@MuTu888",
+      "author": "@lowking@MuTu888",
       "repo": "https://github.com/githubdulong/Script"
     }
   ]
-}
+}    
