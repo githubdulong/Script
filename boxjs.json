@@ -7,7 +7,7 @@
     "apps": [
      {
             "id": "hackl0us.aqius",
-        "name": "将 iOS 系统原生 天气 App 的空气质量标准改为 AQI-US",
+        "name": "空气质量（AQI-US）",
         "keys": ["hackl0us_aqi_token"],
         "settings": [
           {
