@@ -4,15 +4,15 @@
 const $ = new Env('AQI-US');
 $.token = 'hackl0us_aqi_token';
 
-// STEP 1: 前往 https://aqicn.org/data-platform/token/ 注册账户，将申请的 API Token 填入下方
+// 前往 https://aqicn.org/data-platform/token/ 注册账户，将申请的 API Token 填入下方引号内或添加boxjs订阅填写 https://raw.githubusercontent.com/githubdulong/Script/master/boxjs.json
+
 const aqicnToken = $.getdata($.token) || '';
 
-// STEP 2: 参考下方配置片段，在代理工具的配置文件中添加对应的配置。注意：script-path 后应该替换为添加 apicnToken 值后的脚本路径
 /*
    [Surge]
 空气质量 = type=http-response,pattern=https://weather-data.apple.com/v2/weather/[\w-]+/-?[0-9]+\.[0-9]+/-?[0-9]+\.[0-9]+\?,requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/iOS15_Weather_AQI_US.js
 	
-   [quan_x]
+   [Quan_x]
 ^https:\/\/weather-data\.apple\.com\/v2\/weather\/[\w-]+\/-?[0-9]+\.[0-9]+\/-?[0-9]+\.[0-9]+\? url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/iOS15_Weather_AQI_US.js
 
 	[MITM]
@@ -20,7 +20,7 @@ const aqicnToken = $.getdata($.token) || '';
 */
 
 const AirQualityStandard = {
-	CN: 'HJ6332012.2115',
+    CN: 'HJ6332012.2115',
     US: 'EPA_NowCast.2115'
 }
 
