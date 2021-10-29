@@ -104,7 +104,7 @@ Grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 # > 机场信息
 机场信息 = type=http-request,pattern=http://sub\.info,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info.js
 # > Panel面板 
-SurgePro = type=generic,timeout=10,script-path= https://raw.githubusercontent.com/githubdulong/Script/master/surgepro_flushdns.js ,argument=icon=power.circle&color=#FF0000&title=𝙎𝙐𝙍𝙂𝙀 ©｜2022-10-03
+缓存面板 = type=generic,timeout=10,script-path= https://raw.githubusercontent.com/githubdulong/Script/master/surgepro_flushdns.js ,argument=icon=power.circle&color=#FF0000&title=𝙎𝙐𝙍𝙂𝙀 ©｜2022-10-03
 策略选择 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/fishingworld/something/main/groupPanel.js,argument=icon=bolt.circle&color=#00BC12&group=𝙋𝙍𝙊𝙓𝙔
 # > 模块订阅(单独添加)
 //爬虫复写去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/Advertising/Advertising.sgmodule
@@ -112,7 +112,6 @@ SurgePro = type=generic,timeout=10,script-path= https://raw.githubusercontent.co
 //贴吧去除广告https://raw.githubusercontent.com/app2smile/rules/master/module/tieba.sgmodule
 //spotify解锁https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module
 //哔哩哔哩去广告https://raw.githubusercontent.com/yjqiang/surge_scripts/main/modules/bilibili/bilibili_big.sgmodule
-//换UA https://raw.githubusercontent.com/zZPiglet/Task/master/ChangeUA.sgmodule
 //Siri与搜索https://github.com/VirgilClyne/iRingo/blob/main/sgmodule/Siri_Suggestions_noRuleSet.sgmodule?raw=true
 
 # 分割线——————————————————————————
