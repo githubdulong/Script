@@ -7,7 +7,7 @@
     "apps": [
      {
             "id": "hackl0us.aqius",
-        "name": "空气质量（AQI-US）",
+        "name": "空气质量",
         "keys": ["hackl0us_aqi_token"],
         "settings": [
           {
