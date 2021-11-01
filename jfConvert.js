@@ -136,7 +136,7 @@ if (url.indexOf(path2) != -1 || url.indexOf(path4) != -1) {
 
 function convert(url, isOriginJXURL) {
     return new Promise((resolve) => {
-        if (!cookiesArr[0]) {
+        if (!cookie) {
             $tool.setCache("false", "jfUseConvert");
             resolve("");
         } else {
