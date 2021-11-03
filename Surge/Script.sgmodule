@@ -60,7 +60,7 @@ IP-CIDR6,112.226.139.216,𝘿𝙄𝙍𝙀𝘾𝙏
 # > 金山WPS vip
 WPS破解 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Wps.js,type=http-response,pattern=^https://account.wps.*/api/users/
 # > 扫描全能王 pro
-扫描破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Worryfrees/script/main/Rewrites/other/CamScanner.js,type=http-response,pattern=https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\?,script-update-interval=0
+扫描破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/CamScanner.js,type=http-response,pattern=https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\?,script-update-interval=0
 # > 通用解锁 试用取消 主机名buy.itunes.apple.com
 //Bear破解 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Quantumult-X-LK/master/Scripts/langkhach/verify_receipt.js,type=http-response,pattern=^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt$
 # > Day one vip
