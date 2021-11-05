@@ -116,6 +116,7 @@ Grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 //京东助手转链https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.sgmodule
 //京东辅助登陆https://raw.githubusercontent.com/Fokit/Quantumult-X/main/rewrite/jd_login_help2.sgmodule
 //京粉转链弹窗https://raw.githubusercontent.com/githubdulong/Script/master/jfConvert.sgmodule
+//京粉转链（不兼容弹窗京粉与助手）https://raw.githubusercontent.com/githubdulong/Script/master/Surge/jdapp_to_union.sgmodule
 //浏览器搜索https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Q-Search_All_in_one.sgmodule
 
 # 分割线——————————————————————————
