@@ -38,4 +38,4 @@
 京喜牧场 = type=http-response,pattern=^https:\/\/wqs\.jd\.com\/pingou\/jxmc\/index\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_login_help2.js
 
 [MITM]
-hostname = %INSERT% *.jd.com, *.*.jd.com, *.moxigame.cn
+hostname = %INSERT% m.jd.com, plogin.m.jd.com, home.m.jd.com, wqs.jd.com, wq.jd.com, wqsd.jd.com,wqsh.jd.com, p.m.jd.com, bean.m.jd.com, item.m.jd.com, shop.m.jd.com, shopmember.m.jd.com, cardpackage.jd.com, coupon.m.jd.com, m.jingxi.com, u.jingxi.com, st.jingxi.com, actst.jingxi.com, h5.m.jd.com, jdsupermarket.jd.com, wbbny.m.jd.com, prodev.m.jd.com, try.m.jd.com
