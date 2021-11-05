@@ -1,6 +1,7 @@
 #!name=京东辅助
 #!desc=京东多账号辅助登陆(UI1)
 #!system=ios
+#! 弃更 请改用https://raw.githubusercontent.com/Fokit/Quantumult-X/main/rewrite/jd_login_help.sgmodule模块
 
 [Script]
 # > 京东系列
