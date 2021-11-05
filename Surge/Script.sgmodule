@@ -42,7 +42,7 @@ IP-CIDR6,112.226.139.216,𝘿𝙄𝙍𝙀𝘾𝙏
 # 分割线——————————————————————————
 
 [Script]
-# > 京东比价（不兼容弹窗京粉）
+# > 京东比价
 京东比价 = type=http-response,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/zwf234/rules/master/js/price.js,script-update-interval=0
 # > 淘宝比价
 淘宝比价 = type=http-response,pattern=^http://.+/amdc/mobileDispatch,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/zwf234/rules/master/js/price.js,script-update-interval=0
