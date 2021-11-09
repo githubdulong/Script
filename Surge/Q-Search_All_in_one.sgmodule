@@ -36,6 +36,9 @@
 # ph:  PornHub 
 # gd:  Google Drive资源
 # tgd: TG搜索Google Drive资源
+
+# ccn 临时切换App Store国区
+# uus 临时切换App Store美区
  
 # bi: 必应
 # bd：百度搜索
@@ -120,6 +123,16 @@
 ^https:\/\/duckduckgo.com\/\?q=ddg\+([^&]+).+ https://duckduckgo.com/?ia=about&q=$1 302
 # 无指令: 谷歌
 ^https:\/\/duckduckgo.com\/\?q=([^&]+).+ https://www.google.com/search?q=$1 302
+# tgd
+# tgd xxx (t.me/gdsharing 搜索 Google Drive 资源)
+^https:\/\/duckduckgo.com\/\?q=tgd(\+|%20)([^&]+).+ https://t.me/s/gdsharing?q=$2 302
+# > App Store临时换区
+# ccn 国区
+# ccn (App Store 临时换至中国区)
+^https:\/\/duckduckgo.com\/\?q=ccn&.+ https://itunes.apple.com/WebObjects/MZStore.woa/wa/resetAndRedirect?dsf=143465&mt=8&url=/WebObjects/MZStore.woa/wa/viewSoftware?mt=8&id=1108187390&cc=cn&urlDesc= 302
+# uus 美区
+# uus (App Store 临时换至美国区)
+^https:\/\/duckduckgo.com\/\?q=uus&.+ https://itunes.apple.com/WebObjects/MZStore.woa/wa/resetAndRedirect?dsf=143441&mt=8&url=/WebObjects/MZStore.woa/wa/viewSoftware?mt=8&id=1108187390&cc=us&urlDesc= 302
 
 [MITM]
 hostname = %APPEND% duckduckgo.com
