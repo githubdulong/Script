@@ -183,52 +183,59 @@
         "https://raw.githubusercontent.com/anker1209/icon/main/jdsc.png",
         "https://raw.githubusercontent.com/anker1209/icon/main/jdsc.png"
       ],
-      "keys": [
-        "lkJdHelperSidebarHorizontal",
-        "lkJdHelperCk",
-        "lkJdHelperCallKey"
-      ],
-      "settings": [
-        {
-          "id": "lkJdHelperSidebarHorizontal",
-          "name": "京东助手显示位置",
-          "val": "left",
-          "type": "radios",
-          "items": [
-            {
-              "key": "left",
-              "label": "左边"
-            },
-            {
-              "key": "right",
-              "label": "右边"
-            }
-          ],
-          "desc": "默认-左边"
-        },
-        {
-          "id": "lkJdHelperCk",
-          "name": "ck",
-          "val": "",
-          "type": "text",
-          "desc": "用于京粉转链的ck，格式：pt_key=xxx;pt_pin=xxx;wskey=xxx;"
-        },
-        {
-          "id": "lkJdHelperApiDomain",
-          "name": "接口url",
-          "val": "",
-          "type": "text",
-          "desc": "用于京粉转链请求的接口"
-        },
-        {
-          "id": "lkJdHelperCallKey",
-          "name": "调用接口的callKey",
-          "val": "",
-          "type": "text",
-          "desc": "用于京粉转链请求接口的callKey"
-        }
-      ],
-      "author": "@id77@lowking@MuTu888",
+			"keys": [
+				"lkJdHelperSidebarHorizontal",
+				"lkJdHelperCk",
+				"lkJdHelperCallKey"
+			],
+			"settings": [
+				{
+					"id": "lkJdHelperSidebarHorizontal",
+					"name": "京东助手显示位置",
+					"val": "left",
+					"type": "radios",
+					"items": [
+						{
+							"key": "left",
+							"label": "左边"
+						},
+						{
+							"key": "right",
+							"label": "右边"
+						}
+					],
+					"desc": "默认-左边"
+				},
+				{
+					"id": "lkJdHelperCk",
+					"name": "ck",
+					"val": "",
+					"type": "text",
+					"desc": "用于京粉转链的ck，格式：pt_key=xxx;pt_pin=xxx;wskey=xxx;"
+				},
+				{
+					"id": "lkJdHelperApiDomain",
+					"name": "接口url",
+					"val": "",
+					"type": "text",
+					"desc": "用于京粉转链请求的接口"
+				},
+				{
+					"id": "lkJdHelperCallKey",
+					"name": "调用接口的callKey",
+					"val": "",
+					"type": "text",
+					"desc": "用于京粉转链请求接口的callKey"
+				},
+				{
+					"id": "lkJdHelperIsNotifyKey",
+					"name": "是否显示通知",
+					"val": false,
+					"type": "boolean",
+					"desc": "默认关闭"
+				}
+			],
+      "author": "@lowking@MuTu888",
       "repo": "https://github.com/githubdulong/Script"
     }
   ]
