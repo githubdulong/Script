@@ -2,10 +2,10 @@
 #!desc=商品详情触发转链 更新时间2021-11-14
 #!system=ios
 
-# 点详情触发注入京粉、值得买、慢慢买比价 京喜与极速版需去掉京粉转链注释，另外配合比价能排除京东app京粉转链模块弹窗
+# 京东商品点详情触发注入京粉、值得买、慢慢买比价，另外配合比价能排除京东app京粉转链模块弹窗
 
 [Script]
-//京粉转链 = type=http-response,pattern=^https?://api\.m\.jd\.com/(client\.action|api)\?functionId=(wareBusiness|serverConfig|basicConfig|lite_wareBusiness|pingou_item),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jfConvert.js,use-local-host-item-for-proxy = true,script-update-interval=0
+京粉转链 = type=http-response,pattern=^https?://api\.m\.jd\.com/(client\.action|api)\?functionId=(wareBusiness|serverConfig|basicConfig|lite_wareBusiness|pingou_item),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jfConvert.js,use-local-host-item-for-proxy = true,script-update-interval=0
 京东助手 = type=http-response,pattern=^https:\/\/((?!(api|mapi|lbsapi|im\-x|hermes|uranus|saturn|ccf|ccflbs|ccfjma|perf|msg|lite\-msg|firevent|fireactive|lbsgw|lbsgd|ex|policy|mars|blackhole|homepage\-gw|sh|un|bh|orbit|wlmonitor|neptune|jxa|sinan\-agent|ws1\-dd|httpfereport|jingfenapp|jdpull|wlogin|we|live\-ws1|payfinish)\.).*\.?jd\.com\/?((?!\.(js|json|jpg|gif|png|webp|dpg|flv|mp3|mp4)).)*)*$,requires-body=1,max-size=-1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.js
 
 [MITM]
