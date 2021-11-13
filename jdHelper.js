@@ -102,7 +102,7 @@ async function all() {
                 notifyStr = `${notifyStr}💰佣金比例：${result.data.data.wlCommissionShare}% `
               }
               if (result.data.data.wlCommission) {
-                notifyStr = `${notifyStr}预计返利：¥${result.data.data.wlCommission} `
+                notifyStr = `${notifyStr}  预计返利：¥${result.data.data.wlCommission} `
               }
               lk.msg(``, notifyStr)
             }
