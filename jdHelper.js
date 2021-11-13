@@ -52,36 +52,43 @@ async function all() {
     const jdHelperDomain = 'lkJdHelperApiDomain'
     const jdHelperCallKey = 'lkJdHelperCallKey'
     const jdHelperIsNotifyKey = 'lkJdHelperIsNotifyKey'
+    const jdHelperIsShowSmzdm = 'jdHelperIsShowSmzdm'
+    const jdHelperIsShowJf = 'jdHelperIsShowJf'
+    const jdHelperIsShowMmm = 'jdHelperIsShowMmm'
     let rightOrLeft = !lk.getVal(sidebarHorizontal) ? `left` : lk.getVal(sidebarHorizontal)
     let ck = !lk.getVal(jdCkBoxJsKey) ? `` : lk.getVal(jdCkBoxJsKey)
     let apiDomain = !lk.getVal(jdHelperDomain) ? `left` : lk.getVal(jdHelperDomain)
     let apiCallKey = !lk.getVal(jdHelperCallKey) ? `` : lk.getVal(jdHelperCallKey)
     let isNotify = !lk.getVal(jdHelperIsNotifyKey) ? false : JSON.parse(lk.getVal(jdHelperIsNotifyKey))
 
+    let isShowSmzdm = !lk.getVal(jdHelperIsShowSmzdm) ? true : JSON.parse(lk.getVal(jdHelperIsShowSmzdm))
+    let isShowJf = !lk.getVal(jdHelperIsShowJf) ? true : JSON.parse(lk.getVal(jdHelperIsShowJf))
+    let isShowMmm = !lk.getVal(jdHelperIsShowMmm) ? true : JSON.parse(lk.getVal(jdHelperIsShowMmm))
+
     let leftCss = !lk.getVal('lkJdHelperLeftCss') ? '' : lk.getVal('lkJdHelperLeftCss')
     if (leftCss == '') {
       leftCss = `
-        left: 0;
+        left: -5px;
         border-radius: 0 50px 50px 0;
         padding: 0 5px 0 5px;
-        box-shadow: -1px 2px 5px #888888;`
+        box-shadow: -2px 1px 8px #888888;`
     }
     let rightCss = !lk.getVal('lkJdHelperRightCss') ? '' : lk.getVal('lkJdHelperRightCss')
     if (rightCss == '') {
       rightCss = `
-        right: 0;
+        right: -5px;
         border-radius: 50px 0 0 50px;
         padding: 0 5px 0 5px;
-        box-shadow: -1px 2px 5px #888888;`
+        box-shadow: -2px 1px 8px #888888;`
     }
     let smzdmCss = !lk.getVal('lkJdHelperSmzdmCss') ? '' : lk.getVal('lkJdHelperSmzdmCss')
     if (smzdmCss == '') {
       smzdmCss = `
-        bottom: 217px;
+        bottom: 213px;
         box-sizing: content-box;
         width: 30px;
         height: 30px;
-        border:1px solid rgba(255,255,255,0.8);
+        border: 0px solid rgba(255,255,255,0.8);
         background: #fff;
         background: url(https://pic.imgdb.cn/item/618fbff22ab3f51d916b872f.png) #fff no-repeat 11px/27px;`
     }
@@ -92,9 +99,20 @@ async function all() {
         box-sizing: content-box;
         width: 30px;
         height: 30px;
-        border:1px solid rgba(255,255,255,0.8);
+        border: 0px solid rgba(255,255,255,0.8);
         background: #fff;
         background: url(https://pic.imgdb.cn/item/618fbf532ab3f51d916b50be.png) #fff no-repeat 11px/27px;`
+    }
+    let mmmCss = !lk.getVal('lkJdHelperMmmCss') ? '' : lk.getVal('lkJdHelperMmmCss')
+    if (mmmCss == '') {
+      mmmCss = `
+        bottom: 287px;
+        box-sizing: content-box;
+        width: 30px;
+        height: 30px;
+        border: 0px solid rgba(255,255,255,0.8);
+        background: #fff;
+        background: url(https://pic.imgdb.cn/item/618fd7352ab3f51d9173702d.png) #fff no-repeat 11px/27px;`
     }
 
     // <div id="alook" class="sidebar ${rightOrLeft}" onclick="window.location.href='alook://${url}'">
@@ -105,8 +123,9 @@ async function all() {
     //         </div>
     let tools = !sku
         ? ``
-        : `<button id="smzdm" class="sidebar ${rightOrLeft}"></button>
-            <button id="jf" class="sidebar ${rightOrLeft}"></button>`
+        : `<button id="smzdm" class="sidebar ${rightOrLeft} ${isShowSmzdm ? '' : 'hide'}"></button>
+            <button id="jf" class="sidebar ${rightOrLeft} ${isShowJf ? '' : 'hide'}"></button>
+            <button id="mmm" class="sidebar ${rightOrLeft} ${isShowMmm ? '' : 'hide'}"></button>`
 
     if (apiDomain == "" || apiCallKey == "") {
       lk.msg('', '请订阅boxjs之后进行api的相关配置！')
@@ -181,6 +200,10 @@ async function all() {
                               border-radius: 50px 0 0 50px;
                           }
                           
+                          .hide {
+                              display: none !important;
+                          }
+                          
                           #alook {
                               bottom: 250px;
                           }
@@ -193,6 +216,9 @@ async function all() {
                           }
                           #jf {
                           ${jfCss}
+                          }
+                          #mmm {
+                          ${mmmCss}
                           }
                       </style>
                       ${tools}
@@ -228,6 +254,21 @@ async function all() {
                               document.body.removeChild(input)
                               //window.location.href='com.jingdong.jxj://'
                               window.location.href='openApp.jdMobile://virtual?params={"category":"jump","des":"m","sourceValue":"babel-act","sourceType":"babel","url":"${jfConvertorResultUrl}"}'
+                          })
+                          const mmmbtn = document.querySelector('#mmm')
+                          mmmbtn.addEventListener('click',() => {
+                              const input = document.createElement('input')
+                              input.setAttribute('readonly', 'readonly')
+                              input.setAttribute('value', '${jfConvertorResultUrl}')
+                              // input.setAttribute('value', document.getElementsByTagName('head')[0].innerHTML)
+                              document.body.appendChild(input)
+                              input.setSelectionRange(0, input.value.length)
+                              if (document.execCommand('copy')) {
+                                  document.execCommand('copy')
+                                  console.log('复制成功${jfConvertorResultUrl}')
+                              }
+                              document.body.removeChild(input)
+                              window.location.href='manmanbuy://'
                           })
                           
                           const script = document.createElement('script')
