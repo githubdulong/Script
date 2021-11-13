@@ -51,10 +51,12 @@ async function all() {
     const jdCkBoxJsKey = 'lkJdHelperCk'
     const jdHelperDomain = 'lkJdHelperApiDomain'
     const jdHelperCallKey = 'lkJdHelperCallKey'
+    const jdHelperIsNotifyKey = 'lkJdHelperIsNotifyKey'
     let rightOrLeft = !lk.getVal(sidebarHorizontal) ? `left` : lk.getVal(sidebarHorizontal)
     let ck = !lk.getVal(jdCkBoxJsKey) ? `` : lk.getVal(jdCkBoxJsKey)
     let apiDomain = !lk.getVal(jdHelperDomain) ? `left` : lk.getVal(jdHelperDomain)
     let apiCallKey = !lk.getVal(jdHelperCallKey) ? `` : lk.getVal(jdHelperCallKey)
+    let isNotify = !lk.getVal(jdHelperIsNotifyKey) ? false : JSON.parse(lk.getVal(jdHelperIsNotifyKey))
 
     // <div id="alook" class="sidebar ${rightOrLeft}" onclick="window.location.href='alook://${url}'">
     //           <img src="https://alookbrowser.com/assets/uploads/profile/1-profileavatar.png" />
@@ -90,12 +92,31 @@ async function all() {
           //lk.log(data)
           const result = JSON.parse(data)
           if (result.code == 0) {
-            jfConvertorResultUrl = result.data.data.promotionUrl
+            if (result.data.data.promotionUrl) {
+              jfConvertorResultUrl = result.data.data.promotionUrl
+            }
+            //收集需要通知的信息
+            if (isNotify) {
+              let notifyStr = ""
+              if (result.data.data.wlCommissionShare) {
+                notifyStr = `${notifyStr}💰佣金比例：${result.data.data.wlCommissionShare}% `
+              }
+              if (result.data.data.wlCommission) {
+                notifyStr = `${notifyStr}💰预计返利：¥${result.data.data.wlCommission} `
+              }
+              lk.msg(``, notifyStr)
+            }
             lk.execStatus = true
           }
-          html =
-              html.replace(/(<\/html>)/g, '') +
-              `
+        } catch (e) {
+          lk.logErr(e)
+          lk.log(`请求京粉api异常：${data}`)
+          lk.msg(``, `请求京粉转链api异常：${data}`)
+          lk.execFail()
+        }
+        html =
+            html.replace(/(<\/html>)/g, '') +
+            `
                       <style>
                           html, body {
                               -webkit-user-select: auto !important;
@@ -214,14 +235,7 @@ async function all() {
                       </script>
                   </html>
                   `
-          lk.done({body: html})
-        } catch (e) {
-          lk.logErr(e)
-          lk.log(`请求京粉api异常：${data}`)
-          lk.msg(``, `请求京粉转链api异常`)
-          lk.execFail()
-          lk.done({body: html})
-        }
+        lk.done({body: html})
       })
     }
   }
