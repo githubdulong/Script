@@ -58,6 +58,45 @@ async function all() {
     let apiCallKey = !lk.getVal(jdHelperCallKey) ? `` : lk.getVal(jdHelperCallKey)
     let isNotify = !lk.getVal(jdHelperIsNotifyKey) ? false : JSON.parse(lk.getVal(jdHelperIsNotifyKey))
 
+    let leftCss = !lk.getVal('lkJdHelperLeftCss') ? '' : lk.getVal('lkJdHelperLeftCss')
+    if (leftCss == '') {
+      leftCss = `
+        left: 0;
+        border-radius: 0 50px 50px 0;
+        padding: 0 5px 0 5px;
+        box-shadow: -1px 2px 5px #888888;`
+    }
+    let rightCss = !lk.getVal('lkJdHelperRightCss') ? '' : lk.getVal('lkJdHelperRightCss')
+    if (rightCss == '') {
+      rightCss = `
+        right: 0;
+        border-radius: 50px 0 0 50px;
+        padding: 0 5px 0 5px;
+        box-shadow: -1px 2px 5px #888888;`
+    }
+    let smzdmCss = !lk.getVal('lkJdHelperSmzdmCss') ? '' : lk.getVal('lkJdHelperSmzdmCss')
+    if (smzdmCss == '') {
+      smzdmCss = `
+        bottom: 217px;
+        box-sizing: content-box;
+        width: 30px;
+        height: 30px;
+        border:1px solid rgba(255,255,255,0.8);
+        background: #fff;
+        background: url(https://pic.imgdb.cn/item/618fbff22ab3f51d916b872f.png) #fff no-repeat 11px/27px;`
+    }
+    let jfCss = !lk.getVal('lkJdHelperJfCss') ? '' : lk.getVal('lkJdHelperJfCss')
+    if (jfCss == '') {
+      jfCss = `
+        bottom: 250px;
+        box-sizing: content-box;
+        width: 30px;
+        height: 30px;
+        border:1px solid rgba(255,255,255,0.8);
+        background: #fff;
+        background: url(https://pic.imgdb.cn/item/618fbf532ab3f51d916b50be.png) #fff no-repeat 11px/27px;`
+    }
+
     // <div id="alook" class="sidebar ${rightOrLeft}" onclick="window.location.href='alook://${url}'">
     //           <img src="https://alookbrowser.com/assets/uploads/profile/1-profileavatar.png" />
     //         </div>
@@ -123,14 +162,10 @@ async function all() {
                               user-select: auto !important;
                           }
                           .right {
-                              right: 0;
-                              border-radius: 50px 0 0 50px;
-                              padding: 0 20px 0 5px;
+                          ${rightCss}
                           }
                           .left {
-                              left: 0;
-                              border-radius: 0 50px 50px 0;
-                              padding: 0 5px 0 20px;
+                          ${leftCss}
                           }
                           .sidebar{
                               position: fixed;
@@ -154,22 +189,10 @@ async function all() {
                               bottom: 217px;
                           }
                           #smzdm {
-                              bottom: 217px;
-                              box-sizing: content-box;
-                              width: 30px;
-                              height: 30px;
-                              border:1px solid rgba(255,255,255,0.8);
-                              background: #FFF;
-                              background: url(http://avatarimg.smzdm.com/default/8282685611/5d146cda8a63a-small.jpg) #FFF no-repeat 5px/30px;
+                          ${smzdmCss}
                           }
                           #jf {
-                              bottom: 250px;
-                              box-sizing: content-box;
-                              width: 30px;
-                              height: 30px;
-                              border:1px solid rgba(255,255,255,0.8);
-                              background: #FFF;
-                              background: url(https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3083494097,804462904&fm=26&gp=0.jpg) #FFF no-repeat 5px/30px;
+                          ${jfCss}
                           }
                       </style>
                       ${tools}
