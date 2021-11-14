@@ -168,8 +168,8 @@ async function all() {
           }
         } catch (e) {
           lk.logErr(e)
-          lk.log(`请求京粉api异常：${data}`)
-          lk.msg(``, `请求京粉转链api异常：${data}`)
+          //lk.log(`请求京粉api异常：${data}`)
+          lk.msg(``, `该商品暂无佣金转链信息${data}`)
           lk.execFail()
         }
         html =
