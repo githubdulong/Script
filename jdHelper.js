@@ -5,38 +5,36 @@
 Surge 脚本配置:
 ************************
 [Script]
-jdHelper = type=http-response,pattern=https://.*\.m\.jd\.com/babelDiy/Zeus/.*\/index\.html,requires-body=1,max-size=-1,script-path=jdHelper.js
-jdHelper1 = type=http-response,pattern=https://.*\.m\.jd\.com/.*\.html,requires-body=1,max-size=-1,script-path=jdHelper.js
-jdHelper2 = type=http-response,pattern=https://jingfen\.jd\.com/.*\.html,requires-body=1,max-size=-1,script-path=jdHelper.js
-jdHelper3 = type=http-response,pattern=https://coupon\.m\.jd\.com/center/getCouponCenter\.action,requires-body=1,max-size=-1,script-path=jdHelper.js
-jdHelper4 = type=http-response,pattern=https://active.jd.com/forever/btgoose,requires-body=1,max-size=-1,script-path=jdHelper.js
-
-************************
-QuantumultX 本地脚本配置:
-************************
-[rewrite_local]
-# 京东活动助手
-https://.*\.m\.jd\.com/babelDiy/Zeus/.*\/index\.html url script-response-body jd_hd.js
-https://.*\.m\.jd\.com/.*\.html url script-response-body jd_hd.js
-https://jingfen\.jd\.com/.*\.html url script-response-body jd_hd.js
-https://coupon\.m\.jd\.com/center/getCouponCenter\.action url script-response-body jd_hd.js
-https://active.jd.com/forever/btgoose url script-response-body jd_hd.js
+jdHelper1 = type=http-response,pattern=^https:\/\/((?!(api|mapi|lbsapi|im\-x|hermes|uranus|saturn|ccf|ccflbs|ccfjma|perf|msg|lite\-msg|firevent|fireactive|lbsgw|lbsgd|ex|policy|mars|blackhole|homepage\-gw|sh|un|bh|orbit|wlmonitor|neptune|jxa|sinan\-agent|ws1\-dd|httpfereport|jingfenapp|jdpull|wlogin|we|live\-ws1|payfinish)\.).*\.?jd\.com\/?((?!\.(js|json|jpg|gif|png|webp|dpg|flv|mp3|mp4)).)*)*$,requires-body=1,max-size=-1,script-path=jdHelper.js
 
 [mitm]
-hostname = *.jd.com, *.*.jd.com
+hostname = %APPEND% in.m.jd.com, me-api.jd.com, wqs.jd.com, lite-in.m.jd.com
 */
 
 const lk = new ToolKit(`京东助手`, `JdHelper`)
 let html = lk.getResponseBody()
-all()
+try {
+  lk.log('开始处理')
+  all()
+} catch (e) {
+  lk.logErr(e)
+  lk.done({body: html})
+}
 
 async function all() {
   if (html == undefined || !html.includes('</html>')) {
     lk.done({body: html})
   } else {
-    let url = lk.getRequestUrl().replace(/https?:\/\/|\?.*/g, '')
+    lk.log('开始解析')
+    let url = lk.getRequestUrl()
+    lk.log(`url:${url}`)
     let sku
+    let appType = "jd"
     let arr = []
+
+    if (url.includes('lite-in.m.jd.com')) {
+      appType = "jsb"
+    }
 
     if (url.includes('graphext/draw')) {
       arr = url.match(/sku=(\d+)/)
@@ -44,9 +42,14 @@ async function all() {
     if (url.includes('/product/')) {
       arr = url.match(/\/.*\/(\d+)\.html/)
     }
+    if (url.includes('/jxapp_detail/')) {
+      arr = url.match(/sku=(\d+)&/)
+      appType = "jx"
+    }
 
     sku = arr.length != 0 ? arr[1] : ''
 
+    lk.log(`解析完成:${sku}`)
     const sidebarHorizontal = 'lkJdHelperSidebarHorizontal'
     const jdCkBoxJsKey = 'lkJdHelperCk'
     const jdHelperDomain = 'lkJdHelperApiDomain'
@@ -114,7 +117,7 @@ async function all() {
         background: #fff;
         background: url(https://pic.imgdb.cn/item/618fd7352ab3f51d9173702d.png) #fff no-repeat 11px/27px;`
     }
-
+    lk.log('读取boxjs配置完成')
     // <div id="alook" class="sidebar ${rightOrLeft}" onclick="window.location.href='alook://${url}'">
     //           <img src="https://alookbrowser.com/assets/uploads/profile/1-profileavatar.png" />
     //         </div>
@@ -126,13 +129,14 @@ async function all() {
         : `<button id="smzdm" class="sidebar ${rightOrLeft} ${isShowSmzdm ? '' : 'hide'}"></button>
             <button id="jf" class="sidebar ${rightOrLeft} ${isShowJf ? '' : 'hide'}"></button>
             <button id="mmm" class="sidebar ${rightOrLeft} ${isShowMmm ? '' : 'hide'}"></button>`
-
+    lk.log('初始化工具栏完成')
     if (apiDomain == "" || apiCallKey == "") {
       lk.msg('', '请订阅boxjs之后进行api的相关配置！')
       lk.log('请订阅boxjs之后进行api的相关配置！')
       lk.done({body: html})
     } else {
       // 请求接口获取京粉转链之后的url
+      lk.log('准备开始请求jf转链')
       let jfConvertorResultUrl = `https://item.jd.com/${sku}.html`
       let options = {
         url: `${apiDomain}/unidbg/jfConvertor?ck=${ck}&materialInfo=${jfConvertorResultUrl}`,
@@ -145,9 +149,11 @@ async function all() {
         })
       }
       //lk.log(JSON.stringify(options))
+      lk.log('构建转链请求完成')
       await lk.post(options, (error, response, data) => {
         try {
           //lk.log(data)
+          lk.log('请求京粉转链完成，准备处理数据')
           const result = JSON.parse(data)
           if (result.code == 0) {
             if (result.data.data.promotionUrl) {
@@ -166,12 +172,14 @@ async function all() {
             }
             lk.execStatus = true
           }
+          lk.log('处理京粉转链数据完成')
         } catch (e) {
           lk.logErr(e)
           //lk.log(`请求京粉api异常：${data}`)
           lk.msg(``, `🛍该商品暂无佣金转链信息`)
           lk.execFail()
         }
+        lk.log('开始注入html')
         html =
             html.replace(/(<\/html>)/g, '') +
             `
@@ -224,6 +232,7 @@ async function all() {
                       ${tools}
                       <script>
                           const jfConvertorResultUrl = "${jfConvertorResultUrl}"
+                          const jfConvertorAppType = "${appType}"
                           const btn = document.querySelector('#smzdm')
                           btn.addEventListener('click',() => {
                               const input = document.createElement('input')
@@ -253,7 +262,23 @@ async function all() {
                               }
                               document.body.removeChild(input)
                               //window.location.href='com.jingdong.jxj://'
-                              window.location.href='openApp.jdMobile://virtual?params={"category":"jump","des":"m","sourceValue":"babel-act","sourceType":"babel","url":"${jfConvertorResultUrl}"}'
+                              switch (jfConvertorAppType) {
+                                case 'jx':
+                                    var a = document.createElement('a');
+                                    a.setAttribute('href', "${jfConvertorResultUrl}");
+                                    a.setAttribute('target', '_self');
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    document.body.removeChild(input)
+                                    // window.location.href='openapp.jdpingou://virtual?params={"des":"m","url":"${jfConvertorResultUrl}","category":"jump"}'
+                                    break
+                                case 'jsb':
+                                    window.location.href='openjdlite://virtual?params={"category":"jump","des":"m","url":"${jfConvertorResultUrl}"}'
+                                    break
+                                default:
+                                    window.location.href='openApp.jdMobile://virtual?params={"category":"jump","des":"m","sourceValue":"babel-act","sourceType":"babel","url":"${jfConvertorResultUrl}"}'
+                                    break
+                              }
                           })
                           const mmmbtn = document.querySelector('#mmm')
                           mmmbtn.addEventListener('click',() => {
@@ -299,6 +324,7 @@ async function all() {
                       </script>
                   </html>
                   `
+        lk.log('注入html完成')
         lk.done({body: html})
       })
     }
