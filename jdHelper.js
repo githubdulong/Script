@@ -168,7 +168,24 @@ async function all() {
               if (result.data.data.wlCommission) {
                 notifyStr = `${notifyStr}  预计返利：¥${result.data.data.wlCommission} `
               }
-              lk.msg(``, notifyStr)
+              let param = ""
+              switch (appType) {
+                case 'jx':
+                  param = `{"des":"m","url":"${jfConvertorResultUrl}","category":"jump"}`
+                  param = encodeURI(param)
+                  lk.msg(``, notifyStr, `openapp.jdpingou://virtual?params=${param}`)
+                  break
+                case 'jsb':
+                  param = `{"category":"jump","des":"m","url":"${jfConvertorResultUrl}"}`
+                  param = encodeURI(param)
+                  lk.msg(``, notifyStr, `openjdlite://virtual?params=${param}`)
+                  break
+                default:
+                  param = `{"category":"jump","des":"m","sourceValue":"babel-act","sourceType":"babel","url":"${jfConvertorResultUrl}"}`
+                  param = encodeURI(param)
+                  lk.msg(``, notifyStr, `openApp.jdMobile://virtual?params=${param}`)
+                  break
+              }
             }
             lk.execStatus = true
           }
