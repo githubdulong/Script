@@ -24,7 +24,7 @@ http-request ^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig
  *
  */
 
-const $ = new Env('京东Wskey提交);
+const $ = new Env('♨️上传 wskey');
 let CK = $request.headers['Cookie'] || $request.headers['cookie'];
 
 const pin = CK.match(/pin=([^=;]+?);/)[1];
@@ -73,14 +73,14 @@ if (_TGUserID) {
     if (existCookie) {
       cookiesData[updateIndex].cookie = cookie;
       cookieName = '【账号' + (updateIndex + 1) + '】';
-      tipPrefix = '更新京东Wskey';
+      tipPrefix = '更新京东 wskey';
     } else {
       cookiesData.push({
         userName: decodeName,
         cookie: cookie,
       });
       cookieName = '【账号' + cookiesData.length + '】';
-      tipPrefix = '首次写入京东Wskey';
+      tipPrefix = '首次写入京东 wskey';
       $.needUpload = true;
     }
     $.setData(JSON.stringify(cookiesData, null, 2), 'wskeyList');
@@ -96,14 +96,14 @@ if (_TGUserID) {
         await showMsg(userId);
       }
     } else {
-      console.log(`♨️Wskey未变动，本次不提交。\n\n${cookie}`);
+      console.log(`♨️wskey 没有改变`);
     }
 
     return;
   } catch (error) {
-    $.msg('⚠️ 写入京东Wskey失败', '', '请重试。);
+    $.msg('写入京东 wskey 失败', '', '请重试 ⚠️');
     console.log(
-      `\n⚠️ 写入京东Wskey出现错误 ‼️\n${JSON.stringify(
+      `\n写入京东 wskey 出现错误 ‼️\n${JSON.stringify(
         error
       )}\n\n${error}\n\n${JSON.stringify($request.headers)}\n`
     );
@@ -129,14 +129,14 @@ function updateCookie(cookie, TGUserID) {
         } else {
           data = JSON.parse(data);
           if (data.ok) {
-            console.log(`🎉 Wskey提交成功\n\n${cookie}`);
-            $.resData = `🎉 Wskey提交成功\n${cookie};
+            console.log(`已发送 wskey 至 ${TGUserID}🎉\n`);
+            $.resData = `已发送 wskey 至 ${TGUserID}🎉`;
           } else if (data.error_code === 400) {
-            console.log(`⚠️ Wskey提交失败，请联系 ${TGUserID}。\n\n${cookie}`);
-            $.resData = `⚠️ Wskey提交失败，请联系 ${TGUserID}。\n${cookie}`;
+            console.log(`发送失败，请联系 ${TGUserID}。\n`);
+            $.resData = `发送失败，请联系 ${TGUserID}。`;
           } else if (data.error_code === 401) {
-            console.log(`${TGUserID} Telegram Bot token 填写错误。\n`);
-            $.resData = `${TGUserID} Telegram Bot token 填写错误。\n`;
+            console.log(`${TGUserID} bot token 填写错误。\n`);
+            $.resData = `${TGUserID} bot token 填写错误。`;
           }
         }
       } catch (e) {
@@ -150,7 +150,7 @@ function updateCookie(cookie, TGUserID) {
 
 function showMsg() {
   return new Promise((resolve) => {
-    $.msg($.name, $.subt, $.resData || '⚠️ 服务不可用，请稍后重试。');
+    $.msg($.name, $.subt, $.resData || '服务不可用');
     resolve();
   });
 }
