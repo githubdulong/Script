@@ -109,7 +109,7 @@ Grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 //什么值得买去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_remove_ads.sgmodule
 //贴吧去除广告https://raw.githubusercontent.com/app2smile/rules/master/module/tieba.sgmodule
 //spotify解锁https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module
-//哔哩哔哩去广告https://raw.githubusercontent.com/yjqiang/surge_scripts/main/modules/bilibili/bilibili_big.sgmodule
+//哔哩哔哩去广告https://raw.githubusercontent.com/app2smile/rules/master/module/bilibili.sgmodule
 //Siri区域解锁https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Siri_Suggestions.sgmodule
 //京东辅助登陆https://raw.githubusercontent.com/Fokit/Quantumult-X/main/rewrite/jd_login_help2.sgmodule
 ////京东助手（京喜无法转链）https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.sgmodule
