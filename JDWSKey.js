@@ -24,7 +24,7 @@ http-request ^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig
  *
  */
 
-const $ = new Env('♨️上传 wskey');
+const $ = new Env('♨️京东上传 Wskey');
 let CK = $request.headers['Cookie'] || $request.headers['cookie'];
 
 const pin = CK.match(/pin=([^=;]+?);/)[1];
@@ -129,8 +129,8 @@ function updateCookie(cookie, TGUserID) {
         } else {
           data = JSON.parse(data);
           if (data.ok) {
-            console.log(`🎉 wskey 提交成功\n\n${cookie}`);
-            $.resData = `🎉 wskey 提交成功 ${cookie}`;
+            console.log(`🎉wskey 提交成功\n\n${cookie}`);
+            $.resData = `🎉wskey 提交成功 ${cookie}`;
           } else if (data.error_code === 400) {
             console.log(`⚠️ wskey 提交失败，请联系 ${TGUserID}。\n\n${cookie}`);
             $.resData = `⚠️ wskey 提交失败，请联系 ${TGUserID}。${cookie}`;
