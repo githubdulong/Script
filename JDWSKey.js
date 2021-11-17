@@ -96,7 +96,7 @@ if (_TGUserID) {
         await showMsg(userId);
       }
     } else {
-      console.log(`♨️wskey 没有改变\n\n${cookie}`);
+      console.log(`♨️wskey 没有改变\n${cookie}`);
     }
 
     return;
@@ -644,7 +644,7 @@ function Env(name, opts) {
         }
       }
       if (!this.isMuteLog) {
-        let logs = ['', '==============📣系统通知📣=============='];
+        let logs = ['', '================系统通知================'];
         logs.push(title);
         subt ? logs.push(subt) : '';
         desc ? logs.push(desc) : '';
