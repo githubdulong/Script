@@ -96,7 +96,7 @@ if (_TGUserID) {
         await showMsg(userId);
       }
     } else {
-      console.log(`♨️wskey 没有改变`);
+      console.log(`♨️wskey 没有改变\n\n${cookie}`);
     }
 
     return;
@@ -129,14 +129,14 @@ function updateCookie(cookie, TGUserID) {
         } else {
           data = JSON.parse(data);
           if (data.ok) {
-            console.log(`已发送 wskey 至 ${TGUserID}🎉\n`);
-            $.resData = `已发送 wskey 至 ${TGUserID}🎉`;
+            console.log(`🎉 wskey 提交成功\n\n${cookie}`);
+            $.resData = `🎉 wskey 提交成功 ${cookie}`;
           } else if (data.error_code === 400) {
-            console.log(`发送失败，请联系 ${TGUserID}。\n`);
-            $.resData = `发送失败，请联系 ${TGUserID}。`;
+            console.log(`⚠️ wskey 提交失败，请联系 ${TGUserID}。\n\n${cookie}`);
+            $.resData = `⚠️ wskey 提交失败，请联系 ${TGUserID}。${cookie}`;
           } else if (data.error_code === 401) {
-            console.log(`${TGUserID} bot token 填写错误。\n`);
-            $.resData = `${TGUserID} bot token 填写错误。`;
+            console.log(`${TGUserID} Telegram Bot token 填写错误。\n`);
+            $.resData = `${TGUserID} Telegram Bot token 填写错误。`;
           }
         }
       } catch (e) {
@@ -198,7 +198,7 @@ function Env(name, opts) {
       this.logSeparator = '\n';
       this.startTime = new Date().getTime();
       Object.assign(this, opts);
-      this.log('', `🔔${this.name}, 开始!`);
+      this.log('', `${this.name}, 开始!`);
     }
 
     isNode() {
@@ -676,7 +676,7 @@ function Env(name, opts) {
     done(val = {}) {
       const endTime = new Date().getTime();
       const costTime = (endTime - this.startTime) / 1000;
-      this.log('', `🔔${this.name}, 结束! 🕛 ${costTime} 秒`);
+      this.log('', `${this.name}, 结束! 🕛 ${costTime} 秒`);
       this.log();
       if (this.isSurge() || this.isQuanX() || this.isLoon()) {
         $done(val);
