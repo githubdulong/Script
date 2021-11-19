@@ -26,8 +26,6 @@ DOMAIN-SUFFIX,movie.xeton.dev,𝙋𝙍𝙊𝙓𝙔
 DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝙋𝙍𝙊𝙓𝙔
 # > dayone
 URL-REGEX,^https:\/\/dayone\.me,𝙋𝙍𝙊𝙓𝙔
-# > Surge提交Ck捷径
-IP-CIDR6,112.226.139.216,𝘿𝙄𝙍𝙀𝘾𝙏
 # > 腾讯视频直连
 DOMAIN,vv.video.qq.com,𝘿𝙄𝙍𝙀𝘾𝙏
 
