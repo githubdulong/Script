@@ -1,5 +1,5 @@
-#!name=Cookie获取
-#!desc=Cookie重写 获取后取消勾选
+#!name=🅐 Cookie获取
+#!desc=最后更新时间 2021-11-25 0:01
 #!system=ios
 
 # 分割线——————————————————————————
@@ -7,7 +7,7 @@
 [Script]
 # > 京东商城
 # 京东登录 https://home.m.jd.com/myJd/newhome.action
-# 京东金融 app获取
+# 金融app获取
 京东商城 = type=http-request,requires-body=1,pattern=^https:\/\/(api\.m|me-api|ms\.jr)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?|gw\/generic\/hy\/h5\/m\/appSign\?),script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
 # > 网易云音乐 
 #登录1 https://music.163.com/m/login
@@ -20,7 +20,7 @@
 中国电信 = type=http-request,pattern=^https?:\/\/e\.189\.cn\/store\/user\/package_detail\.do,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/telecomSky.js
 # > 美团 app获取
 美团获取 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.cookie.js,requires-body=true,type=http-request,pattern=^https:\/\/i.meituan.com\/evolve\/signin\/signpost\/
-# > 新浪微博 app获取（如果失效需清除boxjs数据再获取）
+# > 新浪微博 app获取（清除boxjs数据再获取）
 微博签到 = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/users\/show,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js
 微博签到 = type=http-request,pattern=https:\/\/m\.weibo\.cn\/c\/checkin\/ug\/v2\/signin\/module\?module,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js
 # > 微博推送 登陆https://m.weibo.cn获取

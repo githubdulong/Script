@@ -1,16 +1,16 @@
-#!name=定时脚本
-#!desc=定时运行签到脚本
+#!name=🅑 定时脚本
+#!desc=最后更新时间 2021-11-24 23:53
 #!system=ios
 
 # 分割线——————————————————————————
 
 [Script]
 # > 京东商城
-京东商城 = type=cron,cronexp=”0 0 0 * * *“,wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
+京东商城 = type=cron,cronexp=0 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
 # > 京东金融
-京东金融 = type=cron,cronexp=30 0 0 * * *,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_jr_sign.js
+京东金融 = type=cron,cronexp=30 0 0 * * *,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_jr_sign.js,wake-system=1,script-update-interval=0
 # > 威锋论坛
-威锋论坛 = type=cron,cronexp=”0 1 0 * * *“,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,script-update-interval=0
+威锋论坛 = type=cron,cronexp=0 1 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,script-update-interval=0
 # > 喜马拉雅
 喜马拉雅 = type=cron,cronexp=30 1 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ximalaya/ximalaya.js,script-update-interval=0
 # > 美团
@@ -21,7 +21,7 @@
 饿了领豆 = type=cron,cronexp=0 3 0 * * *,timeout=60,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/eleme/eleme_daily.js
 饿了任务 = type=cron,cronexp=0 0 10 * * *,timeout=60,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/eleme/eleme_mission.js
 # > 吾爱破解
-吾爱破解 = type=cron,cronexp=30 3 0 * * *,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/52pojie-DailyBonus/52pojie.js
+吾爱破解 = type=cron,cronexp=30 3 0 * * *,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/52pojie-DailyBonus/52pojie.js,wake-system=1,script-update-interval=0
 # > 网易新闻
 网易新闻 = type=cron,cronexp=0 4 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasenews/neteasenews.js,script-update-interval=0
 # > 百度贴吧
@@ -46,18 +46,21 @@
 # > 每日一句
 每日一句 = type=cron,cronexp=8 8 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/One.js,script-update-interval=0
 # > 京豆通知
-京豆通知 = type=cron,cronexp=0 9 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_bean_change.js
-# > 中国电信 
+京豆通知 = type=cron,cronexp=0 9 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_bean_change.js,script-update-interval=0
+# > 中国电信
 中国电信 = type=cron,cronexp=0 1 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/telecomSky.js,script-update-interval=0
 # > 中国联通
-中国联通 = type=cron,cronexp=0 2 9 * * *,timeout=120,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/10010/unicom_signin.min.js,script-update-interval=0
+中国联通 = type=cron,cronexp=0 2 9 * * *,timeout=120,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/10010/unicom_signin.min.js,script-update-interval=0,wake-system=1
 # > 小米运动
-小米运动 = type=cron,cronexp=”0 0 17 * * *“,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/xmSports.js,script-update-interval=0
+小米运动 = type=cron,cronexp=0 0 17 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/xmSports.js,script-update-interval=0
 # > 墨迹天气
-墨迹天气 = type=cron,cronexp=0 2 17 * * *,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/moji.js,script-update-interval=0
+墨迹天气 = type=cron,cronexp=0 2 17 * * *,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/moji.js,script-update-interval=0,wake-system=1
 # > 彩票开奖
-彩票开奖 = type=cron,cronexp=”0 30 21 * * *“,wake-system=1,script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/ssq/ssq.js,script-update-interval=0
+彩票开奖 = type=cron,cronexp=0 30 21 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/ssq/ssq.js,script-update-interval=0
 # > 京东取关
 京东取关 = type=cron,cronexp=55 23 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_unsubscribe.js,script-update-interval=0
+# > 京东汽车
+京东汽车 = type=cron,cronexp=”58,59,0,1,2 59,0 23,0 * * *“,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jdqc.js,script-update-interval=0
 # > Boxjs会话
-//切换会话 = type=cron,cronexp=0 13 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,script-update-interval=0
+// 切换会话 = type=cron,cronexp=0 13 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,script-update-interval=0
+
