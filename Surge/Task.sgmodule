@@ -17,8 +17,9 @@
 美团签到 = type=cron,cronexp=0 2 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.js,script-update-interval=0
 # > 网易云音乐
 网易音乐 = type=cron,cronexp=30 2 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/neteasemusic.js,script-update-interval=0
-# > 饿了么
-饿了签到 = type=cron,cronexp=0 3 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/songyangzz/QuantumultX/master/elem/elemSign.js,wake-system=1,script-update-interval=0
+# > 饿了么 会员任务+吃货豆
+领吃货豆 = type=cron,cronexp=0 3 0 * * *,timeout=60,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/eleme/eleme_daily.js
+会员任务 = type=cron,cronexp=0 0 10 * * *,timeout=60,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/eleme/eleme_mission.js
 # > 吾爱破解
 吾爱破解 = type=cron,cronexp=30 3 0 * * *,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/52pojie-DailyBonus/52pojie.js
 # > 网易新闻
