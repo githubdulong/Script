@@ -4,6 +4,8 @@ by Small
 date 2021-06-25
 Thanks @yichahucha
 
+因Surge不支持脚本部分语法导致淘宝比价报错，故修改原作者脚本，知晓原作者的可pr
+
 QX:
 ^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) url script-response-body https://service.2ti.st/QuanX/Script/jd_tb_price/main.js
 
