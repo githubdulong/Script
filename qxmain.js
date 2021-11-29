@@ -27,8 +27,13 @@ const ScriptVersion = 7;
 const ScriptUrl = `https://service.2ti.st/QuanX/Script/${ScriptIdentifier}`
 
 const res = $request;
-const resp = !!($response) ? null : $response;
-
+//const resp = isundefined($response) ? null : $response;
+let resp = null;
+try{
+  resp =$response
+}catch(err){
+  console.log(err)
+};
 let Status = {
     Enable: 1,
     Disable: 2
