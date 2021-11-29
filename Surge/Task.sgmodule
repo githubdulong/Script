@@ -1,5 +1,5 @@
 #!name=✨定时脚本
-#!desc=最后更新时间 2021-11-24 23:53
+#!desc=最后更新时间 2021-11-29 13:41
 #!system=ios
 
 # 分割线——————————————————————————
@@ -60,7 +60,6 @@
 # > 京东取关
 京东取关 = type=cron,cronexp=55 23 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_unsubscribe.js,script-update-interval=0
 # > 京东汽车
-京东汽车 = type=cron,cronexp=58,59,0,1,2 59,0 23,0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jdqc.js
+京东汽车 = type=cron,cronexp=“58,59,0,1,2 59,0 23,0 * * *”,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jdqc.js
 # > Boxjs会话
 // 切换会话 = type=cron,cronexp=0 13 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,script-update-interval=0
-
