@@ -23,11 +23,11 @@ const ScriptName = "京东|淘宝 比价";
 const $ = new Env(ScriptName);
 
 const ScriptIdentifier = "jd_tb_price";
-const ScriptVersion = 5;
+const ScriptVersion = 7;
 const ScriptUrl = `https://service.2ti.st/QuanX/Script/${ScriptIdentifier}`
 
 const res = $request;
-const resp = isUndefined($response) ? null : $response;
+//const resp = isUndefined($response) ? null : $response;
 
 let Status = {
     Enable: 1,
@@ -317,36 +317,53 @@ function handleBijiago(data) {
         return data.msg;
 
     let obj = data.data;
+    let store = {};
 
-    let store = obj['store'][1];
+    if (obj['store'].length == 0) {
+        return "";
+    }
+    
+    if (obj['store'].length == 1) {
+        store = obj['store'][0];
+    }
+    else if (obj['store'].length > 1) {
+        store = obj['store'][1];
+    }
+
+    let tips = "无tips";
+    if (obj.hasOwnProperty("analysis")) {
+        if (obj['analysis'].hasOwnProperty("tip")) {
+            tips = obj['analysis']['tip'];
+        }
+    }
 
     let historyObj = {
         tips: {
             "type": "text",
             "title": "Tips:",
-            "text": obj['analysis']['tip'],
+            "text": tips,
         },
         range: {
             "type": "text",
             "title": "价格区间",
-            "text": store['price_range'],
+            "text": store.hasOwnProperty("price_range") ? store['price_range'] : "",
         },
         now: {
             "type": "price",
             "title": "当前价",
-            "price": Math.round(store['last_price'] / 100),
+            "price": Math.round(parseFloat(store['last_price']) / 100),
             "date": "-"
         },
         highest: {
             "type": "price",
             "title": "最高价",
-            "price": Math.round(store['highest']),
+            "price": Math.round(parseFloat(store['highest'])),
             "date": time2str(store['max_stamp'] * 1000)
         },
         lowest: {
             "type": "price",
             "title": "最低价",
-            "price": Math.round(store['lowest']),
+            "price": Math.round(parseFloat(store['lowest'])),
             "date": time2str(parseInt(store['min_stamp']) * 1000)
         },
         day30: {
@@ -443,7 +460,8 @@ function request_history_price(id, type, callback) {
             'Sec-Fetch-Mode': 'no-cors',
             'Sec-Fetch-Dest': 'script',
             'Referer': item_url,
-            'Accept-Language': 'zh-CN,zh;q=0.9'
+            'Accept-Language': 'zh-CN,zh;q=0.9',
+            'Cookie': `gwdang_permanent_id=${genUUID()};`
         },
         timeout: 2000
     };
@@ -766,6 +784,20 @@ function checkVersion(callback = () => { }) {
     } else {
         callback();
     }
+}
+
+function genUUID() {
+    var s = [];
+    var hexDigits = "0123456789abcdef";
+    for (var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+    }
+    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+    s[8] = s[13] = s[18] = s[23] = "-";
+ 
+    var uuid = s.join("");
+    return uuid;
 }
 
 function isUndefined(obj) {
