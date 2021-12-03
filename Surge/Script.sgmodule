@@ -112,6 +112,7 @@ Grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 //浏览器搜索https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Q-Search_All_in_one.sgmodule
 //知乎去广告https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/zhihu/zhihu_plus.sgmodule
 //京东半自动销卡https://raw.githubusercontent.com/githubdulong/Script/master/Jd_unbindCard.sgmodule
+//京东历史价格https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.sgmodule
 
 # 分割线——————————————————————————
 
