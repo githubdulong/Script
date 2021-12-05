@@ -1,11 +1,14 @@
-#!name=京东比价
-#!desc=最后更新时间 2021-12-3 11:29:09
+#!name=历史价格
+#!desc=京东淘宝比价 更新时间 2021-12-5 12:51
 #!system=ios
 
 [Script]
-# > 京东比价
-京东比价 = requires-body=1,script-path=https://raw.githubusercontent.com/zwf234/rules/master/js/jd_price.js,type=http-response,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig),max-size=0,script-update-interval=0
+# > 京东App 历史价格 py yichahucha
+京东比价 = type=http-response,requires-body=1,pattern=^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js
 
+# > 淘宝App 历史价格 修改Surge语法 py:Small
+淘宝比价 = type=http-request,requires-body=1,pattern=^http:\/\/.+\/amdc\/mobileDispatch,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/tb_price.js
+淘宝比价 = type=http-response,requires-body=1,pattern=^https?:\/\/trade-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.detail\.getdetail,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/tb_price.js
 
 [MITM]
-hostname = %INSERT% api.m.jd.com
+hostname = %INSERT% api.m.jd.com,#trade-acs.m.taobao.com
