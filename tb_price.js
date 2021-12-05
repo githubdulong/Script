@@ -33,32 +33,6 @@ let MatchType = {
 }
 
 const Jobs = [
-    //JD
-    {
-        name: "serverConfig",
-        status: Status.Enable,
-        type: Type.HandleFun,
-        matchType: MatchType.Contains,
-        keyword: "serverConfig",
-        fun: handleServerConfig
-    },
-    {
-        name: "wareBusiness",
-        status: Status.Enable,
-        type: Type.HandleFun,
-        matchType: MatchType.Contains,
-        keyword: "wareBusiness",
-        fun: handleWareBusiness
-    },
-    {
-        name: "basicConfig",
-        status: Status.Enable,
-        type: Type.HandleFun,
-        matchType: MatchType.Contains,
-        keyword: "basicConfig",
-        fun: handleBasicConfig
-    },
-    //TB
     {
         name: "mobileDispatch",
         status: Status.Enable,
@@ -78,82 +52,6 @@ const Jobs = [
 ];
 
 initScript();
-
-// Handle JD API ServerConfig
-function handleServerConfig() {
-    $.log("Start Handle ServerConfig Job");
-    let body = JSON.parse(resp.body);
-    delete body.serverConfig.httpdns;
-    delete body.serverConfig.dnsvip;
-    delete body.serverConfig.dnsvip_v6;
-    $.log("Success Handle ServerConfig Job");
-    $.done({ body: JSON.stringify(body) });
-}
-
-// Handle JD API WareBusiness
-function handleWareBusiness() {
-    $.log("Start Handle WareBusiness Job");
-    let body = JSON.parse(resp.body);
-    let floors = body.floors;
-    const commodity_info = floors[floors.length - 1];
-    const skuId = commodity_info.data.wareInfo.skuId;
-    $.log("skuId:" + skuId);
-    handleRequest(skuId, "JD", text => {
-        const obj = {
-            "bId": "eCustom_flo_199",
-            "cf": {
-                "bgc": "#ffffff",
-                "spl": "empty"
-            },
-            "data": {
-                "ad": {
-                    "adword": text,
-                    "textColor": "#fe0000",
-                    "color": "#f23030",
-                    "text-align": "justify",
-                    "word-break": "break-all",
-                    "newALContent": true,
-                    "hasFold": true,
-                    "class": "com.jd.app.server.warecoresoa.domain.AdWordInfo.AdWordInfo",
-                    "adLinkContent": "",
-                    "adLink": ""
-                }
-            },
-            "mId": "bpAdword",
-            "refId": "eAdword_0000000028",
-            "sortId": 13
-        };
-
-        let bestIndex = 0;
-        for (let index = 0; index < floors.length; index++) {
-            const element = floors[index];
-            if (element.mId === obj.mId) {
-                bestIndex = index + 1;
-                break;
-            } else {
-                if (element.sortId > obj.sortId) {
-                    bestIndex = index;
-                    break;
-                }
-            }
-        }
-
-        floors.insert(bestIndex, obj);
-        $.done({ body: JSON.stringify(body) });
-    });
-}
-
-// Handle JD API BasicConfig
-function handleBasicConfig() {
-    $.log("Start Handle BaseConfig");
-    let body = JSON.parse(resp.body);
-    let JDHttpToolKit = body.data.JDHttpToolKit;
-    if (JDHttpToolKit) {
-        delete body.data.JDHttpToolKit.httpdns;
-        delete body.data.JDHttpToolKit.dnsvipV6;
-    }
-    $.done({ body: JSON.stringify(body) });
-}
 
 // Handle TB API MobileDispatch
 function handleMobileDispatch() {
@@ -325,7 +223,7 @@ function handleBijiago(data) {
     let historyObj = {
         tips: {
             "type": "text",
-            "title": "Tips:",
+            "title": "",
             "text": tips,
         },
         range: {
