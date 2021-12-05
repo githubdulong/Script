@@ -224,7 +224,7 @@ function handleBijiago(data) {
         tips: {
             "type": "text",
             "title": "",
-            "text": tips,
+            "text":tips,
         },
         range: {
             "type": "text",
