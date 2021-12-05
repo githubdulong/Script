@@ -223,8 +223,8 @@ function handleBijiago(data) {
     let historyObj = {
         tips: {
             "type": "text",
-            "title":"",
-            "text":tips,
+            "title": "¥",
+            "text": tips,
         },
         range: {
             "type": "text",
