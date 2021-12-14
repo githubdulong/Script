@@ -111,6 +111,7 @@ Grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 //知乎去广告https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/zhihu/zhihu_plus.sgmodule
 //京东半自动销卡https://raw.githubusercontent.com/githubdulong/Script/master/Jd_unbindCard.sgmodule
 //京东淘宝比价https://raw.githubusercontent.com/githubdulong/Script/master/jd_price2.sgmodule
+//订阅转换https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/config/Surge.sgmodule
 
 # 分割线——————————————————————————
 
