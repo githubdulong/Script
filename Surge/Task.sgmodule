@@ -50,9 +50,9 @@
 # > 京豆通知
 京豆通知 = type=cron,cronexp=0 9 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_bean_change.js,script-update-interval=0
 # > 中国电信
-中国电信 = type=cron,cronexp=0 1 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/telecomSky.js,script-update-interval=0
+//中国电信 = type=cron,cronexp=0 1 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/telecomSky.js,script-update-interval=0
 # > 中国联通
-中国联通 = type=cron,cronexp=0 2 9 * * *,timeout=120,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/10010/unicom_signin.min.js,script-update-interval=0,wake-system=1
+//中国联通 = type=cron,cronexp=0 2 9 * * *,timeout=120,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/10010/unicom_signin.min.js,script-update-interval=0,wake-system=1
 # > 小米运动
 小米运动 = type=cron,cronexp=0 0 17 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/xmSports.js,script-update-interval=0
 # > 墨迹天气
