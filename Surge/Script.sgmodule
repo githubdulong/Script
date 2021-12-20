@@ -5,6 +5,10 @@
 # 分割线——————————————————————————
 
 [Rule]
+# > misao机场代理
+DOMAIN,zhuan.mlsao.xyz,𝙋𝙍𝙊𝙓𝙔
+# > Passkey
+DOMAIN-KEYWORD,dompling.cn,𝙋𝙖𝙨𝙨𝙆𝙚𝙮
 # > 爱奇艺 去暂停广告
 DOMAIN-SUFFIX, cupid.iqiyi.com,𝙍𝙀𝙅𝙀𝘾𝙏
 # > 人人视频 去广告
