@@ -1,5 +1,5 @@
 #!name=定时脚本
-#!desc=最后更新时间 2021-12-19 16:20
+#!desc=最后更新时间 2021-12-22 14:38
 #!system=ios
 
 # 分割线——————————————————————————
@@ -65,7 +65,7 @@
 京东汽车 = type=cron,cronexp=57,58,59 59 23 * * *,wake-system=1,script-path=jd_car_exchange.js
 京东汽车 = type=cron,cronexp=0,1,2,3 0 0 * * *,wake-system=1,script-path=jd_car_exchange.js
 # > Gist备份+恢复
-数据备份 = type=cron,cronexp=0 40 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/backup.js,script-update-interval=0
-数据恢复 = type=cron,cronexp=0 45 8 * 1 *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/restore.js,script-update-interval=0
+数据备份 = type=cron,cronexp=50 23 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/backup.js,script-update-interval=0
+//数据恢复 = type=cron,cronexp=55 23 * 1 *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/restore.js,script-update-interval=0
 # > Boxjs会话
 // 切换会话 = type=cron,cronexp=0 13 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,script-update-interval=0
