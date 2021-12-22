@@ -41,6 +41,8 @@
 哔哩哔哩 = type=cron,cronexp=0 8 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/bilibili/bilibili.js,script-update-interval=0
 # > 伊利乳品
 伊利乳品 = type=cron,cronexp=30 8 0 * * *,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/yiLi.js,wake-system=true
+# > 威锋论坛
+威锋论坛 = type=cron,cronexp=0 9 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,script-update-interval=0
 # > 新浪微博
 微博签到 = type=cron,cronexp=30 5 5 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js,script-update-interval=0
 # > 微博推送
