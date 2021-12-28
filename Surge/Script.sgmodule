@@ -23,9 +23,6 @@ URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,𝙍�
 DOMAIN,boxjs.net,𝙋𝙍𝙊𝙓𝙔
 # > 墙洞官网
 DOMAIN-SUFFIX,dlercloud.com,𝙋𝙍𝙊𝙓𝙔
-# > 网易代理
-DOMAIN-SUFFIX,music.163.com,𝙋𝙍𝙊𝙓𝙔
-DOMAIN-SUFFIX,movie.xeton.dev,𝙋𝙍𝙊𝙓𝙔
 # > 京东库代理
 DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝙋𝙍𝙊𝙓𝙔
 # > dayone
