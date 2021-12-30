@@ -63,9 +63,6 @@
 彩票开奖 = type=cron,cronexp=0 30 21 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/ssq/ssq.js,script-update-interval=0
 # > 京东取关
 京东取关 = type=cron,cronexp=55 23 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_unsubscribe.js,script-update-interval=0
-# > 京东汽车
-京东汽车 = type=cron,cronexp=57,58,59 59 23 * * *,wake-system=1,script-path=jd_car_exchange.js
-京东汽车 = type=cron,cronexp=0,1,2,3 0 0 * * *,wake-system=1,script-path=jd_car_exchange.js
 # > Gist备份+恢复
 数据备份 = type=cron,cronexp=50 23 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/backup.js,script-update-interval=0
 //数据恢复 = type=cron,cronexp=55 23 * 1 *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/restore.js,script-update-interval=0
