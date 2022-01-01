@@ -1,14 +1,14 @@
 #!name=定时脚本
-#!desc=最后更新时间 2021-12-29 23:00
+#!desc=最后更新时间 2022-01-01 15:30
 #!system=ios
 
 # 分割线——————————————————————————
 
 [Script]
 # > 京东商城
-京东商城 = type=cron,cronexp=0 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
-# > 京东金融
-京东金融 = type=cron,cronexp=30 0 0 * * *,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_jr_sign.js,wake-system=1,script-update-interval=0
+//京东商城 = type=cron,cronexp=0 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
+# > 威锋论坛
+威锋论坛 = type=cron,cronexp=0,30 0 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,wake-system=1,script-update-interval=0
 # > IT之家
 数码之家 = type=cron,cronexp=0 1 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ithome/ithome.js,script-update-interval=0
 # > 喜马拉雅
@@ -40,8 +40,6 @@
 哔哩哔哩 = type=cron,cronexp=0 8 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/bilibili/bilibili.js,script-update-interval=0
 # > 伊利乳品
 伊利乳品 = type=cron,cronexp=30 8 0 * * *,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/yiLi.js,wake-system=true
-# > 威锋论坛
-威锋论坛 = type=cron,cronexp=0 9 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,script-update-interval=0
 # > 新浪微博
 微博签到 = type=cron,cronexp=30 5 5 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js,script-update-interval=0
 # > 每日一句
@@ -55,16 +53,18 @@
 # > 彩票开奖
 彩票开奖 = type=cron,cronexp=0 30 21 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/ssq/ssq.js,script-update-interval=0
 # > 京东取关
-京东取关 = type=cron,cronexp=55 23 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_unsubscribe.js,script-update-interval=0
+//京东取关 = type=cron,cronexp=55 23 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_unsubscribe.js,script-update-interval=0
+# > 中国联通
+//中国联通 = type=cron,cronexp=0 55 09 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/10010/unicom_signin.min.js,script-update-interval=0
+# > 中国电信
+//中国电信 = type=cron,cronexp=30 55 09 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/telecomSky.js,script-update-interval=0
 # > Gist备份+恢复
 数据备份 = type=cron,cronexp=50 23 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/backup.js,script-update-interval=0
 //数据恢复 = type=cron,cronexp=55 23 * 1 *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/restore.js,script-update-interval=0
 # > 同步检测
-账号同步 = type=cron,cronexp=30 6,18 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/ql_sync_box.js,script-update-interval=0
-帐户检测 = type=cron,cronexp=32 6,18 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_cookie_search.js,script-update-interval=0
-# > 长期注释
+账号同步 = type=cron,cronexp=30 7 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/ql_sync_box.js,script-update-interval=0
+帐户检测 = type=cron,cronexp=35 7 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_cookie_search.js,script-update-interval=0
+# > 注释运行
 //饿了任务 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/eleme/eleme_mission.js
 //微博推送 https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js
-//中国电信 https://raw.githubusercontent.com/Sunert/Script/master/Task/telecomSky.js
-//中国联通 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/10010/unicom_signin.min.js
 //切换会话 https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js
