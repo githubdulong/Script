@@ -61,7 +61,7 @@
 //数据恢复 = type=cron,cronexp=55 23 * 1 *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/restore.js,script-update-interval=0
 # > 同步检测
 账号同步 = type=cron,cronexp=30 6,18 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/ql_sync_box.js,script-update-interval=0
-//帐户检测 = type=cron,cronexp=32 6,18 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_cookie_search.js,script-update-interval=0
+帐户检测 = type=cron,cronexp=32 6,18 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_cookie_search.js,script-update-interval=0
 # > 长期注释
 //饿了任务 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/eleme/eleme_mission.js
 //微博推送 https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js
