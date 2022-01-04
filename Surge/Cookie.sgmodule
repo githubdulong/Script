@@ -22,7 +22,7 @@
 美团获取 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.cookie.js,requires-body=true,type=http-request,pattern=^https:\/\/i.meituan.com\/evolve\/signin\/signpost\/
 # > 新浪微博 app获取（清除boxjs数据再获取）
 微博签到 = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/users\/show,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js
-微博签到 = type=http-request,pattern=https:\/\/m\.weibo\.cn\/c\/checkin\/ug\/v2\/signin\/module\?module,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js
+微博签到 = type=http-request,pattern=https:\/\/m?api\.weibo\.c(n|om)\/\d\/users\/show,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js
 # > 微博推送 登陆https://m.weibo.cn获取
 微博推送 = type=http-request,pattern=^https:\/\/m\.weibo\.cn\/feed\/,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js
 # > 网易新闻 app获取
