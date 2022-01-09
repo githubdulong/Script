@@ -62,8 +62,8 @@
 数据备份 = type=cron,cronexp=50 23 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/backup.js,script-update-interval=0
 //数据恢复 = type=cron,cronexp=55 23 * 1 *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/restore.js,script-update-interval=0
 # > 同步检测
-账号同步 = type=cron,cronexp="0 5 6,20 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/ql_sync_box.js,script-update-interval=0
-帐户检测 = type=cron,cronexp="0 8 6,20 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_cookie_search.js,script-update-interval=0
+账号同步 = type=cron,cronexp="0 3 6,13,20 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/ql_sync_box.js,script-update-interval=0
+帐户检测 = type=cron,cronexp="0 5 6,13,20 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_cookie_search.js,script-update-interval=0
 # > 临时脚本
 京东汽车 = type=cron,cronexp="58,59,0,1 0,59 0,23 * * *",wake-system=1,script-path=jdqc.js,script-update-interval=0
 东东世界 = type=cron,cronexp="58,59,0,1 0,59 0,23 * * *",wake-system=1,script-path=jd_ddworld.js,script-update-interval=0
