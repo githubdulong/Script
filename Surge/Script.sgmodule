@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2021-12-29 22:57
+#!desc=最后更新时间 2022-01-09 13:05
 #!system=ios
 
 # 分割线——————————————————————————
@@ -54,6 +54,10 @@ DOMAIN,vv.video.qq.com,𝘿𝙄𝙍𝙀𝘾𝙏
 # > 人人视频 去广告
 人人视频 = type=http-response,requires-body=true,pattern=^https?:\/\/api\.rr\.tv\/watch\/v\d\/get_movie_info,script-path=https://Choler.github.io/Surge/Script/rrsp.js
 人人视频 = type=http-response,requires-body=true,pattern=^https?:\/\/api\.rr\.tv\/v\dplus\/index\/channel,script-path=https://Choler.github.io/Surge/Script/rrsp.js
+# > 人人视频 解锁
+人人视频 = requires-body=1,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Crack/rrtv.js,type=http-response,pattern=^https:\/\/api\.rr\.tv\/user\/privilege\/list
+人人视频 = requires-body=1,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Crack/rrtv.js,type=http-response,pattern=^https:\/\/api\.rr\.tv\/ad\/getAll
+人人视频 = requires-body=1,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Crack/rrtv.js,type=http-response,pattern=^https:\/\/api\.rr\.tv\/drama\/app\/get_combined_drama_detail
 # > 金山WPS vip
 办公解锁 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Wps.js,type=http-response,pattern=^https://account.wps.*/api/users/
 # > 扫描全能王 pro
