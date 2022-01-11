@@ -11,15 +11,15 @@ DOMAIN,zhuan.mlsao.xyz,𝙋𝙍𝙊𝙓𝙔
 DOMAIN-KEYWORD,dompling.cn,𝙋𝙖𝙨𝙨𝙆𝙚𝙮
 DOMAIN,ql.lowking.pro,𝙋𝙖𝙨𝙨𝙆𝙚𝙮 ⁺
 # > 爱奇艺 去暂停广告
-DOMAIN-SUFFIX, cupid.iqiyi.com,𝙍𝙀𝙅𝙀𝘾𝙏
+DOMAIN-SUFFIX, cupid.iqiyi.com,REJECT
 # > 人人视频 去广告
-AND,((USER-AGENT,PUClient*), (NOT,((DOMAIN-SUFFIX,rr.tv)))),𝙍𝙀𝙅𝙀𝘾𝙏
-URL-REGEX,^https?:\/\/api\.rr\.tv\/(?:ad\/getAll$|storage/business/rootName/app/homePage),𝙍𝙀𝙅𝙀𝘾𝙏
+AND,((USER-AGENT,PUClient*), (NOT,((DOMAIN-SUFFIX,rr.tv)))),REJECT
+URL-REGEX,^https?:\/\/api\.rr\.tv\/(?:ad\/getAll$|storage/business/rootName/app/homePage),REJECT
 # > 优酷 去广告
-DOMAIN, iyes.youku.com,𝙍𝙀𝙅𝙀𝘾𝙏
-URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,𝙍𝙀𝙅𝙀𝘾𝙏-𝙏𝙄𝙉𝙔𝙂𝙄𝙁
+DOMAIN, iyes.youku.com,REJECT
+URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 # > 京东 去广告
-URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,𝙍𝙀𝙅𝙀𝘾𝙏-𝙏𝙄𝙉𝙔𝙂𝙄𝙁
+URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
 # > boxjs代理
 DOMAIN,boxjs.net,𝙋𝙍𝙊𝙓𝙔
 # > 墙洞官网
