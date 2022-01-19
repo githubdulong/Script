@@ -1,5 +1,5 @@
 #!name=定时脚本
-#!desc=最后更新时间 2022-01-06 16:34
+#!desc=最后更新时间 2022-01-19 10:42
 #!system=ios
 
 # 分割线——————————————————————————
@@ -32,16 +32,15 @@
 作业帮帮 = type=cron,cronexp=0 6 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/Task/zyb.js,script-update-interval=0
 # > 顺丰速运
 顺丰速运 = type=cron,cronexp=30 6 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js,script-update-interval=0
-# > 爱奇艺
-奇艺视频 = type=cron,cronexp=0 7 0 * * *,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js,script-update-interval=0
 # > 慢慢买
-慢买签到 = type=cron,cronexp=30 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/manmanbuy/manmanbuy_checkin.js,script-update-interval=0
+慢买签到 = type=cron,cronexp=0 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/manmanbuy/manmanbuy_checkin.js,script-update-interval=0
 # > 哔哩哔哩
-哔哩哔哩 = type=cron,cronexp=0 8 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/bilibili/bilibili.js,script-update-interval=0
+哔哩哔哩 = type=cron,cronexp=30 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/bilibili/bilibili.js,script-update-interval=0
 # > 伊利乳品
-伊利乳品 = type=cron,cronexp=30 8 0 * * *,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/yiLi.js,wake-system=true
+伊利乳品 = type=cron,cronexp=0 8 0 * * *,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/yiLi.js,wake-system=true
 # > 新浪微博
 微博签到 = type=cron,cronexp="50 4,6,23 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js,script-update-interval=0
+微博推送= type=cron,cronexp="0 */30 9-21 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js,script-update-interval=0
 # > 每日一句
 每日一句 = type=cron,cronexp=8 8 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/One.js,script-update-interval=0
 # > 京豆通知
@@ -64,5 +63,4 @@
 帐户检测 = type=cron,cronexp="0 5 6,14,23 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_cookie_search.js,script-update-interval=0
 # > 注释运行
 //饿了任务 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/eleme/eleme_mission.js
-//微博推送 https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js
 //切换会话 https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js
