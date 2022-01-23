@@ -1,28 +1,27 @@
 /*
-Surge配置参考注释，转载来自@mieqq
+Surge配置参考注释，修改自@mieqq
 
 示例↓↓↓ 
 ----------------------------------------
 
 [Proxy Group]
-机场1 = select, policy-path=http://sub.info?url=xxx&reset_day=1&alert=1&title=DlerCloud
+机场1 = select, policy-path=http://sub.info?url=xxx&reset_day=10&alert=1&title=Nexitally
 
-机场2 = select, policy-path=http://sub.info?url=xxx&reset_day=8
+机场2 = select, policy-path=http://sub.info?url=xxx&reset_day=1&alert=1&title=DlerCloud
 
 [Script]
 机场信息 = type=http-request,pattern=http://sub\.info,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info.js
-----------------------------------------
 
-脚本不用修改，直接配置就好。
+-----------------------------------------
 
-先将带有流量信息的订阅链接encode，用encode后的链接替换"url="后面的xxx
+先将带有流量信息的订阅链接encode，用encode后的链接替换"url="后面的xxx(可用这个网站转义https://www.urlencoder.org)
 
 可选参数 &reset_day，后面的数字替换成流量每月重置的日期，如1号就写1，8号就写8。如"&reset_day=8",不加该参数不显示流量重置信息。
 
 可选参数 &expire，机场链接不带expire信息的，可以手动传入expire参数，如"&expire=2022-02-01"
 
-可选参数 &alert，流量用量超过80%，流量重置2天前、流量重置、套餐到期10天前，这四种情况会发送通知，参数"title=xxx" 可以自定义通知的标题。如"&alert=1&title=AmyInfo"
-----------------------------------------
+可选参数 &alert，流量用量超过80%，流量重置2天前、流量重置、套餐到期10天前，这四种情况会发送通知，参数"title=xxx" 可以自定义通知的标题。如"&alert=1&title=DlerCloud"
+-----------------------------------------
 */
 
 (async () => {
@@ -44,7 +43,7 @@ Surge配置参考注释，转载来自@mieqq
   }
   if (expire) {
     if (/^[\d]+$/.test(expire)) expire *= 1000;
-    infoList.push(`机场到期: ${formatTime(expire)}`);
+    infoList.push(`到期时间: ${formatTime(expire)}`);
   }
     sendNotification(usage, resetLeft, expire, params, infoList);
     let body = infoList.map(item => item + localProxy).join("\n");
@@ -72,7 +71,7 @@ function getUserInfo(url) {
 async function getDataUsage(url) {
   let info = await getUserInfo(url);
   if (!info) {
-    $notification.post("SubInfo","","链接响应头不带有流量信息")
+    $notification.post("SubInfo","","链接响应头不带流量信息")
     $done();
   }
   return Object.fromEntries(
