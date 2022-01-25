@@ -1,15 +1,15 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-01-20 15:30
+#!desc=最后更新时间 2022-01-25 14:15
 #!system=ios
 
 # 分割线——————————————————————————
 
 [Rule]
 # > misao机场代理
-DOMAIN,zhuan.mlsao.xyz,𝙋𝙍𝙊𝙓𝙔
+DOMAIN,zhuan.mlsao.xyz,𝗣𝗥𝗢𝗫𝗬
 # > Passkey
-DOMAIN-KEYWORD,dompling.cn,𝙋𝙖𝙨𝙨𝙆𝙚𝙮
-DOMAIN,ql.lowking.pro,𝙋𝙖𝙨𝙨𝙆𝙚𝙮 ⁺
+DOMAIN-KEYWORD,dompling.cn,𝗣𝗮𝘀𝘀𝗞𝗲𝘆
+DOMAIN,ql.lowking.pro,𝗣𝗮𝘀𝘀𝗞𝗲𝘆 ⁺
 # > 爱奇艺 去暂停广告
 DOMAIN-SUFFIX, cupid.iqiyi.com,REJECT
 # > 人人视频 去广告
@@ -21,15 +21,15 @@ URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 # > 京东 去广告
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
 # > boxjs代理
-DOMAIN,boxjs.net,𝙋𝙍𝙊𝙓𝙔
+DOMAIN,boxjs.net,𝗣𝗥𝗢𝗫𝗬
 # > 墙洞官网
-DOMAIN-SUFFIX,dlercloud.com,𝙋𝙍𝙊𝙓𝙔
+DOMAIN-SUFFIX,dlercloud.com,𝗣𝗥𝗢𝗫𝗬
 # > 京东库代理
-DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝙋𝙍𝙊𝙓𝙔
+DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝗣𝗥𝗢𝗫𝗬
 # > dayone
-URL-REGEX,^https:\/\/dayone\.me,𝙋𝙍𝙊𝙓𝙔
+URL-REGEX,^https:\/\/dayone\.me,𝗣𝗥𝗢𝗫𝗬
 # > 腾讯视频直连
-DOMAIN,vv.video.qq.com,𝘿𝙄𝙍𝙀𝘾𝙏
+DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
 
 # 分割线——————————————————————————
 
