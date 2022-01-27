@@ -6,7 +6,7 @@ const AREA_TEST_FILM_ID = 80018499
 
 ;(async () => {
   let result = {
-    title: "Netflix 版权IP锁测试",
+    title: "𝗡𝗲𝘁𝗳𝗹𝗶𝘅 解锁查询",
     icon: "exclamationmark.arrow.triangle.2.circlepath",
 	  'icon-color':"#77428D",
     content: '测试失败 请检查网络设置',
@@ -16,34 +16,34 @@ const AREA_TEST_FILM_ID = 80018499
       if (code === 'Not Found') {
         return test(AREA_TEST_FILM_ID)
       }
-      result['Title'] ="Netflix 版权IP锁测试"
+      result['Title'] ="𝗡𝗲𝘁𝗳𝗹𝗶𝘅 解锁查询"
       result['icon'] = "checkmark.shield"
 	    result['icon-color'] = '#1B813E'
       //result['icon'] = params.icon1
 	    //result['icon-color'] = params.color1
-      result['content'] = '已完整解锁Netflix  区域:\n' + code.toUpperCase()
+      result['content'] = '已解锁奈飞' + ' ➟ 区域' + code.toUpperCase()
       return Promise.reject('BreakSignal')
     })
     .then((code) => {
       if (code === 'Not Found') {
         return Promise.reject('Not Available')
       }
-      result['Title'] ="Netflix 版权IP锁测试"
+      result['Title'] ="𝗡𝗲𝘁𝗳𝗹𝗶𝘅 解锁查询"
       result['icon'] = "exclamationmark.shield"
 	    result['icon-color'] = "#EFBB24"
       //result['icon'] = params.icon2
 	    //result['icon-color'] = params.color2
-      result['content'] = '仅解锁Netflix自制剧\n' + code.toUpperCase()
+      result['content'] = '仅解锁自制剧\n' + ' ➟ ' + code.toUpperCase()
       return Promise.reject('BreakSignal')
     })
     .catch((error) => {
       if (error === 'Not Available') {
-        result['Title'] ="Netflix 版权IP锁测试"
+        result['Title'] ="𝗡𝗲𝘁𝗳𝗹𝗶𝘅 解锁查询"
         result['icon'] = "xmark.shield"
 	      result['icon-color'] = "#CB1B45"
         //result['icon'] = params.icon3
 	      //result['icon-color'] = params.color3
-        result['content'] = '该节点未解锁Netflix'
+        result['content'] = '该节点未解锁奈飞'
         return
       }
     })
