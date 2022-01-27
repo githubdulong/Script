@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-01-27 14:06
+#!desc=最后更新时间 2022-01-27 14:11
 #!system=ios
 
 # 分割线——————————————————————————
@@ -40,6 +40,13 @@ DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
 (?<=_region=)CN(?=&) JP 307
 (^https?:\/\/*\.\w{4}okv.com\/.+&.+)(\d{2}\.3\.\d)(.+) $118.0$3 302
 ^(https?:\/\/(tnc|dm)[\w-]+\.\w+\.com\/.+)(\?)(.+) $1$3 302
+
+# 分割线——————————————————————————
+
+[Panel]
+策略面板 = script-name=缓存开关,update-interval=15
+策略面板 = script-name=奈飞查询,update-interval=3600
+策略面板 = script-name=策略选择,update-interval=60
 
 # 分割线——————————————————————————
 
