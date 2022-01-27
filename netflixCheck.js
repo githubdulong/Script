@@ -6,7 +6,7 @@ const AREA_TEST_FILM_ID = 80018499
 
 ;(async () => {
   let result = {
-    title: "𝗡𝗲𝘁𝗳𝗹𝗶𝘅 解锁查询",
+    title: "𝗡𝗘𝗧𝗙𝗟𝗜𝗫 𝗨𝗻𝗹𝗼𝗰𝗸",
     icon: "exclamationmark.arrow.triangle.2.circlepath",
 	  'icon-color':"#77428D",
     content: '测试失败 请检查网络设置',
