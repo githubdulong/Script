@@ -16,29 +16,29 @@ const AREA_TEST_FILM_ID = 80018499
       if (code === 'Not Found') {
         return test(AREA_TEST_FILM_ID)
       }
-      result['Title'] ="𝗡𝗲𝘁𝗳𝗹𝗶𝘅 解锁查询"
+      result['Title'] ="𝗡𝗘𝗧𝗙𝗟𝗜𝗫 𝗨𝗻𝗹𝗼𝗰𝗸"
       result['icon'] = "checkmark.shield"
 	    result['icon-color'] = '#1B813E'
       //result['icon'] = params.icon1
 	    //result['icon-color'] = params.color1
-      result['content'] = '已解锁奈飞' + ' ➟ 区域 ' + code.toUpperCase()
+      result['content'] = '已解锁奈飞' + ' ➟ 区域：' + code.toUpperCase()
       return Promise.reject('BreakSignal')
     })
     .then((code) => {
       if (code === 'Not Found') {
         return Promise.reject('Not Available')
       }
-      result['Title'] ="𝗡𝗲𝘁𝗳𝗹𝗶𝘅 解锁查询"
+      result['Title'] ="𝗡𝗘𝗧𝗙𝗟𝗜𝗫 𝗨𝗻𝗹𝗼𝗰𝗸"
       result['icon'] = "exclamationmark.shield"
 	    result['icon-color'] = "#EFBB24"
       //result['icon'] = params.icon2
 	    //result['icon-color'] = params.color2
-      result['content'] = '仅解锁自制剧' + ' ➟ 区域 ' + code.toUpperCase()
+      result['content'] = '仅解锁自制剧' + ' ➟ 区域：' + code.toUpperCase()
       return Promise.reject('BreakSignal')
     })
     .catch((error) => {
       if (error === 'Not Available') {
-        result['Title'] ="𝗡𝗲𝘁𝗳𝗹𝗶𝘅 解锁查询"
+        result['Title'] ="𝗡𝗘𝗧𝗙𝗟𝗜𝗫 𝗨𝗻𝗹𝗼𝗰𝗸"
         result['icon'] = "xmark.shield"
 	      result['icon-color'] = "#CB1B45"
         //result['icon'] = params.icon3
