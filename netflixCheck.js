@@ -6,9 +6,9 @@ const AREA_TEST_FILM_ID = 80018499
 
 ;(async () => {
   let result = {
-    title: "𝗡𝗘𝗧𝗙𝗟𝗜𝗫 𝗨𝗻𝗹𝗼𝗰𝗸",
-    icon: "exclamationmark.arrow.triangle.2.circlepath",
-	  'icon-color':"#77428D",
+    title: "𝗡𝗘𝗧𝗙𝗟𝗜𝗫",
+    icon: "bolt.slash.circle",
+	  'icon-color':"#801DAE",
     content: '测试失败 请检查网络设置',
   }
   await test(FILM_ID)
@@ -16,31 +16,31 @@ const AREA_TEST_FILM_ID = 80018499
       if (code === 'Not Found') {
         return test(AREA_TEST_FILM_ID)
       }
-      result['Title'] ="𝗡𝗘𝗧𝗙𝗟𝗜𝗫 𝗨𝗻𝗹𝗼𝗰𝗸"
-      result['icon'] = "checkmark.shield"
-	    result['icon-color'] = '#1B813E'
+      result['Title'] ="𝗡𝗘𝗧𝗙𝗟𝗜𝗫"
+      result['icon'] = "play.circle"
+	    result['icon-color'] = '#00BC12'
       //result['icon'] = params.icon1
 	    //result['icon-color'] = params.color1
-      result['content'] = '已解锁奈飞' + ' ➟ 区域：' + code.toUpperCase()
+      result['content'] = '已解锁奈飞' + ' ➟ 区域 ' + code.toUpperCase()
       return Promise.reject('BreakSignal')
     })
     .then((code) => {
       if (code === 'Not Found') {
         return Promise.reject('Not Available')
       }
-      result['Title'] ="𝗡𝗘𝗧𝗙𝗟𝗜𝗫 𝗨𝗻𝗹𝗼𝗰𝗸"
-      result['icon'] = "exclamationmark.shield"
-	    result['icon-color'] = "#EFBB24"
+      result['Title'] ="𝗡𝗘𝗧𝗙𝗟𝗜𝗫"
+      result['icon'] = "pause.circle"
+	    result['icon-color'] = "#FFB61E"
       //result['icon'] = params.icon2
 	    //result['icon-color'] = params.color2
-      result['content'] = '仅解锁自制剧' + ' ➟ 区域：' + code.toUpperCase()
+      result['content'] = '仅解锁自制剧' + ' ➟ 区域 ' + code.toUpperCase()
       return Promise.reject('BreakSignal')
     })
     .catch((error) => {
       if (error === 'Not Available') {
-        result['Title'] ="𝗡𝗘𝗧𝗙𝗟𝗜𝗫 𝗨𝗻𝗹𝗼𝗰𝗸"
-        result['icon'] = "xmark.shield"
-	      result['icon-color'] = "#CB1B45"
+        result['Title'] ="𝗡𝗘𝗧𝗙𝗟𝗜𝗫"
+        result['icon'] = "stop.circle"
+	      result['icon-color'] = "#FF2121"
         //result['icon'] = params.icon3
 	      //result['icon-color'] = params.color3
         result['content'] = '该节点未解锁奈飞'
