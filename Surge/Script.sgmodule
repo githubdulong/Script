@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-01-27 14:11
+#!desc=最后更新时间 2022-01-28 17:50
 #!system=ios
 
 # 分割线——————————————————————————
@@ -102,6 +102,8 @@ DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
 私有仓库 = type=http-request, requires-body=0, pattern=^https?:\/\/(raw|gist)\.githubusercontent.com, script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Rewrites/GithubPrivate/github-private-repo.js
 # > 订阅管理
 订阅管理 = type=http-request,pattern=^https?:\/\/sub\.store,script-path=https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/backend/sub-store.min.js,requires-body=true,timeout=120,max-size=131072
+# > 拦截100
+拦截一百 = type=http-response,requires-body=1,max-size=0,pattern=^https?:\/\/tagit\.hyhuo\.com\/cypt\/block100\/get_vip_info$,script-path=https://raw.githubusercontent.com/yqc007/QuantumultX/master/Block100SVIPCrack.js
 # > 机场信息 
 机场信息 = type=http-request,pattern=http://sub\.info,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info.js
 # > 策略面板
@@ -126,4 +128,4 @@ DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% -*.amemv.com, -*.snssdk.com, *.googlevideo.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, ap?.bilibili.com, ap?.biliapi.net, api-production.endel.io, pan.baidu.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, api.revenuecat.com, img.zuoyebang.cc, security.wechat.com, boxer.baidu.com, api.polaxiong.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, weather-data.apple.com, raw.githubusercontent.com, gist.githubusercontent.com, sub.store
+hostname = %INSERT% -*.amemv.com, -*.snssdk.com, *.googlevideo.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, ap?.bilibili.com, ap?.biliapi.net, api-production.endel.io, pan.baidu.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, api.revenuecat.com, img.zuoyebang.cc, security.wechat.com, boxer.baidu.com, api.polaxiong.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, weather-data.apple.com, raw.githubusercontent.com, gist.githubusercontent.com, sub.store, tagit.hyhuo.com
