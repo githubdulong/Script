@@ -19,9 +19,6 @@ http-response https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\
 [MITM]
 hostname = ap*.intsig.net
 
-[MITM]
-hostname = ap*.intsig.net
-
 **************************/
 let body = JSON.parse($response.body)
     body.data.psnl_vip_property = {"renew_method": "appstore",
