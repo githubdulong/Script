@@ -1,0 +1,6 @@
+#!name=网络并发
+#!desc=实验性功能All Hybrid，开启后等同于对所有策略设置hybrid = true，所有TCP连接在建立时均会并发尝试数据网络和WiFi连接;
+#!system=ios
+
+[General]
+all-hybrid = 1
