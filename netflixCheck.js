@@ -9,7 +9,7 @@ const AREA_TEST_FILM_ID = 80018499
     title: "𝗡𝗘𝗧𝗙𝗟𝗜𝗫",
     icon: "bolt.slash.circle",
 	  'icon-color':"#801DAE",
-    content: '测试失败 请检查网络设置',
+    content: '请检查网络后重试',
   }
   await test(FILM_ID)
     .then((code) => {
