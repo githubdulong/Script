@@ -22,11 +22,11 @@ URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
 # > boxjs代理
 DOMAIN,boxjs.net,𝗣𝗥𝗢𝗫𝗬
-# > 墙洞官网
+# > 墙洞代理
 DOMAIN-SUFFIX,dlercloud.com,𝗣𝗥𝗢𝗫𝗬
 # > 京东库代理
 DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝗣𝗥𝗢𝗫𝗬
-# > dayone
+# > DayOne
 URL-REGEX,^https:\/\/dayone\.me,𝗣𝗥𝗢𝗫𝗬
 # > 腾讯视频直连
 DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
@@ -116,17 +116,18 @@ DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
 # > 模块订阅(单独添加)
 //爬虫复写去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/Advertising/Advertising.sgmodule
 //什么值得买去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_remove_ads.sgmodule
-//贴吧去除广告https://raw.githubusercontent.com/app2smile/rules/master/module/tieba.sgmodule
-//spotify解锁https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module
-//哔哩哔哩去广告https://raw.githubusercontent.com/app2smile/rules/master/module/bilibili.sgmodule
-//Siri区域解锁https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Siri_Suggestions.sgmodule
-//京东辅助登陆https://raw.githubusercontent.com/Fokit/Quantumult-X/main/rewrite/jd_login_help2.sgmodule
+//贴吧去除广告 https://raw.githubusercontent.com/app2smile/rules/master/module/tieba.sgmodule
+//spotify解锁 https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module
+//哔哩哔哩去广告 https://raw.githubusercontent.com/app2smile/rules/master/module/bilibili.sgmodule
+//Siri区域解锁 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Siri_Suggestions.sgmodule
+//京东辅助登陆 https://raw.githubusercontent.com/Fokit/Quantumult-X/main/rewrite/jd_login_help2.sgmodule
 //京东助手(注入式需key）https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.sgmodule
 //京东联盟转链（联盟、助手二选一）https://raw.githubusercontent.com/githubdulong/Script/master/Surge/jdapp_to_union.sgmodule
-//浏览器搜索https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Q-Search_All_in_one.sgmodule
-//知乎去广告https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/zhihu/zhihu_plus.sgmodule
-//京东半自动销卡https://raw.githubusercontent.com/githubdulong/Script/master/Jd_unbindCard.sgmodule
-//京东淘宝比价https://raw.githubusercontent.com/githubdulong/Script/master/jd_price2.sgmodule
+//浏览器搜索 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Q-Search_All_in_one.sgmodule
+//知乎去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/zhihu/zhihu_plus.sgmodule
+//京东半自动销卡 https://raw.githubusercontent.com/githubdulong/Script/master/Jd_unbindCard.sgmodule
+//京东淘宝比价 https://raw.githubusercontent.com/githubdulong/Script/master/jd_price2.sgmodule
+//网络并发Hybrid https://raw.githubusercontent.com/githubdulong/Script/master/Surge/All_Hybrid.sgmodule
 
 # 分割线——————————————————————————
 
