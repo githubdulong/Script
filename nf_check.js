@@ -1,10 +1,10 @@
 /**
  *
  * [Panel]
- * nf_check = script-name=nf_check, title="Netflix 解锁检测", content="请刷新", update-interval=1
+ * 策略面板 = script-name=奈飞查询,update-interval=3600
  *
  * [Script]
- * nf_check = type=generic, script-path=https://gist.githubusercontent.com/Hyseen/b06e911a41036ebc36acf04ddebe7b9a/raw/nf_check.js?version=1633074636264, argument=title=Netflix 解锁检测
+ * 奈飞查询 = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/nf_check.js
  *
  * 支持使用脚本使用 argument 参数自定义配置，如：argument=key1=URLEncode(value1)&key2=URLEncode(value2)，具体参数如下所示，
  * title: 面板标题
@@ -31,11 +31,11 @@ const FILM_ID = 81215567
 const AREA_TEST_FILM_ID = 80018499
 const DEFAULT_OPTIONS = {
   title: '𝗡𝗘𝗧𝗙𝗟𝗜𝗫',
-  fullContent: '已解锁奈飞 ➟ #REGION_NAME# #REGION_NAME_EN#',
+  fullContent: '已解锁奈飞 ➟ #REGION_NAME# #REGION_CODE#',
   fullIcon: 'play.circle',
   fullIconColor: '#00BC12',
   fullStyle: 'good',
-  onlyOriginalContent: '仅支持自制剧 ➟ #REGION_NAME# #REGION_NAME_EN#',
+  onlyOriginalContent: '仅支持自制剧 ➟ #REGION_NAME# #REGION_CODE#',
   onlyOriginalIcon: 'pause.circle',
   onlyOriginalIconColor: '#FFB61E',
   onlyOriginalStyle: 'info',

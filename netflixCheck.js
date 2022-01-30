@@ -33,7 +33,7 @@ const AREA_TEST_FILM_ID = 80018499
 	    result['icon-color'] = "#FFB61E"
       //result['icon'] = params.icon2
 	    //result['icon-color'] = params.color2
-      result['content'] = '仅解锁自制剧' + ' ➟ 区域 ' + code.toUpperCase()
+      result['content'] = '仅支持自制剧' + ' ➟ 区域 ' + code.toUpperCase()
       return Promise.reject('BreakSignal')
     })
     .catch((error) => {
