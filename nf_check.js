@@ -31,11 +31,11 @@ const FILM_ID = 81215567
 const AREA_TEST_FILM_ID = 80018499
 const DEFAULT_OPTIONS = {
   title: '𝗡𝗘𝗧𝗙𝗟𝗜𝗫',
-  fullContent: '已解锁奈飞 ➟ #REGION_NAME#',
+  fullContent: '已解锁奈飞 ➟ #REGION_NAME# #REGION_NAME_EN#',
   fullIcon: 'play.circle',
   fullIconColor: '#00BC12',
   fullStyle: 'good',
-  onlyOriginalContent: '仅解锁自制剧 ➟ # #REGION_NAME#',
+  onlyOriginalContent: '仅支持自制剧 ➟ #REGION_NAME# #REGION_NAME_EN#',
   onlyOriginalIcon: 'pause.circle',
   onlyOriginalIconColor: '#FFB61E',
   onlyOriginalStyle: 'info',
