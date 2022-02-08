@@ -41,7 +41,7 @@ const DEFAULT_OPTIONS = {
   onlyOriginalStyle: 'info',
   notAvailableContent: '该节点未解锁奈飞',
   notAvailableIcon: 'stop.circle',
-  notAvailableIconColor: '#FF2121',
+  notAvailableIconColor: '#666666',
   notAvailableStyle: 'alert',
   errorContent: '请检查网络后重试',
   errorIcon: 'bolt.slash.circle',
