@@ -2,6 +2,8 @@
 #!desc=最后更新时间 2022-02-09 21:35:02
 #!system=ios
 
+# 分割线——————————————————————————
+
 # gh: GitHub搜索
 # gm: Google图片搜索
 # sof: Stack Overflow
@@ -41,10 +43,13 @@
 # bd: 百度搜索
 # gg: 谷歌搜索
 # ddg: DuckDuckGo 搜索
-# 无指令则转 Ecosia 搜索
+# 无指令则转 Ecosia 搜索（一款柏林种树献爱心引擎）
+
+# 分割线——————————————————————————
 
 [URL Rewrite]
-#gm   (Google图片)
+# > 图片
+# gm   (Google图片)
 ^https:\/\/duckduckgo.com\/\?q=gm\+([^&]+).+ https://www.google.com/search?&tbm=isch&q=$1 302
 # gh   (GitHub)
 ^https:\/\/duckduckgo.com\/\?q=gh\+([^&]+).+ https://github.com/search?q=$1 302
@@ -62,6 +67,7 @@
 ^https:\/\/duckduckgo.com\/\?q=mg(\+|%20)([^&]+).+ https://magi.com/search?q=$2 302
 # tf  (Google 搜索 TestFlight)
 ^https:\/\/duckduckgo.com\/\?q=tf(\+|%20)([^&]+).+ https://www.google.com/search?as_q=$2&as_sitesearch=testflight.apple.com 302
+
 # > 翻译
 # yd   (有道)
 ^https:\/\/duckduckgo.com\/\?q=yd\+([^&]+).+ http://dict.youdao.com/search?q=$1 302
@@ -71,7 +77,8 @@
 ^https:\/\/duckduckgo.com\/\?q=tre\+([^&]+).+ https://translate.google.com/#view=home&op=translate&sl=auto&tl=en&text=$1 302
 # trj  (Google 译至日)
 ^https:\/\/duckduckgo.com\/\?q=trj\+([^&]+).+ https://translate.google.com/#view=home&op=translate&sl=auto&tl=ja&text=$1 302
-# 社区
+
+# > 社区
 # db：豆瓣
 ^https:\/\/duckduckgo.com\/\?q=db\+([^&]+).+ https://m.douban.com/search/?query=$1 302
 # zh: 知乎
@@ -88,6 +95,7 @@
 ^https:\/\/duckduckgo.com\/\?q=ssp\+([^&]+).+ https://sspai.com/search/post/$1 302
 # csdn: CSDN
 ^https:\/\/duckduckgo.com\/\?q=csdn\+([^&]+).+ https://so.csdn.net/so/search/s.do?q=$1&t=&u= 302
+
 # > 购物
 # zdm: 什么值得买
 ^https:\/\/duckduckgo.com\/\?q=zdm\+([^&]+).+ https://search.m.smzdm.com/?v=b&s=$1 302
@@ -99,7 +107,7 @@
 ^https:\/\/duckduckgo.com\/\?q=tb\+([^&]+).+ https://s.m.taobao.com/h5?q=$1 302
 # tm: 天猫
 ^https:\/\/duckduckgo.com\/\?q=tm\+([^&]+).+ https://s.m.tmall.com/m/search.htm?q=$1 302
-# 视频资源
+# > 视频资源
 # ac (Acfun)
 ^https:\/\/duckduckgo.com\/\?q=ac\+([^&]+).+ https://www.acfun.cn/search?keyword==$1 302
 # bli (哔哩哔哩) 
@@ -112,7 +120,8 @@
 ^https:\/\/duckduckgo.com\/\?q=gd\+([^&]+).+ https://www.google.com/search?q=%22Google+Drive%22+$1 302
 # tgd  (t.me/gdurl 搜索 Google Drive 资源)
 ^https:\/\/duckduckgo.com\/\?q=tgd\+([^&]+).+ https://t.me/s/gdurl?q=$1 302
-# 搜索引擎
+
+# > 搜索引擎
 # gg: 谷歌
 ^https:\/\/duckduckgo.com\/\?q=gg\+([^&]+).+ https://www.google.com/search?q=$1 302
 # bi: 必应
@@ -123,9 +132,12 @@
 ^https:\/\/duckduckgo.com\/\?q=ddg\+([^&]+).+ https://duckduckgo.com/?ia=about&q=$1 302
 # 无指令: Ecosia
 ^https:\/\/duckduckgo.com\/\?q=([^&]+).+ https://www.ecosia.org/search?q=$1 302
-# tgd
+
+# > tgd
 # tgd xxx (t.me/gdsharing 搜索 Google Drive 资源)
 ^https:\/\/duckduckgo.com\/\?q=tgd(\+|%20)([^&]+).+ https://t.me/s/gdsharing?q=$2 302
+
+# 分割线——————————————————————————
 
 [MITM]
 hostname = %APPEND% duckduckgo.com
