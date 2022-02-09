@@ -37,10 +37,10 @@
 # gd: Google Drive资源
 # tgd: TG搜索Google Drive资源
 
-# bi: 必应
+# bi: 必应搜索
 # bd: 百度搜索
+# gg: 谷歌搜索
 # ddg: DuckDuckGo 搜索
-# gg: 谷歌 搜索
 # 无指令则转 Ecosia 搜索
 
 [URL Rewrite]
