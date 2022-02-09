@@ -1,22 +1,22 @@
 #!name=快捷搜索
-#!desc=最后更新时间 2021-06-04 11:39:45
+#!desc=最后更新时间 2022-02-09 21:05:02
 #!system=ios
 
-# gh：  GitHub搜索
-# gm：  Google图片搜索
-# sof:  Stack Overflow
-# se:   StackExchange
+# gh: GitHub搜索
+# gm: Google图片搜索
+# sof: Stack Overflow
+# se: StackExchange
 # wiki: 维基百科
-# wk:   维基中文
-# mg:   Magi
-# tf:   Google 搜索 TestFlight
+# wk: 维基中文
+# mg: Magi
+# tf: Google 搜索 TestFlight
 
-# yd：有道词典搜索
+# yd: 有道词典搜索
 # trc: Google 译至中
 # tre: Google 译至英
 # trj: Google 译至日
 
-# db：豆瓣搜索
+# db: 豆瓣搜索
 # zh: 知乎
 # wb: 微博
 # wx: 微信
@@ -30,19 +30,17 @@
 # tb: 淘宝
 # tm: 天猫
 
-# ac:  Acfun
+# ac: Acfun
 # bli: 哔哩哔哩
 # ytb: YouTube
-# ph:  PornHub 
-# gd:  Google Drive资源
+# ph: PornHub 
+# gd: Google Drive资源
 # tgd: TG搜索Google Drive资源
 
-# ccn 临时切换App Store国区
-# uus 临时切换App Store美区
- 
 # bi: 必应
-# bd：百度搜索
-# ddg：DuckDuckGo 搜索
+# bd: 百度搜索
+# ddg: DuckDuckGo 搜索
+# ea: Ecosia 搜索
 # 无指令则转 Google 搜索
 
 [URL Rewrite]
@@ -114,7 +112,9 @@
 ^https:\/\/duckduckgo.com\/\?q=gd\+([^&]+).+ https://www.google.com/search?q=%22Google+Drive%22+$1 302
 # tgd  (t.me/gdurl 搜索 Google Drive 资源)
 ^https:\/\/duckduckgo.com\/\?q=tgd\+([^&]+).+ https://t.me/s/gdurl?q=$1 302
-# 默认搜索
+# 搜索引擎
+# ea: Ecosia
+^https:\/\/duckduckgo.com\/\?q=ea\+([^&]+).+ https://www.ecosia.org/search?q=$1 302
 # bi: 必应
 ^https:\/\/duckduckgo.com\/\?q=bi\+([^&]+).+ https://cn.bing.com/search?q=$1 302
 # bd: 百度
@@ -126,13 +126,6 @@
 # tgd
 # tgd xxx (t.me/gdsharing 搜索 Google Drive 资源)
 ^https:\/\/duckduckgo.com\/\?q=tgd(\+|%20)([^&]+).+ https://t.me/s/gdsharing?q=$2 302
-# > App Store临时换区
-# ccn 国区
-# ccn (App Store 临时换至中国区)
-^https:\/\/duckduckgo.com\/\?q=ccn&.+ https://itunes.apple.com/WebObjects/MZStore.woa/wa/resetAndRedirect?dsf=143465&mt=8&url=/WebObjects/MZStore.woa/wa/viewSoftware?mt=8&id=1108187390&cc=cn&urlDesc= 302
-# uus 美区
-# uus (App Store 临时换至美国区)
-^https:\/\/duckduckgo.com\/\?q=uus&.+ https://itunes.apple.com/WebObjects/MZStore.woa/wa/resetAndRedirect?dsf=143441&mt=8&url=/WebObjects/MZStore.woa/wa/viewSoftware?mt=8&id=1108187390&cc=us&urlDesc= 302
 
 [MITM]
 hostname = %APPEND% duckduckgo.com
