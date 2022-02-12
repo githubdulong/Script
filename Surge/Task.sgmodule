@@ -1,5 +1,5 @@
 #!name=定时脚本
-#!desc=最后更新时间 2022-02-07 14:20
+#!desc=最后更新时间 2022-02-12 22:50
 #!system=ios
 
 # 分割线——————————————————————————
@@ -24,8 +24,8 @@
 # > 什么值得买(签到+任务)
 值买签到 = type=cron,cronexp=0 4 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_signin.js,script-update-interval=0
 值买任务 = type=cron,cronexp=30 4 0 1 * *,wake-system=1,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_mission.js,script-update-interval=0
-# > 作业帮
-作业帮帮 = type=cron,cronexp=0 5 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/Task/zyb.js,script-update-interval=0
+# > 电信签到
+电信签到 = type=cron,cronexp=0 5 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10000/10000.js,script-update-interval=0
 # > 顺丰速运
 顺丰速运 = type=cron,cronexp=30 5 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js,script-update-interval=0
 # > 慢慢买

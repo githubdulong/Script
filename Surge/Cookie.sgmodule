@@ -1,5 +1,5 @@
 #!name=重写获取
-#!desc=最后更新时间 2022-02-07 14:20
+#!desc=最后更新时间 2022-02-12 22:50
 #!system=ios
 
 # 分割线——————————————————————————
@@ -41,8 +41,8 @@
 联通组件 = type=http-request,pattern=^https:\/\/m\.client\.10010\.com\/serviceimportantbusiness\/smart\/smartwisdomCommon,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,script-update-interval=0
 # > 顺丰速运 app获取
 顺丰速运 = type=http-request, pattern=^https:\/\/ccsp-egmas.sf-express.com\/cx-app-member\/member\/app\/user\/universalSign,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.cookie.js,requires-body=true
-# > 作业帮 app获取
-作业帮帮 = type=http-request,pattern=https://napi.zuoyebang.com/napi/signin/signinpage,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/photonmang/quantumultX/master/Task/zyb.js,script-update-interval=0
+# > 电信签到 app获取（boxjs填写号码）
+电信签到 = type=http-request,pattern=^https:\/\/wapside.189.cn:9001\/jt-sign\/api\/home\/homeInfo,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10000/10000.cookie.js,requires-body=true
 # > 慢慢买 app获取
 慢买获取 = script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/manmanbuy/manmanbuy_checkin.js,type=http-request,requires-body=true,pattern=^https?:\/\/apph5\.manmanbuy\.com\/taolijin\/(login.aspx|logserver.aspx)
 # > 小米运动 app登陆时获取
@@ -61,4 +61,4 @@
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% ms.jr.jd.com, me-api.jd.com, music.163.com, 113.96.156.178, *.ximalaya.com, e.189.cn, mkt.21cn.com, i.meituan.com, api.weibo.cn, m.weibo.cn, draw.jdfcloud.com, *.m.163.com, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, jdjoy.jd.com, account.huami.com, my.ruanmei.com, m.client.10010.com, act.10010.com, ccsp-egmas.sf-express.com, napi.zuoyebang.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, *.bilibili.com, api.wfdata.club, passport.iqiyi.com
+hostname = %INSERT% ms.jr.jd.com, me-api.jd.com, music.163.com, 113.96.156.178, *.ximalaya.com, e.189.cn, mkt.21cn.com, i.meituan.com, api.weibo.cn, m.weibo.cn, draw.jdfcloud.com, *.m.163.com, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, jdjoy.jd.com, account.huami.com, my.ruanmei.com, m.client.10010.com, act.10010.com, ccsp-egmas.sf-express.com, wapside.189.cn:9001, apph5.manmanbuy.com, account.huami.com, club.yili.com, *.bilibili.com, api.wfdata.club, passport.iqiyi.com
