@@ -1,6 +1,10 @@
 #!name=兼容模式
-#!desc=Surge兼容模式
+#!desc=启用 tun only 并强制80端口http代理
 #!system=ios
 
 [General]
 compatibility-mode = 3
+force-http-engine-hosts = %APPEND% *
+
+[Rule]
+IP-CIDR,203.107.1.1/24,REJECT,no-resolve // bilibili gRPC
