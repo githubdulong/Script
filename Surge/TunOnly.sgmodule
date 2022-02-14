@@ -1,5 +1,5 @@
 #!name=兼容模式
-#!desc=启用 tun only 并强制80端口http代理
+#!desc=开启TunOnly并强制80端口http代理
 #!system=ios
 
 [General]
