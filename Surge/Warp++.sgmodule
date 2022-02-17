@@ -1,5 +1,5 @@
 #!name=Warp++
-#!desc=Hack Data WARP++
+#!desc=WARP++ 刷邀请推荐奖励
 
 [Host]
 api.cloudflareclient.com = server: 1.1.1.1
