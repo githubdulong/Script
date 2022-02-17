@@ -42,9 +42,9 @@ const request = {
 
 $.http.post(request).then(resp => {
 if(resp.statusCode == 200){
-$.log(`🟢Success`);
+$.log(`🟢成功`);
 }else{
-$.error(`🔴Internet; too many request`);
+$.error(`🔴互联网请求太多`);
 }
 $.done();
 })
