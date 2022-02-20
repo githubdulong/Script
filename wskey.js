@@ -10,7 +10,7 @@ let CK = $request.headers['Cookie'] || $request.headers['cookie'];
 
 const pin = CK.match(/pin=([^=;]+?);/)[1];
 const key = CK.match(/wskey=([^=;]+?);/)[1];
-const _TGUserID = $.getData('id77_TGUserID');
+const _TGUserID = $.getData('Trembly_JD_Bot');
 
 $.TGBotToken = '5148458134:AAGEsL6rhysC7opANKjjrNKLw4eidQaPD3w';
 $.TGUserIDs = [-1001545165273];
