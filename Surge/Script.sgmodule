@@ -90,7 +90,7 @@ DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
 # > MIX解锁
 滤镜解锁 = requires-body=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/mix.js,type=http-response,pattern= ^https:\/\/bmall\.camera360\.com\/api\/mix\/recovery$
 # > vsco解锁
-滤镜破解 = type=http-response,pattern=^https:\/\/api\.revenuecat\.com\/v\d\/subscribers\/\d+$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/vsco.js,script-update-interval=0
+滤镜破解 = type=http-response,pattern=^https:\/\/(api\.revenuecat\.com\/v\d\/subscribers|vsco\.co\/api\/subscriptions\/\d\.\d\/user-subscriptions)\/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/vsco.js,script-update-interval=0
 # > Grow解锁
 运动解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/revenuecat.js,script-update-interval=-1
 # > 百度跳转
@@ -130,4 +130,4 @@ DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% -*.amemv.com, -*.snssdk.com, *.googlevideo.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, ap?.bilibili.com, ap?.biliapi.net, api-production.endel.io, pan.baidu.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, api.revenuecat.com, img.zuoyebang.cc, security.wechat.com, boxer.baidu.com, api.polaxiong.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, weather-data.apple.com, raw.githubusercontent.com, gist.githubusercontent.com, sub.store, e.189.cn:443, m.douban.com
+hostname = %INSERT% -*.amemv.com, -*.snssdk.com, *.googlevideo.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, ap?.bilibili.com, ap?.biliapi.net, api-production.endel.io, pan.baidu.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, vsco.co, api.revenuecat.com, img.zuoyebang.cc, security.wechat.com, boxer.baidu.com, api.polaxiong.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, weather-data.apple.com, raw.githubusercontent.com, gist.githubusercontent.com, sub.store, e.189.cn:443, m.douban.com
