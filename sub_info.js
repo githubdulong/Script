@@ -35,8 +35,8 @@ Surge配置参考注释，修改自@mieqq
   let resetDay = parseInt(params["due_day"] || params["reset_day"]); 
   let resetLeft = getRmainingDays(resetDay);
 
-  let localProxy = "=http, localhost, 6152";
-  let infoList = [`${used} | ${total}`];
+  let localProxy = ['=http, localhost, 6152','=http, 127.0.0.1, 6152','=socks5,127.0.0.1, 6153']
+  let infoList = [`${bytesToSize(used)} | ${bytesToSize(total)}`];
   
   if (resetLeft) {
     infoList.push(`流量重置: 剩余${resetLeft}天`);
