@@ -7,19 +7,19 @@ hostname = *.bilibili.com
 Surge：
 [Script]
 # 获取 cookie
-哔哩哔哩 = type=http-request,pattern=https://api.bilibili.com/x/web-interface/nav,debug=true,script-path=bilibili.js
+哔哩哔哩 = type=http-request,pattern=https://api.bilibili.com/x/web-interface/nav,debug=true,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/bilibili.js
 
 # 每日定时运行
 每天07,14,21点分别运行一次
-bilibili = type=cron,cronexp="0 7,14,21 * * *",wake-system=1,debug=true,script-path=bilibili.js
+bilibili = type=cron,cronexp="0 7,14,21 * * *",wake-system=1,debug=true,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/bilibili.js
 
 圈X：
 # 获取 cookie
-^https://api.bilibili.com/x/web-interface/nav url script-request-header bilibili.js
+^https://api.bilibili.com/x/web-interface/nav url script-request-header https://raw.githubusercontent.com/githubdulong/Script/master/bilibili.js
 
 # 每日定时运行
 每天07,14,21点分别运行一次
-7,14,21 0 * * * bilibili.js, tag=哔哩哔哩, img-url=https://raw.githubusercontent.com/anker1209/icon/main/bilibili.png, enabled=true
+7,14,21 0 * * * https://raw.githubusercontent.com/githubdulong/Script/master/bilibili.js, tag=哔哩哔哩, img-url=https://raw.githubusercontent.com/anker1209/icon/main/bilibili.png, enabled=true
 
 用浏览器打开www.bilibili.com并登录  然后点击头像进入个人主页 如果不能获取cookie请刷新(此步骤必须打开MitM)
 
