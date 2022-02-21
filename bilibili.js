@@ -11,7 +11,7 @@ Surge：
 
 # 每日定时运行
 每天07,14,21点分别运行一次
-bilibili = type=cron,cronexp="0 7,14,21 * * *",wake-system=1,debug=true,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/bilibili.js
+哔哩哔哩 = type=cron,cronexp="0 7,14,21 * * *",wake-system=1,debug=true,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/bilibili.js
 
 圈X：
 # 获取 cookie
