@@ -24,27 +24,19 @@ Surge配置参考注释，修改自@mieqq
 -----------------------------------------
 */
 
-let now = new Date();
-let today = now.getDate();
-let month = now.getMonth();
-let year = now.getFullYear();
-let args = getArgs($request.url);
-let resetDay = parseInt(args["due_day"] || args["reset_day"]);
-let resetDayLeft = getRmainingDays(resetDay);
-
 (async () => {
-  let is_enhanced = await is_enhanced_mode();
-  if (is_enhanced) await sleep(2000)
-  let usage = await getDataInfo(args.url);
-  if (!usage) {
-    $done({})
-    return;
-  }
-  let used = usage.download + usage.upload;
-  let total = usage.total;
-  let expire = usage.expire || args.expire;
-  let localProxy = ['=http, localhost, 6152','=http, 127.0.0.1, 6152','=socks5,127.0.0.1, 6153']
-  let infoList = [`${bytesToSize(used)} | ${bytesToSize(total)}`];
+  let params = getUrlParams($request.url);
+
+  let usage = await getDataUsage(params.url);
+  let used = bytesToSize(usage.download + usage.upload);
+  let total = bytesToSize(usage.total);
+
+  let expire = usage.expire || params.expire;
+  let resetDay = parseInt(params["due_day"] || params["reset_day"]); 
+  let resetLeft = getRmainingDays(resetDay);
+
+  let localProxy = "=http, localhost, 6152";
+  let infoList = [`${used} | ${total}`];
   
   if (resetLeft) {
     infoList.push(`流量重置: 剩余${resetLeft}天`);
