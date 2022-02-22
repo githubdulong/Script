@@ -13,7 +13,7 @@ DOMAIN,ql.lowking.pro,𝗣𝗮𝘀𝘀𝗞𝗲𝘆⁺
 # > 爱奇艺 去暂停广告
 DOMAIN-SUFFIX, cupid.iqiyi.com,REJECT
 # > 人人视频 去广告
-AND,((USER-AGENT,PUClient*), (NOT,((DOMAIN-SUFFIX,rr.tv)))),REJECT
+AND,((USER-AGENT,PUClient*),(NOT,((DOMAIN-SUFFIX,rr.tv)))),REJECT
 URL-REGEX,^https?:\/\/api\.rr\.tv\/(?:ad\/getAll$|storage/business/rootName/app/homePage),REJECT
 # > 优酷 去广告
 DOMAIN, iyes.youku.com,REJECT
@@ -30,6 +30,13 @@ DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝗣𝗥𝗢𝗫𝗬
 URL-REGEX,^https:\/\/dayone\.me,𝗣𝗥𝗢𝗫𝗬
 # > 腾讯视频直连
 DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
+# > 掌阅
+URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/bookstore\/ad\/,REJECT-TINYGIF
+URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/self\/screen\/ad,REJECT-TINYGIF
+URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zycl\/api\/ad\/,REJECT-TINYGIF
+URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zycl\/api\/ad\/,REJECT-TINYGIF
+# > 作业帮
+URL-REGEX,^https?:\/\/www\.zybang\.com\/adx\/,REJECT-TINYGIF
 
 # 分割线——————————————————————————
 
@@ -102,8 +109,9 @@ DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
 订阅管理 = type=http-request,pattern=^https?:\/\/sub\.store,script-path=https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/backend/sub-store.min.js,requires-body=true,timeout=120,max-size=131072
 # > 豆瓣电影
 豆瓣电影 = type=http-response,pattern=^https?:\/\/m\.douban\.com\/movie\/subject\/\d+\/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/I-am-R-E/QuantumultX/main/JavaScript/DouBan.js
-# > 美图秀秀
-美图秀秀 = type=http-response,pattern=^https?:\/\/(h5|api)\.xiuxiu\.meitu\.com\/v\d\/(h\d\/vip|vip|user)\/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/I-am-R-E/QuantumultX/main/JavaScript/MeiTuXiuXiu.js
+# > IT之家 列表广告
+数码之家 = type=http-response,pattern=^https?:\/\/api\.ithome\.com\/json\/(newslist|listpage)\/news,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/ithome.js
+数码之家 = type=http-response,pattern=^https?:\/\/api\.ithome\.com\/json\/slide\/index,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/ithome.js
 # > 私有仓库
 私有仓库 = type=http-request,requires-body=0,pattern=^https?:\/\/(raw|gist)\.githubusercontent.com,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Rewrites/GithubPrivate/github-private-repo.js
 # > 机场信息 
@@ -129,4 +137,4 @@ DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% -*.amemv.com, -*.snssdk.com, *.googlevideo.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, ap?.bilibili.com, ap?.biliapi.net, api-production.endel.io, pan.baidu.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, vsco.co, api.revenuecat.com, img.zuoyebang.cc, security.wechat.com, boxer.baidu.com, api.polaxiong.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, weather-data.apple.com, raw.githubusercontent.com, gist.githubusercontent.com, sub.store, m.douban.com, api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com
+hostname = %INSERT% -*.amemv.com, -*.snssdk.com, *.googlevideo.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, ap?.bilibili.com, ap?.biliapi.net, api-production.endel.io, pan.baidu.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, vsco.co, api.revenuecat.com, img.zuoyebang.cc, security.wechat.com, boxer.baidu.com, api.polaxiong.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, weather-data.apple.com, raw.githubusercontent.com, gist.githubusercontent.com, sub.store, m.douban.com, api.ithome.com
