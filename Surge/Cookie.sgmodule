@@ -53,7 +53,7 @@
 伊利乳品 = type=http-request, requires-body=1, pattern=https:\/\/club\.yili\.com\/MALLIFChe\/MCSWSIAPI\.asmx\/Call,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/yiLi.cookie.js
 # > 威锋论坛 app获取
 威锋论坛 = type=http-request,pattern=^https?:\/\/api.wfdata.club\/v1\/auth\/signin,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.cookie.js,requires-body=true
-# > 爱奇艺 https://m.iqiyi.com/user.html
+# > 爱奇艺 登陆https://m.iqiyi.com/user.html
 奇艺获取 = type=http-request,pattern=^https:\/\/passport\.iqiyi\.com\/apis\/user\/info\.action,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js
 
 # 分割线——————————————————————————

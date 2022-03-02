@@ -5,7 +5,7 @@
 # 分割线——————————————————————————
 
 [Rule]
-# > 阻止所有UDP流量到端口443，使HTTP3请求退回到TCP流量
+# > (内置模块)阻止所有UDP流量到端口443，使HTTP3请求退回到TCP流量
 AND,((PROTOCOL,UDP), (DEST-PORT,443)),REJECT-NO-DROP
 # > misao机场代理
 DOMAIN,zhuan.mlsao.xyz,𝗣𝗥𝗢𝗫𝗬
@@ -32,12 +32,12 @@ DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝗣𝗥𝗢𝗫𝗬
 URL-REGEX,^https:\/\/dayone\.me,𝗣𝗥𝗢𝗫𝗬
 # > 腾讯视频直连
 DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
-# > 掌阅
+# > 掌阅 去广告
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/bookstore\/ad\/,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/self\/screen\/ad,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zycl\/api\/ad\/,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zycl\/api\/ad\/,REJECT-TINYGIF
-# > 作业帮
+# > 作业帮 去广告
 URL-REGEX,^https?:\/\/www\.zybang\.com\/adx\/,REJECT-TINYGIF
 
 # 分割线——————————————————————————
