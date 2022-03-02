@@ -1,10 +1,8 @@
-•顺序不分排名致谢以下作者库，如有遗漏请联系补充；
----
+  顺序不分排名 致谢
+
 * [NobyDa](https://github.com/NobyDa)
 
 * [chavyleung](https://github.com/chavyleung)/[gitee](https://gitee.com/chavyleung/scripts)
-
-* [GideonSenku](https://github.com/GideonSenku)
 
 * [yichahucha](https://github.com/yichahucha)
 
@@ -12,23 +10,31 @@
 
 * [Choler](https://github.com/Choler)
 
+* [Neurogram-R](https://github.com/Neurogram-R)
+
 * [Sunert](https://github.com/Sunert/Script)
 
 * [zZPiglet](https://github.com/zZPiglet/Task.git)
 
 * [Peng-YM](https://github.com/Peng-YM/QuanX)
 
-* [id77](https://github.com/id77/QuantumultX/tree/master)
-
 * [KOP-XIAO](https://github.com/KOP-XIAO/QuantumultX)
 
-* [lxk0301/docker](https://gitee.com/lxk0301/jd_docker)  [订阅模块](https://t.me/c/1446927138/881982)
+* [lowking](https://github.com/lowking/Scripts)
 
-* [photonmang](https://github.com/photonmang/quantumultX)
+* [id77](https://github.com/id77/QuantumultX/tree/master)
+
+* [VirgilClyne](https://github.com/VirgilClyne)
+ 
+* [dompling-2Y](https://github.com/dompling?tab=repositories)
+
+* [app2smile](https://github.com/app2smile/rules)
 
 * [anker1209](https://github.com/anker1209/Scriptable)
 
-* [dompling-2Y](https://github.com/dompling)
+* [Honye](https://github.com/Honye/scriptable-scripts/blob/master/README.zh.md)
+
+* [hackl0us](https://github.com/hackl0us)
 
 * [blackmatrix7](https://github.com/blackmatrix7/ios_rule_script)
 
