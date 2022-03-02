@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-03-01 16:35
+#!desc=最后更新时间 2022-03-02 12:11
 #!system=ios
 
 # 分割线——————————————————————————
@@ -39,6 +39,9 @@ URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zycl\/api\/ad\/,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zycl\/api\/ad\/,REJECT-TINYGIF
 # > 作业帮 去广告
 URL-REGEX,^https?:\/\/www\.zybang\.com\/adx\/,REJECT-TINYGIF
+# > HDOBOX 套壳app去广告
+DOMAIN-SUFFIX,applovin.com,REJECT
+DOMAIN-SUFFIX,applvn.com,REJECT
 
 # 分割线——————————————————————————
 
