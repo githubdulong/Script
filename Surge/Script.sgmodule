@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-03-02 12:11
+#!desc=最后更新时间 2022-03-03 11:36
 #!system=ios
 
 # 分割线——————————————————————————
@@ -87,8 +87,8 @@ DOMAIN-SUFFIX,applvn.com,REJECT
 会话数据 = type=http-request,pattern=^https?://boxjs.net,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/chavy.boxjs.js, requires-body=true, timeout=120
 # > 彩云天气_SVIP
 彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js
-# > TFDOWN
-测试商店 = type=http-request,pattern=^https?:\/\/testflight\.apple\.com\/v2\/accounts\/.*\/apps\/\d*/builds/\d*/install,requires-body=1,max-size=0,script-path=https://gist.githubusercontent.com/NobyDa/9be418b93afc5e9c8a8f4d28ae403cf2/raw/TF_Download.js
+# > 京东App 历史价格 
+京东比价 = type=http-response,requires-body=1,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js
 # > bilbii换区、评分
 哔哩换区 = type=http-response,pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/v\d\/search\/defaultwords)\?access_key,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
 哔哩搜索 = type=http-request,pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/x\/v\d\/search(\/type)?\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)&,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
@@ -136,10 +136,10 @@ DOMAIN-SUFFIX,applvn.com,REJECT
 //京东联盟转链（联盟、助手二选一）https://raw.githubusercontent.com/githubdulong/Script/master/Surge/jdapp_to_union.sgmodule
 //浏览器搜索 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Q-Search_All_in_one.sgmodule
 //京东半自动销卡 https://raw.githubusercontent.com/githubdulong/Script/master/Jd_unbindCard.sgmodule
-//京东比价 https://raw.githubusercontent.com/githubdulong/Script/master/jd_price2.sgmodule
+//TF下载修正 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/TestFlightDownload.sgmodule
 //字幕翻译 https://raw.githubusercontent.com/Neurogram-R/Surge/master/module/Dualsub.sgmodule 指令https://www.icloud.com/shortcuts/136b52e6452b4a10b3ea647f925cddd0
 //模块更新捷径 https://www.icloud.com/shortcuts/67c3ace4fb3a4f9ebbe8d3184cd82e39
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% -*.amemv.com, -*.snssdk.com, *.googlevideo.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, testflight.apple.com, ap?.bilibili.com, ap?.biliapi.net, api-production.endel.io, pan.baidu.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, vsco.co, api.revenuecat.com, img.zuoyebang.cc, security.wechat.com, boxer.baidu.com, api.polaxiong.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, weather-data.apple.com, raw.githubusercontent.com, gist.githubusercontent.com, sub.store, m.douban.com, api.ithome.com, lcs-mobile-cops.adobe.io, api.m.jd.com
+hostname = %INSERT% -*.amemv.com, -*.snssdk.com, *.googlevideo.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, ap?.bilibili.com, ap?.biliapi.net, api-production.endel.io, pan.baidu.com, btrace.qq.com, bmall.camera360.com, api.revenuecat.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, vsco.co, api.revenuecat.com, img.zuoyebang.cc, security.wechat.com, boxer.baidu.com, api.polaxiong.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, weather-data.apple.com, raw.githubusercontent.com, gist.githubusercontent.com, sub.store, m.douban.com, api.ithome.com, lcs-mobile-cops.adobe.io, api.m.jd.com
