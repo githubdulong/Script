@@ -42,6 +42,10 @@ URL-REGEX,^https?:\/\/www\.zybang\.com\/adx\/,REJECT-TINYGIF
 # > HDOBOX 去广告
 DOMAIN-SUFFIX,applovin.com,REJECT
 DOMAIN-SUFFIX,applvn.com,REJECT
+# > 拦截100 去广告
+DOMAIN-SUFFIX,huoying666.com,REJECT
+DOMAIN-SUFFIX,s2.huoying666.com,REJECT
+DOMAIN-SUFFIX,u.huoying666.com,REJECT
 
 # 分割线——————————————————————————
 
