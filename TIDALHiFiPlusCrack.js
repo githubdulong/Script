@@ -111,11 +111,18 @@ if (Tkba2[_0x1394('0x8', 'lWDn')](_0x1394('0x9', 'f4N5')) != -0x1) {
 if (Tkba2[_0x1394('0xb', '0([7')](_0x1394('0xc', 'vQ4]')) != -0x1) {
     VynDsr3 = _0x1394('0xd', '5&YQ');
 }
+//console.log("url: "+$request.url)
+//console.log(VynDsr3)
 let path = getLocation($request.url).pathname
+//console.log("path: "+path)
+if (VynDsr3 === undefined) {
+    $done({headers: oC$1})
+  } else {
 \u0024\u0064\u006F\u006E\u0065({
     url: $request.url.replace(path,VynDsr3),
 '\u0068\u0065\u0061\u0064\u0065\u0072\u0073': oC$1
 });;
+}
 (function(_0x4cca6f, _0x585ec4, _0x276756) {
     var _0x1a0e65 = {
         'FTGJi': _0x1394('0xe', 'UQv@'),
