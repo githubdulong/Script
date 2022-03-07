@@ -1,11 +1,11 @@
 /*
 圈x：
 [rewrite_local]
-https?:\/\/api\.lightricks\.com\/subscription\?bundle=com\.lightricks\.Enlight-Video url script-echo-response videoleap.js
+https?:\/\/api\.lightricks\.com\/subscription\?bundle=com\.lightricks\.Enlight-Video url script-echo-response https://raw.githubusercontent.com/githubdulong/Script/master/videoleap.js
 
 Surge：
 [Script]
-videoleap = type=http-response,pattern=https?:\/\/api\.lightricks\.com\/subscription\?bundle=com\.lightricks\.Enlight-Video,script-path=videoleap.js
+videoleap = type=http-response,pattern=https?:\/\/api\.lightricks\.com\/subscription\?bundle=com\.lightricks\.Enlight-Video,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/videoleap.js
 
 [mitm] 
 
