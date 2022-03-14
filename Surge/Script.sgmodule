@@ -44,6 +44,10 @@ DOMAIN-SUFFIX,applovin.com,REJECT
 DOMAIN-SUFFIX,applvn.com,REJECT
 # > 交管12123 去广告
 URL-REGEX,^https:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$,REJECT
+# > Testflight代理
+DOMAIN-SUFFIX,testflight.apple.com
+DOMAIN-SUFFIX,beta.apple.com
+DOMAIN-KEYWORD,testflight
 
 # 分割线——————————————————————————
 
