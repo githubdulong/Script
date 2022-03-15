@@ -44,10 +44,6 @@ DOMAIN-SUFFIX,applovin.com,REJECT
 DOMAIN-SUFFIX,applvn.com,REJECT
 # > 交管12123 去广告
 URL-REGEX,^https:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$,REJECT
-# > Testflight代理
-DOMAIN-SUFFIX,testflight.apple.com,𝗣𝗥𝗢𝗫𝗬
-DOMAIN-SUFFIX,beta.apple.com,𝗣𝗥𝗢𝗫𝗬
-DOMAIN-KEYWORD,testflight,𝗣𝗥𝗢𝗫𝗬
 
 # 分割线——————————————————————————
 
@@ -56,14 +52,12 @@ DOMAIN-KEYWORD,testflight,𝗣𝗥𝗢𝗫𝗬
 (更换307前面JP JP=日本 KR=韩国 HK=香港 US=美国）
 (?<=&mcc_mnc=)4 2 307
 (?<=_region=)CN(?=&) JP 307
-(^https?:\/\/*\.\w{4}okv.com\/.+&.+)(\d{2}\.3\.\d)(.+) $118.0$3 302
-^(https?:\/\/(tnc|dm)[\w-]+\.\w+\.com\/.+)(\?)(.+) $1$3 302
-
-# 分割线——————————————————————————
-
-[Panel]
-策略面板 = script-name=缓存开关,update-interval=15
-策略面板 = script-name=奈飞查询,update-interval=3600
+(^https?:\/\/*\.\w# > Testflight代理
+DOMAIN-SUFFIX,testflight.apple.com,𝗣𝗥𝗢𝗫𝗬
+DOMAIN-SUFFIX,beta.apple.com,𝗣𝗥𝗢𝗫𝗬
+DOMAIN-KEYWORD,testflight,𝗣𝗥𝗢𝗫𝗬
+>>>>>>>-master
+te-interval=3600
 策略面板 = script-name=代理选择,update-interval=60
 //策略面板 = script-name=电信详情,update-interval=3600
 
