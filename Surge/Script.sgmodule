@@ -1,12 +1,10 @@
-#!name=脚本合集
-#!desc=最后更新时间 2022-03-18 17:02
+#!name=🔗 脚本合集
+#!desc=最后更新时间 2022-03-20 16:50
 #!system=ios
 
 # 分割线——————————————————————————
 
 [Rule]
-# > (内置模块)阻止所有UDP流量到端口443，使HTTP3请求退回到TCP流量
-AND,((PROTOCOL,UDP), (DEST-PORT,443)),REJECT-NO-DROP
 # > misao机场代理
 DOMAIN,zhuan.mlsao.xyz,𝗣𝗥𝗢𝗫𝗬
 # > Passkey
@@ -137,6 +135,7 @@ URL-REGEX,https://api.m.jd.com/client.action\?functionId=lite_advertising,REJECT
 代理选择 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/fishingworld/something/main/groupPanel.js,argument=icon=bolt.circle&color=#157EFB&group=𝗣𝗥𝗢𝗫𝗬
 //电信详情 = type=http-request,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/telecom.js,pattern=https://e.189.cn/store/user/package_detail.do,requires-body=1,max-size=0,timeout=10
 # > 模块订阅(单独添加)
+//官方模块 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Surge.sgmodule
 //爬虫复写去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/Advertising/Advertising.sgmodule
 //什么值得买去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_remove_ads.sgmodule
 //贴吧去除广告 https://raw.githubusercontent.com/app2smile/rules/master/module/tieba.sgmodule
