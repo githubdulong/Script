@@ -6,14 +6,6 @@
   "repo": "https://github.com/githubdulong/Script",
     "apps": [
        {
-  "id": "iRingo.app.sub",
-  "name": "iRingo",
-  "author": "@VirgilClyne",
-  "description": "解锁完整的 Apple功能和集成服务",
-  "icon": "https://avatars.githubusercontent.com/u/2111377?s=100&v=4",
-  "repo": "https://github.com/VirgilClyne/iRingo",
-  "apps": [
-    {
       "id": "@iRingo.Apple.Weather",
       "name": "Apple Weather",
       "descs_html": [
