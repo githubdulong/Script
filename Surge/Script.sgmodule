@@ -1,4 +1,4 @@
-#!name=🔗 脚本合集
+#!name=脚本合集
 #!desc=最后更新时间 2022-03-20 19:40
 #!system=ios
 
@@ -63,7 +63,6 @@ URL-REGEX,https://api.m.jd.com/client.action\?functionId=lite_advertising,REJECT
 策略面板 = script-name=缓存开关,update-interval=15
 策略面板 = script-name=奈飞查询,update-interval=3600
 策略面板 = script-name=代理选择,update-interval=60
-//策略面板 = script-name=电信详情,update-interval=3600
 
 # 分割线——————————————————————————
 
@@ -133,15 +132,13 @@ URL-REGEX,https://api.m.jd.com/client.action\?functionId=lite_advertising,REJECT
 缓存开关 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/surgepro_flushdns.js,argument=icon=power.circle&color=#FF2121&title=𝗦𝗨𝗥𝗚𝗘 ®｜2100-01-01
 奈飞查询 = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/nf_check.js, argument=title=𝗡𝗘𝗧𝗙𝗟𝗜𝗫
 代理选择 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/fishingworld/something/main/groupPanel.js,argument=icon=bolt.circle&color=#157EFB&group=𝗣𝗥𝗢𝗫𝗬
-//电信详情 = type=http-request,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/telecom.js,pattern=https://e.189.cn/store/user/package_detail.do,requires-body=1,max-size=0,timeout=10
 # > 模块订阅(单独添加)
 //官方模块 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Surge.sgmodule
 //爬虫复写去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/Advertising/Advertising.sgmodule
 //什么值得买去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_remove_ads.sgmodule
 //贴吧去除广告 https://raw.githubusercontent.com/app2smile/rules/master/module/tieba.sgmodule
 //spotify解锁 https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module
-//定位修改 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Geo_Services_HK.sgmodule
-//Siri区域解锁 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Siri_Suggestions.sgmodule
+//Siri区域解锁 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Siri_Suggestions_for_Uppercase_PROXY.sgmodule
 //京东助手(注入式需key）https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.sgmodule
 //京东联盟转链（联盟、助手二选一）https://raw.githubusercontent.com/githubdulong/Script/master/Surge/jdapp_to_union.sgmodule
 //浏览器搜索 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Q-Search_All_in_one.sgmodule
