@@ -30,7 +30,7 @@ DOMAIN-SUFFIX,dlercloud.com,𝗣𝗥𝗢𝗫𝗬
 DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝗣𝗥𝗢𝗫𝗬
 # > DayOne
 URL-REGEX,^https:\/\/dayone\.me,𝗣𝗥𝗢𝗫𝗬
-# > 腾讯视频直连
+# > 腾讯视频 直连
 DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
 # > 掌阅 去广告
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/bookstore\/ad\/,REJECT-TINYGIF
@@ -44,11 +44,10 @@ DOMAIN-SUFFIX,applovin.com,REJECT
 DOMAIN-SUFFIX,applvn.com,REJECT
 # > 交管12123 去广告
 URL-REGEX,^https:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$,REJECT
-# > 滴滴出行 去广告
-URL-REGEX,https?://res\.xiaojukeji\.com\/resapi\/activity\/mget,REJECT-TINYGIF
-URL-REGEX,https?:\/\/res\.xiaojukeji\.com\/resapi\/activity\/get(Ruled|Preload|PasMultiNotices),REJECT
 # > 小米运动 去广告 
 URL-REGEX,^https:\/\/api-mifit-cn2\.huami\.com\/discovery\/mi\/cards\/startpage_ad,REJECT
+# > 京东极速版 去广告
+URL-REGEX,https://api.m.jd.com/client.action\?functionId=lite_advertising,REJECT
 
 # 分割线——————————————————————————
 
@@ -154,4 +153,4 @@ URL-REGEX,^https:\/\/api-mifit-cn2\.huami\.com\/discovery\/mi\/cards\/startpage_
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% -*.amemv.com, -*.snssdk.com, *.googlevideo.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, ap?.bilibili.com, ap?.biliapi.net, api-production.endel.io, pan.baidu.com, btrace.qq.com, bmall.camera360.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, vsco.co, img.zuoyebang.cc, security.wechat.com, boxer.baidu.com, api.polaxiong.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, raw.githubusercontent.com, gist.githubusercontent.com, sub.store, m.douban.com, api.ithome.com, lcs-mobile-cops.adobe.io, api.m.jd.com, photos.adobe.io, gab.122.gov.cn, res.xiaojukeji.com, *.xmind.*, api-mifit-cn2.huami.com
+hostname = %INSERT% -*.amemv.com, -*.snssdk.com, *.googlevideo.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, ap?.bilibili.com, ap?.biliapi.net, api-production.endel.io, pan.baidu.com, btrace.qq.com, bmall.camera360.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, vsco.co, img.zuoyebang.cc, security.wechat.com, boxer.baidu.com, api.polaxiong.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, raw.githubusercontent.com, gist.githubusercontent.com, sub.store, m.douban.com, api.ithome.com, lcs-mobile-cops.adobe.io, api.m.jd.com, photos.adobe.io, gab.122.gov.cn, *.xmind.*, api-mifit-cn2.huami.com
