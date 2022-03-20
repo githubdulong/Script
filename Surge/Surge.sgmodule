@@ -1,0 +1,21 @@
+#!name=官方模块
+#!desc=最后更新时间 2022-03-20 16:25
+#!system=ios
+
+
+# > (内置模块)阻止所有UDP流量到端口443，使HTTP3请求退回到TCP流量
+
+[Rule]
+AND,((PROTOCOL,UDP), (DEST-PORT,443)),REJECT-NO-DROP
+
+
+# > (内置模块)可以通过访问浏览器 http://router.com 来访问路由器配置网页，URL将始终重定向到当前网络中的网关地址
+
+[General]
+force-http-engine-hosts=%APPEND% router.com, www.router.com
+
+[URL Rewrite]
+^https?://(|www\.)router\.com http://{{{GATEWAY_ADDRESS}}} 302
+
+[MITM]
+hostname = %INSERT% router.com, www.router.com
