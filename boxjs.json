@@ -7,7 +7,7 @@
     "apps": [
        {
       "id": "@iRingo.Apple.Weather",
-      "name": "Apple Weather",
+      "name": "空气质量",
       "descs_html": [
         "请参照<a href=\"https://github.com/VirgilClyne/iRingo#天气\">iRingo#天气</a>的使用说明进行配置",
         "填写完成后别忘点击此页面底端右下角的\"保存\"。",
