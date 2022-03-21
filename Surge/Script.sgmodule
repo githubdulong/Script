@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-03-21 09:03
+#!desc=最后更新时间 2022-03-21 21:38
 #!system=ios
 
 # 分割线——————————————————————————
@@ -28,8 +28,10 @@ DOMAIN-SUFFIX,dlercloud.com,𝗣𝗥𝗢𝗫𝗬
 DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝗣𝗥𝗢𝗫𝗬
 # > DayOne
 URL-REGEX,^https:\/\/dayone\.me,𝗣𝗥𝗢𝗫𝗬
-# > 腾讯视频 直连
+# > 腾讯视频 修护+去广告
 DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
+URL-REGEX,^https?:\/\/pgdt\.gtimg\.cn,REJECT
+URL-REGEX,^https?:\/\/c\.l\.qq\/.com,REJECT
 # > 掌阅 去广告
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/bookstore\/ad\/,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/self\/screen\/ad,REJECT-TINYGIF
@@ -172,4 +174,4 @@ URL-REGEX,^https:\/\/wallet\.95516\.com\/s\/wl\/icon\/long,REJECT
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% -*.amemv.com, -*.snssdk.com, *.googlevideo.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, ap?.bilibili.com, ap?.biliapi.net, api-production.endel.io, pan.baidu.com, btrace.qq.com, bmall.camera360.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, vsco.co, img.zuoyebang.cc, security.wechat.com, boxer.baidu.com, api.polaxiong.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, raw.githubusercontent.com, gist.githubusercontent.com, sub.store, m.douban.com, api.ithome.com, lcs-mobile-cops.adobe.io, api.m.jd.com, gab.122.gov.cn, *.xmind.*, api-mifit-cn2.huami.com, weather-data.apple.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com
+hostname = %INSERT% -*.amemv.com, -*.snssdk.com, *.googlevideo.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, ap?.bilibili.com, ap?.biliapi.net, api-production.endel.io, pan.baidu.com, btrace.qq.com, bmall.camera360.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, vsco.co, img.zuoyebang.cc, security.wechat.com, boxer.baidu.com, api.polaxiong.com, api.weibo.cn, mapi.weibo.com, *.uve.weibo.com, raw.githubusercontent.com, gist.githubusercontent.com, sub.store, m.douban.com, api.ithome.com, lcs-mobile-cops.adobe.io, api.m.jd.com, gab.122.gov.cn, *.xmind.*, api-mifit-cn2.huami.com, weather-data.apple.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, pgdt.gtimg.cn, c.l.qq.com
