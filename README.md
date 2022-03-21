@@ -25,6 +25,8 @@
 * [id77](https://github.com/id77/QuantumultX/tree/master)
 
 * [VirgilClyne](https://github.com/VirgilClyne)
+
+* [mieqq](https://github.com/mieqq/mieqq)
  
 * [dompling-2Y](https://github.com/dompling?tab=repositories)
 
