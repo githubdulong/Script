@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-03-24 12:56
+#!desc=最后更新时间 2022-03-26 14:03
 #!system=ios
 
 # 分割线——————————————————————————
@@ -78,6 +78,8 @@ URL-REGEX,^https?:\/\/api\.(pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash,R
 URL-REGEX,^https:\/\/api\.wfdata\.club\/v2\/yesfeng\/(infoCenterAd|yesList),REJECT
 # > 贝壳网 去广告
 URL-REGEX,^https:\/\/bkw-legacy\.oss-cn-shenzhen\.aliyuncs\.com\/cms\/ad,REJECT
+# WeChat GV分流
+AND,((PROTOCOL,TCP), (DEST-PORT,443), (IP-CIDR,0.0.0.0/0,no-resolve), (RULE-SET,https://raw.githubusercontent.com/NobyDa/Script/master/Surge/WeChat.list)),𝗛𝗬𝗕𝗥𝗜𝗗
 
 # 分割线——————————————————————————
 
