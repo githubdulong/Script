@@ -151,7 +151,7 @@ AND,((PROTOCOL,TCP), (DEST-PORT,443), (IP-CIDR,0.0.0.0/0,no-resolve), (RULE-SET,
 # > IT之家 列表广告
 数码之家 = type=http-response,pattern=^https?:\/\/api\.ithome\.com\/json\/(newslist|listpage)\/news,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/ithome.js
 # > 私有仓库
-私有仓库 = type=http-request,requires-body=0,pattern=^https?:\/\/(raw|gist)\.githubusercontent.com,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Rewrites/GithubPrivate/github-private-repo.js
+//私有仓库 = type=http-request,requires-body=0,pattern=^https?:\/\/(raw|gist)\.githubusercontent.com,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Rewrites/GithubPrivate/github-private-repo.js
 # > phothop 解锁
 ＰＳ修图 = type=http-response,pattern=^https:\/\/lcs-mobile-cops\.adobe\.io\/mobile_profile,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Quantumult-X-LK/master/Scripts/langkhach/photoshop.js,script-update-interval=0
 # > xmind思维导图 解锁
