@@ -1,4 +1,4 @@
-#!name=❏ 脚本合集
+#!name=脚本合集
 #!desc=最后更新时间 2022-03-31 11:07
 #!system=ios
 
@@ -8,8 +8,8 @@
 # > 机场官网代理
 DOMAIN,zhuan.mlsao.xyz,𝗣𝗥𝗢𝗫𝗬
 # > Passkey
-DOMAIN-KEYWORD,dompling.cn,𝗣𝗮𝘀𝘀𝗞𝗲𝘆
-DOMAIN,ql.lowking.pro,𝗣𝗮𝘀𝘀𝗞𝗲𝘆⁺
+DOMAIN-KEYWORD,dompling.cn,服务器 02
+DOMAIN,ql.lowking.pro,服务器 01
 # > 爱奇艺 去暂停广告
 DOMAIN-SUFFIX, cupid.iqiyi.com,REJECT
 # > 人人视频 去广告
