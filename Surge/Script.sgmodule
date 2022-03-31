@@ -11,7 +11,7 @@ DOMAIN,zhuan.mlsao.xyz,𝗣𝗥𝗢𝗫𝗬
 DOMAIN,ql.lowking.pro,服务器 01
 DOMAIN-KEYWORD,domplingyaya.xyz,服务器 02
 # > 爱奇艺 去暂停广告
-DOMAIN-SUFFIX, cupid.iqiyi.com,REJECT
+DOMAIN-SUFFIX,cupid.iqiyi.com,REJECT
 # > 人人视频 去广告
 AND,((USER-AGENT,PUClient*),(NOT,((DOMAIN-SUFFIX,rr.tv)))),REJECT
 URL-REGEX,^https?:\/\/api\.rr\.tv\/(?:ad\/getAll$|storage/business/rootName/app/homePage),REJECT
