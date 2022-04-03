@@ -36,7 +36,6 @@
 伊利乳品 = type=cron,cronexp=0 7 0 * * *,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/yiLi.js,wake-system=true
 # 爱奇艺
 奇艺签到 = type=cron,cronexp=30 7 0 * * *,timeout=120,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js,wake-system=1,script-update-interval=0
-会员天数 = type=cron,cronexp="0 8 0 1-5 * *",timeout=120,script-path=https://raw.githubusercontent.com/limoruirui/misaka/master/iqiyiRed.js,wake-system=1,script-update-interval=0
 # > 新浪微博
 微博签到 = type=cron,cronexp="50 4,6,23 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js,script-update-interval=0
 //微博推送= type=cron,cronexp="0 */30 9-21 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js,script-update-interval=0
