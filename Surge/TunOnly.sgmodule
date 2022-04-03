@@ -1,10 +1,8 @@
 #!name=兼容模式
-#!desc=开启TunOnly并强制80端口http代理
+#!desc=启用tun模式并强制80端口使用HTTP代理
 #!system=ios
 
 [General]
 compatibility-mode = 3
-force-http-engine-hosts = %APPEND% *
 
-[Rule]
-//IP-CIDR,203.107.1.1/24,REJECT,no-resolve // bilibili gRPC
+force-http-engine-hosts = %APPEND% *a, *b, *c, *d, *e, *f, *g, *h, *i, *j, *k, *l, *m, *n, *o, *p, *q, *r, *s, *t, *u, *v, *w, *x, *y, *z
