@@ -1,5 +1,5 @@
 #!name=快捷搜索
-#!desc=最后更新时间 2022-02-09 21:35:02
+#!desc=最后更新时间 2022-3-07 08:58:05
 #!system=ios
 
 # Safari 内输入 命令 + 空格 + 关键词 快速指定搜索引擎搜索
@@ -45,9 +45,9 @@
 
 # bi: 必应搜索
 # bd: 百度搜索
-# gg: 谷歌搜索
+# ec: Ecosia 搜索
 # ddg: DuckDuckGo 搜索
-# 无指令则转 Ecosia 搜索（一款柏林种树献爱心引擎）
+# 无指令则转 google 搜索
 
 # 分割线——————————————————————————
 
@@ -123,23 +123,20 @@
 # gd  (Google Drive)
 ^https:\/\/duckduckgo.com\/\?q=gd\+([^&]+).+ https://www.google.com/search?q=%22Google+Drive%22+$1 302
 # tgd  (t.me/gdurl 搜索 Google Drive 资源)
-^https:\/\/duckduckgo.com\/\?q=tgd\+([^&]+).+ https://t.me/s/gdurl?q=$1 302
-
+^https:\/\/duckduckgo.com\/\?q=tgd\+([^&]+).+ https://t.me/gdsharing?q=$1 302
+# tga  (t.me/gdurl 搜索 阿里云盘 资源)
+^https:\/\/duckduckgo.com\/\?q=tga\+([^&]+).+ https://t.me/YunPanPan?q=$1 302
 # > 搜索引擎
-# gg: 谷歌
-^https:\/\/duckduckgo.com\/\?q=gg\+([^&]+).+ https://www.google.com/search?q=$1 302
+# ec: Ecosia
+^https:\/\/duckduckgo.com\/\?q=ec\+([^&]+).+ https://www.ecosia.org/search?q=$1 302
 # bi: 必应
 ^https:\/\/duckduckgo.com\/\?q=bi\+([^&]+).+ https://cn.bing.com/search?q=$1 302
 # bd: 百度
 ^https:\/\/duckduckgo.com\/\?q=bd\+([^&]+).+ https://www.baidu.com/s?wd=$1 302
 # ddg: DuckDuckGo 
 ^https:\/\/duckduckgo.com\/\?q=ddg\+([^&]+).+ https://duckduckgo.com/?ia=about&q=$1 302
-# 无指令: Ecosia
-^https:\/\/duckduckgo.com\/\?q=([^&]+).+ https://www.ecosia.org/search?q=$1 302
-
-# > tgd
-# tgd xxx (t.me/gdsharing 搜索 Google Drive 资源)
-^https:\/\/duckduckgo.com\/\?q=tgd(\+|%20)([^&]+).+ https://t.me/s/gdsharing?q=$2 302
+# 无指令: google
+^https:\/\/duckduckgo.com\/\?q=([^&]+).+ https://www.google.com/search?q=$1 302
 
 # 分割线——————————————————————————
 
