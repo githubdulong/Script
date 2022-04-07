@@ -111,6 +111,7 @@
 ^https:\/\/duckduckgo.com\/\?q=tb\+([^&]+).+ https://s.m.taobao.com/h5?q=$1 302
 # tm: 天猫
 ^https:\/\/duckduckgo.com\/\?q=tm\+([^&]+).+ https://s.m.tmall.com/m/search.htm?q=$1 302
+
 # > 视频资源
 # ac (Acfun)
 ^https:\/\/duckduckgo.com\/\?q=ac\+([^&]+).+ https://www.acfun.cn/search?keyword==$1 302
@@ -126,6 +127,7 @@
 ^https:\/\/duckduckgo.com\/\?q=tgd\+([^&]+).+ https://t.me/gdsharing?q=$1 302
 # tga  (t.me/gdurl 搜索 阿里云盘 资源)
 ^https:\/\/duckduckgo.com\/\?q=tga\+([^&]+).+ https://t.me/YunPanPan?q=$1 302
+
 # > 搜索引擎
 # ec: Ecosia
 ^https:\/\/duckduckgo.com\/\?q=ec\+([^&]+).+ https://www.ecosia.org/search?q=$1 302
