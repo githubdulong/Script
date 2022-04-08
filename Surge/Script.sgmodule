@@ -119,7 +119,7 @@ URL-REGEX,^https:\/\/bkw-legacy\.oss-cn-shenzhen\.aliyuncs\.com\/cms\/ad,REJECT
 # > Day one vip
 日记解锁 = type=http-response,pattern=^https:\/\/dayone\.(me|app)\/api\/(users|v2\/users\/(account-status|receipt))$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/dayone.js,script-update-interval=0
 # > Boxjs（稳定版+测试版）
-//会话数据 = type=http-request,pattern=^https?:\/\/boxjs\.com,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/chavy.box.js, requires-body=true, timeout=120
+会话数据 = type=http-request,pattern=^https?:\/\/boxjs\.com,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/chavy.box.js, requires-body=true, timeout=120
 会话数据 = type=http-request,pattern=^https?:\/\/boxjs\.net,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/chavy.boxjs.js, requires-body=true, timeout=120
 # > 彩云天气_SVIP
 彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js
