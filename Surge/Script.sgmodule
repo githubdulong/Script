@@ -147,7 +147,7 @@ URL-REGEX,^https:\/\/bkw-legacy\.oss-cn-shenzhen\.aliyuncs\.com\/cms\/ad,REJECT
 # > IT之家 列表广告
 数码之家 = type=http-response,pattern=^https?:\/\/api\.ithome\.com\/json\/(newslist|listpage)\/news,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/ithome.js
 # > 小红书 去广告
-小小红书 = type=http-response,pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v2\/system_service\/splash_config,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/xiaohongshu/xiaohongshu.ad.js
+红书广告 = type=http-response,pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v2\/system_service\/splash_config,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/xiaohongshu/xiaohongshu.ad.js
 # > 私有仓库 hostname（raw.githubusercontent.com, gist.githubusercontent.com）
 //私有仓库 = type=http-request,requires-body=0,pattern=^https?:\/\/(raw|gist)\.githubusercontent.com,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Rewrites/GithubPrivate/github-private-repo.js
 # > phothop 解锁
