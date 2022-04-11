@@ -6,6 +6,7 @@
 
 [Rule]
 # > 机场官网代理
+DOMAIN-SUFFIX,dlercloud.com,𝗣𝗥𝗢𝗫𝗬
 DOMAIN,zhuan.mlsao.xyz,𝗣𝗥𝗢𝗫𝗬
 # > Passkey
 DOMAIN,ql.lowking.pro,服务器 01
@@ -22,8 +23,6 @@ URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
 # > boxjs代理
 DOMAIN,boxjs.net,𝗣𝗥𝗢𝗫𝗬
-# > 墙洞官网代理
-DOMAIN-SUFFIX,dlercloud.com,𝗣𝗥𝗢𝗫𝗬
 # > 京东库代理
 DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝗣𝗥𝗢𝗫𝗬
 # > DayOne
