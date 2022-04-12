@@ -32,8 +32,9 @@
 哔哩哔哩 = type=cron,cronexp=30 6 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/bilibili/bilibili.js,script-update-interval=0
 # > 伊利乳品
 伊利乳品 = type=cron,cronexp=0 7 0 * * *,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/yiLi.js,wake-system=true
-# 爱奇艺
+# > 爱奇艺
 奇艺签到 = type=cron,cronexp=30 7 0 * * *,timeout=120,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js,wake-system=1,script-update-interval=0
+# > 微博推送
 //微博推送= type=cron,cronexp="0 */30 9-21 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js,script-update-interval=0
 # > 每日一句
 每日一句 = type=cron,cronexp=8 8 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/One.js,script-update-interval=0

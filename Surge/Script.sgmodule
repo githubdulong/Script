@@ -171,6 +171,7 @@ URL-REGEX,^https:\/\/bkw-legacy\.oss-cn-shenzhen\.aliyuncs\.com\/cms\/ad,REJECT
 //字幕翻译 https://raw.githubusercontent.com/Neurogram-R/Surge/master/module/Dualsub.sgmodule 指令https://www.icloud.com/shortcuts/136b52e6452b4a10b3ea647f925cddd0
 //跳过代理检测 https://raw.githubusercontent.com/mieqq/mieqq/master/skip-proxy-lists.sgmodule
 //SUB订阅管理 https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/config/Surge.sgmodule
+//Emby解锁 https://raw.githubusercontent.com/rartv/EmbyPublic/test/surge/emby-plugin.sgmodule
 //模块更新捷径 https://www.icloud.com/shortcuts/67c3ace4fb3a4f9ebbe8d3184cd82e39
 
 # 分割线——————————————————————————
