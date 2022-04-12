@@ -1,14 +1,12 @@
 #!name=定时脚本
-#!desc=最后更新时间 2022-03-26 02:03
+#!desc=最后更新时间 2022-04-12 11:42
 #!system=ios
 
 # 分割线——————————————————————————
 
 [Script]
-# > 京东商城
-//京东商城 = type=cron,cronexp=0 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
 # > 威锋论坛
-威锋论坛 = type=cron,cronexp="30 0 0 * * *",script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,wake-system=1,script-update-interval=0
+威锋论坛 = type=cron,cronexp=30 0 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/feng/feng.js,wake-system=1,script-update-interval=0
 # > IT之家
 数码之家 = type=cron,cronexp=0 1 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ithome/ithome.js,script-update-interval=0
 # > 喜马拉雅
@@ -36,8 +34,6 @@
 伊利乳品 = type=cron,cronexp=0 7 0 * * *,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/yiLi.js,wake-system=true
 # 爱奇艺
 奇艺签到 = type=cron,cronexp=30 7 0 * * *,timeout=120,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js,wake-system=1,script-update-interval=0
-# > 新浪微博
-微博签到 = type=cron,cronexp="50 4,6,23 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js,script-update-interval=0
 //微博推送= type=cron,cronexp="0 */30 9-21 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js,script-update-interval=0
 # > 每日一句
 每日一句 = type=cron,cronexp=8 8 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/One.js,script-update-interval=0
@@ -47,10 +43,6 @@
 墨迹天气 = type=cron,cronexp=0 2 17 * * *,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/moji.js,script-update-interval=0,wake-system=1
 # > 京东物流
 京东物流 = type=cron,cronexp=30 0 12 * * *,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/jdWuLiu%20copy.js,script-update-interval=0,wake-system=1
-# > 中国联通
-中国联通 = type=cron,cronexp=0 55 9 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10010/10010.js,script-update-interval=0
-# > 中国电信
-中国电信 = type=cron,cronexp=30 55 9 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/backup/telecomSky.js,script-update-interval=0
 # > Gist备份+恢复
 数据备份 = type=cron,cronexp=50 23 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/backup.js,script-update-interval=0
 //数据恢复 = type=cron,cronexp=55 23 * 1 *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/restore.js,script-update-interval=0

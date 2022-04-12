@@ -1,28 +1,20 @@
 #!name=重写获取
-#!desc=最后更新时间 2022-02-13 18:52
+#!desc=最后更新时间 2022-04-12 11:42
 #!system=ios
 
 # 分割线——————————————————————————
 
 [Script]
-# > 京东商城
-# 京东登录 https://home.m.jd.com/myJd/newhome.action
-# 金融app获取
-京东商城 = type=http-request,requires-body=1,pattern=^https:\/\/(api\.m|me-api|ms\.jr)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?|gw\/generic\/hy\/h5\/m\/appSign\?),script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
 # > 网易云音乐 
 #登录1 https://music.163.com/m/login
 #登陆2 https://music.163.com/#/user/level
 网易音乐 = type=http-request,pattern=^https:\/\/music.163.com\/weapi\/user\/level,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/neteasemusic.cookie.js,script-update-interval=0
 # > 喜马拉雅 app获取
 喜马拉雅 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ximalaya/ximalaya.cookie.js,type=http-request,pattern=^https?:\/\/.*\/mobile\-user\/v2\/homePage\/.*
-# > 中国电信 天翼账号中心app获取
-中国电信 = type=http-request,pattern=https:\/\/mkt\.21cn\.com\/mkt\/api\/user\/queryActivityInfo\.do\?activityId=\d+,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/backup/telecomSky.js
+# > 电信组件 天翼账号中心获取
 中国电信 = type=http-request,pattern=^https?:\/\/e\.189\.cn\/store\/user\/package_detail\.do,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/backup/telecomSky.js
 # > 美团 app获取
 美团获取 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.cookie.js,requires-body=true,type=http-request,pattern=^https:\/\/i.meituan.com\/evolve\/signin\/signpost\/
-# > 新浪微博 app获取
-微博签到 = type=http-request,pattern=https:\/\/api\.weibo\.cn\/\d\/users\/show,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js
-微博签到 = type=http-request,pattern=https:\/\/m?api\.weibo\.c(n|om)\/\d\/users\/show,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/weibo.js
 # > 微博推送 登陆https://m.weibo.cn获取
 微博推送 = type=http-request,pattern=^https:\/\/m\.weibo\.cn\/feed\/,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js
 # > 网易新闻 app获取
@@ -33,10 +25,6 @@
 什么值买 = script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_signin.js,type=http-request,requires-body=true,pattern=^https?:\/\/zhiyou\.smzdm\.com\/user$
 # > IT之家 app获取
 数码之家 = type=http-request,pattern=^https:\/\/my\.ruanmei\.com\/api\/usersign\/getsigninfo?,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ithome/ithome.cookie.js,debug=true
-# > 联通签到 app签到
-中国联通 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10010/10010.cookie.js,type=http-request,pattern=^https?:\/\/act.10010.com\/SigninApp\/signin\/querySigninActivity.htm,requires-body=0,script-update-interval=0
-中国联通 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10010/10010.cookie.js,type=http-request,pattern=^https?:\/\/act.10010.com\/SigninApp(.*?)\/signin\/daySign,requires-body=0,script-update-interval=0
-中国联通 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10010/10010.cookie.js,type=http-request,pattern=^https?:\/\/m.client.10010.com\/dailylottery\/static\/(textdl\/userLogin|active\/findActivityInfo),requires-body=0,script-update-interval=0
 # > 联通组件ck app点流量
 联通组件 = type=http-request,pattern=^https:\/\/m\.client\.10010\.com\/serviceimportantbusiness\/smart\/smartwisdomCommon,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,script-update-interval=0
 # > 顺丰速运 app获取
@@ -59,4 +47,4 @@
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% me-api.jd.com, music.163.com, 113.96.156.178, *.ximalaya.com, e.189.cn, mkt.21cn.com, i.meituan.com, api.weibo.cn, m.weibo.cn, draw.jdfcloud.com, *.m.163.com, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, jdjoy.jd.com, account.huami.com, my.ruanmei.com, m.client.10010.com, act.10010.com, ccsp-egmas.sf-express.com, wapside.189.cn:9001, apph5.manmanbuy.com, account.huami.com, club.yili.com, *.bilibili.com, api.wfdata.club, passport.iqiyi.com
+hostname = %INSERT% music.163.com, 113.96.156.178, *.ximalaya.com, e.189.cn, i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, ccsp-egmas.sf-express.com, wapside.189.cn:9001, apph5.manmanbuy.com, account.huami.com, club.yili.com, *.bilibili.com, api.wfdata.club, passport.iqiyi.com
