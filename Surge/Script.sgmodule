@@ -5,7 +5,7 @@
 # 分割线——————————————————————————
 
 [Rule]
-# > 机场官网代理
+# > 机场网站 代理
 DOMAIN-SUFFIX,dlercloud.com,𝗣𝗥𝗢𝗫𝗬
 DOMAIN,zhuan.mlsao.xyz,𝗣𝗥𝗢𝗫𝗬
 # > Passkey
@@ -21,13 +21,11 @@ DOMAIN, iyes.youku.com,REJECT
 URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 # > 京东 去广告
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
-# > boxjs代理
+# > boxjs 代理
 DOMAIN,boxjs.net,𝗣𝗥𝗢𝗫𝗬
-# > 京东库代理
+# > 京东库 代理
 DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝗣𝗥𝗢𝗫𝗬
-# > DayOne
-URL-REGEX,^https:\/\/dayone\.me,𝗣𝗥𝗢𝗫𝗬
-# > 腾讯视频 修护+去广告
+# > 腾讯视频 修正+去广告
 DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
 URL-REGEX,^https?:\/\/pgdt\.gtimg\.cn,REJECT
 URL-REGEX,^https?:\/\/c\.l\.qq\/.com,REJECT
@@ -48,24 +46,24 @@ URL-REGEX,^https:\/\/api-mifit-cn2\.huami\.com\/discovery\/mi\/cards\/startpage_
 # > 京东极速版 去广告
 URL-REGEX,https://api.m.jd.com/client.action\?functionId=lite_advertising,REJECT
 # > 滴滴出行 去广告
-//01安全提示横幅
+//01 安全提示横幅
 URL-REGEX,^https:\/\/guard\.sec\.xiaojukeji\.com\/api\/guard\/psg\/v2\/getShieldStatus,REJECT
-//02底部打车&代价推荐
+//02 底部打车&代价推荐
 URL-REGEX,^https:\/\/conf\.diditaxi\.com\.cn\/one,REJECT
-//03福利专区-金融服务-公交-骑车-滴滴乐园
+//03 福利专区-金融服务-公交-骑车-滴滴乐园
 URL-REGEX,^https:\/\/conf\.diditaxi\.com\.cn\/nav\/widget,REJECT
-//04接送机-优惠商城
+//04 接送机-优惠商城
 URL-REGEX,^https:\/\/api\.udache\.com\/gulfstream,REJECT
-//05 主页领任务
+//05 主页 领任务
 URL-REGEX,^https:\/\/conf\.diditaxi\.com\.cn\/api\/(component|fusion|dynamicmodule|usercenter),REJECT
 URL-REGEX,^https:\/\/conf\.diditaxi\.com\.cn\/dynamic,REJECT
-//主页 非主流式悬浮挂件
+//06 主页 非主流式悬浮挂件
 URL-REGEX,^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget,REJECT
-//07商城
+//07 商城
 URL-REGEX,^https:\/\/shop-gw\.chengxinyouxuan\.com\/(route|indexConfig|apolloConfig|getShopTuanInfos),REJECT
-//08开屏广告
+//08 开屏广告
 URL-REGEX,^https:\/\/img-ys011\.didistatic\.com\/static,REJECT
-//09骑行
+//09 骑行
 URL-REGEX,^https:\/\/pt-starimg\.didistatic\.com\/static,REJECT
 # > 云闪付 去广告
 URL-REGEX,^https:\/\/wallet\.95516\.com\/s\/wl\/icon\/long,REJECT
@@ -89,6 +87,7 @@ URL-REGEX,^https:\/\/bkw-legacy\.oss-cn-shenzhen\.aliyuncs\.com\/cms\/ad,REJECT
 # 分割线——————————————————————————
 
 [Panel]
+# > Panel
 策略面板 = script-name=缓存开关,update-interval=60
 策略面板 = script-name=奈飞查询,update-interval=21600
 策略面板 = script-name=代理选择,update-interval=300
@@ -132,9 +131,9 @@ URL-REGEX,^https:\/\/bkw-legacy\.oss-cn-shenzhen\.aliyuncs\.com\/cms\/ad,REJECT
 滤镜破解 = type=http-response,pattern=^https:\/\/(api\.revenuecat\.com\/v\d\/subscribers|vsco\.co\/api\/subscriptions\/\d\.\d\/user-subscriptions)\/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/vsco.js,script-update-interval=0
 # > Grow 解锁 api.revenuecat.com
 运动解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/revenuecat.js,script-update-interval=-1
-# > 泼辣修图
+# > 泼辣修图 解锁
 泼辣修图 = type=http-response,pattern=^https:\/\/api\.polaxiong\.com\/v1\/payments\/appleiap\/receipts\/confirmation,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Polarr.js
-# > 豆瓣电影
+# > 豆瓣电影 搜索
 豆瓣电影 = type=http-response,pattern=^https?:\/\/m\.douban\.com\/movie\/subject\/\d+\/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/I-am-R-E/QuantumultX/main/JavaScript/DouBan.js
 # > IT之家 去广告
 数码之家 = type=http-response,pattern=^https?:\/\/api\.ithome\.com\/json\/(newslist|listpage)\/news,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/ithome.js
