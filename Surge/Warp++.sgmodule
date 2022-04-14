@@ -10,4 +10,4 @@ hostname=%APPEND% api.cloudflareclient.com
 [Script]
 Warp++referrer = type=http-request,pattern=^https:\/\/api\.cloudflareclient\.com\/.+\/reg\/[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$,max-size=0,debug=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/warp%2B%2Breferrer.js
 
-Warp++= type=cron,cronexp= */15 * * * * *,wake-system=1,timeout=15,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/warp%2B%2B.js
+Warp++= type=cron,cronexp= */30 * * * * *,wake-system=1,timeout=15,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/warp%2B%2B.js
