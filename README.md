@@ -26,6 +26,8 @@
 
 * [VirgilClyne](https://github.com/VirgilClyne)
 
+* [I-am-R-E](https://github.com/I-am-R-E)
+
 * [mieqq](https://github.com/mieqq/mieqq)
  
 * [dompling-2Y](https://github.com/dompling?tab=repositories)
