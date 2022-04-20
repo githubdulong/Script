@@ -4,8 +4,6 @@
 [General]
 skip-proxy = %APPEND% iosapps.itunes.apple.com // TestFlight
 
-force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com // Boxjs
-
 [Script]
 下载修正 = type=http-request,pattern=^https?:\/\/testflight\.apple\.com\/v\d\/accounts\/.+?\/install$,requires-body=1,script-update-interval=-1,max-size=0,script-path=https://gist.githubusercontent.com/NobyDa/9be418b93afc5e9c8a8f4d28ae403cf2/raw/TF_Download.js
 
