@@ -31,7 +31,7 @@ obj.data.is_expire=0;
 obj.data.in_valid_time=5576488923;
 obj.data.is_valid_user=1;
 obj.data.valid_time=5576488923;
-obj.data.home_prompt="尊贵的粉钻会员";
-obj.data.home_btn_prompt="永久解锁";
+obj.data.home_prompt="粉钻会员 2011年1月1日到期";
+obj.data.home_btn_prompt="已解锁";
 
 $done({ body: JSON.stringify(obj) });
