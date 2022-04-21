@@ -1,6 +1,6 @@
 /*
 
-Py：https://iosgs.xyz/gzFile/quanX/mtxx.conf
+by：https://iosgs.xyz/gzFile/quanX/mtxx.conf
 
 【Quantumult_X】
 
