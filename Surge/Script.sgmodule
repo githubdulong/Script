@@ -5,6 +5,8 @@
 # 分割线——————————————————————————
 
 [Rule]
+# > 天气数据 日本
+DOMAIN,api.waqi.info,𝗝𝗮𝗽𝗮𝗻
 # > 机场网站 代理
 DOMAIN-SUFFIX,dlercloud.com,𝗣𝗥𝗢𝗫𝗬
 DOMAIN,zhuan.mlsao.xyz,𝗣𝗥𝗢𝗫𝗬
