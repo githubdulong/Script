@@ -7,8 +7,6 @@
 [Rule]
 # > Safari 防跳转
 DOMAIN,app-site-association.cdn-apple.com,REJECT
-# > 天气数据 
-DOMAIN,api.waqi.info,𝗗𝗜𝗥𝗘𝗖𝗧
 # > 机场网站 代理
 DOMAIN-SUFFIX,dlercloud.com,𝗣𝗥𝗢𝗫𝗬
 DOMAIN,zhuan.mlsao.xyz,𝗣𝗥𝗢𝗫𝗬
