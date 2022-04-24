@@ -5,6 +5,8 @@
 # 分割线——————————————————————————
 
 [Rule]
+# > 天气数据 日本
+DOMAIN,api.waqi.info,𝗝𝗮𝗽𝗮𝗻
 # > Safari 防跳转
 DOMAIN,app-site-association.cdn-apple.com,REJECT
 # > 机场网站 代理
