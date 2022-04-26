@@ -2,7 +2,7 @@
 
 * [NobyDa](https://github.com/NobyDa)
 
-* [chavyleung](https://github.com/chavyleung)/[gitee](https://gitee.com/chavyleung/scripts)
+* [chavyleung](https://github.com/chavyleung)
 
 * [yichahucha](https://github.com/yichahucha)
 
@@ -24,8 +24,6 @@
 
 * [id77](https://github.com/id77/QuantumultX/tree/master)
 
-* [VirgilClyne](https://github.com/VirgilClyne)
-
 * [I-am-R-E](https://github.com/I-am-R-E)
 
 * [mieqq](https://github.com/mieqq/mieqq)
@@ -39,6 +37,8 @@
 * [Honye](https://github.com/Honye/scriptable-scripts/blob/master/README.zh.md)
 
 * [hackl0us](https://github.com/hackl0us)
+
+* [VirgilClyne](https://github.com/VirgilClyne) 
 
 * [blackmatrix7](https://github.com/blackmatrix7/ios_rule_script)
 
