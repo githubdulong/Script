@@ -171,7 +171,7 @@ URL-REGEX,^https:\/\/bkw-legacy\.oss-cn-shenzhen\.aliyuncs\.com\/cms\/ad,REJECT
 //京东联盟转链（联盟、助手二选一）https://raw.githubusercontent.com/githubdulong/Script/master/Surge/jdapp_to_union.sgmodule
 //浏览器搜索 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Q-Search_All_in_one.sgmodule
 //京东半自动销卡 https://raw.githubusercontent.com/githubdulong/Script/master/Jd_unbindCard.sgmodule
-//TF下载修正 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/TestFlightDownload.sgmodule
+//TF下载修正 https://raw.githubusercontent.com/NobyDa/Script/master/Surge/Module/TestFlightDownload.sgmodule
 //字幕翻译 https://raw.githubusercontent.com/Neurogram-R/Surge/master/module/Dualsub.sgmodule 指令https://www.icloud.com/shortcuts/136b52e6452b4a10b3ea647f925cddd0
 //跳过代理检测 https://raw.githubusercontent.com/mieqq/mieqq/master/skip-proxy-lists.sgmodule
 //SUB订阅管理 https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/config/Surge.sgmodule
