@@ -1,6 +1,11 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-04-20 23:22
+#!desc=最后更新时间 2022-04-27 15:50
 #!system=ios
+
+# 分割线——————————————————————————
+
+[General]
+force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com
 
 # 分割线——————————————————————————
 
