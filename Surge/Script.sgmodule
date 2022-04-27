@@ -142,8 +142,9 @@ URL-REGEX,^https:\/\/bkw-legacy\.oss-cn-shenzhen\.aliyuncs\.com\/cms\/ad,REJECT
 运动解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/revenuecat.js,script-update-interval=-1
 # > 泼辣修图 解锁
 泼辣修图 = type=http-response,pattern=^https:\/\/api\.polaxiong\.com\/v1\/payments\/appleiap\/receipts\/confirmation,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Polarr.js
-# > 豆瓣电影 搜索
-豆瓣电影 = type=http-response,pattern=^https?:\/\/m\.douban\.com\/movie\/subject\/\d+\/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/I-am-R-E/QuantumultX/main/JavaScript/DouBan.js
+# > 豆瓣电影 搜索增强
+//豆瓣电影 = type=http-response,pattern=^https?:\/\/m\.douban\.com\/movie\/subject\/\d+\/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/I-am-R-E/QuantumultX/main/JavaScript/DouBan.js
+豆瓣电影 = type=http-response,pattern=^https://m.douban.com/movie/subject/.+,requires-body=1,max-size=307200,script-path=https://raw.githubusercontent.com/Neurogram-R/Surge/master/Douban.js
 # > IT之家 去广告
 数码之家 = type=http-response,pattern=^https?:\/\/api\.ithome\.com\/json\/(newslist|listpage)\/news,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/ithome.js
 # > 小红书 去广告
