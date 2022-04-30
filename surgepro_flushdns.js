@@ -13,7 +13,7 @@ if ($trigger == "button") await httpAPI("/v1/dns/flush");
 
   $done({
       title:title,
-      content:`启动时长: ${startTime}`,
+      content:`开启时长: ${startTime}`,
 		icon: params.icon,
 		"icon-color":params.color
     });
