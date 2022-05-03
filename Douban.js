@@ -9,7 +9,7 @@
     使用说明
 
         [Script]
-        // 茶杯狐、流媒体
+        // 茶杯狐、555影视
         http-response ^https://m.douban.com/movie/subject/.+ script-path=Douban.js,requires-body=true,max-size=307200
 
         // Airtable 收藏
@@ -29,7 +29,7 @@ let url = $request.url
 let movieId = url.match(/subject\/(\d+)/)
 let seen = url.match(/\?seen=(\d)$/)
 let collect = false  //收藏功能，默认关闭，需自行配置
-let region = "SG" //流媒体区域
+let region = "HK" //流媒体区域
 let tmdb_api_key = "k_u9dhfwo6" // TMDB API KEY
 
 if (!seen) douban_addons()

@@ -147,8 +147,8 @@ URL-REGEX,^https:\/\/bkw-legacy\.oss-cn-shenzhen\.aliyuncs\.com\/cms\/ad,REJECT
 # > 泼辣修图 解锁
 泼辣修图 = type=http-response,pattern=^https:\/\/api\.polaxiong\.com\/v1\/payments\/appleiap\/receipts\/confirmation,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Polarr.js
 # > 豆瓣电影 搜索 二选一
-豆瓣电影 = type=http-response,pattern=^https?:\/\/m\.douban\.com\/movie\/subject\/\d+\/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/I-am-R-E/QuantumultX/main/JavaScript/DouBan.js
-//豆瓣电影 = type=http-response,pattern=^https://m.douban.com/movie/subject/.+,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Neurogram-R/Surge/master/Douban.js
+//豆瓣电影 = type=http-response,pattern=^https?:\/\/m\.douban\.com\/movie\/subject\/\d+\/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/I-am-R-E/QuantumultX/main/JavaScript/DouBan.js
+豆瓣电影 = type=http-response,pattern=^https://m.douban.com/movie/subject/.+,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Douban.js
 # > IT之家 去广告
 页面广告 = type=http-response,pattern=^https:\/\/m\.ithome\.com\/api\/news\/newslistpageget,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/ithome/ithome.ad.js,script-update-interval=0
 列表广告 = type=http-response,requires-body=1,max-size=0,pattern=^https:\/\/api\.ithome\.com\/json\/(listpage|newslist)\/news,script-path=https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/ithome/ithome.ad.js,script-update-interval=0
