@@ -43,9 +43,7 @@ async function douban_addons() {
     if (collect) body = body.replace(/<a.+pbtn.+collect.+>/, `<a href="${url}?seen=1">`)
         
         let mweb = [`<a href="https://www.cupfox.com/search?key=${title[1]}"><img src="https://files.catbox.moe/c8vszl.png" height="25" width="34.78" style="vertical-align: text-top;" /></a>`]
-        mweb.push(`<a href="https://www.o8tv.com/vodsearch/-------------.html?wd=${title[1]}&submit="><img src="https://files.catbox.moe/27bzxu.png" height="25" width="25" style="vertical-align: text-top;" /></a>`)        
-        mweb.push(`<a https://www.nfmovies.com/search.php?searchword=${title[1]}&submit="><img src="https://files.catbox.moe/gog93l.png" height="25" width="20.11" style="vertical-align: text-top;" /></a>`)
-
+        mweb.push(`<a href="https://www.o8tv.com/vodsearch/-------------.html?wd=${title[1]}&submit="><img src="https://files.catbox.moe/27bzxu.png" height="25" width="25" style="vertical-align: text-top;" /></a>`)
                 
     let douban_options = {
         url: `https://frodo.douban.com/api/v2/movie/${movieId[1]}?apiKey=0ac44ae016490db2204ce0a042db2916`,
