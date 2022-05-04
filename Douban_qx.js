@@ -9,7 +9,7 @@
     使用说明
 
         [rewrite_local]
-        // 茶杯狐、流媒体
+        // 茶杯狐、解析网
         ^https://m.douban.com/movie/subject/.+ url script-response-body Douban.js
 
         // Airtable 收藏
