@@ -42,7 +42,7 @@ async function douban_addons() {
     if (collect) body = body.replace(/<a.+pbtn.+wish.+>/, `<a href="${url}?seen=0">`)
     if (collect) body = body.replace(/<a.+pbtn.+collect.+>/, `<a href="${url}?seen=1">`)
         
-        let mweb = [`<a href="https://www.cupfox.com/search?key=${title[1]}"><img src="https://raw.githubusercontent.com/githubdulong/Script/master/Images/Chb.png" height="26" width="26" style="vertical-align: text-top;" /></a>`]
+        let mweb = [`<a href="https://www.cupfox.com/search?key=${title[1]}">\t<img src="https://raw.githubusercontent.com/githubdulong/Script/master/Images/Chb.png" height="26" width="26" style="vertical-align: text-top;" /></a>`]
         mweb.push(`<a href="https://z1.m1907.cn/?jx=wd=${title[1]}&submit="><img src="https://raw.githubusercontent.com/githubdulong/Script/master/Images/Jxw.png" height="26" width="26" style="vertical-align: text-top;" /></a>`)
                 
     let douban_options = {
