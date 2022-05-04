@@ -7,10 +7,15 @@
         - 快捷收藏电影至 Airtable
 
     使用说明
-
+ 【Surge】
         [Script]
-        // 茶杯狐、解析网
-        http-response ^https://m.douban.com/movie/subject/.+ script-path=Douban.js,requires-body=true,max-size=307200
+        // 茶杯狐、解析网、555电影
+        豆瓣电影 = type=http-response,pattern=^https://m.douban.com/movie/subject/.+,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Douban.js
+  【quan_x】
+        [rewrite_local]
+        // 茶杯狐、解析网、555电影
+       ^https://m.douban.com/movie/subject/.+ url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/Douban_qx.js
+        
 
         // Airtable 收藏
         http-request ^https://m.douban.com/movie/subject/.+\?seen=\d script-path=Douban.js
@@ -44,6 +49,7 @@ async function douban_addons() {
         
         let mweb = [`<a href="https://www.cupfox.com/search?key=${title[1]}">\t<img src="https://raw.githubusercontent.com/githubdulong/Script/master/Images/Chb.png" height="26" width="26" style="vertical-align: text-top;" /></a>`]
         mweb.push(`<a href="https://z1.m1907.cn/?jx=wd=${title[1]}&submit="><img src="https://raw.githubusercontent.com/githubdulong/Script/master/Images/Jxw.png" height="26" width="26" style="vertical-align: text-top;" /></a>`)
+        mweb.push(`<a href="https://www.o8tv.com/vodsearch/-------------.html?wd=${title[1]}&submit="><img src="https://raw.githubusercontent.com/githubdulong/Script/master/Images/555.png" height="26" width="26" style="vertical-align: text-top;" /></a>`)
                 
     let douban_options = {
         url: `https://frodo.douban.com/api/v2/movie/${movieId[1]}?apiKey=0ac44ae016490db2204ce0a042db2916`,
