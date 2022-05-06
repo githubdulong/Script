@@ -1,5 +1,5 @@
 /*
-代码借鉴 https://raw.githubusercontent.com/chaizia/Profiles/master/MySurge/surgepro_flushdns.js
+https://raw.githubusercontent.com/chaizia/Profiles/master/MySurge/surgepro_flushdns.js
 by:@moioooo
 */
 !(async () => {

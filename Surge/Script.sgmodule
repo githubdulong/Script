@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-04-29 13:25
+#!desc=最后更新时间 2022-05-06 17:30
 #!system=ios
 
 # 分割线——————————————————————————
@@ -101,7 +101,7 @@ URL-REGEX,^https:\/\/bkw-legacy\.oss-cn-shenzhen\.aliyuncs\.com\/cms\/ad,REJECT
 
 [Panel]
 # > Panel
-策略面板 = script-name=缓存开关,update-interval=60
+策略面板 = script-name=功能开关, update-interval=30
 策略面板 = script-name=奈飞查询,update-interval=21600
 策略面板 = script-name=代理选择,update-interval=3600
 
@@ -161,9 +161,10 @@ grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 # > 机场信息 
 机场信息 = type=http-request,pattern=http://sub\.info,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/sub_info.js
 # > 策略面板
-缓存开关 = type=generic,timeout=15,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/surgepro_flushdns.js,argument=icon=power.circle&color=#FF2121&title=𝗦𝗨𝗥𝗚𝗘'𝖣𝖭𝖲 ↻
+功能开关 = type=generic,timeout=15,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/functionstatus.js
 奈飞查询 = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/nf_check.js, argument=title=𝗡𝗘𝗧𝗙𝗟𝗜𝗫
 代理选择 = type=generic,timeout=15,script-path=https://raw.githubusercontent.com/fishingworld/something/main/groupPanel.js,argument=icon=bolt.circle&color=#157EFB&group=𝗣𝗥𝗢𝗫𝗬
+
 # > 模块订阅(单独添加)
 //官方模块 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Surge.sgmodule
 //爬虫复写去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/Advertising/Advertising.sgmodule
