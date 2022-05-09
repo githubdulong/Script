@@ -21,8 +21,8 @@ if ($trigger == "button") {
 $done({
     title:"𝗦𝗨𝗥𝗚𝗘  已运行"+startTime,
     content:"Mitm:"+icon_status(mitm_status.enabled)+"  Rewrite:"+icon_status(rewrite_status.enabled)+"  Scripting:"+icon_status(scripting_status.enabled),
-    icon: icon_s?"power.circle":"x.circle",
-   "icon-color":icon_s?"#FF2121":"#FFB61E"
+    icon: icon_s?"power.circle":"exclamationmark.circle",
+   "icon-color":icon_s?"#FF2121":"#FF7500"
 });
 })();
 function icon_status(status){
