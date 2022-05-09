@@ -110,3 +110,10 @@ DOMAIN,krcf.st8.one
 
 # > 流媒体哎哟喂の影视屋服务器
 DOMAIN,emby.aiyowei.ml
+
+# > 流媒体Froghub服务器
+DOMAIN,178.173.230.58
+DOMAIN,emby.hm773.xyz
+
+# > 流媒体自建服务器
+DOMAIN,45.92.156.143
