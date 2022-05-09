@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-05-07 14:52
+#!desc=最后更新时间 2022-05-09 22:05
 #!system=ios
 
 # 分割线——————————————————————————
@@ -13,7 +13,7 @@ force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com
 # > 555电影网
 DOMAIN,www.o8tv.com,𝗗𝗜𝗥𝗘𝗖𝗧
 # > 天气数据 日本
-DOMAIN,api.waqi.info,𝗝𝗮𝗽𝗮𝗻
+DOMAIN,api.waqi.info,𝗨𝗻𝗶𝘁𝗲𝗱 𝗦𝘁𝗮𝘁𝗲𝘀
 # > Safari 防跳转
 DOMAIN,app-site-association.cdn-apple.com,REJECT
 # > 机场网站 代理
@@ -124,9 +124,8 @@ wps解锁 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa
 全能扫描 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/Script/camscanner.js,type=http-response,pattern=https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\?,script-update-interval=0
 # > Dayone vip
 Day One = type=http-response,pattern=^https:\/\/dayone\.(me|app)\/api\/(users|v2\/users\/(account-status|receipt))$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/dayone.js,script-update-interval=0
-# > Boxjs（稳定版+测试版）
-会话数据 = type=http-request,pattern=^https?:\/\/boxjs\.com,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/chavy.box.js, requires-body=true, timeout=120
-会话数据 = type=http-request,pattern=^https?:\/\/boxjs\.net,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/chavy.boxjs.js, requires-body=true, timeout=120
+# > Boxjs
+会话数据 = type=http-request,pattern=https?:\/\/boxjs\.(com|net),script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/chavy.boxjs.js, requires-body=true, timeout=120
 # > 彩云天气 svip
 彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js
 # > 京东App 历史价格 
