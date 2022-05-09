@@ -10,20 +10,26 @@ let startTime = timeTransform(dateNow,dateTime);
 let mitm_status = (await httpAPI("/v1/features/mitm","GET"));
 let rewrite_status = (await httpAPI("/v1/features/rewrite","GET"));
 let scripting_status = (await httpAPI("/v1/features/scripting","GET"));
-if ($trigger == "button") await httpAPI("/v1/dns/flush");
+let icon_s = mitm_status.enabled&&rewrite_status.enabled&&scripting_status.enabled;
+//点击按钮，刷新dns
+//if ($trigger == "button") await httpAPI("/v1/dns/flush");
+//点击按钮，重载配置（同时刷新dns）
+if ($trigger == "button") {
+	await httpAPI("/v1/profiles/reload");
+	$notification.post("配置重载","配置重载成功","")
+};
 $done({
-    title:"𝗦𝗨𝗥𝗚𝗘 已运行"+startTime,
+    title:"𝗦𝗨𝗥𝗚𝗘  已运行"+startTime,
     content:"Mitm:"+icon_status(mitm_status.enabled)+"  Rewrite:"+icon_status(rewrite_status.enabled)+"  Scripting:"+icon_status(scripting_status.enabled),
-    icon: "power.circle",
-   "icon-color":"#FF2121"
-    
+    icon: icon_s?"power.circle":"x.circle",
+   "icon-color":icon_s?"#FF2121":"#FFB61E"
 });
 })();
 function icon_status(status){
   if (status){
     return "\u2611";
   } else {
-      return "\u2757"
+      return "\u2612"
     }
 }
 function timeTransform(dateNow,dateTime) {
