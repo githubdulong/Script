@@ -103,7 +103,7 @@ URL-REGEX,^https:\/\/bkw-legacy\.oss-cn-shenzhen\.aliyuncs\.com\/cms\/ad,REJECT
 # > Panel
 策略面板 = script-name=功能开关, update-interval=30
 策略面板 = script-name=奈飞查询,update-interval=21600
-策略面板 = script-name=代理选择,update-interval=3600
+策略面板 = script-name=代理选择,update-interval=30
 
 # 分割线——————————————————————————
 
