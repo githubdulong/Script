@@ -84,9 +84,6 @@ URL-REGEX,^https:\/\/api\.daoshang\.online\/cloud-common\/startupPageNew\/query$
 URL-REGEX,^https:\/\/api\.wfdata\.club\/v2\/yesfeng\/(infoCenterAd|yesList),REJECT
 # > 贝壳网 去广告
 URL-REGEX,^https:\/\/bkw-legacy\.oss-cn-shenzhen\.aliyuncs\.com\/cms\/ad,REJECT
-# > 新浪微博IP识别 发表+评论
-URL-REGEX,^https?:\/\/api\.weibo\.cn\/2\/statuses\/send\?,𝗣𝗥𝗢𝗫𝗬
-URL-REGEX,^https?:\/\/api\.weibo\.cn\/2\/comments\/create\?,𝗣𝗥𝗢𝗫𝗬
 
 # 分割线——————————————————————————
 
@@ -192,4 +189,4 @@ grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% -*.amemv.com, -*.snssdk.com, *.googlevideo.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, ap?.bilibili.com, ap?.biliapi.net, pan.baidu.com, btrace.qq.com, bmall.camera360.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, vsco.co, img.zuoyebang.cc, security.wechat.com, api.polaxiong.com, m.douban.com, m.ithome.com, api.zuihuimai.com, api.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, pgdt.gtimg.cn, c.l.qq.com, api.daoshang.online, api.wfdata.club, bkw-legacy.oss-cn-shenzhen.aliyuncs.com, edith.xiaohongshu.com, api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com, boxjs.net, boxjs.com, api.weibo.cn
+hostname = %INSERT% -*.amemv.com, -*.snssdk.com, *.googlevideo.com, api.rr.tv, account.wps.cn, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, ap?.bilibili.com, ap?.biliapi.net, pan.baidu.com, btrace.qq.com, bmall.camera360.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, vsco.co, img.zuoyebang.cc, security.wechat.com, api.polaxiong.com, m.douban.com, m.ithome.com, api.zuihuimai.com, api.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, pgdt.gtimg.cn, c.l.qq.com, api.daoshang.online, api.wfdata.club, bkw-legacy.oss-cn-shenzhen.aliyuncs.com, edith.xiaohongshu.com, api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com, boxjs.net, boxjs.com
