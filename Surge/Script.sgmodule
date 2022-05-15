@@ -181,7 +181,6 @@ grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 //SUB订阅管理 https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/config/Surge.sgmodule
 //Emby解锁 https://raw.githubusercontent.com/rartv/EmbyPublic/test/surge/emby-plugin.sgmodule
 //空气质量 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Weather.sgmodule
-//定位修改 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Location.sgmodule
 //微信链接限制 https://raw.githubusercontent.com/zZPiglet/Task/master/UnblockURLinWeChat.sgmodule
 //百度知乎换UA https://raw.githubusercontent.com/zZPiglet/Task/master/ChangeUA.sgmodule
 //模块更新捷径 https://www.icloud.com/shortcuts/67c3ace4fb3a4f9ebbe8d3184cd82e39
