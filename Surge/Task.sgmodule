@@ -36,8 +36,8 @@
 iQIYI签到 = type=cron,cronexp=30 7 0 * * *,timeout=120,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js,wake-system=1,script-update-interval=0
 # > 微博推送
 //微博推送= type=cron,cronexp="0 */30 9-21 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js,script-update-interval=0
-# > GitHub 监控
-仓库监控 = type=cron,cronexp="30 0 8-22/2 * * *",script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/github.js
+# > 机场流量
+机场流量 = type=cron,cronexp="30 0 8-22/4 * * *",script-path=https://raw.githubusercontent.com/githubdulong/Script/master/flow.js
 # > app价格+版本 监控
 软件监控 = type=cron,cronexp="0 30 8-22/2 * * *",script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/appstore/AppMonitor.js
 # > 每日一句
