@@ -50,5 +50,5 @@ iQIYI签到 = type=cron,cronexp=30 7 0 * * *,timeout=120,script-path=https://raw
 数据备份 = type=cron,cronexp=50 23 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/backup.js,script-update-interval=0
 //数据恢复 = type=cron,cronexp=55 23 * 1 *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/restore.js,script-update-interval=0
 # > 同步检测
-账号同步 = type=cron,cronexp="0 3 6,14,23 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/ql_sync_box.js,script-update-interval=0
-帐户检测 = type=cron,cronexp="0 5 6,14,23 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_cookie_search.js,script-update-interval=0
+账号同步 = type=cron,cronexp="0 35 6,14,23 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/ql_sync_box.js,script-update-interval=0
+帐户检测 = type=cron,cronexp="0 36 6,14,23 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_cookie_search.js,script-update-interval=0
