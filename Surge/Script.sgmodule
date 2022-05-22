@@ -84,6 +84,15 @@ URL-REGEX,^https:\/\/api\.daoshang\.online\/cloud-common\/startupPageNew\/query$
 URL-REGEX,^https:\/\/api\.wfdata\.club\/v2\/yesfeng\/(infoCenterAd|yesList),REJECT
 # > 贝壳网 去广告
 URL-REGEX,^https:\/\/bkw-legacy\.oss-cn-shenzhen\.aliyuncs\.com\/cms\/ad,REJECT
+# > 向日葵 去广告
+DOMAIN,dm.toutiao.com,REJECT
+DOMAIN-KEYWORD,upload-cdn.orayimg.com,REJECT
+DOMAIN,ddns.oray.com,REJECT
+DOMAIN,sl-tk.oray.com,REJECT
+DOMAIN,client-api.oray.com,REJECT
+DOMAIN,push.oray.com,REJECT
+DOMAIN-SUFFIX,offline-adv.oray.com,REJECT
+DOMAIN-KEYWORD,upload-cdn.orayimg.com-upload-activity,REJECT
 
 # 分割线——————————————————————————
 
