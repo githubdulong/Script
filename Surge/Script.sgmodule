@@ -111,9 +111,9 @@ URL-REGEX,https:\/\/mp\.weixin\.qq\.com\/mp\/appmsg_comment\?action=addcomment,�
 
 [Panel]
 # > Panel
-策略面板 = script-name=功能开关, update-interval=30
+策略面板 = script-name=功能开关, update-interval=300
 策略面板 = script-name=奈飞查询,update-interval=21600
-策略面板 = script-name=代理选择,update-interval=30
+策略面板 = script-name=代理选择,update-interval=3600
 
 # 分割线——————————————————————————
 
