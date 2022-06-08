@@ -1,9 +1,7 @@
 #!name=喜马拉雅
 #!desc=XiMaLaYa_喜马拉雅页面优化去广告修改Surge版本
 #!system=ios        
-
 # @ddgksf2013 https://github.com/ddgksf2013/Cuttlefish/raw/master/Rewrite/AdBlock/Ximalaya.conf
-
 
 [General]
 # DNS劫持
