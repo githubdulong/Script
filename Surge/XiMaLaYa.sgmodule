@@ -8,14 +8,16 @@
 hijack-dns = %APPEND% 114.114.114.114 
 
 [Rule]
+# 屏蔽Aged请求
+URL-REGEX,https?:\/\/.*\.xima.*\.com\/(dog-portal\/checkOld|(child-mobile\/child|aged-mobile\/aged)\/mode\/query),REJECT
 # 部分Tab弹窗
-URL-REGEX,https?:\/\/.*\.xima.*\.com/discovery-feed/isShowUserGiftPendant,REJECT
+URL-REGEX,https?:\/\/.*\.xima.*\.com\/discovery-feed\/isShowUserGiftPendant,REJECT
 # 屏蔽红点提示
 URL-REGEX,^https?:\/\/.*\.xima.*\.com\/mobile-user\/unread,REJECT
 # 屏蔽隐私搜集
-URL-REGEX,^https?:\/\/.*\.xima.*\.com/collector/xl/v\d,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/collector/xl\/v\d,REJECT
 # 屏蔽版本更新
-URL-REGEX,^https?:\/\/.*\.xima.*\.com/butler-portal/versionCheck,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/butler-portal\/versionCheck,REJECT
 # 屏蔽开屏广告
 URL-REGEX,^https?:\/\/(adse\.wsa|adse|adbehavior|xdcs-collector)\.xima.*\.com\/.*,REJECT
 # 屏蔽位置请求
