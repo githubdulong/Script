@@ -1,5 +1,5 @@
 #!name=重写获取
-#!desc=最后更新时间 2022-04-12 11:42
+#!desc=最后更新时间 2022-06-13 09:27
 #!system=ios
 
 # 分割线——————————————————————————
@@ -27,6 +27,8 @@
 数码之家 = type=http-request,pattern=^https:\/\/my\.ruanmei\.com\/api\/usersign\/getsigninfo?,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ithome/ithome.cookie.js,debug=true
 # > 联通组件ck app点流量
 联通组件 = type=http-request,pattern=^https:\/\/m\.client\.10010\.com\/serviceimportantbusiness\/smart\/smartwisdomCommon,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,script-update-interval=0
+# > 联通签到+抽奖 app获取
+联通签到 = type=http-request,pattern=^https?:\/\/(act.10010.com|m.client.10010.com)\/(SigninApp|SigninApp(.*?)|dailylottery)\/(signin|static)\/querySigninActivity.htm|daySign\/(textdl\/userLogin|active\/findActivityInfo),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10010/10010.cookie.js,script-update-interval=0
 # > 顺丰速运 app获取
 顺丰速运 = type=http-request, pattern=^https:\/\/ccsp-egmas.sf-express.com\/cx-app-member\/member\/app\/user\/universalSign,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.cookie.js,requires-body=true
 # > 电信签到 app获取（boxjs填写号码）
@@ -47,4 +49,4 @@
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% music.163.com, 113.96.156.178, *.ximalaya.com, e.189.cn, i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, ccsp-egmas.sf-express.com, wapside.189.cn:9001, apph5.manmanbuy.com, account.huami.com, club.yili.com, *.bilibili.com, api.wfdata.club, passport.iqiyi.com
+hostname = %INSERT% music.163.com, 113.96.156.178, *.ximalaya.com, e.189.cn, i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, act.10010.com, ccsp-egmas.sf-express.com, wapside.189.cn:9001, apph5.manmanbuy.com, account.huami.com, club.yili.com, *.bilibili.com, api.wfdata.club, passport.iqiyi.com

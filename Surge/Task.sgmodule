@@ -1,5 +1,5 @@
 #!name=定时脚本
-#!desc=最后更新时间 2022-04-27 23:23
+#!desc=最后更新时间 2022-06-13 09:26
 #!system=ios
 
 # 分割线——————————————————————————
@@ -36,8 +36,8 @@
 iQIYI签到 = type=cron,cronexp=30 7 0 * * *,timeout=120,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js,wake-system=1,script-update-interval=0
 # > 微博推送
 //微博推送= type=cron,cronexp="0 */30 9-21 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js,script-update-interval=0
-# > app价格+版本 监控
-软件监控 = type=cron,cronexp="0 30 8-22/2 * * *",script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/appstore/AppMonitor.js
+# > 联通签到
+联通签到 = type=cron,cronexp=0 30 8 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10010/10010.js
 # > 每日一句
 每日一句 = type=cron,cronexp=8 8 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/One.js,script-update-interval=0
 # > 小米运动
