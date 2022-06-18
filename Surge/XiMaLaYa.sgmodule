@@ -8,6 +8,8 @@
 hijack-dns = %APPEND% 114.114.114.114 
 
 [Rule]
+# 屏蔽gif弹窗_Ad
+URL-REGEX,^https?:\/\/.*\.xmcdn\.com\/\w{8}\/\w{4}-\w{16}\/.+gif$,REJECT
 # 屏蔽Aged请求
 URL-REGEX,https?:\/\/.*\.xima.*\.com\/(dog-portal\/checkOld|(child-mobile\/child|aged-mobile\/aged)\/mode\/query),REJECT
 # 部分Tab弹窗
@@ -28,14 +30,14 @@ URL-REGEX,^https?:\/\/.*\.xima.*\.com\/mobile\/discovery\/v\d\/location,REJECT
 URL-REGEX,^https?:\/\/.*\.xima.*\.com\/hotWord,REJECT
 # 屏蔽搜索框定时_Ad
 URL-REGEX,^https?:\/\/.*\.xima.*\.com\/guideWord,REJECT
-# 屏蔽实时Ad请求
+# 屏蔽实时_Ad请求
 URL-REGEX,^https?:\/\/.*\.xima.*\.com\/api\/v\d\/adRealTime,REJECT
 # 屏蔽ting_Ad
 URL-REGEX,^https?:\/\/.*\.xima.*\.com\/ting\/(loading|feed|home)?,REJECT
 
 [Script]
-# 首页滚动_Ad、Tab页滚动_Ad、我的页面Ad
+# 首页滚动_Ad、Tab页滚动_Ad、我的页面_Ad
 喜马拉雅 = type=http-response,pattern=^https?:\/\/.*\.xima.*\.com\/(discovery-feed|category|mobile-user)\/v\d\/(mix|category|homePage),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Script/xmlyad.js,script-update-interval=0
 
 [MITM]
-hostname = %APPEND% *.xima*.*
+hostname = %APPEND% *.xima*.*, *.xmcdn.*
