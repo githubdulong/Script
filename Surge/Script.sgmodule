@@ -109,9 +109,9 @@ URL-REGEX,^https:\/\/api\.zuihuimai\.com,REJECT
 
 [Panel]
 # > Panel
-策略面板 = script-name=功能开关, update-interval=30
+策略面板 = script-name=功能开关, update-interval=15
 策略面板 = script-name=奈飞查询,update-interval=-1
-策略面板 = script-name=代理选择,update-interval=3600
+策略面板 = script-name=代理选择,update-interval=360
 
 # 分割线——————————————————————————
 
