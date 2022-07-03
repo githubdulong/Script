@@ -10,6 +10,8 @@ force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com
 # 分割线——————————————————————————
 
 [Rule]
+# > VSCO 代理
+DOMAIN,measurement.com,𝗣𝗥𝗢𝗫𝗬
 # > 555电影网
 DOMAIN,www.o8tv.com,𝗗𝗜𝗥𝗘𝗖𝗧
 # > 天气数据 
