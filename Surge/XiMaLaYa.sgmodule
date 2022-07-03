@@ -8,12 +8,16 @@
 hijack-dns = %APPEND% 114.114.114.114 
 
 [Rule]
+# MyInfo红点提醒
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/chaos-notice-web\/v1\/message\/preview\/list,REJECT
+# 屏蔽大红包Tips
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/social-web\/bottomTabs\/dynamicEntrance\/status,REJECT
 # 屏蔽gif弹窗_Ad
 URL-REGEX,^https?:\/\/.*\.xmcdn\.com\/\w{8}\/\w{4}-\w{16}\/.+gif$,REJECT
 # 屏蔽Aged请求
-URL-REGEX,https?:\/\/.*\.xima.*\.com\/(dog-portal\/checkOld|(child-mobile\/child|aged-mobile\/aged)\/mode\/query),REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/(dog-portal\/checkOld|(child-mobile\/child|aged-mobile\/aged)\/mode\/query),REJECT
 # 部分Tab弹窗
-URL-REGEX,https?:\/\/.*\.xima.*\.com\/discovery-feed\/isShowUserGiftPendant,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/discovery-feed\/isShowUserGiftPendant,REJECT
 # 屏蔽红点提示
 URL-REGEX,^https?:\/\/.*\.xima.*\.com\/mobile-user\/unread,REJECT
 # 屏蔽minor请求
