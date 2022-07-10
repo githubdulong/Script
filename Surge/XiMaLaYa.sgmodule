@@ -8,6 +8,8 @@
 hijack-dns = %APPEND% 114.114.114.114 
 
 [Rule]
+# 屏蔽播放页Live
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/mobile-playpage\/view\/,REJECT
 # MyInfo红点提醒
 URL-REGEX,^https?:\/\/.*\.xima.*\.com\/chaos-notice-web\/v1\/message\/preview\/list,REJECT
 # 屏蔽大红包Tips
