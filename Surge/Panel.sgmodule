@@ -1,0 +1,12 @@
+#!name=❏ 策略面板
+#!desc=奈飞解锁检测+机场信息展示
+
+[Panel]
+策略面板 = script-name=奈飞查询,update-interval=-1
+策略面板 = script-name=免流机场,update-interval=600
+策略面板 = script-name=墙洞机场,update-interval=600
+
+[Script]
+奈飞查询 = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/nf_check.js, argument=title=𝗡𝗘𝗧𝗙𝗟𝗜𝗫
+免流机场 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/sub_info_panel.js,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&title=MLsao&icon=antenna.radiowaves.left.and.right.circle&color=#FF8000
+墙洞机场 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/sub_info_panel.js,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&reset_day=1&title=DlerCloud&icon=airplane.circle&color=#157EFB
