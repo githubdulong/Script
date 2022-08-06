@@ -8,5 +8,5 @@
 
 [Script]
 奈飞查询 = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/nf_check.js, argument=title=𝗡𝗘𝗧𝗙𝗟𝗜𝗫
-免流机场 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/sub_info_panel.js,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&title=MLsao&icon=antenna.radiowaves.left.and.right.circle&color=#FF8000
-墙洞机场 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/sub_info_panel.js,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&reset_day=1&title=DlerCloud&icon=airplane.circle&color=#157EFB
+免流机场 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/sub_info_panel.js,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&title=𝗠𝗟𝗦𝗮𝗼&icon=antenna.radiowaves.left.and.right.circle&color=#FF8000
+墙洞机场 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/sub_info_panel.js,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&reset_day=1&title=𝗗𝗹𝗲𝗿𝗖𝗹𝗼𝘂𝗱&icon=airplane.circle&color=#157EFB
