@@ -108,12 +108,6 @@ URL-REGEX,^https:\/\/api\.zuihuimai\.com,REJECT
 
 # 分割线——————————————————————————
 
-[Panel]
-# > Panel
-策略面板 = script-name=奈飞查询,update-interval=-1
-
-# 分割线——————————————————————————
-
 [Script]
 # > 奈飞 评分
 奈飞评分 = type=http-request,pattern=^https?:\/\/ios(-.*)?\.prod\.ftl\.netflix\.com\/iosui\/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js
@@ -167,8 +161,6 @@ grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 订阅管理 = type=http-request,pattern=^https?:\/\/sub\.store,script-path=https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/backend/sub-store.min.js,requires-body=true,timeout=120
 # > Emby 解锁
 EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Emby.js
-# > 策略面板
-奈飞查询 = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/nf_check.js, argument=title=𝗡𝗘𝗧𝗙𝗟𝗜𝗫
 
 # > 模块订阅(单独添加)
 //爬虫复写去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/Advertising/Advertising.sgmodule
@@ -187,6 +179,7 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 //定位修改 按需启用 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Location.sgmodule
 //喜马拉雅去广告Surge版 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/XiMaLaYa.sgmodule
 //TF测试共享（按需启用与TF下载修正二选一） https://raw.githubusercontent.com/NobyDa/Script/master/Surge/Module/TestFlightAccount.sgmodule 
+//策略面板 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Panel.sgmodule
 //模块更新捷径 https://www.icloud.com/shortcuts/67c3ace4fb3a4f9ebbe8d3184cd82e39
 
 # 分割线——————————————————————————
