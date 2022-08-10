@@ -6,7 +6,7 @@
 
 [Script]
 # > SUB 订阅同步
-订阅同步 = type=cron,cronexp=15 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/backend/dist/cron-sync-artifacts.min.js,script-update-interval=0
+//订阅同步 = type=cron,cronexp=15 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/backend/dist/cron-sync-artifacts.min.js,script-update-interval=0
 # > IT之家
 ＩＴ之家 = type=cron,cronexp=0 1 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ithome/ithome.js,script-update-interval=0
 # > 喜马拉雅
