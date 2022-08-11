@@ -53,4 +53,4 @@ iQIYI签到 = type=cron,cronexp=30 7 0 * * *,timeout=120,script-path=https://raw
 账号同步 = type=cron,cronexp="0 35 6,14,23 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/ql_sync_box.js,script-update-interval=0
 帐户检测 = type=cron,cronexp="0 36 6,14,23 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_cookie_search.js,script-update-interval=0
 # > SUB 订阅同步
-订阅同步 = type=cron,cronexp="15 0 8,20 * * *",script-path=https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/backend/dist/cron-sync-artifacts.min.js,script-update-interval=0,wake-system=1
+订阅同步 = type=cron,cronexp="15 0 8,20 * * *",script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/cron-sync-artifacts.min.js,script-update-interval=0,wake-system=1
