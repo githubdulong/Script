@@ -1,12 +1,10 @@
 #!name=定时脚本
-#!desc=最后更新时间 2022-08-09 09:12
+#!desc=最后更新时间 2022-08-11 10:42
 #!system=ios
 
 # 分割线——————————————————————————
 
 [Script]
-# > SUB 订阅同步
-//订阅同步 = type=cron,cronexp=15 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/backend/dist/cron-sync-artifacts.min.js,script-update-interval=0
 # > IT之家
 ＩＴ之家 = type=cron,cronexp=0 1 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ithome/ithome.js,script-update-interval=0
 # > 喜马拉雅
@@ -54,3 +52,5 @@ iQIYI签到 = type=cron,cronexp=30 7 0 * * *,timeout=120,script-path=https://raw
 # > 同步检测
 账号同步 = type=cron,cronexp="0 35 6,14,23 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/ql_sync_box.js,script-update-interval=0
 帐户检测 = type=cron,cronexp="0 36 6,14,23 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/jd/jd_cookie_search.js,script-update-interval=0
+# > SUB 订阅同步
+订阅同步 = type=cron,cronexp="15 0 8,20 * * *",script-path=https://raw.githubusercontent.com/Peng-YM/Sub-Store/master/backend/dist/cron-sync-artifacts.min.js,script-update-interval=0,wake-system=1
