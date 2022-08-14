@@ -1,9 +1,0 @@
-#!name=百度网盘
-#!desc=最后更新时间 2021-06-08 12:30:25
-#!system=ios
-
-[Script]
-百度云盘 = type=http-response,pattern=https:\/\/pan\.baidu\.com\/rest\/2\.0\/membership\/user,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Crack/bdcloud.js,script-update-interval=0
-
-[MITM]
-hostname = %INSERT% pan.baidu.com

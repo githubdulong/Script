@@ -1,5 +1,6 @@
 #!name=Warp++
 #!desc=WARP++ 刷邀请推荐奖励
+#!system=ios
 
 [Host]
 api.cloudflareclient.com = server: 1.1.1.1

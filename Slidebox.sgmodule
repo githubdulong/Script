@@ -1,8 +1,0 @@
-#!name=Slidebox解锁
-#!desc=更新时间2022-03-14
-#!system=ios
-
-[Script]
-Slidebox解锁 = type=http-response,pattern=^https:\/\/asia-east2-slidebox-ios-prod\.cloudfunctions\.net\/api_v1$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Slidebox.js
-[MITM]
-hostname = %APPEND% asia-east2-slidebox-ios-prod.cloudfunctions.net

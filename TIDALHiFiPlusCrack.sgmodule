@@ -1,8 +1,0 @@
-#!name=TIDALMusic
-#!desc=TIDAL Music 解锁HiFi Plus订阅 
-
-[Script]
-音乐解锁 = type=http-request,pattern=^https?:\/\/api\.tidal\.com\/v1\/(pages\/album|(user|track|page)s\/(\d+)\/(state|subscription|lyrics|onboarding|playbackinfopostpaywall)),requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/TIDALHiFiPlusCrack.js,script-update-interval=0
-
-[MITM]
-hostname = %APPEND% api.tidal.com

@@ -1,9 +1,10 @@
 #!name=策略面板
 #!desc=奈飞解锁检测+机场信息展示
+#!system=ios
 
 [Panel]
 策略面板 = script-name=奈飞查询,update-interval=-1
-策略面板 = script-name=免流机场,update-interval=600
+策略面板 = script-name=备用机场,update-interval=600
 策略面板 = script-name=墙洞机场,update-interval=600
 
 [Script]
