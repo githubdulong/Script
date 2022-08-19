@@ -112,7 +112,7 @@ URL-REGEX,^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.
 # 分割线——————————————————————————
 
 [Map Local]
-# > 腾讯视频 去开屏（新建2个tx返回文件再需重装app）
+# > 腾讯视频 去开屏（新建2个tx返回文件再重装app）
 ^http:\/\/.+\.tc\.qq\.com\/.+mp4 data="tx.mp4"
 ^http:\/\/pgdt\.gtimg\.cn data="tx.jpg"
 
