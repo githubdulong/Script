@@ -110,9 +110,8 @@ URL-REGEX,^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.
 # 分割线——————————————————————————
 
 [Map Local]
-# > 腾讯视频 去开屏（新建2个tx返回文件再重装app）
-^http:\/\/.+\.tc\.qq\.com\/.+mp4 data="tx.mp4"
-^http:\/\/pgdt\.gtimg\.cn data="tx.jpg"
+# > 腾讯视频 去开屏（本地新建tx.mp4再重装app）
+^http:\/\/(.+\.tc\.qq\.com\/.+mp4|pgdt\.gtimg\.cn) data="tx.mp4"
 
 # 分割线——————————————————————————
 
