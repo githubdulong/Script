@@ -17,8 +17,6 @@ DOMAIN,api.zhiduodev.com,REJECT
 DOMAIN,measurement.com,𝗣𝗥𝗢𝗫𝗬
 # > 555电影网
 DOMAIN,www.o8tv.com,𝗗𝗜𝗥𝗘𝗖𝗧
-# > 天气数据 
-DOMAIN,api.waqi.info,𝗣𝗥𝗢𝗫𝗬
 # > Safari 防跳转
 DOMAIN,app-site-association.cdn-apple.com,REJECT
 # > 机场网站 代理
