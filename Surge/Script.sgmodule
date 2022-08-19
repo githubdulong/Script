@@ -12,6 +12,7 @@ force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com
 [Rule]
 # > 小豚当家 去开屏
 DOMAIN,advertise.zhiduodev.com,REJECT
+DOMAIN,api.zhiduodev.com,REJECT
 # > VSCO 代理
 DOMAIN,measurement.com,𝗣𝗥𝗢𝗫𝗬
 # > 555电影网
