@@ -111,7 +111,7 @@ URL-REGEX,^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.
 
 [Map Local]
 # > 腾讯视频 去开屏（本地新建tx.mp4再重装app）
-^http:\/\/(.+\.tc\.qq\.com\/.+mp4|pgdt\.gtimg\.cn) data="tx.mp4"
+^http:\/\/(.+qqvideo\.tc\.qq\.com\/.+mp4|pgdt\.gtimg\.cn) data="tx.mp4"
 
 # 分割线——————————————————————————
 
