@@ -109,12 +109,6 @@ URL-REGEX,^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.
 
 # 分割线——————————————————————————
 
-[Map Local]
-# > 腾讯视频 去开屏（本地新建tx.mp4再重装app）
-^http:\/\/(.+qqvideo\.tc\.qq\.com\/.+mp4|pgdt\.gtimg\.cn) data="tx.mp4"
-
-# 分割线——————————————————————————
-
 [Script]
 # > 奈飞 评分
 奈飞评分 = type=http-request,pattern=^https?:\/\/ios(-.*)?\.prod\.ftl\.netflix\.com\/iosui\/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js
