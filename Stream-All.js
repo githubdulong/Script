@@ -1,6 +1,6 @@
-/* 
+/*
  * 原脚本地址：https://raw.githubusercontent.com/LucaLin233/Luca_Conf/main/Surge/JS/stream-all.js
- * 更新日期：2022.08.23
+ * 更新日期：2022.09.29
  * 版本：2.4
  */
 
@@ -26,8 +26,13 @@ const STATUS_ERROR = -2
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36';
 
 (async () => {
+  let now = new Date();
+  let hour = now.getHours();
+  let minutes = now.getMinutes();
+  hour = hour > 9 ? hour : "0" + hour;
+  minutes = minutes > 9 ? minutes : "0" + minutes;
   let panel_result = {
-    title: args.title || "未配置标题参数 &title=xxx",
+    title: `${args.title} | ${hour}:${minutes}` || `流媒体解锁查询 | ${hour}:${minutes}`,
     content: '',
     icon: args.icon || "play.circle",
     "icon-color": args.color || "#007aff",
