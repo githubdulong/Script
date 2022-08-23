@@ -9,6 +9,8 @@
 hijack-dns = %APPEND% 114.114.114.114 
 
 [Rule]
+# 修复轮播Ad失效
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/discovery-feed\/focus\/queryF,REJECT
 # 屏蔽播放页Live
 URL-REGEX,^https?:\/\/.*\.xima.*\.com\/mobile-playpage\/view\/,REJECT
 # MyInfo红点提醒
