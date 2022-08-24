@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-08-22 15:45
+#!desc=最后更新时间 2022-08-24 09:06
 #!system=ios
 
 # 分割线——————————————————————————
@@ -38,8 +38,9 @@ URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-
 DOMAIN,boxjs.net,𝗣𝗥𝗢𝗫𝗬
 # > 京东库 代理
 DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝗣𝗥𝗢𝗫𝗬
-# > 腾讯视频 修正
+# > 腾讯视频 修正+去开屏（重装app）
 DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
+OR,((DOMAIN,pgdt.gtimg.cn), (AND,((USER-AGENT,live4iphoneRel*), (IP-CIDR,0.0.0.0/0,no-resolve)))),REJECT-DROP
 # > 掌阅 去广告
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/bookstore\/ad\/,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/self\/screen\/ad,REJECT-TINYGIF
