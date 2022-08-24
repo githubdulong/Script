@@ -1,7 +1,7 @@
 /*
- * 原脚本地址：https://raw.githubusercontent.com/LucaLin233/Luca_Conf/main/Surge/JS/stream-all.js
- * 更新日期：2022.09.29
- * 版本：2.4
+ * 转多人修改，不再备注。参考来源：https://raw.githubusercontent.com/LucaLin233/Luca_Conf/main/Surge/JS/stream-all.js
+ * 更新日期：2022.08.23
+ * 版本：2.4 
  */
 
 let args = getArgs();
