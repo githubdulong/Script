@@ -1,5 +1,5 @@
 #!name=定时脚本
-#!desc=最后更新时间 2022-08-15 12:51
+#!desc=最后更新时间 2022-08-24 23:42
 #!system=ios
 
 # 分割线——————————————————————————
@@ -28,6 +28,8 @@
 iQIYI签到 = type=cron,cronexp=30 5 0 * * *,timeout=120,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js,wake-system=1,script-update-interval=0
 # > 吾爱破解
 吾爱签到 = type=cron,cronexp=0 6 0 * * *,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/52pojie-DailyBonus/52pojie.js
+# > 顺丰速运
+顺丰速运 = type=cron,cronexp=30 6 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js,script-update-interval=0
 # > 微博推送
 //微博推送= type=cron,cronexp="0 0 9-21 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js,script-update-interval=0
 # > 每日一句

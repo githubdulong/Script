@@ -1,5 +1,5 @@
 #!name=重写获取
-#!desc=最后更新时间 2022-08-15 12:51
+#!desc=最后更新时间 2022-08-24 23:42
 #!system=ios
 
 # 分割线——————————————————————————
@@ -16,7 +16,9 @@
 # > 网易新闻 app获取
 网易新闻 = type=http-request,pattern=^https:\/\/(.*?)c\.m\.163\.com\/uc\/api\/sign\/v3\/commit,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasenews/neteasenews.cookie.js,script-update-interval=0
 # > 百度贴吧 app获取
-百度贴吧 = type=http-request,pattern=^https?:\/\/c\.tieba\.baidu\.com\/c\/s\/login,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_checkin.js
+百度贴吧 = type=http-request,pattern=^https?:\/\/(c\.tieba\.baidu\.com|180\.97\.\d+\.\d+)\/c\/s\/login,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_checkin.js
+百度贴吧 = type=http-request,pattern=^https?:\/\/c\.tieba\.baidu\.com\/c\/s\/channelIconConfig,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_checkin.js
+百度贴吧 = type=http-request,pattern=^https?:\/\/tiebac\.baidu\.com\/c\/u\/follow\/getFoldedMessageUserInfo,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_checkin.js
 # > 什么值得买 浏览器 https://zhiyou.smzdm.com/
 什么值买 = script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_signin.js,type=http-request,requires-body=true,pattern=^https?:\/\/zhiyou\.smzdm\.com\/user$
 # > IT之家 app获取
@@ -35,8 +37,10 @@
 奇艺获取 = type=http-request,pattern=^https:\/\/passport\.iqiyi\.com\/apis\/user\/,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js
 # > 吾爱破解 登陆 https://www.52pojie.cn/home.php
 吾爱获取 = type=http-request,pattern=https:\/\/www\.52pojie\.cn\/home\.php\?,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/52pojie-DailyBonus/52pojie.js
+# > 顺丰速运 app获取
+顺丰速运 = type=http-request, pattern=^https:\/\/ccsp-egmas.sf-express.com\/cx-app-member\/member\/app\/user\/universalSign,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.cookie.js,requires-body=1
 
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% *.ximalaya.com, e.189.cn, i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, *.bilibili.com, passport.iqiyi.com, www.52pojie.cn
+hostname = %INSERT% *.ximalaya.com, e.189.cn, i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, *.bilibili.com, passport.iqiyi.com, www.52pojie.cn, ccsp-egmas.sf-express.com
