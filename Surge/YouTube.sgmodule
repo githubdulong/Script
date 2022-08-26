@@ -1,0 +1,12 @@
+#!name=油管广告
+#!desc=YouTube去广告,优化Shorts播放
+#!system=ios
+
+[Rule]
+URL-REGEX,^https?:\/\/.+?\.googlevideo\.com\/.+&oda,REJECT-TINYGIF
+
+[Script]
+油管广告 = type=http-request,pattern="^https?:\/\/.+?\.googlevideo\.com\/.+ctier(?!(,|=SH))",requires-body=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/youtube_ad.js
+
+[MITM]
+hostname = %APPEND% r*.googlevideo.com
