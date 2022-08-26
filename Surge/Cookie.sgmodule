@@ -43,4 +43,4 @@
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %INSERT% *.ximalaya.com, e.189.cn, i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, *.bilibili.com, passport.iqiyi.com, www.52pojie.cn, ccsp-egmas.sf-express.com
+hostname = %APPEND% *.ximalaya.com, e.189.cn, i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, *.bilibili.com, passport.iqiyi.com, www.52pojie.cn, ccsp-egmas.sf-express.com

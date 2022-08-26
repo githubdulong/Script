@@ -8,4 +8,4 @@
 极速转链 = type=http-request,pattern=https:\/\/wqsitem\.jd\.com/\detail/\d+.+normal\.html,requires-body=0,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/Script/jdapp_to_union.js
 
 [MITM]
-hostname = %INSERT% *.jd.com, *.*.jd.com
+hostname = %APPEND% *.jd.com, *.*.jd.com

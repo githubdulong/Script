@@ -14,4 +14,4 @@ force-http-engine-hosts=%APPEND% mutu.com, www.mutu.com
 ^https?://(|www\.)mutu\.com http://{{{GATEWAY_ADDRESS}}} 302
 
 [MITM]
-hostname = %INSERT% mutu.com, www.mutu.com
+hostname = %APPEND% mutu.com, www.mutu.com
