@@ -1,0 +1,16 @@
+#!name=测试应用
+#!desc=自动加入公测TF应用并关闭本脚本模块
+#!system=ios
+
+[Script]
+//信息获取 = type=http-request,pattern=^https:\/\/testflight\.apple\.com\/v3\/accounts/.*\/apps$,requires-body=0,script-path=https://raw.githubusercontent.com/DecoAri/JavaScript/main/Surge/TF_keys.js
+加入测试 = type=cron,cronexp="*/2 * * * * *",script-path=https://raw.githubusercontent.com/DecoAri/JavaScript/main/Surge/Auto_join_TF.js,wake-system=0
+
+[MITM]
+hostname = %APPEND% testflight.apple.com
+
+# by：https://t.me/rigouzhuanyehu
+# ⚠️ 使用方法：
+# 1、开启surge http api
+# 2、打开“信息获取”脚本后打开testflight app获取信息，然后注释该脚本
+# 3、手动在surge 脚本编辑器里点击左下角设置图标，点击$persistentStore，添加命名为“APP_ID”的持久化数据，数据key（内容）为tf链接 https://testflight.apple.com/join/LPQmtkUs 的join后的字符串（也就是此例子的“LPQmtkUs”）
