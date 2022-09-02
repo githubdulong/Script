@@ -3,14 +3,49 @@
 #!system=ios        
 # @ddgksf2013 https://github.com/ddgksf2013/Cuttlefish/raw/master/Rewrite/AdBlock/Ximalaya.conf
 
+[General]
+# DNS劫持
+hijack-dns = %APPEND% 114.114.114.114 
+
 [Rule]
-URL-REGEX,^http:\/\/adse\.ximalaya\.com\/(?!.*preSale),REJECT
-URL-REGEX,^https?:\/\/mobile\.ximalaya\.com\/discovery-feed\/focus,REJECT
-DOMAIN,gslbali.ximalaya.com,REJECT
-DOMAIN,gslbtx.ximalaya.com,REJECT
+# 修复轮播Ad失效
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/discovery-feed\/focus\/queryF,REJECT
+# 屏蔽播放页Live
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/mobile-playpage\/view\/,REJECT
+# MyInfo红点提醒
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/chaos-notice-web\/v1\/message\/preview\/list,REJECT
+# 屏蔽大红包Tips
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/social-web\/bottomTabs\/dynamicEntrance\/status,REJECT
+# 屏蔽gif弹窗_Ad
+URL-REGEX,^https?:\/\/.*\.xmcdn\.com\/\w{8}\/\w{4}-\w{16}\/.+gif$,REJECT
+# 屏蔽Aged请求
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/(dog-portal\/checkOld|(child-mobile\/child|aged-mobile\/aged)\/mode\/query),REJECT
+# 部分Tab弹窗
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/discovery-feed\/isShowUserGiftPendant,REJECT
+# 屏蔽红点提示
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/mobile-user\/unread,REJECT
+# 屏蔽minor请求
+URL-REGEX,^https?:\/\/.*\.xima.*\.com/mobile-user/minorProtection/pop,REJECT
+# 屏蔽隐私搜集
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/collector/xl\/v\d,REJECT
+# 屏蔽版本更新
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/butler-portal\/versionCheck,REJECT
+# 屏蔽开屏广告
+URL-REGEX,^https?:\/\/(adse\.wsa|adse|adbehavior|xdcs-collector)\.xima.*\.com\/.*,REJECT
+# 屏蔽位置请求
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/mobile\/discovery\/v\d\/location,REJECT
+# 屏蔽热搜词
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/hotWord,REJECT
+# 屏蔽搜索框定时_Ad
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/guideWord,REJECT
+# 屏蔽实时_Ad请求
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/api\/v\d\/adRealTime,REJECT
+# 屏蔽ting_Ad
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/ting\/(loading|feed|home)?,REJECT
 
 [Script]
-喜马拉雅 = type=http-response,pattern=^https?:\/\/mobile\.ximalaya\.com\/(discovery-(feed|category)|mobile-user)\/v\d\/(mix|category|homePage),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Script/xmly_json.js,script-update-interval=0
+# 首页滚动_Ad、Tab页滚动_Ad、我的页面_Ad
+喜马拉雅 = type=http-response,pattern=^https?:\/\/.*\.xima.*\.com\/(discovery-feed|category|mobile-user)\/v\d\/(mix|category|homePage),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Script/xmly_json.js,script-update-interval=0
 
 [MITM]
-hostname = %APPEND% mobile.ximalaya.com
+hostname = %APPEND% *.xima*.*, *.xmcdn.*
