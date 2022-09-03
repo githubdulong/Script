@@ -1,7 +1,24 @@
 /*
- * 转多人修改，不再备注。参考来源：https://raw.githubusercontent.com/LucaLin233/Luca_Conf/main/Surge/JS/stream-all.js
- * 更新日期：2022.08.23
- * 版本：2.4 
+
+参考：https://raw.githubusercontent.com/LucaLin233/Luca_Conf/main/Surge/JS/stream-all.js
+修改日期：2022.09.03
+Surge配置参考注释
+ 
+ ----------------------------------------
+ 
+[Panel]
+策略面板 = script-name=解锁检测,update-interval=7200
+
+[Script]
+解锁检测 = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Stream-All.js,script-update-interval=0,argument=title=解锁检测&icon=headphones.circle&color=#FF2121
+
+----------------------------------------
+
+支持使用脚本使用 argument 参数自定义配置，如：argument=title=解锁检测&icon=headphones.circle&color=#FF2121，具体参数如下所示，
+ * title: 面板标题
+ * icon: SFSymbols 图标
+ * color：图标颜色
+ 
  */
 
 let args = getArgs();
