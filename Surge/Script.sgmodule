@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-08-24 09:06
+#!desc=最后更新时间 2022-09-10 02:24
 #!system=ios
 
 # 分割线——————————————————————————
@@ -135,8 +135,6 @@ Day One = type=http-response,pattern=^https:\/\/dayone\.(me|app)\/api\/(users|v2
 哔哩搜索 = type=http-request,pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/x\/v\d\/search(\/type)?\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)&,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
 # > bilbii 大会员画质
 哔哩画质 = type=http-response,pattern=https:\/\/ap(p|i)\.bilibili\.com\/((pgc\/player\/api\/playurl)|(x\/v2\/account\/myinfo\?)|(x\/v2\/account/mine\?)),requires-body=true,script-path=https://github.com/Sunert/Script/raw/master/Script/Bilibili/BiliHD.js
-# > YouTube 去广告 *.googlevideo.com
-//油管广告 = type=http-request,pattern=^https?:\/\/.+?\.googlevideo\.com\/.+&(oad|ctier)=(?!(A|SH)),script-path=https://choler.github.io/Surge/Script/YouTube.js
 # > 百度云盘 解锁
 百度云盘 = type=http-response,pattern=https:\/\/pan\.baidu\.com\/rest\/2\.0\/membership\/user,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Crack/bdcloud.js,script-update-interval=0
 # > MIX 解锁
@@ -160,7 +158,8 @@ grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 # > xmind思维导图 解锁
 思维导图 = type=http-response,pattern=https?:\/\/.*\.xmind\..*\/_res\/(devices|user_sub_status|appstore/sub),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/xmind.js,script-update-interval=0
 # > SUB订阅管理
-订阅管理 = type=http-request,pattern=^https?:\/\/sub\.store,script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store.min.js,requires-body=true,timeout=120,max-size=131072,ability=http-client-policy
+订阅管理 = type=http-request,pattern=^https?:\/\/sub\.store\/((download)|api\/(preview|sync|(utils\/node-info))),script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store-1.min.js,requires-body=true,timeout=120,ability=http-client-policy
+订阅管理 = type=http-request,pattern=^https?:\/\/sub\.store,script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store-0.min.js,requires-body=true
 # > Emby 解锁
 EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Emby.js
 # > 模块订阅(单独添加)
