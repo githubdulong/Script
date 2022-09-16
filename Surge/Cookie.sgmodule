@@ -1,14 +1,10 @@
 #!name=重写获取
-#!desc=最后更新时间 2022-09-16 18:46
+#!desc=最后更新时间 2022-09-16 23:17
 #!system=ios
 
 # 分割线——————————————————————————
 
 [Script]
-# > 喜马拉雅 app获取
-喜马拉雅 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ximalaya/ximalaya.cookie.js,type=http-request,pattern=^https?:\/\/.*\/mobile\-user\/v2\/homePage\/.*
-# > 电信组件 天翼账号中心获取
-中国电信 = type=http-request,pattern=^https?:\/\/e\.189\.cn\/store\/user\/package_detail\.do,script-path=https://raw.githubusercontent.com/Sunert/Script/master/Task/backup/telecomSky.js
 # > 美团 app获取
 美团获取 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.cookie.js,requires-body=true,type=http-request,pattern=^https:\/\/i.meituan.com\/evolve\/signin\/signpost\/
 # > 微博推送 登陆 https://m.weibo.cn获取
@@ -43,4 +39,4 @@
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %APPEND% *.ximalaya.com, e.189.cn, i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, *.bilibili.com, passport.iqiyi.com, www.52pojie.cn, ccsp-egmas.sf-express.com
+hostname = %APPEND% i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, *.bilibili.com, passport.iqiyi.com, www.52pojie.cn, ccsp-egmas.sf-express.com

@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-09-16 18:49
+#!desc=最后更新时间 2022-09-16 23:19
 #!system=ios
 
 # 分割线——————————————————————————
@@ -33,8 +33,6 @@ URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
 # > boxjs 代理
 DOMAIN,boxjs.net,𝗣𝗥𝗢𝗫𝗬
-# > 京东库 代理
-DOMAIN-SUFFIX,jdsharedresourcescdn.azureedge.net,𝗣𝗥𝗢𝗫𝗬
 # > 腾讯视频 修正+去开屏（重装app）
 DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
 OR,((DOMAIN,pgdt.gtimg.cn), (AND,((USER-AGENT,live4iphoneRel*), (IP-CIDR,0.0.0.0/0,no-resolve)))),REJECT-DROP
