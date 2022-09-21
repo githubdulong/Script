@@ -10,6 +10,12 @@ force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com
 # 分割线——————————————————————————
 
 [Rule]
+# > Siri与搜索 代理
+PROCESS-NAME,LookupViewService,𝗣𝗥𝗢𝗫𝗬
+PROCESS-NAME,/System/Library/PrivateFrameworks/Lookup.framework/Versions/A/XPCServices/LookupViewService.xpc/Contents/MacOS/LookupViewService,𝗣𝗥𝗢𝗫𝗬
+DOMAIN,lookup-api.apple.com,𝗣𝗥𝗢𝗫𝗬
+DOMAIN,lookup-api.apple.com.edgekey.net,𝗣𝗥𝗢𝗫𝗬
+DOMAIN,e16991.b.akamaiedge.net,𝗣𝗥𝗢𝗫𝗬
 # > 小豚当家 去开屏
 DOMAIN,advertise.zhiduodev.com,REJECT
 DOMAIN,api.zhiduodev.com,REJECT
