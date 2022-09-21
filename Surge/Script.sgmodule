@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-09-16 23:19
+#!desc=最后更新时间 2022-09-21 23:28
 #!system=ios
 
 # 分割线——————————————————————————
@@ -124,8 +124,6 @@ Day One = type=http-response,pattern=^https:\/\/dayone\.(me|app)\/api\/(users|v2
 MIX解锁 = requires-body=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/mix.js,type=http-response,pattern= ^https:\/\/bmall\.camera360\.com\/api\/mix\/recovery$
 # > vsco 解锁
 vsco解锁 = type=http-response,pattern=^https:\/\/(api\.revenuecat\.com\/v\d\/subscribers|vsco\.co\/api\/subscriptions\/\d\.\d\/user-subscriptions)\/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/vsco.js,script-update-interval=0
-# > Grow 解锁 api.revenuecat.com
-grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/langkhach270389/Surge-LK/main/scripts/langkhach/revenuecat.js,script-update-interval=-1
 # > 泼辣修图 解锁
 泼辣修图 = type=http-response,pattern=^https:\/\/api\.polaxiong\.com\/v1\/payments\/appleiap\/receipts\/confirmation,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Polarr.js
 # > 豆瓣电影 搜索
@@ -144,11 +142,10 @@ grow解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-
 # > Emby 解锁
 EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Emby.js
 # > 模块订阅(单独添加)
-//爬虫复写去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rewrite/Surge/Advertising/Advertising.sgmodule
 //什么值得买去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_remove_ads.sgmodule
 //贴吧去除广告 https://raw.githubusercontent.com/app2smile/rules/master/module/tieba.sgmodule
 //spotify解锁 https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module
-//Siri区域解锁 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Siri.Uppercase_PROXY.sgmodule
+//Siri区域解锁 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Siri.sgmodule
 //京东助手(注入式需key）https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.sgmodule
 //京东联盟转链（联盟、助手二选一）https://raw.githubusercontent.com/githubdulong/Script/master/Surge/jdapp_to_union.sgmodule
 //浏览器搜索 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Q-Search_All_in_one.sgmodule
