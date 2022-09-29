@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-09-28 20:28
+#!desc=最后更新时间 2022-09-29 09:05
 #!system=ios
 
 # 分割线——————————————————————————
@@ -81,8 +81,7 @@ URL-REGEX,^https:\/\/pt-starimg\.didistatic\.com\/static,REJECT
 # > 云闪付 去广告
 URL-REGEX,^https:\/\/wallet\.95516\.com\/s\/wl\/icon\/long,REJECT
 # > 狮桥司机 去广告
-URL-REGEX,^https:\/\/api-daoshang\.shiqiao\.com\/cloud-common\/startupPageNew\/query$,REJECT
-URL-REGEX,^https:\/\/api-daoshang\.shiqiao\.com\/cloud-common\/versionManger\/isUpdate$,REJECT
+URL-REGEX,^https:\/\/api-daoshang\.shiqiao\.com\/cloud-common\/(startupPageNew|versionManger)\/(query$|isUpdate$),REJECT
 # > 威锋 去广告
 URL-REGEX,^https:\/\/api\.wfdata\.club\/v2\/yesfeng\/(infoCenterAd|yesList),REJECT
 # > 贝壳网 去广告
