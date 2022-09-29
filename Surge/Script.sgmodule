@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-09-29 09:05
+#!desc=最后更新时间 2022-09-29 11:45
 #!system=ios
 
 # 分割线——————————————————————————
@@ -137,6 +137,7 @@ vsco解锁 = type=http-response,pattern=^https:\/\/(api\.revenuecat\.com\/v\d\/s
 页面广告 = type=http-response,pattern=^https:\/\/m\.ithome\.com\/api\/news\/newslistpageget,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/ithome/ithome.ad.js,script-update-interval=0
 列表广告 = type=http-response,requires-body=1,max-size=0,pattern=^https:\/\/api\.ithome\.com\/json\/(listpage|newslist)\/news,script-path=https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/ithome/ithome.ad.js,script-update-interval=0
 轮播广告 = type=http-response,requires-body=1,max-size=0,pattern=^https:\/\/api\.ithome\.com\/json\/slide\/index,script-path=https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/ithome/ithome.ad.js,script-update-interval=0
+列表接口 = type=http-response,requires-body=1,max-size=0,pattern=^https:\/\/napi\.ithome\.com\/api\/(news|topmenu)\/(getfeeds|index),script-path=https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/ithome/ithome.ad.js,script-update-interval=0
 # > 美图秀秀
 美图秀秀 = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Mtxx.js,type=http-response,pattern=^https?://(api|h5).xiuxiu.meitu.com/(v1/user/show.json|v1/vip/vip_show.json|v1/vip/prompt/query.json|v1/h5/vip/sub_detail.json|v1/h5/user/self_show.json|v1/h5/vip/user_detail.json|v1/vip/prompt/query.json|v1/vip/prompt/query.json)
 # > xmind思维导图 解锁
@@ -165,4 +166,4 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %APPEND% -*.amemv.com, -*.snssdk.com, *account.wps.cn, *account.wps.com, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, ap?.bilibili.com, ap?.biliapi.net, pan.baidu.com, btrace.qq.com, bmall.camera360.com, vsco.co, syh.zybang.com, security.wechat.com, api.polaxiong.com, m.douban.com, m.ithome.com, api.zuihuimai.com, api.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, bkw-legacy.oss-cn-shenzhen.aliyuncs.com, api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com, boxjs.net, boxjs.com, *.xmind.*, sub.store, mb3admin.com, flowplus.meituan.net
+hostname = %APPEND% -*.amemv.com, -*.snssdk.com, *account.wps.cn, *account.wps.com, ap*.intsig.net, dayone.*, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, ap?.bilibili.com, ap?.biliapi.net, pan.baidu.com, btrace.qq.com, bmall.camera360.com, vsco.co, syh.zybang.com, security.wechat.com, api.polaxiong.com, m.douban.com, m.ithome.com, api.ithome.com, api.zuihuimai.com, napi.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, bkw-legacy.oss-cn-shenzhen.aliyuncs.com, api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com, boxjs.net, boxjs.com, *.xmind.*, sub.store, mb3admin.com, flowplus.meituan.net
