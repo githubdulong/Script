@@ -46,7 +46,6 @@ OR,((DOMAIN,pgdt.gtimg.cn), (AND,((USER-AGENT,live4iphoneRel*), (IP-CIDR,0.0.0.0
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/bookstore\/ad\/,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/self\/screen\/ad,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zycl\/api\/ad\/,REJECT-TINYGIF
-URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zycl\/api\/ad\/,REJECT-TINYGIF
 # > 作业帮 去广告
 URL-REGEX,^https:\/\/syh\.zybang\.com\/com\/adx\/impress$,REJECT-TINYGIF
 # > HDOBOX 去广告
