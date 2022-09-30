@@ -1,6 +1,6 @@
 /*
 README：https://raw.githubusercontent.com/githubdulong/Script/master/One.js
-每日壹句（有道词典）
+每日一言（有道词典）
 */
 
 const $tool = new Tool()
@@ -8,7 +8,7 @@ $tool.get('https://dict.youdao.com/infoline/style/cardList?mode=publish&client=m
     let obj = JSON.parse(data);
     let date = new Date();
     let isAM = date.getHours() < 12 ? true : false;
-    let title = '每日' + (isAM ? ' 壹句' : ' 壹句') + (isAM ? ' ☀️' : ' 🌙');
+    let title = '每日' + (isAM ? '一言' : '一言') + (isAM ? ' ☀️' : ' 🌙');
     let subtitle = '';
     let scheme = 'alipay://platformapi/startapp?appId=60000002';
     let content = ""+scheme;
