@@ -37,7 +37,7 @@ DOMAIN, iyes.youku.com,REJECT
 URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 # > 京东 去广告
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
-# > boxjs 代理
+# > Boxjs 代理
 DOMAIN-KEYWORD,jsdelivr.net,𝗣𝗥𝗢𝗫𝗬
 # > 腾讯视频 修正+去开屏（重装app）
 DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
