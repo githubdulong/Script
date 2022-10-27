@@ -140,7 +140,7 @@ MIX解锁 = requires-body=1,script-path=https://raw.githubusercontent.com/github
 # > vsco 解锁
 vsco解锁 = type=http-response,pattern=^https:\/\/(api\.revenuecat\.com\/v\d\/subscribers|vsco\.co\/api\/subscriptions\/\d\.\d\/user-subscriptions)\/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/vsco.js,script-update-interval=0
 # > Keep 去广告
-KeepＡＤ = type=http-response,pattern=^https?:\/\/api\.gotokeep\.com\/(athena\/v\d\/people\/my|config\/v\d\/basic),script-path=https://github.com/ddgksf2013/Cuttlefish/raw/master/Script/keepStyle.js
+KeepＡＤ = type=http-response,pattern=^https?:\/\/api\.gotokeep\.com\/(athena\/v\d\/people\/my|config\/v\d\/basic),requires-body=1,max-size=0,script-path=https://github.com/ddgksf2013/Cuttlefish/raw/master/Script/keepStyle.js
 # > 豆瓣电影 搜索
 豆瓣电影 = type=http-response,pattern=^https://m.douban.com/movie/subject/.+,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Douban.js
 # > IT之家 去广告
