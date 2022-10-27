@@ -166,7 +166,7 @@ async function all() {
                 notifyStr = `${notifyStr}佣金比例：${result.data.data.wlCommissionShare}% `
               }
               if (result.data.data.wlCommission) {
-                notifyStr = `${notifyStr} 预计返利：¥${result.data.data.wlCommission} `
+                notifyStr = `${notifyStr} ➟ 预计返利：¥${result.data.data.wlCommission} `
               }
               if (result.data.data.couponShortUrl) {
                 jfConvertorResultUrl = result.data.data.couponShortUrl
@@ -206,7 +206,7 @@ async function all() {
         } catch (e) {
           lk.logErr(e)
          // lk.log(`请求京粉api异常：${data}`)
-          lk.msg(``, `该商品暂无佣金转链信息`)
+          lk.msg(``, `该商品暂无佣金推广信息`)
           lk.execFail()
         }
         lk.log('开始注入html')
