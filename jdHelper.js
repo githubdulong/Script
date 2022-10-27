@@ -166,19 +166,19 @@ async function all() {
                 notifyStr = `${notifyStr}佣金比例：${result.data.data.wlCommissionShare}% `
               }
               if (result.data.data.wlCommission) {
-                notifyStr = `${notifyStr} ➟ 预计返利：¥${result.data.data.wlCommission} `
+                notifyStr = `${notifyStr} ➟ 预计返利：¥ ${result.data.data.wlCommission} `
               }
               if (result.data.data.couponShortUrl) {
                 jfConvertorResultUrl = result.data.data.couponShortUrl
                 notifyStr = `${notifyStr}\n`
                 if (result.data.data.couponAfterPrice) {
-                  notifyStr = `${notifyStr}券后价格：¥${result.data.data.couponAfterPrice} `
+                  notifyStr = `${notifyStr}券后价格：¥ ${result.data.data.couponAfterPrice} `
                 }
                 if (result.data.data.couponPrice) {
-                  notifyStr = `${notifyStr}\n用券优惠：¥${result.data.data.couponPrice} `
+                  notifyStr = `${notifyStr}\n用券优惠：¥ ${result.data.data.couponPrice} `
                 }
                 if (result.data.data.couponAfterCommission) {
-                  notifyStr = `${notifyStr}\n券后返利：¥${result.data.data.couponAfterCommission} `
+                  notifyStr = `${notifyStr}\n券后返利：¥ ${result.data.data.couponAfterCommission} `
                 }
               }
               let param = ""
