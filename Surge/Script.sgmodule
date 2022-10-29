@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-10-27 12:17
+#!desc=最后更新时间 2022-10-29 20:59
 #!system=ios
 
 # 分割线——————————————————————————
@@ -18,6 +18,22 @@ PROCESS-NAME,/System/Library/PrivateFrameworks/Lookup.framework/Versions/A/XPCSe
 DOMAIN,lookup-api.apple.com,𝗣𝗥𝗢𝗫𝗬
 DOMAIN,lookup-api.apple.com.edgekey.net,𝗣𝗥𝗢𝗫𝗬
 DOMAIN,e16991.b.akamaiedge.net,𝗣𝗥𝗢𝗫𝗬
+# > 抖音 IP地址
+DOMAIN-KEYWORD,core-c-lq,𝗣𝗥𝗢𝗫𝗬
+DOMAIN-KEYWORD,core-lq,𝗣𝗥𝗢𝗫𝗬
+DOMAIN-KEYWORD,normal-c-lq,𝗣𝗥𝗢𝗫𝗬
+DOMAIN-KEYWORD,normal-lq,𝗣𝗥𝗢𝗫𝗬
+DOMAIN-KEYWORD,search-quic-lq,𝗣𝗥𝗢𝗫𝗬
+DOMAIN-KEYWORD,search-lq,𝗣𝗥𝗢𝗫𝗬
+# > 微信 IP地址
+DOMAIN,szextshort.weixin.qq.com,𝗣𝗥𝗢𝗫𝗬
+DOMAIN,szminorshort.weixin.qq.com,𝗣𝗥𝗢𝗫𝗬
+DOMAIN,mp.weixin.qq.com,𝗣𝗥𝗢𝗫𝗬
+DOMAIN,szshort.weixin.qq.com,𝗣𝗥𝗢𝗫𝗬
+# > 国家反诈中心 IP地址
+DOMAIN-SUFFIX,gjfzpt.cn,REJECT
+# > 今日头条 IP地址
+DOMAIN-SUFFIX,toutiaoapi.com,𝗣𝗥𝗢𝗫𝗬
 # > 小豚当家 去开屏
 DOMAIN,advertise.zhiduodev.com,REJECT
 DOMAIN,api.zhiduodev.com,REJECT
