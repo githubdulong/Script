@@ -106,6 +106,8 @@ URL-REGEX,^https?:\/\/img\.meituan\.net\/(bizad|brandCpt)\/\w+\.png,REJECT
 # > Keep 开屏+隐私
 DOMAIN,kad.gotokeep.com,REJECT
 DOMAIN,apm.gotokeep.com,REJECT
+# > Price 代理
+DOMAIN-SUFFIX,coingecko.com,𝗣𝗥𝗢𝗫𝗬
 
 # 分割线——————————————————————————
 
