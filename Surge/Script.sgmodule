@@ -5,8 +5,11 @@
 # 分割线——————————————————————————
 
 [Header Rewrite]
+# > Revenuecat
 https:\/\/api\.revenuecat\.com header-del x-revenuecat-etag
+
 [General]
+# > Boxjs
 force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com
 
 # 分割线——————————————————————————
@@ -18,22 +21,6 @@ PROCESS-NAME,/System/Library/PrivateFrameworks/Lookup.framework/Versions/A/XPCSe
 DOMAIN,lookup-api.apple.com,𝗣𝗥𝗢𝗫𝗬
 DOMAIN,lookup-api.apple.com.edgekey.net,𝗣𝗥𝗢𝗫𝗬
 DOMAIN,e16991.b.akamaiedge.net,𝗣𝗥𝗢𝗫𝗬
-# > 抖音 IP地址
-DOMAIN-KEYWORD,core-c-lq,𝗣𝗥𝗢𝗫𝗬
-DOMAIN-KEYWORD,core-lq,𝗣𝗥𝗢𝗫𝗬
-DOMAIN-KEYWORD,normal-c-lq,𝗣𝗥𝗢𝗫𝗬
-DOMAIN-KEYWORD,normal-lq,𝗣𝗥𝗢𝗫𝗬
-DOMAIN-KEYWORD,search-quic-lq,𝗣𝗥𝗢𝗫𝗬
-DOMAIN-KEYWORD,search-lq,𝗣𝗥𝗢𝗫𝗬
-# > 微信 IP地址
-DOMAIN,szextshort.weixin.qq.com,𝗣𝗥𝗢𝗫𝗬
-DOMAIN,szminorshort.weixin.qq.com,𝗣𝗥𝗢𝗫𝗬
-DOMAIN,mp.weixin.qq.com,𝗣𝗥𝗢𝗫𝗬
-DOMAIN,szshort.weixin.qq.com,𝗣𝗥𝗢𝗫𝗬
-# > 国家反诈中心 IP地址
-DOMAIN-SUFFIX,gjfzpt.cn,REJECT
-# > 今日头条 IP地址
-DOMAIN-SUFFIX,toutiaoapi.com,𝗣𝗥𝗢𝗫𝗬
 # > 小豚当家 去开屏
 DOMAIN,advertise.zhiduodev.com,REJECT
 DOMAIN,api.zhiduodev.com,REJECT
@@ -48,7 +35,7 @@ DOMAIN-SUFFIX,dlercloud.com,𝗣𝗥𝗢𝗫𝗬
 DOMAIN,zhuan.mlsao.xyz,𝗣𝗥𝗢𝗫𝗬
 # > Passkey
 DOMAIN,ql.lowking.pro,服务器 01
-# > 爱奇艺 去暂停广告
+# > 爱奇艺 去广告
 DOMAIN-SUFFIX,cupid.iqiyi.com,REJECT
 # > 优酷 去广告
 DOMAIN, iyes.youku.com,REJECT
@@ -57,7 +44,9 @@ URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
 # > Boxjs 代理
 DOMAIN-KEYWORD,jsdelivr.net,𝗣𝗥𝗢𝗫𝗬
-# > 腾讯视频 修正+去开屏（重装app）
+# > Price 代理
+DOMAIN-SUFFIX,coingecko.com,𝗣𝗥𝗢𝗫𝗬
+# > 腾讯视频 修正+去开屏
 DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
 OR,((DOMAIN,pgdt.gtimg.cn), (AND,((USER-AGENT,live4iphoneRel*), (IP-CIDR,0.0.0.0/0,no-resolve)))),REJECT-DROP
 # > 掌阅 去广告
@@ -129,8 +118,6 @@ URL-REGEX,^https?:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/ad,REJECT
 URL-REGEX,^https?:\/\/api\.gotokeep\.com\/ads\/v\d\/ads\/preload,REJECT
 URL-REGEX,^https?:\/\/api\.gotokeep\.com\/training\/box\/config,REJECT
 URL-REGEX,^https?:\/\/api\.gotokeep\.com\/anno\/v\d\/upgrade\/check,REJECT
-# > Price 代理
-DOMAIN-SUFFIX,coingecko.com,𝗣𝗥𝗢𝗫𝗬
 
 # 分割线——————————————————————————
 
@@ -139,7 +126,7 @@ DOMAIN-SUFFIX,coingecko.com,𝗣𝗥𝗢𝗫𝗬
 奈飞评分 = type=http-request,pattern=^https?:\/\/ios(-.*)?\.prod\.ftl\.netflix\.com\/iosui\/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js
 奈飞评分 = type=http-response,requires-body=1,pattern=^https?:\/\/ios(-.*)?\.prod\.ftl\.netflix\.com\/iosui\/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js
 单集评分 = type=http-response,pattern=^https?:\/\/ios(-.*)?\.prod\.ftl\.netflix\.com\/iosui\/warmer/.+type=show-ath,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating_season.js
-# > Spark 解锁
+# > Spark 解锁（revenuecat MitM如果冲突请删除）
 邮箱订阅 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/revenuecat.js,script-update-interval=-1
 # > 金山WPS vip
 wps解锁 = requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Wps.js,type=http-response,pattern=^https?:\/\/[a-z-]*account\.wps\.c(n|om)(:\d+|)\/api\/users
