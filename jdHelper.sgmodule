@@ -5,7 +5,7 @@
 [Script]
 京东助手 = type=http-response,pattern=^https:\/\/in\.m\.jd\.com\/product\/.+?\.html,requires-body=1,max-size=-1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.js
 京喜助手 = type=http-response,pattern=^https:\/\/wqs\.jd\.com\/wxsq_item_search\/item\/jxapp_detail\/index\.shtml,requires-body=1,max-size=-1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.js
-极速助手 = type=http-response,pattern=^https:\/\/lite-in\.m\.jd\.com\/product\/detail\/sequ\/\d+.html,requires-body=1,max-size=-1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.js
+特价助手 = type=http-response,pattern=^https:\/\/lite-in\.m\.jd\.com\/product\/detail\/sequ\/\d+.html,requires-body=1,max-size=-1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.js
 
 [MITM]
 hostname = %APPEND% in.m.jd.com, wqs.jd.com, lite-in.m.jd.com
