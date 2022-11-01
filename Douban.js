@@ -9,11 +9,11 @@
     使用说明
  【Surge】
         [Script]
-        // 茶杯狐、解析网、555电影
+        // 茶杯狐、大师兄影视、555电影
         豆瓣电影 = type=http-response,pattern=^https://m.douban.com/movie/subject/.+,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Douban.js
   【quan_x】
         [rewrite_local]
-        // 茶杯狐、解析网、555电影
+        // 茶杯狐、大师兄影视、555电影
        ^https://m.douban.com/movie/subject/.+ url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/Douban_qx.js
         
 
@@ -48,10 +48,9 @@ async function douban_addons() {
     if (collect) body = body.replace(/<a.+pbtn.+collect.+>/, `<a href="${url}?seen=1">`)
         
         let mweb = [`<a href="https://www.cupfox.com/search?key=${title[1]}">\t<img src="https://raw.githubusercontent.com/githubdulong/Script/master/Images/Chb.png" height="26" width="26" style="vertical-align: text-top;" /></a>`]
-        mweb.push(`<a href="https://z1.m1907.cn/?jx=wd=${title[1]}&submit="><img src="https://raw.githubusercontent.com/githubdulong/Script/master/Images/Jxw.png" height="26" width="26" style="vertical-align: text-top;" /></a>`)
+        mweb.push(`<a href="https://dsxys.com/sb/ke7nhZe3c1-.html?wd=${title[1]}&submit="><img src="https://raw.githubusercontent.com/githubdulong/Script/master/Images/Dsx.png" height="26" width="26" style="vertical-align: text-top;" /></a>`)
         mweb.push(`<a href="https://www.o8tv.com/vodsearch/-------------.html?wd=${title[1]}&submit="><img src="https://raw.githubusercontent.com/githubdulong/Script/master/Images/555.png" height="26" width="26" style="vertical-align: text-top;" /></a>`)
-                
-    let douban_options = {
+            let douban_options = {
         url: `https://frodo.douban.com/api/v2/movie/${movieId[1]}?apiKey=0ac44ae016490db2204ce0a042db2916`,
         headers: {
             "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.3(0x18000323) NetType/WIFI Language/en",
