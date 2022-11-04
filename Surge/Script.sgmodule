@@ -118,6 +118,7 @@ URL-REGEX,^https?:\/\/api\.gotokeep\.com\/op-engine-webapp\/v\d\/ad,REJECT
 URL-REGEX,^https?:\/\/api\.gotokeep\.com\/ads\/v\d\/ads\/preload,REJECT
 URL-REGEX,^https?:\/\/api\.gotokeep\.com\/training\/box\/config,REJECT
 URL-REGEX,^https?:\/\/api\.gotokeep\.com\/anno\/v\d\/upgrade\/check,REJECT
+URL-REGEX,^https?:\/\/api\.gotokeep.com\/cauchy\/growth\/init,REJECT
 
 # 分割线——————————————————————————
 
