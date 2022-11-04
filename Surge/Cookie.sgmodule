@@ -1,5 +1,5 @@
 #!name=重写获取
-#!desc=最后更新时间 2022-10-04 13:10
+#!desc=最后更新时间 2022-11-04 13:10
 #!system=ios
 
 # 分割线——————————————————————————
@@ -26,7 +26,7 @@
 # > 小米运动 app登陆时获取
 小米运动 = type=http-response,pattern=^https:\/\/account\.huami\.com\/v2\/client\/login, requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/githubdulong/Script/master/xmSports.js
 # > 哔哩哔哩 app获取
-哔哩哔哩 = type=http-request,pattern=^https:\/\/app\.bilibili\.com\/x\/resource\/domain\?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/BiliBili.js,script-update-interval=0
+哔哩哔哩 = type=http-request,pattern=^https:\/\/app\.bilibili\.com\/x\/resource\/domain\?,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/BiliBili.js,script-update-interval=0
 # > 伊利乳品 小程序获取
 伊利乳品 = type=http-request, requires-body=1, pattern=https:\/\/club\.yili\.com\/MALLIFChe\/MCSWSIAPI\.asmx\/Call,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/yiLi.cookie.js
 # > 爱奇艺 登陆 https://m.iqiyi.com/user.html
