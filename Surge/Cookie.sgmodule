@@ -1,5 +1,5 @@
 #!name=重写获取
-#!desc=最后更新时间 2022-09-16 23:17
+#!desc=最后更新时间 2022-10-04 13:10
 #!system=ios
 
 # 分割线——————————————————————————
@@ -25,8 +25,8 @@
 慢买获取 = script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/manmanbuy/manmanbuy_checkin.js,type=http-request,requires-body=true,pattern=^https?:\/\/apph5\.manmanbuy\.com\/taolijin\/(login.aspx|logserver.aspx)
 # > 小米运动 app登陆时获取
 小米运动 = type=http-response,pattern=^https:\/\/account\.huami\.com\/v2\/client\/login, requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/githubdulong/Script/master/xmSports.js
-# > 哔哩哔哩 登陆 https://www.bilibili.com/
-哔哩哔哩 = type=http-request,pattern=^https:\/\/(www|live)\.bilibili\.com\/?.?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/bilibili/bilibili.cookie.js,script-update-interval=0
+# > 哔哩哔哩 app获取
+哔哩哔哩 = type=http-request,pattern=^https:\/\/app\.bilibili\.com\/x\/resource\/domain\?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/BiliBili.js,script-update-interval=0
 # > 伊利乳品 小程序获取
 伊利乳品 = type=http-request, requires-body=1, pattern=https:\/\/club\.yili\.com\/MALLIFChe\/MCSWSIAPI\.asmx\/Call,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/yiLi.cookie.js
 # > 爱奇艺 登陆 https://m.iqiyi.com/user.html
@@ -39,4 +39,4 @@
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %APPEND% i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, *.bilibili.com, passport.iqiyi.com, www.52pojie.cn, ccsp-egmas.sf-express.com
+hostname = %APPEND% i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, app.bilibili.com, passport.iqiyi.com, www.52pojie.cn, ccsp-egmas.sf-express.com
