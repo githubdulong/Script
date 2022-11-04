@@ -1,0 +1,27 @@
+#!name=小红书AD
+#!desc=XiaoHongShu_小红书页面优化去广告Surge版
+#!system=ios
+# @ddgksf2013 https://gitlab.com/ddgksf2013/Cuttlefish/-/raw/master/Rewrite/AdBlock/XiaoHongShu.conf
+# ⚠️ Surge使用tun模式下会导致屏蔽”热词热搜“失效（关闭tun模式）
+
+[Rule]
+# AdEngage
+URL-REGEX,^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/v\d\/tag\/ads_engage,REJECT
+# AdRecord
+URL-REGEX,^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/v\d\/ads\/apple\/record,REJECT
+# AdResource
+URL-REGEX,^https?:\/\/www\.xiaohongshu\.com\/api\/sns\/v\d\/ads\/resource,REJECT
+# Report
+URL-REGEX,^https?:\/\/referee\.xiaohongshu\.com\/v\d\/stateReport,REJECT
+# Switches
+URL-REGEX,^https?:\/\/pages\.xiaohongshu\.com\/data\/native\/matrix_switches,REJECT
+# Teenager
+URL-REGEX,^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v\d\/user\/teenager\/status,REJECT
+
+[Script]
+# 开屏广告、瀑布流、启动处理
+小红书ad = type=http-response,pattern=^https?://edith\.xiaohongshu\.com/api/sns/v\d/(system_service/splash_config|homefeed\?|system_service/config\?),requires-body=1,max-size=0,script-path=https://gitlab.com/ddgksf2013/Cuttlefish/-/raw/master/Script/xiaohongshu.js,script-update-interval=0
+热词热搜 = type=http-response,argument=/(items|queries)”\s?:\s?\[.+\]/g->$1“:[],pattern=^https?://edith\.xiaohongshu\.com/api/sns/v\d/search/(hot_list|trending),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/mieqq/mieqq/master/replace-body.js
+
+[MITM]
+hostname = %APPEND% edith.xiaohongshu.com,www.xiaohongshu.com,pages.xiaohongshu.com,referee.xiaohongshu.com
