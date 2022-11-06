@@ -2,7 +2,7 @@
 ids = $persistentStore.read('APP_ID')
 if (ids == '') {
 	$notification.post('所有TF已加入完毕','模块已自动关闭','')
-	$done($httpAPI('POST', '/v1/modules', {'❏ 自动测试': 'false'}))
+	$done($httpAPI('POST', '/v1/modules', {'❏ 公测监控': 'false'}))
 } else {
 	ids = ids.split(',')
 	for await (const ID of ids) {
