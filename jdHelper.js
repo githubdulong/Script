@@ -48,6 +48,10 @@ async function all() {
     }
 
     sku = arr.length != 0 ? arr[1] : ''
+    if (!sku) {
+      lk.done({body: html})
+      return
+    }
 
     lk.log(`解析完成:${sku}`)
     const sidebarHorizontal = 'lkJdHelperSidebarHorizontal'
