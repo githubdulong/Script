@@ -1,12 +1,14 @@
 #!name=定时脚本
-#!desc=最后更新时间 2022-11-05 17:24
+#!desc=最后更新时间 2022-11-08 09:43
 #!system=ios
 
 # 分割线——————————————————————————
 
 [Script]
 # > IT之家
-ＩＴ之家 = type=cron,cronexp=30 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ithome/ithome.js,script-update-interval=0
+ＩＴ之家 = type=cron,cronexp=0 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ithome/ithome.js,script-update-interval=0
+# > 喜马拉雅
+喜马拉雅 = type=cron,cronexp=30 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/xmlySign.js,script-update-interval=0
 # > 美团
 美团签到 = type=cron,cronexp=0 1 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.js,script-update-interval=0
 # > 网易新闻
