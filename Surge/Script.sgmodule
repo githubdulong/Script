@@ -111,6 +111,8 @@ URL-REGEX,^https:\/\/api\.zuihuimai\.com,REJECT
 # > 美团 去广告
 URL-REGEX,^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.(gif|jpg|mp4),REJECT
 URL-REGEX,^https?:\/\/img\.meituan\.net\/(bizad|brandCpt)\/\w+\.png,REJECT 
+# > 高德地图 去开屏
+URL-REGEX,^https?:\/\/m5.amap.com\/ws\/valueadded\/,REJECT
 # > 饿了么 去开屏
 URL-REGEX,^https?:\/\/elemecdn.com\/.+\/sitemap,REJECT
 URL-REGEX,^https?:\/\/fuss10.elemecdn.com\/.+\/w\/640\/h\/\d{3,4},REJECT
@@ -187,4 +189,4 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %APPEND% -*.amemv.com, -*.snssdk.com, *account.wps.cn, *account.wps.com, ap*.intsig.net, dayone.*, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, ap?.bilibili.com, ap?.biliapi.net, pan.baidu.com, btrace.qq.com, bmall.camera360.com, vsco.co, syh.zybang.com, security.wechat.com, m.douban.com, m.ithome.com, api.ithome.com, api.zuihuimai.com, napi.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, bkw-legacy.oss-cn-shenzhen.aliyuncs.com, api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com, boxjs.net, boxjs.com, sub.store, mb3admin.com, flowplus.meituan.net, ms.jr.jd.com, api.revenuecat.com, *.meituan.net, img10.360buyimg.com,*.elemecdn.com, www1.elecfans.com, edith.xiaohongshu.com, api.aliyundrive.com
+hostname = %APPEND% -*.amemv.com, -*.snssdk.com, *account.wps.cn, *account.wps.com, ap*.intsig.net, dayone.*, *.lagoapps.com, api.meiyan.com, biz.caiyunapp.com, raw.githubusercontent.com, spclient.wg.spotify.com, ap?.bilibili.com, ap?.biliapi.net, pan.baidu.com, btrace.qq.com, bmall.camera360.com, vsco.co, syh.zybang.com, security.wechat.com, m.douban.com, m.ithome.com, api.ithome.com, api.zuihuimai.com, napi.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, bkw-legacy.oss-cn-shenzhen.aliyuncs.com, api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com, boxjs.net, boxjs.com, sub.store, mb3admin.com, flowplus.meituan.net, ms.jr.jd.com, api.revenuecat.com, *.meituan.net, img10.360buyimg.com,*.elemecdn.com, www1.elecfans.com, edith.xiaohongshu.com, api.aliyundrive.com, m5.amap.com
