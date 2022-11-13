@@ -6,7 +6,7 @@
   食用方法：自行保存到本地，脚本内填写账号（只支持手机或邮箱账户）、密码后设置 cron 运行即可；
 参考：
 [Script]
-威锋签到 = type=cron,script-path=weifeng.js,timeout=t,cronexp=0 8 * * *,wake-system=1,timeout=15
+威锋签到 = type=cron,script-path=weifeng.js,cronexp=0 8 * * *,wake-system=1,timeout=15
 
 */
 
