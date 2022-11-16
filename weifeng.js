@@ -38,7 +38,7 @@ var person = new Person();
   let Task = await task();
   let inform = await infon();
   let txt = `${singIn}，已连续签到${inform.signInTotalCount}天`;
-  let text = `ID:${inform.userBaseInfo.userName}   等级:Lv${inform.userBaseInfo.level}   金币:${inform.weTicket}  ${Task}\n今天是你加入威锋的${inform.joinDays}天`;
+  let text = `ID:${inform.userBaseInfo.userName}   等级:Lv${inform.userBaseInfo.level}   威币:${inform.weTicket}  ${Task}\n今天是你加入威锋的${inform.joinDays}天`;
   $.msg($.name, txt, text);
   if ($.isNode()) await notify.sendNotify($.name, txt + text + '\n');
 })()
@@ -110,7 +110,7 @@ async function signin() {
   }
   return _sign.replace(/.+/,
     (x) => {
-      return x === 'success' ? '✅签到成功' : `⚠️${x}`
+      return x === 'success' ? '✅ 签到成功' : `⚠️ ${x}`
     }
   )
 }
