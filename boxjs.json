@@ -307,10 +307,36 @@
       "author": "@lowking@MuTu888",
       "repo": "https://github.com/githubdulong/Script"
     },
+         {
+        "id": "mtmc",
+        "name": "美团买菜",
+        "keys": [
+          "jojo_mall_meituan"
+        ],
+        "settings": [
+         {
+            "id": "jojo_mall_meituan",
+            "name": "美团买菜Token",
+            "val": "",
+            "type": "text",
+            "placeholder": "",
+            "autoGrow": true,
+            "rows": 2,
+            "desc": "美团买菜Token"
+          }
+        ],
+        "author": "@JoJoJotarou@MuTu888",
+        "repo": "https://raw.githubusercontent.com/JoJoJotarou/myScript/master/script/meituan/mall.meituan.mallcoin.task.js",
+        "script": "https://raw.githubusercontent.com/JoJoJotarou/myScript/master/script/meituan/mall.meituan.mallcoin.task.js",
+        "icons": [
+          "https://raw.githubusercontent.com/JoJoJotarou/myScript/master/script/meituan/icon/mall.meituan.png",
+          "https://raw.githubusercontent.com/JoJoJotarou/myScript/master/script/meituan/icon/mall.meituan.png"
+        ]
+      },
     {
       "id": "feng.com",
       "name": "威锋论坛",
-      "author": "@FoKit@xiaobailian",
+      "author": "@FoKit@Xiaobailian",
       "script": "https://raw.githubusercontent.com/githubdulong/Script/master/weifeng.js",
       "descs_html": [
         ""
