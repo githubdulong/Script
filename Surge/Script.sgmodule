@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-11-12 22:25
+#!desc=最后更新时间 2022-11-17 13:27
 #!system=ios
 
 # 分割线——————————————————————————
@@ -113,6 +113,7 @@ URL-REGEX,^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.
  URL-REGEX,^https?:\/\/img\.meituan\.net\/(bizad|brandCpt)\/\w+\.png,REJECT 
 # > 直播吧 去开屏
 URL-REGEX,^https:\/\/a\.qiumibao\.com\/activities\/config\.php$,REJECT
+URL-REGEX,^https:\/\/a\.qiumibao\.com\/ios\/config\/\?version_code=,REJECT
 
 # 分割线——————————————————————————
 
