@@ -1,12 +1,917 @@
-{
-  "always_run_in_app" : false,
-  "icon" : {
-    "color" : "orange",
-    "glyph" : "at"
-  },
-  "name" : "Weibo",
-  "script" : "\/\/ Scriptable使用的变量。\n\/\/ 这些必须在文件的顶部。不要编辑。\n\/\/ 图标字形：@；图标颜色：粉红色；\n\/**\n * 微博上的热门搜索\n *\n * @版本 1.0.3\n * @作者 Honye\n *\/\n\n\/**\n * @Param {number} [高度] 以像素为单位的屏幕高度\n *\/\nconst phoneSize = (height) => {\n  const phones = {\n    \/** 12 Pro Max *\/\n    2778: {\n      small: 510,\n      medium: 1092,\n      large: 1146,\n      left: 96,\n      right: 678,\n      top: 246,\n      middle: 882,\n      bottom: 1518\n    },\n    \/** 12 and 12 Pro *\/\n    2532: {\n      small: 474,\n      medium: 1014,\n      large: 1062,\n      left: 78,\n      right: 618,\n      top: 231,\n      middle: 819,\n      bottom: 1407\n    },\n    \/** 11 Pro Max, XS Max *\/\n    2688: {\n      small: 507,\n      medium: 1080,\n      large: 1137,\n      left: 81,\n      right: 654,\n      top: 228,\n      middle: 858,\n      bottom: 1488\n    },\n    \/** 11, XR *\/\n    1792: {\n      small: 338,\n      medium: 720,\n      large: 758,\n      left: 55,\n      right: 437,\n      top: 159,\n      middle: 579,\n      bottom: 999\n    },\n    \/** 11 Pro, XS, X, 12 mini *\/\n    2436: {\n      small: 465,\n      medium: 987,\n      large: 1035,\n      x: {\n        left: 69,\n        right: 591,\n        top: 213,\n        middle: 783,\n        bottom: 1353\n      },\n      mini: {\n        left: 69,\n        right: 591,\n        top: 231,\n        middle: 801,\n        bottom: 1371\n      }\n    },\n    \/** Plus phones *\/\n    2208: {\n      small: 471,\n      medium: 1044,\n      large: 1071,\n      left: 99,\n      right: 672,\n      top: 114,\n      middle: 696,\n      bottom: 1278\n    },\n    \/** SE2 and 6\/6S\/7\/8 *\/\n    1334: {\n      small: 296,\n      medium: 642,\n      large: 648,\n      left: 54,\n      right: 400,\n      top: 60,\n      middle: 412,\n      bottom: 764\n    },\n    \/** SE1 *\/\n    1136: {\n      small: 282,\n      medium: 584,\n      large: 622,\n      left: 30,\n      right: 332,\n      top: 59,\n      middle: 399,\n      bottom: 399\n    },\n    \/** 11 and XR in Display Zoom mode *\/\n    1624: {\n      small: 310,\n      medium: 658,\n      large: 690,\n      left: 46,\n      right: 394,\n      top: 142,\n      middle: 522,\n      bottom: 902\n    },\n    \/** Plus in Display Zoom mode *\/\n    2001: {\n      small: 444,\n      medium: 963,\n      large: 972,\n      left: 81,\n      right: 600,\n      top: 90,\n      middle: 618,\n      bottom: 1146\n    }\n  };\n  height = height || Device.screenResolution().height;\n  const scale = Device.screenScale();\n\n  if (config.runsInWidget) {\n    const phone = phones[height];\n    if (phone) {\n      return phone\n    }\n\n    const pc = {\n      small: 164 * scale,\n      medium: 344 * scale,\n      large: 354 * scale\n    };\n    return pc\n  }\n\n  \/\/ in app screen fixed 375x812 pt\n  return {\n    small: 155 * scale,\n    medium: 329 * scale,\n    large: 345 * scale\n  }\n};\n\nconst fontSize = 13;\/\/文字大小\nconst gap = 7;\/\/行距\nconst logoSize = 25;\/\/logo大小\nconst paddingVertical = 10;\/\/顶边距\nconst themes = {\n  light: {\n    background: new Color('#FFFFFF'),\/\/明亮背景\n    color: Color.black()\n  },\n  dark: {\n    background: new Color('#282828', 1),\/\/暗黑背景\n    color: Color.white()\n  }\n};\n\n\/** Scoped Keychain *\/\nconst KeyStorage = {\n  set: (key, value) => {\n    return Keychain.set(`$${Script.name()}.${key}`, JSON.stringify(value))\n  },\n  get: (key) => {\n    const _key = `$${Script.name()}.${key}`;\n    if (Keychain.contains(_key)) {\n      return JSON.parse(Keychain.get(_key))\n    }\n  }\n};\n\n\/**\n * @param {object} options\n * @param {string} [options.title]\n * @param {string} [options.message]\n * @param {Array<{ title: string; [key: string]: any }>} options.options\n * @param {string} [options.cancelText = 'Cancel']\n *\/\nconst presentSheet = async (options) => {\n  options = {\n    showCancel: true,\n    cancelText: '取消操作',\n    ...options\n  };\n  const alert = new Alert();\n  if (options.title) {\n    alert.title = options.title;\n  }\n  if (options.message) {\n    alert.message = options.message;\n  }\n  if (!options.options) {\n    throw new Error('参数的\"选项\"属性不能为空')\n  }\n  for (const option of options.options) {\n    alert.addAction(option.title);\n  }\n  if (options.showCancel) {\n    alert.addCancelAction(options.cancelText);\n  }\n  const value = await alert.presentSheet();\n  return { value, option: options.options[value] }\n};\n\n\/** 微博国际版页面 *\/\nconst InternationalScheme = {\n  hotSearch: () => 'weibointernational:\/\/hotsearch',\n  search: (keyword) => `weibointernational:\/\/search?keyword=${encodeURIComponent(keyword)}`\n};\n\n\/** 微博 H5 应用页面 *\/\nconst H5Page = {\n  hotSearch: () => `https:\/\/m.weibo.cn\/p\/index?containerid=${encodeURIComponent('106003&filter_type=realtimehot')}`,\n  search: (keyword) => `https:\/\/m.weibo.cn\/search?containerid=${encodeURIComponent('100103type=1&t=10&q=' + keyword)}`\n};\n\nconst conf = {\n  client: 'h5',\n  theme: 'system'\n};\nconst screen = Device.screenResolution();\nconst scale = Device.screenScale();\nconst phone = phoneSize(screen.height);\nlet widgetFamily = 'medium';\nif (config.runsInWidget) {\n  widgetFamily = config.widgetFamily;\n  const [client, theme] = (args.widgetParameter || '').split(',').map(text => text.trim());\n  conf.client = client === '2' ? 'international' : conf.client;\n  conf.theme = theme || conf.theme;\n}\nconst height = (widgetFamily === 'medium' ? phone.small : phone[widgetFamily]) \/ scale;\nconf.count = Math.floor((height - paddingVertical * 2 + gap) \/ (fontSize + gap));\nconst storedClient = KeyStorage.get('client');\nif (storedClient) {\n  conf.client = storedClient;\n}\n\nconst Pages = (() => {\n  switch (conf.client) {\n    case 'international':\n      return InternationalScheme\n    case 'h5':\n      return H5Page\n  }\n})();\n\nconst dateFormat = new DateFormatter();\ndateFormat.dateFormat = 'HH:mm';\nconst timeString = dateFormat.string(new Date());\n\nconst main = async () => {\n  const url = 'https:\/\/weibointl.api.weibo.cn\/portal.php?ct=feed&a=search_topic';\n  const request = new Request(url);\n  const data = await request.loadJSON();\n  const widget = await createWidget(data);\n  return widget\n};\n\nlet stackBottom;\nlet widgetBottom;\nconst createWidget = async (data) => {\n  const widget = new ListWidget();\n  widget.backgroundColor = conf.theme === 'system'\n    ? Color.dynamic(themes.light.background, themes.dark.background)\n    : themes[conf.theme].background;\n  widget.url = Pages.hotSearch();\n  const paddingY = paddingVertical - (gap \/ 2);\n  widget.setPadding(paddingY, 12, paddingY, 14);\n  const max = conf.count;\n  const logoLines = Math.ceil((logoSize + gap) \/ (fontSize + gap));\n  for (let i = 0; i < max; ++i) {\n    const item = data.data[i];\n    if (i === 0) {\n      const stack = widget.addStack();\n      await addItem(stack, item);\n      stack.addSpacer();\n      const textTime = stack.addText(`更新于 ${timeString}`);\n      textTime.font = Font.systemFont(10);\n      textTime.textColor = new Color('#888888');\/\/更新文字颜色\n    } else if (i < max - logoLines) {\n      await addItem(widget, item);\n    } else {\n      if (!widgetBottom) {\n        stackBottom = widget.addStack();\n        stackBottom.bottomAlignContent();\n        widgetBottom = stackBottom.addStack();\n        widgetBottom.layoutVertically();\n        addItem(widgetBottom, item);\n      } else {\n        await addItem(widgetBottom, item);\n      }\n      widgetBottom.length = (widgetBottom.length || 0) + 1;\n      if (widgetBottom.length === logoLines) {\n        stackBottom.addSpacer();\n        const imageLogo = stackBottom.addImage(await getImage('https:\/\/www.sinaimg.cn\/blog\/developer\/wiki\/LOGO_64x64.png'));\n        imageLogo.imageSize = new Size(logoSize, logoSize);\n      }\n    }\n  }\n  return widget\n};\n\nconst addItem = async (widget, item) => {\n  const stack = widget.addStack();\n  const [, queryString] = item.scheme.split('?');\n  const query = {};\n  queryString.split('&').forEach((item) => {\n    const [key, value] = item.split('=');\n    query[key] = value;\n  });\n  stack.url = Pages.search(query.keyword);\n  stack.centerAlignContent();\n  stack.size = new Size(-1, fontSize + gap);\n  const stackIndex = stack.addStack();\n  stackIndex.size = new Size(fontSize * 1.4, -1);\n  const textIndex = stackIndex.addText(String(item.pic_id));\n  textIndex.rightAlignText();\n  textIndex.textColor = item.pic_id > 3 ? new Color('#FF9400', 0.7) : new Color('#ED402E', 0.7);\/\/排序文字颜色 后+前\n  textIndex.font = Font.boldSystemFont(fontSize);\n  stack.addSpacer(4);\n  const textTitle = stack.addText(item.title);\n  textTitle.font = Font.systemFont(fontSize);\n  textTitle.textColor = conf.theme === 'system'\n    ? Color.dynamic(new Color('#000000', 0.7), new Color('#FFFFFF', 0.8))\/\/文字颜色蒙版\n    : themes[conf.theme].color;\n  textTitle.lineLimit = 1;\n  textTitle.shadowColor = new Color('#333333', 0.2);\n  textTitle.shadowOffset = new Point(0.5, 0.5);\n  textTitle.shadowRadius = 0;\n  if (item.icon) {\n    stack.addSpacer(4);\n    const imageIcon = stack.addImage(await getImage(item.icon));\n    imageIcon.imageSize = new Size(12, 12);\n  }\n  stack.addSpacer();\n};\n\nconst getImage = async (url) => {\n  const request = new Request(url);\n  const image = await request.loadImage();\n  return image\n};\n\n\/** 更新脚本 *\/\nconst update = async () => {\n  let fm = FileManager.local();\n  if (fm.isFileStoredIniCloud(module.filename)) {\n    fm = FileManager.iCloud();\n  }\n  const url = 'https:\/\/raw.githubusercontent.com\/Honye\/scriptable-scripts\/master\/dist\/Weibo.js';\n  const request = new Request(url);\n  try {\n    const code = await request.loadString();\n    fm.writeString(module.filename, code);\n    const alert = new Alert();\n    alert.message = '代码已更新。如果脚本处于打开状态，请关闭它以使更改生效。';\n    alert.addAction('确定');\n    alert.presentAlert();\n  } catch (e) {\n    console.error(e);\n  }\n};\n\n\/** Settings *\/\nconst settings = async () => {\n  const res = await presentSheet({\n    title: '设置',\n    message: '使用哪个客户端查看详细信息',\n    options: [\n      { title: '微博国际版', value: 'international' },\n      { title: '微博客户端', value: 'h5' }\n    ]\n  });\n  const client = res.option?.value || conf.client;\n  KeyStorage.set('client', client);\n  conf.client = client;\n};\n\nif (config.runsInApp) {\n  const res = await presentSheet({\n    message: '预览小组件或更新脚本,更新将覆盖整个脚本;',\n    options: [\n      { title: '预览组件', value: 'Preview' },\n      { title: '设置查看', value: 'Settings' },\n      { title: '更新脚本', value: 'Update' }\n    ]\n  });\n  const value = res.option?.value;\n  switch (value) {\n    case 'Preview':\n      break\n    case 'Settings':\n      await settings();\n      break\n    case 'Update':\n      update();\n      break\n  }\n}\n\nconst widget = await main();\nif (config.runsInApp) {\n  widget.presentMedium();\n}\nScript.setWidget(widget);\nScript.complete();\n",
-  "share_sheet_inputs" : [
+// Variables used by Scriptable.
+// These must be at the very top of the file. Do not edit.
+// icon-color: orange; icon-glyph: rss-square;
+// Scriptable使用的变量。
+// 这些必须在文件的顶部。不要编辑。
+/**
 
-  ]
+ * 微博热搜
+ *
+ * @version 版本 2.1.0
+ * @author 作者 Honye
+ */
+
+/**
+ * @param {number} [height] The screen height measured in pixels
+ */
+const phoneSize = (height) => {
+  const phones = {
+    /** 12 Pro Max */
+    2778: {
+      small: 510,
+      medium: 1092,
+      large: 1146,
+      left: 96,
+      right: 678,
+      top: 246,
+      middle: 882,
+      bottom: 1518
+    },
+    /** 12 and 12 Pro */
+    2532: {
+      small: 474,
+      medium: 1014,
+      large: 1062,
+      left: 78,
+      right: 618,
+      top: 231,
+      middle: 819,
+      bottom: 1407
+    },
+    /** 11 Pro Max, XS Max */
+    2688: {
+      small: 507,
+      medium: 1080,
+      large: 1137,
+      left: 81,
+      right: 654,
+      top: 228,
+      middle: 858,
+      bottom: 1488
+    },
+    /** 11, XR */
+    1792: {
+      small: 338,
+      medium: 720,
+      large: 758,
+      left: 55,
+      right: 437,
+      top: 159,
+      middle: 579,
+      bottom: 999
+    },
+    /** 11 Pro, XS, X, 12 mini */
+    2436: {
+      small: 465,
+      medium: 987,
+      large: 1035,
+      x: {
+        left: 69,
+        right: 591,
+        top: 213,
+        middle: 783,
+        bottom: 1353
+      },
+      mini: {
+        left: 69,
+        right: 591,
+        top: 231,
+        middle: 801,
+        bottom: 1371
+      }
+    },
+    /** Plus phones */
+    2208: {
+      small: 471,
+      medium: 1044,
+      large: 1071,
+      left: 99,
+      right: 672,
+      top: 114,
+      middle: 696,
+      bottom: 1278
+    },
+    /** SE2 and 6/6S/7/8 */
+    1334: {
+      small: 296,
+      medium: 642,
+      large: 648,
+      left: 54,
+      right: 400,
+      top: 60,
+      middle: 412,
+      bottom: 764
+    },
+    /** SE1 */
+    1136: {
+      small: 282,
+      medium: 584,
+      large: 622,
+      left: 30,
+      right: 332,
+      top: 59,
+      middle: 399,
+      bottom: 399
+    },
+    /** 11 and XR in Display Zoom mode */
+    1624: {
+      small: 310,
+      medium: 658,
+      large: 690,
+      left: 46,
+      right: 394,
+      top: 142,
+      middle: 522,
+      bottom: 902
+    },
+    /** Plus in Display Zoom mode */
+    2001: {
+      small: 444,
+      medium: 963,
+      large: 972,
+      left: 81,
+      right: 600,
+      top: 90,
+      middle: 618,
+      bottom: 1146
+    }
+  };
+  height = height || Device.screenResolution().height;
+  const scale = Device.screenScale();
+
+  const phone = phones[height];
+  if (phone) {
+    return phone
+  }
+
+  if (config.runsInWidget) {
+    const pc = {
+      small: 164 * scale,
+      medium: 344 * scale,
+      large: 354 * scale
+    };
+    return pc
+  }
+
+  // in app screen fixed 375x812 pt
+  return {
+    small: 155 * scale,
+    medium: 329 * scale,
+    large: 345 * scale
+  }
+};
+
+const useCache = (useICloud) => {
+  const fm = FileManager[useICloud ? 'iCloud' : 'local']();
+  const cacheDirectory = fm.joinPath(fm.documentsDirectory(), Script.name());
+
+  const writeString = (filePath, content) => {
+    const safePath = fm.joinPath(cacheDirectory, filePath).replace(/\/+$/, '');
+    const i = safePath.lastIndexOf('/');
+    const directory = safePath.substring(0, i);
+    if (!fm.fileExists(directory)) {
+      fm.createDirectory(directory, true);
+    }
+    fm.writeString(safePath, content);
+  };
+
+  const writeJSON = (filePath, jsonData) => writeString(filePath, JSON.stringify(jsonData));
+
+  const readString = (filePath) => {
+    return fm.readString(
+      fm.joinPath(cacheDirectory, filePath)
+    )
+  };
+
+  const readJSON = (filePath) => JSON.parse(readString(filePath));
+
+  return {
+    cacheDirectory,
+    writeString,
+    writeJSON,
+    readString,
+    readJSON
+  }
+};
+
+const readSettings = async () => {
+  const localFM = useCache();
+  let settings = localFM.readJSON('settings.json');
+  if (settings) {
+    console.log('[info] use local settings');
+    return settings
+  }
+
+  const iCloudFM = useCache(true);
+  settings = iCloudFM.readJSON('settings.json');
+  if (settings) {
+    console.log('[info] use iCloud settings');
+  }
+  return settings
+};
+
+const writeSettings = async (data, { useICloud }) => {
+  const fm = useCache(useICloud);
+  fm.writeJSON('settings.json', data);
+};
+
+const removeSettings = async (settings) => {
+  const cache = useCache(settings.useICloud);
+  FileManager.local().remove(
+    FileManager.local().joinPath(
+      cache.cacheDirectory,
+      'settings.json'
+    )
+  );
+};
+
+const moveSettings = (useICloud, data) => {
+  const localFM = useCache();
+  const iCloudFM = useCache(true);
+  const [i, l] = [
+    FileManager.local().joinPath(
+      iCloudFM.cacheDirectory,
+      'settings.json'
+    ),
+    FileManager.local().joinPath(
+      localFM.cacheDirectory,
+      'settings.json'
+    )
+  ];
+  try {
+    writeSettings(data, { useICloud });
+    if (useICloud) {
+      FileManager.local().remove(l);
+    } else {
+      FileManager.iCloud().remove(i);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+/**
+ * @param {object} options
+ * @param {{
+ *  name: string;
+ *  label: string;
+ *  type: string;
+ *  default: unknow;
+ * }[]} options.formItems
+ * @param {(data: {
+ *  settings: Record<string, string>;
+ *  family: string;
+ * }) => Promise<ListWidget>} options.render
+ * @param {string} [options.homePage]
+ */
+const withSettings = async (options = {}) => {
+  const {
+    formItems = [],
+    render,
+    homePage = 'https://www.imarkr.com'
+  } = options;
+
+  let settings = await readSettings() || {};
+
+  if (config.runsInWidget) {
+    const widget = await render({ settings });
+    return widget
+  }
+
+  // ====== web start =======
+  const style =
+`:root {
+  --color-primary: #007aff;
+  --divider-color: rgba(60,60,67,0.36);
+  --card-background: #fff;
+  --card-radius: 10px;
+  --list-header-color: rgba(60,60,67,0.6);
 }
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
+body {
+  margin: 10px 0;
+  -webkit-font-smoothing: antialiased;
+  font-family: "SF Pro Display","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+  accent-color: var(--color-primary);
+}
+input {
+  -webkit-user-select: auto;
+  user-select: auto;
+}
+body {
+  background: #f2f2f7;
+}
+button {
+  font-size: 16px;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 8px;
+  border: none;
+  padding: 0.24em 0.5em;
+}
+button .iconfont {
+  margin-right: 6px;
+}
+.list {
+  margin: 15px;
+}
+.list__header {
+  margin: 0 20px;
+  color: var(--list-header-color);
+  font-size: 13px;
+}
+.list__body {
+  margin-top: 10px;
+  background: var(--card-background);
+  border-radius: var(--card-radius);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.form-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  min-height: 2em;
+  padding: 0.5em 20px;
+  position: relative;
+}
+.form-item--link .icon-arrow_right {
+  color: #86868b;
+}
+.form-item + .form-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 0;
+  border-top: 0.5px solid var(--divider-color);
+}
+.form-item .iconfont {
+  margin-right: 4px;
+}
+.form-item input,
+.form-item select {
+  font-size: 14px;
+  text-align: right;
+}
+.form-item input[type="checkbox"] {
+  width: 1.25em;
+  height: 1.25em;
+}
+input[type="number"] {
+  width: 4em;
+}
+input[type='checkbox'][role='switch'] {
+  position: relative;
+  display: inline-block;
+  appearance: none;
+  width: 40px;
+  height: 24px;
+  border-radius: 24px;
+  background: #ccc;
+  transition: 0.3s ease-in-out;
+}
+input[type='checkbox'][role='switch']::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  transition: 0.3s ease-in-out;
+}
+input[type='checkbox'][role='switch']:checked {
+  background: var(--color-primary);
+}
+input[type='checkbox'][role='switch']:checked::before {
+  transform: translateX(16px);
+}
+.actions {
+  margin: 15px;
+}
+.copyright {
+  margin: 15px;
+  font-size: 12px;
+  color: #86868b;
+}
+.copyright a {
+  color: #515154;
+  text-decoration: none;
+}
+.preview.loading {
+  pointer-events: none;
+}
+.icon-loading {
+  display: inline-block;
+  animation: 1s linear infinite spin;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(1turn);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --divider-color: rgba(84,84,88,0.65);
+    --card-background: #1c1c1e;
+    --list-header-color: rgba(235,235,245,0.6);
+  }
+  body {
+    background: #000;
+    color: #fff;
+  }
+}`;
+
+  const js =
+`(() => {
+  const settings = JSON.parse('${JSON.stringify(settings)}')
+  const formItems = JSON.parse('${JSON.stringify(formItems)}')
+  
+  window.invoke = (code, data) => {
+    window.dispatchEvent(
+      new CustomEvent(
+        'JBridge',
+        { detail: { code, data } }
+      )
+    )
+  }
+  
+  const iCloudInput = document.querySelector('input[name="useICloud"]')
+  iCloudInput.checked = settings.useICloud
+  iCloudInput
+    .addEventListener('change', (e) => {
+      invoke('moveSettings', e.target.checked)
+    })
+  
+  const formData = {};
+
+  const fragment = document.createDocumentFragment()
+  for (const item of formItems) {
+    const value = settings[item.name] ?? item.default ?? null
+    formData[item.name] = value;
+    const label = document.createElement("label");
+    label.className = "form-item";
+    const div = document.createElement("div");
+    div.innerText = item.label;
+    label.appendChild(div);
+    if (item.type === 'select') {
+      const select = document.createElement('select')
+      select.name = item.name
+      select.value = value
+      for (const opt of (item.options || [])) {
+        const option = document.createElement('option')
+        option.value = opt.value
+        option.innerText = opt.label
+        option.selected = value === opt.value
+        select.appendChild(option)
+      }
+      select.addEventListener('change', (e) => {
+        formData[item.name] = e.target.value
+        invoke('changeSettings', formData)
+      })
+      label.appendChild(select)
+    } else {
+      const input = document.createElement("input");
+      input.name = item.name
+      input.type = item.type || "text";
+      input.value = value
+      // Switch
+      if (item.type === 'switch') {
+        input.type = 'checkbox'
+        input.role = 'switch'
+        input.checked = value
+      }
+      if (item.type === 'number') {
+        input.inputMode = 'decimal'
+      }
+      input.addEventListener("change", (e) => {
+        formData[item.name] =
+          item.type === 'switch'
+          ? e.target.checked
+          : e.target.value;
+        invoke('changeSettings', formData)
+      });
+      label.appendChild(input);
+    }
+    fragment.appendChild(label);
+  }
+  document.getElementById('form').appendChild(fragment)
+
+  for (const btn of document.querySelectorAll('.preview')) {
+    btn.addEventListener('click', (e) => {
+      const target = e.currentTarget
+      target.classList.add('loading')
+      const icon = e.currentTarget.querySelector('.iconfont')
+      const className = icon.className
+      icon.className = 'iconfont icon-loading'
+      const listener = (event) => {
+        const { code } = event.detail
+        if (code === 'previewStart') {
+          target.classList.remove('loading')
+          icon.className = className
+          window.removeEventListener('JWeb', listener);
+        }
+      }
+      window.addEventListener('JWeb', listener)
+      invoke('preview', e.currentTarget.dataset.size)
+    })
+  }
+
+  document.querySelector('a').addEventListener('click', (e) => {
+    //invoke('safari', e.currentTarget.dataset.href)
+  })
+
+  const reset = () => {
+    for (const item of formItems) {
+      const el = document.querySelector(\`input[name="\${item.name}"]\`)
+      formData[item.name] = item.default
+      if (item.type === 'switch') {
+        el.checked = item.default
+      } else {
+        el.value = item.default
+      }
+    }
+    invoke('removeSettings', formData)
+  }
+  document.getElementById('reset').addEventListener('click', () => reset())
+})()`;
+
+  const html =
+`<html>
+  <head>
+    <meta name='viewport' content='width=device-width, user-scalable=no'>
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_3772663_kmo790s3yfq.css" type="text/css">
+    <style>${style}</style>
+  </head>
+  <body>
+  <div class="list">
+    <div class="list__header">基础</div>
+    <form class="list__body">
+      <label class="form-item">
+        <div>iCloud 同步</div>
+        <input name="useICloud" type="checkbox" role="switch">
+      </label>
+      <label id='reset' class="form-item form-item--link">
+        <div>恢复默认</div>
+        <i class="iconfont icon-arrow_right"></i>
+      </label>
+    </form>
+  </div>
+  <div class="list">
+    <div class="list__header">设置</div>
+    <form id="form" class="list__body"></form>
+  </div>
+  <div class="actions">
+    <button class="preview" data-size="small"><i class="iconfont icon-yingyongzhongxin"></i>小组件</button>
+    <button class="preview" data-size="medium"><i class="iconfont icon-daliebiao"></i>中组件</button>
+    <button class="preview" data-size="large"><i class="iconfont icon-dantupailie"></i>大组件</button>
+  </div>
+  <footer>
+    <div class="copyright">Copyright © 2022 <a href="javascript:invoke('safari','https://www.imarkr.com');" data-href='https://www.imarkr.com'>iMarkr</a> All rights reserved.</div>
+  </footer>
+    <script>${js}</script>
+  </body>
+</html>`;
+
+  const webView = new WebView();
+  await webView.loadHTML(html, homePage);
+
+  const injectListener = async () => {
+    const event = await webView.evaluateJavaScript(
+      `(() => {
+        const controller = new AbortController()
+        const listener = (e) => {
+          completion(e.detail)
+          controller.abort()
+        }
+        window.addEventListener(
+          'JBridge',
+          listener,
+          { signal: controller.signal }
+        )
+      })()`,
+      true
+    ).catch((err) => {
+      console.error(err);
+      throw err
+    });
+    const { code, data } = event;
+    switch (code) {
+      case 'preview': {
+        const widget = await render({ settings, family: data });
+        webView.evaluateJavaScript(
+          'window.dispatchEvent(new CustomEvent(\'JWeb\', { detail: { code: \'previewStart\' } }))',
+          false
+        );
+        widget[`present${data.replace(data[0], data[0].toUpperCase())}`]();
+        break
+      }
+      case 'safari':
+        Safari.openInApp(data, true);
+        break
+      case 'changeSettings':
+        settings = { ...settings, ...data };
+        writeSettings(data, { useICloud: settings.useICloud });
+        break
+      case 'moveSettings':
+        settings.useICloud = data;
+        moveSettings(data, settings);
+        break
+      case 'removeSettings':
+        settings = { ...settings, ...data };
+        removeSettings(settings);
+        break
+    }
+    injectListener();
+  };
+
+  injectListener();
+  webView.present();
+  // ======= web end =========
+};
+
+// ====== 清除旧版本无用缓存 =====
+// FIXME 下个版本删除
+try {
+  Keychain.remove(`$${Script.name()}.client`);
+} catch (e) {}
+// ===========================
+
+let fontSize = 13;
+const gap = 7;
+const logoSize = 25;
+const paddingVertical = 10;
+const themes = {
+  light: {
+    background: new Color('#ffffff')
+  }, //背景浅色
+  dark: {
+    background: new Color('#282828', 1)
+  } //背景暗色
+};
+const preference = {
+  /** @type {'h5'|'international'} */
+  client: 'h5',
+  useShadow: false,
+  lightColor: new Color('#333'),
+  darkColor: Color.white(),
+  timeColor: new Color('#666')
+};
+
+/** Scoped Keychain */
+const KeyStorage = {
+  set: (key, value) => {
+    return Keychain.set(`$${Script.name()}.${key}`, JSON.stringify(value))
+  },
+  get: (key) => {
+    const _key = `$${Script.name()}.${key}`;
+    if (Keychain.contains(_key)) {
+      return JSON.parse(Keychain.get(_key))
+    }
+  }
+};
+
+/** 微博国际版页面 */
+const InternationalScheme = {
+  hotSearch: () => 'weibointernational://hotsearch',
+  search: (keyword) => `weibointernational://search?keyword=${encodeURIComponent(keyword)}`
+};
+
+/** 微博 H5 应用页面 */
+const H5Page = {
+  hotSearch: () => `https://m.weibo.cn/p/index?containerid=${encodeURIComponent('106003&filter_type=realtimehot')}`,
+  search: (keyword) => `https://m.weibo.cn/search?containerid=${encodeURIComponent('100103type=1&t=10&q=' + keyword)}`
+};
+
+const conf = {
+  theme: 'system'
+};
+const screen = Device.screenResolution();
+const scale = Device.screenScale();
+const phone = phoneSize(screen.height);
+
+if (config.runsInWidget) {
+  const [client, theme] = (args.widgetParameter || '').split(',').map(text => text.trim());
+  preference.client = client === '2' ? 'international' : preference.client;
+  conf.theme = theme || conf.theme;
+}
+
+const Pages = () => {
+  switch (preference.client) {
+    case 'international':
+      return InternationalScheme
+    case 'h5':
+      return H5Page
+  }
+};
+
+const fetchData = async () => {
+  const url = 'https://weibointl.api.weibo.cn/portal.php?ct=feed&a=search_topic';
+  const request = new Request(url);
+  try {
+    const res = await request.loadJSON();
+    const df = new DateFormatter();
+    df.dateFormat = 'HH:mm';
+    const timeString = df.string(new Date());
+    const data = {
+      data: res,
+      updatedAt: timeString
+    };
+    KeyStorage.set('cache', data);
+    return data
+  } catch (e) {
+    const data = KeyStorage.get('cache');
+    return data
+  }
+};
+
+const createWidget = async ({ data, updatedAt }) => {
+  const { timeColor } = preference;
+  let stackBottom;
+  let widgetBottom;
+  const widget = new ListWidget();
+  const { widgetFamily } = config;
+  const height = (widgetFamily === 'medium' ? phone.small : phone[widgetFamily]) / scale;
+  conf.count = Math.floor((height - paddingVertical * 2 + gap) / (fontSize + gap));
+  widget.backgroundColor = conf.theme === 'system'
+    ? Color.dynamic(themes.light.background, themes.dark.background)
+    : themes[conf.theme].background;
+  widget.url = Pages().hotSearch();
+  const paddingY = paddingVertical - (gap / 2);
+  widget.setPadding(paddingY, 12, paddingY, 14);
+  const max = conf.count;
+  const logoLines = Math.ceil((logoSize + gap) / (fontSize + gap));
+  for (let i = 0; i < max; ++i) {
+    const item = data.data[i];
+    if (i === 0) {
+      const stack = widget.addStack();
+      await addItem(stack, item);
+      stack.addSpacer();
+      const textTime = stack.addText(`更新于 ${updatedAt}`);
+      textTime.font = Font.systemFont(fontSize * 0.7);
+      textTime.textColor = timeColor;
+    } else if (i < max - logoLines) {
+      await addItem(widget, item);
+    } else {
+      if (!widgetBottom) {
+        stackBottom = widget.addStack();
+        stackBottom.bottomAlignContent();
+        widgetBottom = stackBottom.addStack();
+        widgetBottom.layoutVertically();
+        addItem(widgetBottom, item);
+      } else {
+        await addItem(widgetBottom, item);
+      }
+      widgetBottom.length = (widgetBottom.length || 0) + 1;
+      if (widgetBottom.length === logoLines) {
+        stackBottom.addSpacer();
+        const imageLogo = stackBottom.addImage(await getImage('https://www.sinaimg.cn/blog/developer/wiki/LOGO_64x64.png'));
+        imageLogo.imageSize = new Size(logoSize, logoSize);
+      }
+    }
+  }
+  return widget
+};
+
+const addItem = async (widget, item) => {
+  const { useShadow, lightColor, darkColor } = preference;
+  const stack = widget.addStack();
+  const [, queryString] = item.scheme.split('?');
+  const query = {};
+  queryString.split('&').forEach((item) => {
+    const [key, value] = item.split('=');
+    query[key] = value;
+  });
+  stack.url = Pages().search(query.keyword);
+  stack.centerAlignContent();
+  stack.size = new Size(-1, fontSize + gap);
+  const stackIndex = stack.addStack();
+  stackIndex.size = new Size(fontSize * 1.4, -1);
+  const textIndex = stackIndex.addText(String(item.pic_id));
+  textIndex.rightAlignText();
+  textIndex.textColor = item.pic_id > 3 ? new Color('#FF9400', 0.7) : new Color('#ED402E', 0.7);//排序文字颜色 后+前
+  textIndex.font = Font.boldSystemFont(fontSize);
+  stack.addSpacer(4);
+  const textTitle = stack.addText(item.title);
+  textTitle.font = Font.systemFont(fontSize);
+  textTitle.textColor = conf.theme === 'system'
+    ? Color.dynamic(lightColor, darkColor)
+    : conf.theme === 'light'
+      ? lightColor
+      : darkColor;
+  textTitle.lineLimit = 1;
+  if (useShadow) {
+    textTitle.shadowColor = new Color('#000000', 0.2);
+    textTitle.shadowOffset = new Point(1, 1);
+    textTitle.shadowRadius = 0.5;
+  }
+  if (item.icon) {
+    stack.addSpacer(4);
+    const imageIcon = stack.addImage(await getImage(item.icon));
+    imageIcon.imageSize = new Size(12, 12);
+  }
+  stack.addSpacer();
+};
+
+const getImage = async (url) => {
+  const request = new Request(url);
+  const image = await request.loadImage();
+  return image
+};
+
+const main = async () => {
+  const data = await fetchData();
+
+  const widget = await withSettings({
+    homePage: 'https://github.com/Honye/scriptable-scripts',
+    formItems: [
+      {
+        name: 'client',
+        label: '查看方式',
+        type: 'select',
+        options: [
+          { label: 'H5 (微博)', value: 'h5' },
+          { label: '微博国际版', value: 'international' }
+        ],
+        default: 'h5'
+      },
+      {
+        name: 'lightColor',
+        label: '文字颜色（浅色）',
+        type: 'color',
+        default: '#333333'
+      },
+      {
+        name: 'darkColor',
+        label: '文字颜色（暗色）',
+        type: 'color',
+        default: '#ffffff'
+      },
+      {
+        name: 'useShadow',
+        label: '文字阴影',
+        type: 'switch',
+        default: preference.useShadow
+      },
+      {
+        name: 'fontSize',
+        label: ' 文字大小',
+        type: 'number',
+        default: fontSize
+      },
+      {
+        name: 'timeColor',
+        label: ' 时间颜色',
+        type: 'color',
+        default: preference.timeColor.hex
+      }
+    ],
+    render: async ({ family, settings }) => {
+      family && (config.widgetFamily = family);
+      console.log(`[Weibo.js] ${JSON.stringify(settings)}`);
+      Object.assign(preference, {
+        ...settings,
+        fontSize: Number(settings.fontSize) || preference.fontSize,
+        lightColor: settings.lightColor ? new Color(settings.lightColor) : preference.lightColor,
+        darkColor: settings.lightColor ? new Color(settings.darkColor) : preference.darkColor,
+        timeColor: settings.timeColor ? new Color(settings.timeColor) : preference.timeColor
+      });
+      fontSize = Number(settings.fontSize) || fontSize;
+      try {
+        return await createWidget(data)
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  });
+  if (config.runsInWidget) {
+    Script.setWidget(widget);
+  }
+  // if (config.runsInApp) {
+  //   const res = await presentSheet({
+  //     message: 'Preview the widget or update the script. Update will override the whole script.',
+  //     options: [
+  //       { title: 'Update', value: 'Update' }
+  //     ]
+  //   })
+  //   const value = res.option?.value
+  //   switch (value) {
+  //     case 'Update':
+  //       update()
+  //       break
+  //   }
+  // }
+
+  Script.complete();
+};
+
+main();
