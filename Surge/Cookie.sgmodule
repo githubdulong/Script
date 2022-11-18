@@ -36,12 +36,10 @@
 奇艺获取 = type=http-request,pattern=^https:\/\/passport\.iqiyi\.com\/apis\/user\/,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js
 # > 吾爱破解 登陆 https://www.52pojie.cn/home.php
 吾爱获取 = type=http-request,pattern=https:\/\/www\.52pojie\.cn\/home\.php\?,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/52pojie-DailyBonus/52pojie.js
-# > 顺丰速运 app获取
-顺丰速运 = type=http-request, pattern=^https:\/\/ccsp-egmas.sf-express.com\/cx-app-member\/member\/app\/user\/universalSign,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.cookie.js,requires-body=1
 # > 美团买菜 app获取
 美团买菜 = type=http-request, pattern=^https?:\/\/mall\.meituan\.com\/api\/c\/mallcoin\/checkIn\/queryTaskListInfoV.\?,script-path=https://raw.githubusercontent.com/JoJoJotarou/myScript/master/script/meituan/mall.meituan.cookie.js
 
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %APPEND% i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, app.bilibili.com, m.bilibili.com, passport.iqiyi.com, www.52pojie.cn, ccsp-egmas.sf-express.com,mobile.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, mall.meituan.com
+hostname = %APPEND% i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, app.bilibili.com, m.bilibili.com, passport.iqiyi.com, www.52pojie.cn,mobile.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, mall.meituan.com
