@@ -29,6 +29,7 @@ const $ = new Env('威锋论坛');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const userName = $.getdata('feng_username') || ($.isNode() ? process.env.feng_username : '');
 const password = $.getdata('feng_password') || ($.isNode() ? process.env.feng_password : '');
+const TXT = $.getdata('feng_txt') || '打卡😂';
 
 //获取请求对象
 var person = new Person();
@@ -124,6 +125,7 @@ async function infon() {
 async function task() {
   let share = person.pp('share', Token);
   let publish = person.pp('publish', Token);
+	    publish.body = `{"threadType":"Dynamic","content":"<p>${TXT}<\/p>"}`
   for (var i = 0; i < 6; i++) {
     i === 5 ? await http_post(publish)
       : await http_post(share);
@@ -163,14 +165,13 @@ function Person() {
     headers: { 'x-request-id': `/R2ZHSmGTziyeazINmiY5VpSJVIoIHvZkBKufI5ujVht1gLM8W/Z3CGaxTVWEkYf` },
     body: 'tid=1'
   };
-  // 任务2
+  // 任务2 （boxjs填写个人心情动态）
   this.publish = {
     url: 'https://api.wfdata.club/v2/thread/publish',
     headers: {
       'X-Request-id':
         'D+6OXXW6hNqyUIwPjEYG6V3esfq6wfreTqLog2u0F1AYkzhRIM29erRFGwNsFA6q'
-    },
-    body: `{"threadType":"Dynamic","content":"<p>赞一个👍<\/p>"}`
+    }
   };
   // 交任务
   this.award = {

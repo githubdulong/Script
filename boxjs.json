@@ -348,6 +348,7 @@
       "keys": [
         "feng_username",
         "feng_password",
+        "feng_txt",
         "feng_token"
       ],
       "settings": [
@@ -361,6 +362,13 @@
         {
           "id": "feng_password",
           "name": "密码",
+          "val": "",
+          "type": "text",
+          "desc": ""
+        },
+        {
+          "id": "feng_txt",
+          "name": "动态",
           "val": "",
           "type": "text",
           "desc": ""
