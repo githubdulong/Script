@@ -170,7 +170,7 @@ function Person() {
       'X-Request-id':
         'D+6OXXW6hNqyUIwPjEYG6V3esfq6wfreTqLog2u0F1AYkzhRIM29erRFGwNsFA6q'
     },
-    body: `{"threadType":"Dynamic","content":"<p>开心<\/p>"}`
+    body: `{"threadType":"Dynamic","content":"<p>赞一个👍<\/p>"}`
   };
   // 交任务
   this.award = {
