@@ -2,10 +2,10 @@
 
 脚本名称：威锋论坛签到+任务
 
-更新时间：2022-11-15
+更新时间：2022-11-19
 脚本作者：@小白脸
 
-食用方法：通过BoxJs配置威锋论坛账号和密码（不支持第三方登录）脚本理论上支持Quantumult X、Surge、Loon和青龙Node.js环境运行。环境变量：feng_username、feng_password
+食用方法：通过BoxJs配置威锋论坛账号、密码、个人动态（不支持第三方登录）脚本理论上支持Quantumult X、Surge、Loon和青龙Node.js环境运行。环境变量：feng_username、feng_password
 
 BoxJs订阅：https://raw.githubusercontent.com/githubdulong/Script/master/boxjs.json
 
