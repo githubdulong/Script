@@ -369,14 +369,14 @@
         },
         {
           "id": "feng_txt",
-          "name": "动态",
+          "name": "心情动态",
           "val": "",
           "type": "text",
           "desc": ""
         },
         {
           "id": "feng_model",
-          "name": "型号",
+          "name": "设备型号",
           "val": "",
           "type": "text",
           "desc": ""
