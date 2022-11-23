@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-11-18 13:48
+#!desc=最后更新时间 2022-11-23 11:36
 #!system=ios
 
 # 分割线——————————————————————————
@@ -118,6 +118,7 @@ URL-REGEX,^https?:\/\/(s3plus|flowplus)\.meituan\.net\/v\d\/\w+\/linglong\/\w+\.
 URL-REGEX,^https?:\/\/p\d\.meituan\.net\/(bizad|wmbanner)\/\w+\.jpg,REJECT
 URL-REGEX,^https?:\/\/p\d\.meituan\.net\/movie\/\w+\.jpg\?may_covertWebp,REJECT
 # > 直播吧 去开屏
+DOMAIN,sf3-fe-tos.pglstatp-toutiao.com,REJECT
 URL-REGEX,^https:\/\/a\.qiumibao\.com\/activities\/config\.php$,REJECT
 URL-REGEX,^https:\/\/a\.qiumibao\.com\/ios\/config\/\?version_code=,REJECT
 
