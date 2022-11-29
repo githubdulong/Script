@@ -1,5 +1,5 @@
 #!name=定时脚本
-#!desc=最后更新时间 2022-11-28 14:03
+#!desc=最后更新时间 2022-11-30 0:40
 #!system=ios
 
 # 分割线——————————————————————————
@@ -37,8 +37,8 @@ iQIYI签到 = type=cron,cronexp=30 4 0 * * *,wake-system=1,timeout=120,script-pa
 小米运动 = type=cron,cronexp=0 0 17 * * *,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/xmSports.js,script-update-interval=0
 # > 京东物流
 京东物流 = type=cron,cronexp=30 0 12 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/jdWuLiu.js,script-update-interval=0
-# > 彩票开奖
-彩票查询 = type=cron,cronexp="0 0 22 * * 2,4,7",script-path=https://raw.githubusercontent.com/evilbutcher/QuantumultX/master/check_in/ssq/ssq.js,script-update-interval=0
+# > 国网电费-湖南
+国网湖南 = type=cron,cronexp=0 30 9 * * *,script-path=https://raw.githubusercontent.com/evilbutcher/QuantumultX/master/check_in/energybill/billhn.js,script-update-interval=0
 # > Gist备份+恢复
 数据备份 = type=cron,cronexp=50 23 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/backup.js,script-update-interval=0,timeout=60
 //数据恢复 = type=cron,cronexp=55 23 * 1 *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/restore.js,script-update-interval=0,timeout=60
