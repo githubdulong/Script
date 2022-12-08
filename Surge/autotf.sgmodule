@@ -12,7 +12,7 @@ hostname = %APPEND% testflight.apple.com
 # by：https://t.me/rigouzhuanyehu
 # ⚠️ 使用方法：
 
-🌟 12.08 更新Boxjs添加或修改 APP_ID 
+# 🌟 12.08 更新Boxjs添加或修改 APP_ID 
 https://raw.githubusercontent.com/githubdulong/Script/master/boxjs.json
 
 # 1、开启surge http-api
