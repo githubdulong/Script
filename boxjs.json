@@ -333,6 +333,32 @@
           "https://raw.githubusercontent.com/JoJoJotarou/myScript/master/script/meituan/icon/mall.meituan.png"
         ]
       },
+        {
+      "id": "Auto_join_TF",
+      "name": "testflight监控",
+      "author": "@MuTu",
+      "script": "",
+      "descs_html": [
+        ""
+      ],
+      "icons": [
+        "https://raw.githubusercontent.com/githubdulong/Script/master/Images/testflight.png",
+        "https://raw.githubusercontent.com/githubdulong/Script/master/Images/testflight.png"
+      ],
+      "keys": [
+        "session_id",
+        "session_digest",
+        "request_id",
+        "APP_ID"
+      ],
+      "settings": [
+        {
+          "id": "APP_ID",
+          "name": "填写 APP_ID 多个用英文","隔开",
+          "val": "",
+          "type": "text",
+          "desc": ""
+       },
     {
       "id": "feng.com",
       "name": "威锋论坛",
@@ -387,32 +413,7 @@
           "val": "",
           "type": "text",
           "desc": ""
-        },
-            {
-      "id": "Auto_join_TF",
-      "name": "testflight监控",
-      "author": "@MuTu",
-      "script": "",
-      "descs_html": [
-        ""
-      ],
-      "icons": [
-        "https://raw.githubusercontent.com/githubdulong/Script/master/Images/testflight.png",
-        "https://raw.githubusercontent.com/githubdulong/Script/master/Images/testflight.png"
-      ],
-      "keys": [
-        "session_id",
-        "session_digest",
-        "request_id",
-        "APP_ID"
-      ],
-      "settings": [
-        {
-          "id": "APP_ID",
-          "name": "填写 APP_ID 多个用英文","隔开",
-          "val": "",
-          "type": "text",
-          "desc": ""
+
         }
       ]
     }
