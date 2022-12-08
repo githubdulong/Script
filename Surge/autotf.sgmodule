@@ -11,10 +11,6 @@ hostname = %APPEND% testflight.apple.com
 
 # by：https://t.me/rigouzhuanyehu
 # ⚠️ 使用方法：
-
-# 🌟 12.08 更新Boxjs添加或修改 APP_ID 
-https://raw.githubusercontent.com/githubdulong/Script/master/boxjs.json
-
 # 1、开启surge http-api
 # 2、打开"信息获取"脚本后打开testflight app获取信息，然后注释该脚本
 # 3、手动在surge 脚本编辑器里点击左下角设置图标，点击$persistentStore，添加命名为"APP_ID"的持久化数据，数据key（内容）为tf链接 https://testflight.apple.com/join/LPQmtkUs 的join后的字符串（也就是此例子的"LPQmtkUs,xxx,xxx多条key用,隔开"）
