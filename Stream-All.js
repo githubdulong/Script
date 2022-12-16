@@ -1,7 +1,7 @@
 /*
 
 参考：https://raw.githubusercontent.com/LucaLin233/Luca_Conf/main/Surge/JS/stream-all.js
-修改日期：2022.09.03
+修改日期：2022.12.16
 Surge配置参考注释
  
  ----------------------------------------
@@ -185,7 +185,7 @@ async function check_netflix() {
 
   let netflix_check_result = 'NF: '
 
-  await inner_check(81215567)
+  await inner_check(80062035)
     .then((code) => {
       if (code === 'Not Found') {
         return inner_check(80018499)
