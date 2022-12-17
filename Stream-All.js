@@ -1,6 +1,6 @@
 /*
 
-参考：https://raw.githubusercontent.com/LucaLin233/Luca_Conf/main/Surge/JS/stream-all.js
+脚本参考 @Helge_0x00 
 修改日期：2022.12.16
 Surge配置参考注释
  
