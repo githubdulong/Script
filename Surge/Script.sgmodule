@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2022-12-06 13:02
+#!desc=最后更新时间 2022-12-18 13:51
 #!system=ios
 
 # 分割线——————————————————————————
@@ -166,6 +166,7 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 # > 模块订阅(单独添加)
 //什么值得买去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_remove_ads.sgmodule
 //贴吧去除广告 https://raw.githubusercontent.com/app2smile/rules/master/module/tieba.sgmodule
+//知乎助手 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/zheye/zheye.sgmodule
 //spotify解锁 https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module
 //Siri区域解锁 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Siri.sgmodule
 //京东助手(注入式需key）https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.sgmodule
@@ -177,7 +178,6 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 //喜马拉雅去广告Surge版 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/XiMaLaYa.sgmodule
 //TF内测修正 https://raw.githubusercontent.com/NobyDa/Script/master/Surge/Module/TestFlightAccount.sgmodule 
 //策略面板 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Panel.sgmodule
-//TV视频自定义 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/TV.sgmodule
 //模块更新捷径 https://www.icloud.com/shortcuts/67c3ace4fb3a4f9ebbe8d3184cd82e39
 
 # 分割线——————————————————————————
