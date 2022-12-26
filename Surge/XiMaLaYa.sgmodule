@@ -1,7 +1,7 @@
 #!name=喜马拉雅
-#!desc=XiMaLaYa_喜马拉雅页面优化去广告+解锁会员
+#!desc=XiMaLaYa_喜马拉雅页面优化去广告
 #!system=ios        
-# @ddgksf2013 @MartinsKing
+# @ddgksf2013
 
 [General]
 # DNS劫持
@@ -49,9 +49,6 @@ URL-REGEX,^https?:\/\/.*\.xima.*\.com\/ting\/(loading|feed|home)?,REJECT
 [Script]
 # 首页滚动_Ad、Tab页滚动_Ad、我的页面_Ad
 喜马拉雅 = type=http-response,pattern=^https?:\/\/.*\.xima.*\.com\/(discovery-feed|category|mobile-user)\/v\d\/(mix|category|homePage),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/xmly_json.js,script-update-interval=0
-# 解锁会员+共享（低调使用）
-喜马拉雅 = type=http-response,requires-body=1,max-size=0,pattern=^https?:\/\/(mobile|mobilehera|mobwsa|mwsa|m|ar)\.ximalaya\.com\/(mobile\/(v\d\/album\/track|album\/paid\/info)|nyx\/history\/query\/detail|starwar\/task|vip\/(check|tabs|v\d\/recommand)|mobile-(user|album\/album\/page|playpage\/(playpage\/(tabs|recommendInfo)|track))|product\/(promotion|detail\/v1\/basicInfo)|business-vip-|(playlist|rec-association\/recommend)\/album),script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/XMLY/xmly.js
-喜马拉雅 = type=http-request,requires-body=0,max-size=0,pattern=^https?:\/\/(mobile|mobilehera|mobwsa|pns)\.ximalaya\.com\/(mobile-playpage|mobile\/(quickplay|acceptapn)|comment-mobile/get|sound-guide-portal\/(sound\/guide|display)),script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/XMLY/xmly_crack.js
 
 [MITM]
 hostname = %APPEND% *.xima*.*, *.xmcdn.*
