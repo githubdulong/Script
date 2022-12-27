@@ -105,11 +105,12 @@ ${script}
 ${URLRewrite}
 ${HeaderRewrite}
 ${MapLocal}
-${MITM}`;
+${MITM}`.replace(/\;/g,'#')
 
 
 
- $done({ response: { status: 200 ,body:body} });
+ $done({ response: { status: 200 ,body:body } });
+
 })();
 
 
