@@ -57,7 +57,7 @@ body.forEach((x, y, z) => {
 				URLRewrite.push(x.replace(/(\^?http[^\s]+).+/, "$1 - reject"));
 				break;
 
-			case "url-and-header":
+			case "url request-header":
 				z[y - 1]?.match("#") && HeaderRewrite.push(z[y - 1]);
 				HeaderRewrite.push(
 					x.replace(
@@ -108,7 +108,7 @@ ${MapLocal}
 ${MITM}`;
 
 
-console.log(body)
+
  $done({ response: { status: 200 ,body:body} });
 })();
 
