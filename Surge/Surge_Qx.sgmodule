@@ -1,5 +1,5 @@
 #!name=格式转化
-#!desc=QX链接尾巴加上"Surge"后直接引用为Surge 格式
+#!desc=QX链接加上"Surge"后直接引用为Surge格式的模块链接
 #!system=ios
 # @Xiaobailian
 
