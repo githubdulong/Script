@@ -1,7 +1,7 @@
 #!name=格式转化
 #!desc=QX链接加上"Surge"后直接引用为Surge格式的模块链接
 #!system=ios
-# @Xiaobl
+# @XiaoBL
 
 [Script]
 格式转换 = type=http-request,pattern=Surge$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Surge_Qx.js
