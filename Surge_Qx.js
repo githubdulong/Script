@@ -1,4 +1,4 @@
-let req = $request.url.replace(/Surge$/,'')
+let req = $request.url.replace(/#Surge$/,'')
 let name = '#!name= ' + req.match(/.+\/(.+)\.(conf|js)/)?.[1] || '无名';
 !(async () => {
   let body = await http(req);
