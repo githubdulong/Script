@@ -1,5 +1,5 @@
-let req = $request.url.replace(/#surge$/,'')
-let name = '#!name= ' + req.match(/.+\/(.+)\.(conf|js)/)?.[1] || '无名';
+let req = $request.url.replace(/_surge$/,'')
+let name = '#!name= ' + req.match(/.+\/(.+)\.(conf|js)/)?.[1] || '未知';
 !(async () => {
   let body = await http(req);
 
@@ -18,7 +18,7 @@ body.forEach((x, y, z) => {
 	if (type) {
 		switch (type) {
 			case "script-":
-			if (x.match('echo')) {throw '脚本不支持通用'}
+			if (x.match('echo')) {throw '未支持通用类型'}
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
 				let proto = x.match('proto.js') ? ',binary-body-mode=1' : '';
 				script.push(

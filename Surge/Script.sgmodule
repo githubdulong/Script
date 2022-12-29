@@ -178,7 +178,7 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 //策略面板 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Panel.sgmodule
 //模块更新捷径 https://www.icloud.com/shortcuts/67c3ace4fb3a4f9ebbe8d3184cd82e39
 //格式转换 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Surge_Qx.sgmodule
-//微博广告 https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/Weibo.conf#surge
+//微博广告 https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/Weibo.conf_surge
 
 # 分割线——————————————————————————
 
