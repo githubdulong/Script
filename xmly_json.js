@@ -1,7 +1,5 @@
 /*
-v0.0.24
-2022-09-01
-https://t.me/ddgksf2021
+2022-12-31 更新横幅去广告
 */
 const scriptName = "XiMaLaYa";
 const author = "ddgksf2013";
@@ -22,6 +20,12 @@ let magicJS = MagicJS(scriptName, "INFO");
         } catch (err) {
 			magicJS.logError(`discovery-category：${err}`);
         }
+        break;
+        case!!($request.url.match('focus-mobile')):
+        let obj = JSON.parse(magicJS.response.body);
+obj.header[0].item.list[0].data =
+obj.header[0].item.list[0].data.filter(x=>!x.isAd)
+$done({body:JSON.stringify(obj)})
         break;
 	// discovery-feed
       case /discovery-feed\/v\d\/mix/.test(magicJS.request.url):
