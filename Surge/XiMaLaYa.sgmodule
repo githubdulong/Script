@@ -1,7 +1,7 @@
 #!name=喜马拉雅
 #!desc=XiMaLaYa_喜马拉雅页面优化去广告
 #!system=ios        
-# 修改自@ddgksf2013 2022-12-31更新横幅去广告
+# @ddgksf2013 2022-12-31更新横幅去广告
 
 [General]
 # DNS劫持
@@ -51,4 +51,4 @@ URL-REGEX,^https?:\/\/.*\.xima.*\.com\/ting\/(loading|feed|home)?,REJECT
 喜马拉雅 = type=http-response,pattern=^https?:\/\/mobile\.ximalaya\.com\/focus-mobile|(discovery-category|mobile-user)\/v\d\/(mix|category|homePage),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/xmly_json.js,script-update-interval=0
 
 [MITM]
-hostname = %APPEND% mobile.ximalaya.com
+hostname = %APPEND% *.xima*.*, *.xmcdn.*
