@@ -111,6 +111,7 @@ DOMAIN-KEYWORD,upload-cdn.orayimg.com-upload-activity,REJECT
 # > IT之家 去广告
 URL-REGEX,^https:\/\/api\.zuihuimai\.com,REJECT
 # > 美团 去广告
+DOMAIN,portal-portm.meituan.com,REJECT
 URL-REGEX,^https?:\/\/img\.meituan\.net\/(bizad|brandCpt)\/\w+\.(png|jpg),REJECT
 URL-REGEX,^https?:\/\/peisongapi\.meituan\.com\/client\/getInitiateImage,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/img\.meituan\.net\/(adunion|display|midas)\/\w+\.(gif|jpg|jpg\.webp)$,REJECT
