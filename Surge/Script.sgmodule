@@ -176,6 +176,7 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 //微信链接限制 https://raw.githubusercontent.com/zZPiglet/Task/master/UnblockURLinWeChat.sgmodule
 //喜马拉雅去广告Surge版 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/XiMaLaYa.sgmodule
 //TF内测修正 https://raw.githubusercontent.com/NobyDa/Script/master/Surge/Module/TestFlightAccount.sgmodule 
+//appletv解锁 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/TV.sgmodule
 //策略面板 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Panel.sgmodule
 //模块更新捷径 https://www.icloud.com/shortcuts/67c3ace4fb3a4f9ebbe8d3184cd82e39
 //格式转换 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Surge_Qx.sgmodule
