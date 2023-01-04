@@ -21,7 +21,7 @@
 阿里云盘 = type=http-request,pattern=^https?:\/\/.*\.example\.com,requires-body=1,max-size=0,timeout=10,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/ali.js
 
 [MITM]
-hostname = *example.com
+hostname = *.example.com
 
 
 FileBall操作步骤:

@@ -9,7 +9,7 @@
 喜马拉雅 = script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/xmlySign.js,requires-body=0,type=http-request,pattern=^https?:\/\/mobile\.ximalaya\.com\/app-skin-service\/skin\/
 # > 美团 app获取
 美团获取 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.cookie.js,requires-body=true,type=http-request,pattern=^https:\/\/i.meituan.com\/evolve\/signin\/signpost\/
-# > 微博推送 登陆 https://m.weibo.cn获取
+# > 微博推送 登陆 https://m.weibo.cn 获取
 微博推送 = type=http-request,pattern=^https:\/\/m\.weibo\.cn\/feed\/,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js
 # > 网易新闻 app获取
 网易新闻 = type=http-request,pattern=^https:\/\/(.*?)c\.m\.163\.com\/uc\/api\/sign\/v3\/commit,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasenews/neteasenews.cookie.js,script-update-interval=0
