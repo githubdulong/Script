@@ -1,0 +1,19 @@
+#!name=高德地图
+#!desc=高德地图页面优化去广告Surge版
+#!system=ios
+# @ddgksf2013 更新时间：2023-01-05
+# 脚本功能：处理开屏、首页下方推广、我的页面推广、搜索框热词、搜索框下方热榜、首页顶部推广、首页左上角gif
+
+[MAPLOCAL]
+^https?:\/\/.*\.amap\.com\/ws\/(boss|shield)\/(order|scene)\/(car|recommend)\/access_guide data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+^https?:\/\/.*\.amap\.com\/uploadimg\/\w+\.gif data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-img.gif"
+
+[Rule]
+DOMAIN,amdc.m.taobao.com,REJECT
+URL-REGEX,^https?:\/\/.*\.amap\.com\/ws\/asa\/ads_attribution,REJECT
+
+[Script]
+高德地图 = type=http-response,pattern=^https?:\/\/.*\.amap\.com\/ws\/(faas|valueadded|shield)\/(amap-navigation\/main-page|alimama\/splash_screen|msgbox\/pull|dsp\/profile\/index\/nodefaas|search\/new_hotword),requires-body=1,max-size=0,script-path=https://github.com/ddgksf2013/Scripts/raw/master/amap.js,script-update-interval=0
+
+[MITM]
+hostname = %APPEND% *.amap.com
