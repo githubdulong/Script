@@ -1,5 +1,5 @@
 #!name=定时脚本
-#!desc=最后更新时间 2022-11-30 0:40
+#!desc=最后更新时间 2023-01-06 12:35
 #!system=ios
 
 # 分割线——————————————————————————
@@ -29,6 +29,8 @@ iQIYI签到 = type=cron,cronexp=30 4 0 * * *,wake-system=1,timeout=120,script-pa
 吾爱签到 = type=cron,cronexp=0 5 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/52pojie-DailyBonus/52pojie.js
 # > 威锋论坛
 威锋论坛 = type=cron,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/weifeng.js,cronexp=30 5 0 * * *,wake-system=1,timeout=15,script-update-interval=0
+# > 中国电信
+电信签到 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10000/10000.js,type=cron,cronexp=0 6 0 * * *,wake-system=1,script-update-interval=0
 # > 微博推送
 //微博推送= type=cron,cronexp="0 0 9-21 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js,script-update-interval=0
 # > 每日一句
