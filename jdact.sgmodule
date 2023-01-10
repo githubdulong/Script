@@ -1,0 +1,13 @@
+#!name=京东活动
+#!desc=京东活动重写 凌晨手动提现
+#!ios
+# 自用临时活动脚本、勿问、勿尝试 01-10
+
+[Script]
+# 大赢家提前点亮
+赢家提现 = type=http-response,pattern=^https:\/\/api\.m\.jd\.com\/api\?functionId=makemoneyshop_exchangequery,requires-body=1,max-size=-1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jdact.js
+# 城城分现金提前点亮
+城城提现= type=http-response,pattern=^https:\/\/api\.m\.jd\.com\/client\.action$,requires-body=1,max-size=-1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jdact.js
+
+[MITM]
+hostname = %APPEND% *.m.jd.com
