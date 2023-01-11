@@ -21,7 +21,7 @@ URL-REGEX,^https?:\/\/.*\.amap\.com\/ws\/valueadded\/weather,REJECT
 
 [Script]
 # 搜索框热词、我的页面、首页顶部推广、开屏广告、首页底部处理
-高德地图 = type=http-response,pattern=^https?:\/\/.*\.amap\.com\/ws\/(faas|valueadded|shield)\/(amap-navigation\/main-page|alimama\/splash_screen|msgbox\/pull|dsp\/profile\/index\/nodefaas|search\/new_hotword),requires-body=1,max-size=0,script-path=https://github.com/ddgksf2013/Scripts/raw/master/amap.js,script-update-interval=0
+高德地图 = type=http-response,pattern=^https?:\/\/.*\.amap\.com\/ws\/(faas|valueadded|shield)\/(amap-navigation\/main-page|alimama\/splash_screen|msgbox\/pull|dsp\/profile\/index\/nodefaas|search\/new_hotword),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Scripts/master/amap.js,script-update-interval=0
 
 [MITM]
 hostname = %APPEND% *.amap.com
