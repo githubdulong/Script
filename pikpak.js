@@ -1,4 +1,5 @@
 /*
+
 Fileball挂载pikpak
 版本：2.2312
 
@@ -10,6 +11,8 @@ pikpak = type=http-request,pattern=^http:\/\/pikpak\.example\.com,requires-body=
 
 作者：@小白脸
 使用方法： pikpak 直接填账号密码
+
+Fileball挂载图标：https://raw.githubusercontent.com/githubdulong/Script/master/Images/Fileball.json
 
 */
 

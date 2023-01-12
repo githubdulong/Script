@@ -1,4 +1,5 @@
 /*
+
 Fileball挂载阿里云盘
 版本：2.2312
 
@@ -12,6 +13,8 @@ force-http-engine-hosts = %APPEND% aliyun.example.com:0
 使用方法： 
 添加Synoogy协议，账号随便填，密码填cookie 获取ck的方法如下
 阿里云Token获取地址(需要用阿里云盘扫描alist的二维码获得)[ https://alist-doc.nn.ci/docs/driver/aliyundrive ]
+
+Fileball挂载图标：https://raw.githubusercontent.com/githubdulong/Script/master/Images/Fileball.json
 
 */
 

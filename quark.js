@@ -1,4 +1,5 @@
 /*
+
 Fileball挂载夸克网盘
 版本：2.2312
 
@@ -11,6 +12,8 @@ force-http-engine-hosts = %APPEND% quark.example.com:0
 作者：@小白脸
 使用方法： 
 夸克登录网页版抓包，路径https://drive.quark.cn/1/clouddrive/file
+
+Fileball挂载图标：https://raw.githubusercontent.com/githubdulong/Script/master/Images/Fileball.json
 
 */
 
