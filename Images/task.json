@@ -1,0 +1,12 @@
+{
+"name":"自用图标", 
+"description":"没卵用几个图标",
+"icons":
+[
+{"name":"ㅤㅤㅤ1", "url":"https://raw.githubusercontent.com/githubdulong/Script/master/Images/ali.png"},
+{"name":"ㅤㅤㅤ2", "url":"https://raw.githubusercontent.com/githubdulong/Script/master/Images/testflight.png"},
+{"name":"ㅤㅤㅤ3", "url":"https://raw.githubusercontent.com/githubdulong/Script/master/Images/quark.png"},
+{"name":"ㅤㅤㅤ4", "url":"https://raw.githubusercontent.com/githubdulong/Script/master/Images/bilibili.png"},
+{"name":"ㅤㅤㅤ5", "url":"https://raw.githubusercontent.com/githubdulong/Script/master/Images/iQIYI.png"},
+]
+}
