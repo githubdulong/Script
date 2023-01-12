@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2023-01-04 20:05
+#!desc=最后更新时间 2023-01-12 10:15
 #!system=ios
 
 # 分割线——————————————————————————
@@ -9,8 +9,8 @@
 https:\/\/api\.revenuecat\.com header-del x-revenuecat-etag
 
 [General]
-# > Boxjs
-force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com
+# > Boxjs、阿里云盘
+force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com, aliyun.example.com:0
 
 # 分割线——————————————————————————
 
@@ -165,6 +165,8 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 # > 小红书 去广告
 开屏广告 = type=http-response,pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v2\/system_service\/splash_config,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/xiaohongshu/xiaohongshu.ad.js,script-update-interval=0
 推荐广告 = type=http-response,pattern=^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v6\/homefeed\?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/xiaohongshu/xiaohongshu.ad.js,script-update-interval=0
+# > Fileball挂载阿里云盘
+阿里云盘 = type=http-request,pattern=^http:\/\/aliyun\.example\.com,requires-body=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/ali.js,max-size=0,debug=0
 
 # > 模块订阅(单独添加)
 //什么值得买去广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_remove_ads.sgmodule
@@ -183,8 +185,6 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 //策略面板 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Panel.sgmodule
 //模块更新捷径 https://www.icloud.com/shortcuts/67c3ace4fb3a4f9ebbe8d3184cd82e39
 //格式转换 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Surge_Qx.sgmodule
-//微博广告 https://github.com/ddgksf2013/Rewrite/raw/master/AdBlock/Weibo.conf_surge
-//高德广告 https://github.com/ddgksf2013/Scripts/raw/master/amap.js_surge
 
 # 分割线——————————————————————————
 
