@@ -9,7 +9,7 @@ const $ = new Env('什么值得买');
 const notify = $.isNode() ? require('./sendNotify') : '';
 // cookie
 let cookiesArr = [
-  "session_id=TRb%2FqeUOq1p0IWvyHbmTomODgp2BlOZzOZ0WPprDEllJP4l4phe7Ng%3D%3D.1674133911;deviceid_md5=b8d9748194eaa8787d531d796c107b13;device_s=TRb%2FqeUOq1p0IWvyHbmTomODgp2BlOZzOZ0WPprDElko5wbA19EWxJo4fDWbYallgY2fSwiSR4%3D;partner_id=31558;partner_name=iweibo558;device_recfeed_setting=%7B%22homepage_sort_switch%22%3A%221%22%2C%22haojia_recfeed_switch%22%3A%221%22%2C%22other_recfeed_switch%22%3A%221%22%2C%22shequ_recfeed_switch%22%3A%221%22%7D;phone_sort=XR;register_time=1544665157;device_id=TRb%2FqeUOq1p0IWvyHbmTomODgp2BlOZzOZ0WPprDEllJP4l4phe7Ng%3D%3D;f=iphone;device_name=iPhone%2011;is_new_user=1;apk_partner_name=appstore;active_time=1674133911;v=10.4.20;device_smzdm_version_code=134.2;device_smzdm_version=10.4.20;device_system_version=15.5;sess=BC-0ayAEtTqanTxNuD%2FO4hSLmszOgR3HWvAjC7nv%2FQmlu%2Fef6nw%2FnoTOrgmYTYTbXd5n2VP8Yx3sYaanaCRIMsPYwNXFakSP9Z0gn00Kcyg0JGEfMC2NTcTWlwMXQ%3D%3D;login=1;client_id=TRb%2FqeUOq1p0IWvyHbmTomODgp2BlOZzOZ0WPprDEllJP4l4phe7Ng%3D%3D.1674133911329;device_idfa=PT7VQKVa45cGzFAkujoRDtqbxpQbExZrOZ0WPprDEllJP4l4phe7Ng%3D%3D;osversion=19F77;idfa_md5=0;smzdm_id=3050762732;network=4;device_push=Badge%2C%20Alert%20%26%20Sound;device_type=iPhone12%2C1;ab_test=z6;font_size=normal;device_smzdm=iphone;",
+  "填入抓包数据",
 ],
   cookie = '', message = '';
 !(async () => {
