@@ -1,5 +1,5 @@
 #!name=重写获取
-#!desc=最后更新时间 2023-01-06 12:30
+#!desc=最后更新时间 2023-02-01 10:02
 #!system=ios
 
 # 分割线——————————————————————————
@@ -17,8 +17,8 @@
 贴吧获取 = type=http-request,pattern=^https?:\/\/(c\.tieba\.baidu\.com|180\.97\.\d+\.\d+)\/c\/s\/login,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_signin.js
 贴吧获取 = type=http-request,pattern=^https?:\/\/c\.tieba\.baidu\.com\/c\/s\/channelIconConfig,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_signin.js
 贴吧获取 = type=http-request,pattern=^https?:\/\/tiebac\.baidu\.com\/c\/u\/follow\/getFoldedMessageUserInfo,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/tieba/tieba_signin.js
-# > 什么值得买 浏览器 https://zhiyou.smzdm.com/
-什么值买 = script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_daily.js,type=http-request,requires-body=false,pattern=^https?:\/\/zhiyou\.smzdm\.com\/user$
+# > 什么值得买 app获取
+什么值买 = script-path=smzdm_daily.js,type=http-request,requires-body=false,pattern=^https?:\/\/user-api\.smzdm\.com\/checkin$
 # > IT之家 app获取
 数码之家 = type=http-request,pattern=^https:\/\/my\.ruanmei\.com\/api\/usersign\/getsigninfo?,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ithome/ithome.cookie.js,debug=true
 # > 联通组件ck app点流量
@@ -42,4 +42,4 @@
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %APPEND% i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, zhiyou.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, app.bilibili.com, m.bilibili.com, passport.iqiyi.com, www.52pojie.cn,mobile.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, wapside.189.cn:9001
+hostname = %APPEND% i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, user-api.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, app.bilibili.com, m.bilibili.com, passport.iqiyi.com, www.52pojie.cn,mobile.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, wapside.189.cn:9001
