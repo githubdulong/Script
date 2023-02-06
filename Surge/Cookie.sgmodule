@@ -1,5 +1,5 @@
 #!name=重写获取
-#!desc=最后更新时间 2023-02-01 10:02
+#!desc=最后更新时间 2023-02-07 0:15
 #!system=ios
 
 # 分割线——————————————————————————
@@ -38,8 +38,10 @@
 吾爱获取 = type=http-request,pattern=https:\/\/www\.52pojie\.cn\/home\.php\?,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/52pojie-DailyBonus/52pojie.js
 # > 中国电信 app 获取+Boxjs填写号码
 电信获取 = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10000/10000.cookie.js,requires-body=1,type=http-request,pattern=^https:\/\/wapside.189.cn:9001\/jt-sign\/api\/home\/homeInfo,max-size=0,script-update-interval=0
+# > 阿里云盘 app获取
+阿里云盘 = requires-body=1,type=http-response,pattern=https:\/\/auth.aliyundrive.com\/v2\/account\/token,script-path=https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js
 
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %APPEND% i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, user-api.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, app.bilibili.com, m.bilibili.com, passport.iqiyi.com, www.52pojie.cn,mobile.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, wapside.189.cn:9001
+hostname = %APPEND% i.meituan.com, m.weibo.cn, *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, user-api.smzdm.com, account.huami.com, my.ruanmei.com, m.client.10010.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, app.bilibili.com, m.bilibili.com, passport.iqiyi.com, www.52pojie.cn,mobile.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, wapside.189.cn:9001, auth.aliyundrive.com
