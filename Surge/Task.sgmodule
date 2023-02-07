@@ -52,4 +52,4 @@ iQIYI签到 = type=cron,cronexp=30 4 0 * * *,wake-system=1,timeout=120,script-pa
 # > SUB 订阅同步
 订阅同步 = type=cron,cronexp=15 0 20 * * *,script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/cron-sync-artifacts.min.js,script-update-interval=0,wake-system=1,timeout=60
 # > 本地脚本（仅自用）
-茅台申购 = type=cron,cronexp=0 0 9 * * *,script-path=i-maotai.js,script-update-interval=0,wake-system=1,timeout=60
+茅台申购 = type=cron,cronexp="0 0/10 9-10 * * *",script-path=i-maotai.js,script-update-interval=0,wake-system=1,timeout=60
