@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2023-01-27 16:19
+#!desc=最后更新时间 2023-02-07 08:49
 #!system=ios
 
 # 分割线——————————————————————————
@@ -9,8 +9,8 @@
 https:\/\/api\.revenuecat\.com header-del x-revenuecat-etag
 
 [General]
-# > Boxjs、阿里云盘
-force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com, aliyun.example.com:0
+# > Boxjs、云盘挂载
+force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com, *.example.com:0
 
 # 分割线——————————————————————————
 
@@ -161,8 +161,8 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 # > 小红书 去广告
 开屏广告 = type=http-response,pattern=^https?:\/\/edith\.xiaohongshu\.com\/api\/sns\/v2\/system_service\/splash_config,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/xiaohongshu/xiaohongshu.ad.js,script-update-interval=0
 推荐广告 = type=http-response,pattern=^https:\/\/edith\.xiaohongshu\.com\/api\/sns\/v6\/homefeed\?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/xiaohongshu/xiaohongshu.ad.js,script-update-interval=0
-# > Fileball挂载阿里云盘
-阿里云盘 = type=http-request,pattern=^http:\/\/aliyun\.example\.com,requires-body=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/ali.js,max-size=0,debug=0
+# > Fileball云盘挂载 阿里、夸克、pikpak
+云盘挂载 = type=http-request,pattern=^http:\/\/(aliyun|quark|pikpak)\.example\.com,requires-body=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/fileball.js
 # > 奈飞评分
 奈飞评分 = type=http-request,pattern=^https?:\/\/ios(-.*)?\.prod\.ftl\.netflix\.com\/iosui\/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js
 奈飞评分 = type=http-response,requires-body=1,pattern=^https?:\/\/ios(-.*)?\.prod\.ftl\.netflix\.com\/iosui\/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js
