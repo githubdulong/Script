@@ -1,7 +1,7 @@
 /*
 
-更新版本：3.0105 
-更新内容：添加更多支持类型
+更新版本：3.0208
+更新内容：修复断网弹窗提示 bug
 
 @XiaoBL
 Qx通用格式转化Surge模块
@@ -22,7 +22,7 @@ hostname = %APPEND% github.com:443, raw.githubusercontent.com:443
 
 
 let req = $request.url.replace(/_surge$/,'')
-let name = '#!name= ' + req.match(/.+\/(.+)\.(conf|js)/)?.[1] || '未知';
+let name = '#!name= ' + (req.match(/.+\/(.+)\.(conf|js)/)?.[1] || '未知')
 !(async () => {
   let body = await http(req);
 
@@ -41,7 +41,7 @@ body.forEach((x, y, z) => {
 	if (type) {
 		switch (type) {
 			case "script-":
-			if (x.match('echo')) {throw '未支持通用类型'}
+			if (x.match('echo')) {throw '脚本不支持通用'}
 				z[y - 1]?.match("#") && script.push(z[y - 1]);
 				
 let requires =	x.match('-header') ? "0" : "1";
@@ -75,9 +75,9 @@ let proto = x.match('proto.js') ? ',binary-body-mode=1' : '' ;
 			   pp : function (){
 				return this[jct]}
 				}
-				if (obj.pp()){
+				if (obj = obj.pp()){
 					z[y - 1]?.match("#") && MapLocal.push(z[y - 1]);
-					MapLocal.push(`${url} data="${obj.pp()}"`);
+					MapLocal.push(`${url} data="${obj}"`);
 				}else{
 					z[y - 1]?.match("#") && URLRewrite.push(z[y - 1]);
 				URLRewrite.push(x.replace(/([^\s]+).+/, "$1 - reject"));
@@ -105,7 +105,6 @@ let op = x.match(/\sresponse-header/) ?
 				break;
 
 			case "echo-response":
-			console.log(x)
 				z[y - 1]?.match("#") && MapLocal.push(z[y - 1]);
 				MapLocal.push(x.replace(/([^\s]+).+(http.+)/, '$1 data="$2"'));
 				break;
@@ -151,7 +150,7 @@ ${MITM}`.replace(/\;/g,'#')
 
 })()
 .catch((e) => {
-		$notification.post(`${e}`,'','');
+		e && $notification.post(`${e}`,'','');
 		$done()
 	})
 
@@ -161,7 +160,9 @@ ${MITM}`.replace(/\;/g,'#')
 function http(req) {
   return new Promise((resolve, reject) =>
     $httpClient.get(req, (err, resp,data) => {
-  resolve(data)
+resp.status === 200 ? resolve(data) : reject();
+
+  
   })
 )
 }
