@@ -184,7 +184,7 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 //策略面板 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Panel.sgmodule
 //模块更新捷径 https://www.icloud.com/shortcuts/67c3ace4fb3a4f9ebbe8d3184cd82e39
 //格式转换 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Surge_Qx.sgmodule
-//格式转换优化版 https://raw.githubusercontent.com/gitupdate/updateTeam/master/QxToSurge.js
+//格式转换优化版 https://raw.githubusercontent.com/gitupdate/updateTeam/master/QxToSurge.sgmodule
 //高德地图去广告 https://raw.githubusercontent.com/kokoryh/Script/master/Surge/module/amap.sgmodule
 
 # 分割线——————————————————————————
