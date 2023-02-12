@@ -16,9 +16,9 @@ force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com, *.example.com:0
 
 [Rule]
 # > ChatGPT 代理 
-DOMAIN-SUFFIX, openai.com,𝗨𝗻𝗶𝘁𝗲𝗱 𝗦𝘁𝗮𝘁𝗲𝘀
-DOMAIN, cdn.auth0.com,𝗨𝗻𝗶𝘁𝗲𝗱 𝗦𝘁𝗮𝘁𝗲𝘀
-DOMAIN, openaiapi-site.azureedge.net,𝗨𝗻𝗶𝘁𝗲𝗱 𝗦𝘁𝗮𝘁𝗲𝘀
+DOMAIN-SUFFIX, openai.com,𝗦𝗶𝗻𝗴𝗮𝗽𝗼𝗿𝗲
+DOMAIN, cdn.auth0.com,𝗦𝗶𝗻𝗴𝗮𝗽𝗼𝗿𝗲
+DOMAIN, openaiapi-site.azureedge.net,𝗦𝗶𝗻𝗴𝗮𝗽𝗼𝗿𝗲
 # > Siri与搜索 代理
 PROCESS-NAME,LookupViewService,𝗣𝗥𝗢𝗫𝗬
 PROCESS-NAME,/System/Library/PrivateFrameworks/Lookup.framework/Versions/A/XPCServices/LookupViewService.xpc/Contents/MacOS/LookupViewService,𝗣𝗥𝗢𝗫𝗬
