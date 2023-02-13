@@ -1,0 +1,17 @@
+#!name=云盘挂载
+#!desc=Fileball 挂载阿里,夸克,pikpak三合一
+# 添加Synoogy协议，账号随便填，密码填cookie 获取ck的方法。阿里云Token获取地址(需要用阿里云盘扫描alist的二维码获得)[ https://alist-doc.nn.ci/docs/driver/aliyundrive ]
+# 夸克登录网页版抓包，路径https://drive.quark.cn/1/clouddrive/file
+# pikpak 直接填账号密码
+
+# 作者:Xiaobl
+# aliyun.example.com
+# quark.example.com
+# pikpak.example.com
+# Fileball挂载图标：https://raw.githubusercontent.com/githubdulong/Script/master/Images/Fileball.json
+
+[General]
+force-http-engine-hosts = %APPEND% *.example.com:0
+
+[Script]
+云盘挂载 = type=http-request,pattern=^http:\/\/(aliyun|quark|pikpak)\.example\.com,requires-body=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/fileball.js
