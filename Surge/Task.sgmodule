@@ -1,5 +1,5 @@
 #!name=定时脚本
-#!desc=最后更新时间 2023-02-07 20:28
+#!desc=最后更新时间 2023-02-16 14:35
 #!system=ios
 
 # 分割线——————————————————————————
@@ -25,8 +25,8 @@
 伊利乳品 = type=cron,cronexp=0 4 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/yiLi.js
 # > 爱奇艺
 iQIYI签到 = type=cron,cronexp=30 4 0 * * *,wake-system=1,timeout=120,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js,script-update-interval=0
-# > 吾爱破解
-吾爱签到 = type=cron,cronexp=0 5 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/52pojie-DailyBonus/52pojie.js
+# > 捷停车
+捷顺停车 = type=cron,cronexp=0 5 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jparking_sign.js, script-update-interval=0
 # > 威锋论坛
 威锋论坛 = type=cron,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/weifeng.js,cronexp=30 5 0 * * *,wake-system=1,timeout=15,script-update-interval=0
 # > 阿里云盘 签到
