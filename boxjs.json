@@ -415,6 +415,7 @@
         {
           "id": "APP_ID",
           "name": "填写 APP_ID 多个用英文逗号隔开 示例：iSTXKF4K,INmLTx8d",
+          "autoGrow": true,
           "val": "",
           "type": "text",
           "desc": ""
