@@ -415,9 +415,10 @@
         {
           "id": "APP_ID",
           "name": "填写 APP_ID",
-          "type": "text",
+          "val": "",
+          "type": "textarea",
           "autoGrow": true,
-          "rows": 2,
+          "rows": 1,
           "desc": "填写 APP_ID 多个用英文逗号隔开 示例：iSTXKF4K,INmLTx8d"
 
         }
