@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2023-02-14 21:25
+#!desc=最后更新时间 2023-02-23 11:00
 #!system=ios
 
 # 分割线——————————————————————————
@@ -15,10 +15,6 @@ force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com
 # 分割线——————————————————————————
 
 [Rule]
-# > ChatGPT 代理 
-DOMAIN-SUFFIX, openai.com,𝗦𝗶𝗻𝗴𝗮𝗽𝗼𝗿𝗲
-DOMAIN, cdn.auth0.com,𝗦𝗶𝗻𝗴𝗮𝗽𝗼𝗿𝗲
-DOMAIN, openaiapi-site.azureedge.net,𝗦𝗶𝗻𝗴𝗮𝗽𝗼𝗿𝗲
 # > Siri与搜索 代理
 PROCESS-NAME,LookupViewService,𝗣𝗥𝗢𝗫𝗬
 PROCESS-NAME,/System/Library/PrivateFrameworks/Lookup.framework/Versions/A/XPCServices/LookupViewService.xpc/Contents/MacOS/LookupViewService,𝗣𝗥𝗢𝗫𝗬
