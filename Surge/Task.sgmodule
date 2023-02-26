@@ -29,7 +29,7 @@ iQIYI签到 = type=cron,cronexp=30 4 0 * * *,wake-system=1,timeout=120,script-pa
 捷顺停车 = type=cron,cronexp=0 5 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jparking_sign.js, script-update-interval=0
 # > 威锋论坛
 威锋论坛 = type=cron,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/weifeng.js,cronexp=30 5 0 * * *,wake-system=1,timeout=15,script-update-interval=0
-# > 阿里云盘 签到
+# > 阿里云盘
 阿里云盘 = type=cron,cronexp=0 6 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js,script-update-interval=0
 # > 顺丰速运
 顺丰速运 = type=cron,cronexp=30 6 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js,script-update-interval=0
