@@ -8,7 +8,7 @@
 # > Revenuecat
 https:\/\/api\.revenuecat\.com header-del x-revenuecat-etag
 # > New Bing Ai
-^https:\/\/www\.bing\.com\/(search|new) header-replace-regex User-Agent \w+\/[\d\.]+$ ”AppleWebKit/537.36 Chrome/110.0 Safari/537.36 Edg/110.0“
+^https:\/\/www\.bing\.com\/(search|new) header-replace-regex User-Agent \w+\/[\d\.]+$ "AppleWebKit/537.36 Chrome/110.0 Safari/537.36 Edg/110.0"
 
 [General]
 # > Boxjs、云盘挂载
