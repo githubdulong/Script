@@ -17,8 +17,6 @@ force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com, *.example.com:0
 # 分割线——————————————————————————
 
 [Rule]
-# > bing 积分直连
-DOMAIN-SUFFIX,rewards.bing.com,𝗗𝗜𝗥𝗘𝗖𝗧
 # > Siri与搜索 代理
 PROCESS-NAME,LookupViewService,𝗣𝗥𝗢𝗫𝗬
 PROCESS-NAME,/System/Library/PrivateFrameworks/Lookup.framework/Versions/A/XPCServices/LookupViewService.xpc/Contents/MacOS/LookupViewService,𝗣𝗥𝗢𝗫𝗬
