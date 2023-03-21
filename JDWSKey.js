@@ -3,27 +3,19 @@
  * 2、点击APP-个人中心，或 个人中心 下拉刷新，自动捕抓 wskey 上传
  * 注：如有变更才会上传，如果 wskey 没变，不会重复上传。
  *
- * hostname = api.m.jd.com
- *
- * 注意：使用前请添加boxjs订阅写入bottoken https://gist.githubusercontent.com/lowking/ffc020964c1980c6f2187353606cb200/raw/JD-boxjs.json
+ * ⚠️ 个人脚本，他人使用前请修改bottoken
  */
 
 const $ = new Env('♨️京东上传 Wskey');
-let CK = '', pin = "";
-if ($request.url.includes('newUserInfo')) {
-  CK = $request.headers["Cookie"] || $request.headers["cookie"];
-  console.log(`CK: \n${CK}`)
-  // CK = setCookieContent.match(/wskey=.+?;/)[0];
-  //const pin = CK.match(/pin=(.+?);/)[1];
-  pin = encodeURIComponent($response.body.match(/unickName":"(.*?)"/) && $response.body.match(/unickName":"(.*?)"/)[1]);
-  console.log(`pin: \n${pin}`)
-}
+let CK = $request.headers['Cookie'] || $request.headers['cookie'];
+
+const respBody = $.toObj($response.body);
+const pin = respBody.userInfoSns.unickName;
 const key = CK.match(/wskey=([^=;]+?);/)[1];
 const _TGUserID = $.getData('id77_TGUserID');
 
 $.TGBotToken = $.getData('lkJdUploadWskeyBotToken');
-$.TGUserIDs = !$.getData('lkJdUploadWskeyToTgUserid') ? ["1237524619"] : JSON.parse($.getData('lkJdUploadWskeyToTgUserid'));
-$.msg($.name, $.subt, `${$.TGBotToken}\n${JSON.stringify($.TGUserIDs)}`);
+$.TGUserIDs = !$.getData('lkJdUploadWskeyToTgUserid') ? ["-1001241545347"] : JSON.parse($.getData('lkJdUploadWskeyToTgUserid'));
 if (_TGUserID) {
   $.TGUserIDs.push(_TGUserID);
 }
@@ -41,7 +33,7 @@ if (_TGUserID) {
     const userName = pin;
     const decodeName = decodeURIComponent(userName);
     let cookiesData = JSON.parse($.getData('wskeyList') || '[]');
-    cookiesData = [];
+    //cookiesData = [];
     let updateIndex;
     let cookieName = '【账号】';
     const existCookie = cookiesData.find((item, index) => {
