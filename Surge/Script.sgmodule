@@ -54,7 +54,7 @@ DOMAIN-KEYWORD,jsdelivr.net,𝗣𝗥𝗢𝗫𝗬
 DOMAIN-SUFFIX,coingecko.com,𝗣𝗥𝗢𝗫𝗬
 # > 腾讯视频 修正+去开屏
 DOMAIN,vv.video.qq.com,𝗗𝗜𝗥𝗘𝗖𝗧
-OR,((DOMAIN,pgdt.gtimg.cn), (AND,((USER-AGENT,live4iphoneRel*), (IP-CIDR,0.0.0.0/0,no-resolve)))),REJECT-DROP
+OR,((DOMAIN,pgdt.gtimg.cn), (AND,((USER-AGENT,live4iphoneRel*), (IP-CIDR,0.0.0.0/0,no-resolve)))),REJECT-TINYGIF
 # > 掌阅 去广告
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/bookstore\/ad\/,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/self\/screen\/ad,REJECT-TINYGIF
