@@ -1,13 +1,14 @@
 #!name=策略面板
-#!desc=流媒体解锁检测+机场信息展示
-#!system=ios
+#!desc=流媒体解锁检测+代理信息展示
 
 [Panel]
-策略面板 = script-name=解锁检测,update-interval=7200
+//策略面板 = script-name=解锁检测,update-interval=7200
+策略面板 = script-name=WARP信息,update-interval=1800
 策略面板 = script-name=备用机场,update-interval=1800
 策略面板 = script-name=主力机场,update-interval=1800
 
 [Script]
-解锁检测 = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Stream-All.js,script-update-interval=0,argument=title=解锁检测&icon=headphones.circle&color=#FF2121
-备用机场 = type=generic,timeout=15,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info_panel.js,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&reset_day=20&title=中国制造&icon=star.circle&color=#00BC12
-主力机场 = type=generic,timeout=15,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info_panel.js,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&reset_day=1&title=墙洞机场&icon=airplane.circle&color=#157EFB
+//解锁检测 = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Stream-All.js,script-update-interval=0,argument=title=解锁检测&icon=play.circle.fill&color=#FF2121
+WARP信息 = type=generic, timeout=15, script-path=https://raw.githubusercontent.com/VirgilClyne/Cloudflare/main/js/Cloudflare.1.1.1.1.panel.js
+备用机场 = type=generic,timeout=15,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info_panel.js,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&reset_day=1&title=中国制造&icon=shippingbox.circle.fill&color=#00BC12
+主力机场 = type=generic,timeout=15,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info_panel.js,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&reset_day=24&title=墙洞机场&icon=airplane.circle.fill&color=#157EFB
