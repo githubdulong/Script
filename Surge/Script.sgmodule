@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2023-04-12 11:03
+#!desc=最后更新时间 2023-04-13 10:37
 #!system=ios
 
 # 分割线——————————————————————————
@@ -147,9 +147,6 @@ Day One = type=http-response,pattern=^https:\/\/dayone\.(me|app)\/api\/(users|v2
 会话数据 = type=http-request,pattern=https?:\/\/boxjs\.(com|net),script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/chavy.boxjs.js, requires-body=true, timeout=120
 # > 京东App 历史价格 
 京东比价 = type=http-response,requires-body=1,pattern=^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js
-# > bilbii 换区、评分
-哔哩换区 = type=http-response,pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/offline\/version)\?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
-哔哩搜索 = type=http-request,pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/x\/v\d\/search(\/type)?\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)&,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
 # > 百度云盘 解锁
 百度云盘 = type=http-response,pattern=https:\/\/pan\.baidu\.com\/rest\/2\.0\/membership\/user,requires-body=1,max-size=0,script-path=https://github.com/ddgksf2013/Scripts/raw/master/bdcloud.js
 # > MIX 解锁
@@ -191,8 +188,11 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 //格式转换 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Surge_Qx.sgmodule
 //格式转换优化版 https://raw.githubusercontent.com/gitupdate/updateTeam/master/QxToSurge.sgmodule
 //高德地图去广告 https://raw.githubusercontent.com/kokoryh/Script/master/Surge/module/amap.sgmodule
+//WARP配置 https://raw.githubusercontent.com/VirgilClyne/Cloudflare/main/sgmodule/Cloudflare.1.1.1.1.sgmodule
+//哔哩哔哩自定义 https://github.com/BiliUniverse/Enhanced/raw/main/modules/BiliBili.Enhanced.sgmodule
+//哔哩哔哩换区 https://github.com/BiliUniverse/Global/raw/main/modules/BiliBili.Global.sgmodule
 
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %APPEND% -*.amemv.com, -*.snssdk.com, *account.wps.cn, *account.wps.com, ap*.intsig.net, dayone.*, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, spclient.wg.spotify.com, ap?.bilibili.com, ap?.biliapi.net, pan.baidu.com, btrace.qq.com, bmall.camera360.com, vsco.co, syh.zybang.com, security.wechat.com, m.douban.com, m.ithome.com, api.ithome.com, api.zuihuimai.com, napi.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com, boxjs.net, boxjs.com, sub.store, mb3admin.com, flowplus.meituan.net, ms.jr.jd.com, api.revenuecat.com, *.meituan.net, *.meituan.com, api-access.pangolin-sdk-toutiao.com, edith.xiaohongshu.com, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com,www.bing.com, doc.linkease.com
+hostname = %APPEND% -*.amemv.com, -*.snssdk.com, *account.wps.cn, *account.wps.com, ap*.intsig.net, dayone.*, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, spclient.wg.spotify.com, pan.baidu.com, btrace.qq.com, bmall.camera360.com, vsco.co, syh.zybang.com, security.wechat.com, m.douban.com, m.ithome.com, api.ithome.com, api.zuihuimai.com, napi.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com, boxjs.net, boxjs.com, sub.store, mb3admin.com, flowplus.meituan.net, ms.jr.jd.com, api.revenuecat.com, *.meituan.net, *.meituan.com, api-access.pangolin-sdk-toutiao.com, edith.xiaohongshu.com, ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com,www.bing.com, doc.linkease.com
