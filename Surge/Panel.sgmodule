@@ -9,6 +9,6 @@
 
 [Script]
 //解锁检测 = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Stream-All.js,script-update-interval=0,argument=title=解锁检测&icon=play.circle.fill&color=#FF2121
-WARP信息 = type=generic, timeout=15, script-path=https://raw.githubusercontent.com/VirgilClyne/Cloudflare/main/js/Cloudflare.1.1.1.1.panel.js,script-update-interval=0,argument=Title=WARP信息&Icon=icloud.circle.fill&IconColor=#f48220&Language=auto
-备用机场 = type=generic,timeout=15,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info_panel.js,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&reset_day=1&title=中国制造&icon=shippingbox.circle.fill&color=#00BC12
-主力机场 = type=generic,timeout=15,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info_panel.js,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&reset_day=24&title=墙洞机场&icon=airplane.circle.fill&color=#157EFB
+WARP信息 = type=generic, timeout=15, script-path=https://raw.githubusercontent.com/VirgilClyne/Cloudflare/main/js/Cloudflare.1.1.1.1.panel.js,script-update-interval=0,argument=Title=WARP信息&Icon=icloud.circle.fill&IconColor=#EB5C20&Language=auto
+备用机场 = type=generic,timeout=15,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info_panel.js,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&reset_day=1&title=中国制造&icon=shippingbox.circle.fill&color=#81AC7A
+主力机场 = type=generic,timeout=15,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info_panel.js,script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&reset_day=24&title=墙洞机场&icon=pawprint.circle.fill&color=#1C6073
