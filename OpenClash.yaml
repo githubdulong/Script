@@ -1,0 +1,234 @@
+# ==UserScript==
+# 修改自 墨鱼Clash配置文件
+# ==/UserScript==      
+
+port: 7890
+socks-port: 7891
+redir-port: 7892
+mixed-port: 7893
+allow-lan: true
+bind-address: "*"
+mode: rule
+log-level: info
+ipv6: false
+external-controller: 127.0.0.1:9090
+dns:
+  enable: true
+  ipv6: false
+  listen: 0.0.0.0:53
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - "*.lan"
+    - localhost.ptlogin2.qq.com
+    - +.srv.nintendo.net
+    - +.stun.playstation.net
+    - +.msftconnecttest.com
+    - +.msftncsi.com
+    - +.xboxlive.com
+    - msftconnecttest.com
+    - xbox.*.microsoft.com
+    - "*.battlenet.com.cn"
+    - "*.battlenet.com"
+    - "*.blzstatic.cn"
+    - "*.battle.net"
+  nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+    - 114.114.114.114
+  fallback:
+    - https://cloudflare-dns.com/dns-query
+    - https://dns.google/dns-query
+    - https://dns.alidns.com/dns-query
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+#锚点
+pr:
+  &a3
+  type: select
+  proxies:
+    - 自动选择
+    - 手动切换
+    - 香港节点
+    - 日本节点
+    - 美国节点
+    - 台湾节点
+    - 狮城节点
+    - DIRECT
+p:
+  &a1
+  type: http
+  interval: 86400
+  health-check:
+    enable: true
+    url: http://www.gstatic.com/generate_204
+    interval: 1800
+auto:
+  &a4
+  type: url-test
+  lazy: true
+  url: http://www.gstatic.com/generate_204
+  interval: 900
+  use:
+    - Subscribe
+use:
+  &a2
+  type: select
+  use:
+    - Subscribe
+c:
+  &a6
+  type: http
+  behavior: classical
+  interval: 86400
+d:
+  &a5
+  type: http
+  behavior: domain
+  interval: 86400
+i:
+  &a7
+  type: http
+  behavior: ipcidr
+  interval: 86400
+proxy-providers:
+  Subscribe:
+    <<: *a1
+    url: https://sub.xeton.dev/sub?target=clash&url=填写你的订阅替换此文字&list=true&udp=false 
+    path: ./proxy_providers/tmp.yaml
+
+
+proxies: null
+proxy-groups:
+#分流分组
+  - name: 手动切换
+    <<: *a2
+  - name: 全球加速
+    <<: *a3
+  - name: 苹果服务
+    <<: *a3
+  - name: 哔哩哔哩
+    type: select
+    proxies:
+      - DIRECT
+      - 香港节点
+      - 台湾节点
+  - name: 奈飞视频
+    <<: *a3
+  - name: 国际媒体
+    <<: *a3
+  - name: 谷歌服务
+    <<: *a3
+  - name: 电报代理
+    <<: *a3
+  - name: 推特服务
+    <<: *a3
+  - name: 游戏加速
+    <<: *a3
+  - name: 广告拦截
+    type: select
+    proxies:
+      - REJECT
+  - name: 兜底规则
+    <<: *a3
+#节点分组
+  - name: 自动选择
+    <<: *a4
+  - name: 香港节点
+    <<: *a4
+    filter: 港|HK|Hong
+  - name: 日本节点
+    <<: *a4
+    filter: 日|东京|JP|Japan
+  - name: 台湾节点
+    <<: *a4
+    filter: 台|湾|TW|Taiwan
+  - name: 美国节点
+    <<: *a4
+    filter: 美|US|States|American
+  - name: 狮城节点
+    <<: *a4
+    filter: 新|坡|SG|Singapore
+rule-providers:
+  Direct:
+    <<: *a5
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Direct/Direct.yaml
+    path: ./ruleset/Direct.yaml
+  Lan:
+    <<: *a6
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Lan/Lan.yaml
+    path: ./ruleset/Lan.yaml
+  Download:
+    <<: *a6
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Download/Download.yaml
+    path: ./ruleset/Download.yaml
+  Ad:
+    <<: *a5
+    url: https://anti-ad.net/clash.yaml
+    path: ./ruleset/anti-ad-clash.yaml
+  Netflix:
+    <<: *a6
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Netflix/Netflix.yaml
+    path: ./ruleset/Netflix.yaml
+  GlobalMedia:
+    <<: *a6
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml
+    path: ./ruleset/GlobalMedia.yaml
+  Apple:
+    <<: *a6
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Apple/Apple_Classical.yaml
+    path: ./ruleset/Apple.yaml
+  Github:
+    <<: *a6
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GitHub/GitHub.yaml
+    path: ./ruleset/Github.yaml
+  Google:
+    <<: *a6
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Google/Google.yaml
+    path: ./ruleset/Google.yaml
+  Telegram:
+    <<: *a6
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Telegram/Telegram.yaml
+    path: ./ruleset/Telegram.yaml
+  Twitter:
+    <<: *a6
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Twitter/Twitter.yaml
+    path: ./ruleset/Twitter.yaml
+  BiliBili:
+    <<: *a6
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/BiliBili/BiliBili.yaml
+    path: ./ruleset/BiliBili.yaml
+  Game:
+    <<: *a6
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Game/Game.yaml
+    path: ./ruleset/Game.yaml
+  ChinaIP:
+    <<: *a7
+    url: https://cdn.jsdelivr.net/gh/soffchen/GeoIP2-CN@release/clash-rule-provider.yml
+    path: ./ruleset/ChinaIP.yaml
+  ProxyLite:
+    <<: *a6
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ProxyLite/ProxyLite.yaml
+    path: ./ruleset/ProxyLite.yaml
+rules:
+
+  - RULE-SET,Direct,DIRECT
+  - RULE-SET,Lan,DIRECT
+  - RULE-SET,Download,DIRECT
+  - RULE-SET,Ad,广告拦截
+  - RULE-SET,GlobalMedia,奈飞视频
+  - RULE-SET,GlobalMedia,国际媒体
+  - RULE-SET,Apple,苹果服务
+  - RULE-SET,Github,全球加速
+  - RULE-SET,Google,谷歌服务
+  - RULE-SET,Telegram,电报代理
+  - RULE-SET,Twitter,全球加速
+  - RULE-SET,BiliBili,哔哩哔哩
+  - RULE-SET,Game,游戏加速
+  - RULE-SET,ProxyLite,全球加速
+  - RULE-SET,ChinaIP,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,兜底规则
