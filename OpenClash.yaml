@@ -1,5 +1,5 @@
 # ==UserScript==
-# 修改自 墨鱼Clash配置文件
+# 修改自墨鱼Clash配置文件
 # ==/UserScript==      
 
 port: 7890
@@ -97,7 +97,7 @@ i:
 proxy-providers:
   Subscribe:
     <<: *a1
-    url: https://sub.xeton.dev/sub?target=clash&url=填写你的订阅替换此文字&list=true&udp=false 
+    url: https://sub.xeton.dev/sub?target=clash&url=此处填写订阅链接&list=true&udp=false 
     path: ./proxy_providers/tmp.yaml
 
 
@@ -132,11 +132,13 @@ proxy-groups:
     type: select
     proxies:
       - REJECT
+      - DIRECT
   - name: 兜底规则
     <<: *a3
 #节点分组
   - name: 自动选择
     <<: *a4
+    filter: 香港 HA|香港 AC|香港 IEPL
   - name: 香港节点
     <<: *a4
     filter: 港|HK|Hong
