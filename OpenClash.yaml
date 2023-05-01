@@ -1,5 +1,5 @@
 # ==UserScript==
-# 修改自墨鱼Clash配置文件
+# @修改自墨鱼Clash配置文件
 # ==/UserScript==      
 
 port: 7890
@@ -50,8 +50,8 @@ pr:
   &a3
   type: select
   proxies:
-    - 自动选择
-    - 手动切换
+    - 自动切换
+    - 手动选择
     - 香港节点
     - 日本节点
     - 美国节点
@@ -64,13 +64,13 @@ p:
   interval: 86400
   health-check:
     enable: true
-    url: http://www.gstatic.com/generate_204
+    url: http://cp.cloudflare.com/generate_204
     interval: 1800
 auto:
   &a4
   type: url-test
   lazy: true
-  url: http://www.gstatic.com/generate_204
+  url: http://cp.cloudflare.com/generate_204
   interval: 900
   use:
     - Subscribe
@@ -104,7 +104,7 @@ proxy-providers:
 proxies: null
 proxy-groups:
 #分流分组
-  - name: 手动切换
+  - name: 手动选择
     <<: *a2
   - name: 全球加速
     <<: *a3
@@ -136,9 +136,9 @@ proxy-groups:
   - name: 兜底规则
     <<: *a3
 #节点分组
-  - name: 自动选择
+  - name: 自动切换
     <<: *a4
-    filter: 香港 HA|香港 AC|香港 IEPL
+    filter: 香港 HA|香港 AC
   - name: 香港节点
     <<: *a4
     filter: 港|HK|Hong
