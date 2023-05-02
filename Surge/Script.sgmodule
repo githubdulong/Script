@@ -17,8 +17,6 @@ force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com
 # 分割线——————————————————————————
 
 [Rule]
-# > ATV 虚拟遥控器（按钮灰色）
-IP-CIDR,192.168.100.100/32,REJECT
 # > Siri与搜索 代理
 PROCESS-NAME,LookupViewService,𝗣𝗥𝗢𝗫𝗬
 PROCESS-NAME,/System/Library/PrivateFrameworks/Lookup.framework/Versions/A/XPCServices/LookupViewService.xpc/Contents/MacOS/LookupViewService,𝗣𝗥𝗢𝗫𝗬
