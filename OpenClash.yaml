@@ -221,7 +221,7 @@ rules:
   - RULE-SET,Lan,DIRECT
   - RULE-SET,Download,DIRECT
   - RULE-SET,Ad,广告拦截
-  - RULE-SET,GlobalMedia,奈飞视频
+  - RULE-SET,Netflix,奈飞视频
   - RULE-SET,GlobalMedia,国际媒体
   - RULE-SET,Apple,苹果服务
   - RULE-SET,Github,全球加速
