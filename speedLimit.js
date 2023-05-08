@@ -20,7 +20,7 @@ try {
       return $surge.selectGroupDetails().decisions[Group];
    };
 
-   if (Date.now() - lastUpdateTime >= 0.16* 3600000) {
+   if (Date.now() - lastUpdateTime >= 0.16 * 3600000) {
       policyGroupName(`${Group}`) !== "𝗗𝗜𝗥𝗘𝗖𝗧" && $surge.setSelectGroupPolicy(`${Group}`, "𝗗𝗜𝗥𝗘𝗖𝗧");
    }
 
