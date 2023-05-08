@@ -58,7 +58,7 @@ try {
       if (policyGroupName(`${Group}`) === "𝗗𝗜𝗥𝗘𝗖𝗧") {
          $surge.setSelectGroupPolicy(`${Group}`, `${policy}`);
          $notification.post(
-            `🎉 策略切换成功 监控时间${time}秒`,
+            `🎉🎉 策略切换成功 监控时长${time}秒`,
             `当前速度 ➟ ${speed_unit(current_speed)} ➟ ${minSpeed} MB/S`,
             `${host}平均下载速度低于${minSpeed} MB/S 已自动切换至${policy}策略`,
          );
