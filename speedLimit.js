@@ -29,7 +29,7 @@ try {
    const speed = () => {
       return new Promise((r) => {
          $httpAPI("GET", "/v1/requests/active", null, (data) =>
-            r(data.requests.find((item) => item.URL.includes(`iosapps.itunes.apple.com`))?.inCurrentSpeed),
+            r(data.requests.find((item) => item.URL.includes(`${host}`))?.inCurrentSpeed),
          );
       });
    };
@@ -59,7 +59,7 @@ try {
          $surge.setSelectGroupPolicy(`${Group}`, `${policy}`);
          $notification.post(
             `🎉 策略切换成功 监控时间${time}秒`,
-            `当前速度—> ${speed_unit(current_speed)}——> ${minSpeed} MB/S`,
+            `当前速度 ➟ ${speed_unit(current_speed)} ➟ ${minSpeed} MB/S`,
             `${host}平均下载速度低于${minSpeed} MB/S 已自动切换至${policy}策略`,
          );
          cache[host] = Date.now();
@@ -67,6 +67,6 @@ try {
       }
    })();
 } catch (err) {
-   $notification.post("错误: ⚠️", err.message || err, "🎉 策略切换失败");
+   $notification.post("错误: ❌", err.message || err, "⚠️ 策略切换失败");
    $done({});
 }
