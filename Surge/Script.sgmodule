@@ -130,7 +130,7 @@ URL-REGEX,^https:\/\/doc\.linkease\.com\/linkease\/appGuide\/banner,REJECT
 
 [Script]
 # > 苹果策略优选
-策略优选 = type=rule,timeout=60,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/speedLimit.js,argument=Group=𝗔𝗽𝗽𝗹𝗲&policy=𝗣𝗥𝗢𝗫𝗬&time=15&minSpeed=30
+策略优选 = type=rule,timeout=60,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/speedLimit.js,argument=Group=𝗔𝗽𝗽𝗹𝗲&policy=𝗣𝗥𝗢𝗫𝗬&time=15&minSpeed=20
 # > Spark 解锁、Forza Football解锁
 通用解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/revenuecat.js,script-update-interval=-1
 # > 扫描全能王 pro
