@@ -49,6 +49,8 @@ URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
 # > Boxjs 代理
 DOMAIN-KEYWORD,jsdelivr.net,𝗣𝗥𝗢𝗫𝗬
+# > Sub-Store 代理
+DOMAIN-KEYWORD,vercel.app,𝗔𝗨𝗧𝗢
 # > Price 代理
 DOMAIN-SUFFIX,coingecko.com,𝗣𝗥𝗢𝗫𝗬
 # > 腾讯视频 去开屏
