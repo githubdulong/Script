@@ -58,9 +58,9 @@ try {
       if (policyGroupName(`${Group}`) === "𝗗𝗜𝗥𝗘𝗖𝗧") {
          $surge.setSelectGroupPolicy(`${Group}`, `${policy}`);
          $notification.post(
-            `🎉策略切换成功 监控时长${time}秒`,
+            `策略切换成功 🎉`,
             `速度 ➟ ${speed_unit(current_speed)} ➟ ${minSpeed} MB/S`,
-            `低于${minSpeed}MB/S 已切换${policy}策略`,
+            `监控时长${time}秒 切换${policy}策略`,
          );
          cache[host] = Date.now();
          $persistentStore.write(JSON.stringify(cache), "last_update_time");
