@@ -35,7 +35,7 @@ try {
    };
 
    const speed_unit = (speed) => {
-      for (units of ["B/S", "KB/S", "MB/S", "GB/S", "TB/S"]) {
+      for (units of ["B/s", "KB/s", "MB/s", "GB/s", "TB/s"]) {
          if (speed < 1000 || !(speed = parseFloat(speed / 1024))) return `${speed.toFixed(2)} ${units}`;
       }
    };
@@ -59,7 +59,7 @@ try {
          $surge.setSelectGroupPolicy(`${Group}`, `${policy}`);
          $notification.post(
             `策略切换成功 🎉`,
-            `速度 ➟ ${speed_unit(current_speed)} ➟ ${minSpeed} MB/S`,
+            `速度 ➟ ${speed_unit(current_speed)} ➟ ${minSpeed} MB/s`,
             `监控时长${time}秒 切换${policy}策略`,
          );
          cache[host] = Date.now();
