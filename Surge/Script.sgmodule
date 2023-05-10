@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2023-05-08 17:21
+#!desc=最后更新时间 2023-05-10 20:27
 #!system=ios
 
 # 分割线——————————————————————————
@@ -17,7 +17,7 @@ force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com
 # 分割线——————————————————————————
 
 [Rule]
-# > 策略优选（对应策略名）
+# > 策略优选
 AND,((DOMAIN,iosapps.itunes.apple.com), (SCRIPT,策略优选)),𝗔𝗽𝗽𝗹𝗲
 # > Siri与搜索 代理
 PROCESS-NAME,LookupViewService,𝗣𝗥𝗢𝗫𝗬
@@ -132,7 +132,7 @@ URL-REGEX,^https:\/\/doc\.linkease\.com\/linkease\/appGuide\/banner,REJECT
 
 [Script]
 # > 苹果策略优选
-策略优选 = type=rule,timeout=60,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/speedLimit.js,argument=Group=𝗔𝗽𝗽𝗹𝗲&policy=𝗣𝗥𝗢𝗫𝗬&time=15&minSpeed=20
+策略优选 = type=rule,timeout=60,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/speedLimit.js,argument="Group=𝗔𝗽𝗽𝗹𝗲&policy=𝗗𝗜𝗥𝗘𝗖𝗧,𝗣𝗥𝗢𝗫𝗬&time=15&minSpeed=20"
 # > Spark 解锁、Forza Football解锁
 通用解锁 = type=http-response,pattern=https:\/\/api\.revenuecat\.com,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/revenuecat.js,script-update-interval=-1
 # > 扫描全能王 pro
