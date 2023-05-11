@@ -149,3 +149,4 @@ $done({ matched: true });
    write("0");
    $notification.post("错误: ❌", err.message || err, "策略切换失败 ⚠️");
 });
+
