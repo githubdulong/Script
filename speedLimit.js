@@ -1,8 +1,8 @@
 /*
 
 作者：小白脸
-版本：1.02（距离终极版还有98个小版本）
-日期：2023.05.11 08:28
+版本：1.03
+日期：2023.05.11 14:34
 
 Surge配置参考注释
 
@@ -37,7 +37,11 @@ const policyGroupName = (Group) => {
 const speed = (includes = "?.inCurrentSpeed") => {
    return new Promise((r) => {
       $httpAPI("GET", "/v1/requests/active", null, (data) =>
-         r(eval(`data.requests.find((item) => item.URL.includes('${host}'))${includes}`)),
+         r(
+            eval(
+               `data.requests.filter(item => item.URL.includes('${host}')).reduce((prev, current) => (prev.speed > current.speed) ? prev : current)${includes}`,
+            ),
+         ),
       );
    });
 };
@@ -49,8 +53,8 @@ const speed_unit = (speed) => {
 };
 
 const write = (num) => {
-	cache[host].switch = `${num}`;
-$persistentStore.write(JSON.stringify(cache), "last_update_time");
+   cache[host].switch = `${num}`;
+   $persistentStore.write(JSON.stringify(cache), "last_update_time");
 };
 
 const host = $request.hostname || $request.url;
@@ -73,9 +77,8 @@ if (_Group && Date.now() - lastUpdateTime >= 0.16 * 3600000) $surge.setSelectGro
 $done({ matched: true });
 
 !(async () => {
-   
    const Group = _Group || (await speed(".notes")).find((x) => x.includes("->")).match(/path\:\s(.+?)\s->/)[1];
-   
+
    if (typeof $argument === "string") {
       var arg = $argument.match(`${Group}.+?minSpeed=[0-9]+`)?.[0].replace(/\s+/g, "");
 
@@ -103,13 +106,13 @@ $done({ matched: true });
    const policy0 = arr_policy[0];
    const End = arr_policy[index_p - 1];
    let policys = cache[host]?.policy;
-   
-//存储的
-   if (policy1 === policy0) {
-		policys = policy0;
-	}
 
-//限制并发请求
+   //存储的
+   if (policy1 === policy0) {
+      policys = policy0;
+   }
+
+   //限制并发请求
    if (cache[host].switch === "1") return;
    write("1");
 
@@ -120,14 +123,12 @@ $done({ matched: true });
       await new Promise((r) => setTimeout(r, 3000));
       current_speed = await speed();
 
-      if (current_speed === undefined) count++;
+      if (current_speed === undefined || current_speed < 1500) count++;
 
       if (count >= 2 || policyGroupName(Group) === End || current_speed >= minSpeed * 1048576) {
-				
          write("0");
          return;
       }
-			
    } //主逻辑一直循环策略
    //网络波动，速度达标，最后个策略 结束循环
 
