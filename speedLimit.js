@@ -1,8 +1,8 @@
 /*
 
 作者：小白脸
-版本：1.01（距离终极版还有99个小版本）
-日期：2023.05.10 20:24
+版本：1.02（距离终极版还有98个小版本）
+日期：2023.05.11 08:28
 
 Surge配置参考注释
 
@@ -29,7 +29,6 @@ AND,((DOMAIN,iosapps.itunes.apple.com), (SCRIPT,策略优选)),Apple
 
 -----------------------------------------
 */
-
 
 const policyGroupName = (Group) => {
    return $surge.selectGroupDetails().decisions[Group];
@@ -75,9 +74,8 @@ $done({ matched: true });
 
 !(async () => {
    
-
    const Group = _Group || (await speed(".notes")).find((x) => x.includes("->")).match(/path\:\s(.+?)\s->/)[1];
-
+   
    if (typeof $argument === "string") {
       var arg = $argument.match(`${Group}.+?minSpeed=[0-9]+`)?.[0].replace(/\s+/g, "");
 
@@ -106,21 +104,14 @@ $done({ matched: true });
    const End = arr_policy[index_p - 1];
    let policys = cache[host]?.policy;
    
-	
-	
 //存储的
    if (policy1 === policy0) {
 		policys = policy0;
-		write("0");
 	}
-
-
 
 //限制并发请求
    if (cache[host].switch === "1") return;
    write("1");
-
-
 
    let current_speed;
    let count = 0;
@@ -131,12 +122,11 @@ $done({ matched: true });
 
       if (current_speed === undefined) count++;
 
-      if (count >= 2 || policy1 === End || current_speed >= minSpeed * 1048576) {
+      if (count >= 2 || policyGroupName(Group) === End || current_speed >= minSpeed * 1048576) {
 				
          write("0");
          return;
       }
-			
 			
    } //主逻辑一直循环策略
    //网络波动，速度达标，最后个策略 结束循环
