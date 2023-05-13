@@ -2,7 +2,7 @@
 
 作者：小白脸
 版本：1.04
-日期：2023.05.11 23:18
+日期：2023.05.12 11:23
 
 Surge配置参考注释
 
@@ -30,8 +30,8 @@ AND,((DOMAIN,iosapps.itunes.apple.com), (SCRIPT,策略优选)),Apple
 -----------------------------------------
 */
 
-const policyGroupName = (Group) => {
-   return $surge.selectGroupDetails().decisions[Group];
+const policyGroupName = (Group, policyStrategies = "decisions") => {
+   return $surge.selectGroupDetails()[policyStrategies][Group];
 };
 
 const speed = (includes = "?.inCurrentSpeed") => {
@@ -68,27 +68,37 @@ try {
    cache = {};
 }
 cache[host] || (cache[host] = {});
-
 const lastUpdateTime = cache[host]?.time;
-
 const _Group = cache[host]?.Group;
 const _policy0 = cache[host]?.policy0;
 
-if (_Group && Date.now() - lastUpdateTime >= 0.16 * 3600000) $surge.setSelectGroupPolicy(`${_Group}`, `${_policy0}`);
+if (_Group && _policy0 && Date.now() - lastUpdateTime >= 0.16 * 3600000) {
+   policyGroupName(_Group) !== _policy0 && $surge.setSelectGroupPolicy(_Group, _policy0) &&
+		(cache[host].policy = _policy0);
+}
 
 $done({ matched: true });
 
 !(async () => {
    try {
-      const Group = _Group || (await speed("?.notes")).find((x) => x.includes("->")).match(/path\:\s(.+?)\s->/)[1];
+      const findArg = async (G, isFound) => {
+         let arg = $argument.match(`${G}.+?minSpeed=[0-9]+`);
 
-      if (typeof $argument === "string") {
-         var arg = $argument.match(`${Group}.+?minSpeed=[0-9]+`)?.[0].replace(/\s+/g, "");
+         if (arg) {
+            return arg[0].replace(/\s+/g, "");
+         } else if (isFound) {
+            throw "策略组匹配失败";
+         }
 
-         if (!arg) throw "策略组不存在";
-      } else {
-         throw "argument不存在,别直接运行";
-      }
+         const parent = (await speed("?.notes")).find((x) => x.includes("->"));
+         if (!parent) throw "Group策略组不存在";
+         Group = parent.match(/path\:\s(.+?)\s->/)[1];
+         cache[host] = {};
+         return await findArg(Group, true);
+      };
+
+      let Group = _Group;
+      let arg = await findArg(Group);
 
       const { policy, time, minSpeed } = Object.fromEntries(arg.split("&").map((item) => item.split("=")));
 
@@ -101,11 +111,24 @@ $done({ matched: true });
          }
       });
 
-      const arr_policy = policy.split(",").filter((x) => !!x);
+      let arr_policy = policy.split(",").filter((x) => !!x);
+      let index_p = arr_policy.length;
+
+      if (index_p === 1) {
+         arr_policy = policyGroupName(Group, "groups");
+         index_p = arr_policy.length;
+
+         if (index_p < 1) throw "policy必须包含一个默认策略";
+
+         const index = arr_policy.indexOf(policy);
+         if (index !== -1) {
+            [arr_policy[0], arr_policy[index]] = [arr_policy[index], arr_policy[0]];
+         } else {
+            throw `在${Group}策略组中未找到默认策略${policy}`;
+         }
+      }
 
       const policy1 = policyGroupName(Group); // 现在使用的
-      const index_p = arr_policy.length;
-      if (index_p < 2) throw "policy必须包含默认策略和至少一个跳转策略";
       const policy0 = arr_policy[0];
       const End = arr_policy[index_p - 1];
       let policys = cache[host]?.policy;
@@ -113,7 +136,7 @@ $done({ matched: true });
       //存储的
       if (policy1 === policy0) {
          policys = policy0;
-				 write("0");
+         write("0");
       }
 
       //限制并发请求
@@ -126,10 +149,11 @@ $done({ matched: true });
       for (let i = 0; i < Math.ceil(time / 3); i++) {
          await new Promise((r) => setTimeout(r, 3000));
          current_speed = await speed();
+         if (current_speed === undefined) return;
 
-         if (!current_speed || current_speed < 1500) count++;
+         if (current_speed === 0) count++;
 
-         if (count >= 2 || policyGroupName(Group) === End || current_speed >= minSpeed * 1048576) {
+         if (count >= 3 || policyGroupName(Group) === End || current_speed >= minSpeed * 1048576) {
             write("0");
             return;
          }
@@ -151,9 +175,7 @@ $done({ matched: true });
       cache[host].policy0 = policy0;
       write("0");
    } catch (err) {
-      throw "";
+      write("0");
+      err && $notification.post("错误: ⚠️", "策略切换失败", err.message || err);
    }
-})().catch((err) => {
-   write("0");
-   $notification.post("错误: ❌", err.message || err, "策略切换失败 ⚠️");
-});
+})();
