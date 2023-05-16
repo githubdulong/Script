@@ -15,7 +15,7 @@ ChatGPT Keyboard by Neurogram
 */
 
 
-const api_key = " " // Your API key
+const api_key = " " // 填写您的API密钥
 const model = "gpt-3.5-turbo"
 const user_gesture = { // Generated results: 0: auto-wrap 1: overwrite selected/all prompts  
     tap: 1,
@@ -29,6 +29,9 @@ const keyboard_spacing = 5
 const keyboard_height = 40
 
 const role_data = { // "Role Name": ["System Content", "Prompts Template"]
+    "👀 润色": ["", "polish this text"],
+    "✍️ 续写": ["", "Continued writing"],
+    "🇯🇵 翻译成日文": ["Translate content into Japanese.", ""],
     "🤖 助手": ["You are a helpful assistant.", ""],
     "📖 解释": ["", "Explain the following content:"],
     "🇨🇳 翻译成中文": ["Translate content into Chinese.", ""],
