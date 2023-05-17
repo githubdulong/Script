@@ -15,7 +15,7 @@ ChatGPT Keyboard by Neurogram
 */
 
 
-const api_key = " " // 填写您的API密钥
+const api_key = "" // 填写您的API密钥
 const model = "gpt-3.5-turbo"
 const user_gesture = { // Generated results: 0: auto-wrap 1: overwrite selected/all prompts  
     tap: 1,
@@ -99,7 +99,7 @@ $ui.render({
                 type: "label",
                 props: {
                     height: 20,
-                    text: "𝑱𝑺𝑩𝒐𝒙'𝑪𝒉𝒂𝒕𝑮𝑷𝑻 ⦿ 点击预览",
+                    text: "𝑱𝑺𝑩𝒐𝒙'𝑪𝒉𝒂𝒕𝑮𝑷𝑻 ⦿ 预览 ⇌ 模式",
                     textColor: $color("#AAAAAA"),
                     align: $align.center,
                     font: $font(10)
@@ -139,7 +139,7 @@ $ui.render({
                     },
                     longPressed: function (info) {
                         multi_turn = multi_turn ? false : true
-                        $ui.toast("Dialogue Mode " + (multi_turn ? "On" : "Off"))
+                        $ui.toast("对话模式" + (multi_turn ? " 开" : " 关"))
                         $cache.set("dialogue", { mode: multi_turn })
                     }
                 }
