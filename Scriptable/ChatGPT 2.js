@@ -99,7 +99,7 @@ $ui.render({
                 type: "label",
                 props: {
                     height: 20,
-                    text: "𝑱𝑺𝑩𝒐𝒙'𝑪𝒉𝒂𝒕𝑮𝑷𝑻 ⦿ 预览 ⇌ 模式",
+                    text: "𝑱𝑺𝑩𝒐𝒙'𝑪𝒉𝒂𝒕𝑮𝑷𝑻 ◉ 预览 ⇌ 模式",
                     textColor: $color("#AAAAAA"),
                     align: $align.center,
                     font: $font(10)
