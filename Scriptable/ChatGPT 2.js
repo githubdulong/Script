@@ -82,7 +82,8 @@ $ui.render({
                         titleColor: $color("black", "white"),
                         tintColor: $color("black", "white"),
                         bgcolor: $color("#FFFFFF", "#6B6B6B"),
-                        align: $align.center
+                        
+                        font: $font(14) //按键文字大小
                     },
                     layout: $layout.fill,
                     events: {
