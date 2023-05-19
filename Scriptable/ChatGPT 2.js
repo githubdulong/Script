@@ -14,7 +14,7 @@ ChatGPT Keyboard by Neurogram
 
 */
 
-
+$keyboard.barHidden = true // 去掉底栏
 const api_key = "" // 填写您的API密钥
 const model = "gpt-3.5-turbo"
 const user_gesture = { // Generated results: 0: auto-wrap 1: overwrite selected/all prompts  
@@ -25,19 +25,19 @@ const usage_toast = true // Display usage toast
 
 const edit_tool_columns = 5
 const chatgpt_role_columns = 3
-const keyboard_spacing = 5
+const keyboard_spacing = 6
 const keyboard_height = 40
 
 const role_data = { // "Role Name": ["System Content", "Prompts Template"]
-    "👀 润色": ["", "polish this text"],
-    "✍️ 续写": ["", "Continued writing"],
-    "🇯🇵 翻译成日文": ["Translate content into Japanese.", ""],
-    "🤖 助手": ["You are a helpful assistant.", ""],
-    "📖 解释": ["", "Explain the following content:"],
-    "🇨🇳 翻译成中文": ["Translate content into Chinese.", ""],
-    "🗂️ 总结": ["", "Summarize the following content:"],
-    "📑 扩展": ["", "{USER_CONTENT}\n\nExpand the above content"],
-    "🇺🇸 翻译成英文": ["Translate content into English.", ""]
+    "👀 润色": ["", "用相同语言润色此文本"],
+    "✍️ 续写": ["", "用相同语言继续写作"],
+    "🇯🇵 翻译成日文": ["将内容翻译成日语", ""],
+    "🤖 助手": ["你是一个乐于助人的助手", ""],
+    "📖 解释": ["", "用相同语言解释以下内容："],
+    "🇨🇳 翻译成中文": ["将内容翻译成中文", ""],
+    "🗂️ 总结": ["", "用相同语言总结以下内容："],
+    "📑 扩展": ["", "{USER_CONTENT}\n\n 用相同语言展开上述内容"],
+    "🇺🇸 翻译成英文": ["将内容翻译成英语", ""]
 }
 
 const edit_tool = {
@@ -60,6 +60,11 @@ if (dialogue) multi_turn = dialogue.mode
 
 $app.theme = "auto"
 $ui.render({
+events: {
+  appeared: function() {
+$keyboard.height = 265
+  }, 
+}, //键盘高度
     props: {
         title: "ChatGPT",
         navBarHidden: $app.env == $env.keyboard,
@@ -96,6 +101,7 @@ $ui.render({
                     }
                 }]
             },
+            
             footer: {
                 type: "label",
                 props: {
