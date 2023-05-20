@@ -14,19 +14,25 @@ ChatGPT Keyboard by Neurogram
 
 */
 
-$keyboard.barHidden = true // 去掉底栏
 const api_key = "" // 填写您的API密钥
 const model = "gpt-3.5-turbo"
 const user_gesture = { // Generated results: 0: auto-wrap 1: overwrite selected/all prompts  
     tap: 1,
     long_press: 0
 }
-const usage_toast = true // Display usage toast
+const usage_toast = true // 显示使用量
 
-const edit_tool_columns = 5
-const chatgpt_role_columns = 3
-const keyboard_spacing = 6
-const keyboard_height = 40
+const keyboard_sound = true // 是否开启键盘声音
+const keyboard_vibrate = 0 // -1: 无振动, 0~2: 振动强度
+const edit_tool_columns = 5 // 编辑工具默认列数
+const chatgpt_role_columns = 3 // ChatGPT 角色默认列数
+const keyboard_spacing = 6 // 按键间隔
+const keyboard_height = 40 // 按键高度
+const keyboard_total_height = 265 //键盘总高度 0为系统默认
+$keyboard.barHidden = true //是否隐藏JSBox 键盘底部工具栏
+
+const heartbeat = 2 // -1:  无回复等待反馈, 0~2: 心跳强度
+const heartbeat_interval = 1.2 //  心跳间隔（秒）
 
 const role_data = { // "Role Name": ["System Content", "Prompts Template"]
     "👀 润色": ["", "用相同语言润色此文本"],
@@ -60,11 +66,6 @@ if (dialogue) multi_turn = dialogue.mode
 
 $app.theme = "auto"
 $ui.render({
-events: {
-  appeared: function() {
-$keyboard.height = 265
-  }, 
-}, //键盘高度
     props: {
         title: "ChatGPT",
         navBarHidden: $app.env == $env.keyboard,
@@ -87,8 +88,7 @@ $keyboard.height = 265
                         titleColor: $color("black", "white"),
                         tintColor: $color("black", "white"),
                         bgcolor: $color("#FFFFFF", "#6B6B6B"),
-                        
-                        font: $font(14) //按键文字大小
+                                                                                                                                                font: $font(14) //按键文字大小                            
                     },
                     layout: $layout.fill,
                     events: {
@@ -103,11 +103,18 @@ $keyboard.height = 265
             },
             
             footer: {
-                type: "label",
+                                type: "button",  
                 props: {
+                                      id: "footer",
+                  
                     height: 20,
-                    text: "𝘑𝘚𝘣𝘰𝘹'𝘊𝘩𝘢𝘵𝘎𝘗𝘛 ◉ 预 览 ⇌ 模 式",
-                    textColor: $color("#AAAAAA"),
+                                                            title: " JSBox'ChatGPT 键盘",
+                                                            titleColor: $color("#AAAAAA"),
+                                                            bgcolor: $color("clear"),
+                                                            symbol: multi_turn ? "bubble.left.and.bubble.right" : "bubble.left",
+                                                            tintColor: $color("#AAAAAA"),
+                                        
+                    
                     align: $align.center,
                     font: $font(10)
                 },
@@ -146,7 +153,9 @@ $keyboard.height = 265
                     },
                     longPressed: function (info) {
                         multi_turn = multi_turn ? false : true
-                        $ui.toast("对话模式" + (multi_turn ? " 开" : " 关"))
+                        
+                                                set_bubble()
+                                        $ui.toast("对话模式" + (multi_turn ? " 开" : " 关"))
                         $cache.set("dialogue", { mode: multi_turn })
                     }
                 }
@@ -159,7 +168,15 @@ $keyboard.height = 265
                 return $size(($device.info.screen.width - (keyboard_columns + 1) * keyboard_spacing) / keyboard_columns, keyboard_height);
             }
         }
-    }]
+        }],
+        events: {
+            appeared: function () {
+                if (keyboard_total_height) $keyboard.height = keyboard_total_height
+            },
+            disappeared: function () {
+                $keyboard.barHidden = false
+            }
+        }
 })
 
 function dataPush(data) {
@@ -177,8 +194,9 @@ function dataPush(data) {
 }
 
 function handler(sender, gesture) {
-    $keyboard.playInputClick()
-    if ($app.env != $env.keyboard) return $ui.warning("请在键盘上运行")
+    if (keyboard_sound) $keyboard.playInputClick()
+    if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate)
+    if ($app.env != $env.keyboard) return $ui.warning("请在键盘内运行")
     if (sender.info.action) return edit(sender.info.action, gesture)
     gpt(sender.title, gesture)
 }
@@ -213,6 +231,8 @@ async function edit(action, gesture) {
 }
 
 let generating = false
+let timer = ""
+let generating_icon = 0
 
 async function gpt(role, gesture) {
 
@@ -270,6 +290,34 @@ async function gpt(role, gesture) {
 
         messages.push({ "role": "user", "content": user_content })
     }
+    if (heartbeat != -1) {
+        timer = $timer.schedule({
+            interval: heartbeat_interval,
+            handler: async () => {
+                $device.taptic(heartbeat)
+                $("footer").symbol = "ellipsis.bubble.fill"
+                await $wait(0.2)
+                $device.taptic(heartbeat)
+                $("footer").symbol = "ellipsis.bubble"
+            }
+        })
+    }
+
+    if (heartbeat == -1) {
+        timer = $timer.schedule({
+            interval: heartbeat_interval / 2,
+            handler: async () => {
+                if (generating_icon) {
+                    generating_icon = 0
+                    $("footer").symbol = "ellipsis.bubble"
+                } else {
+                    generating_icon = 1
+                    $("footer").symbol = "ellipsis.bubble.fill"
+                }
+            }
+        })
+    }
+
 
     let openai = await $http.post({
         url: "https://api.openai.com/v1/chat/completions",
@@ -282,8 +330,11 @@ async function gpt(role, gesture) {
             "messages": messages
         }
     })
-
+    timer.invalidate()
+    set_bubble()
     generating = false
+    generating_icon = 0
+    
     if (openai.data.error) return $ui.error(openai.data.error.message)
 
     if (!multi_turn) $keyboard.insert(openai.data.choices[0].message.content)
@@ -304,4 +355,8 @@ function delete_content(times) {
     for (let i = 0; i < times; i++) {
         $keyboard.delete()
     }
+}
+
+function set_bubble() {
+    $("footer").symbol = multi_turn ? "bubble.left.and.bubble.right" : "bubble.left"
 }
