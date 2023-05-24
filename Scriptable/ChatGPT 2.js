@@ -14,7 +14,7 @@ ChatGPT Keyboard by Neurogram
 
 */
 
-const api_key = "" // 填写您的API密钥
+const api_key = "" //  填写 key
 const model = "gpt-3.5-turbo"
 const user_gesture = { // Generated results: 0: auto-wrap 1: overwrite selected/all prompts  
     tap: 1,
@@ -45,7 +45,6 @@ const role_data = { // "Role Name": ["System Content", "Prompts Template"]
     "📑 扩展": ["", "{USER_CONTENT}\n\n 用相同语言展开上述内容"],
     "🇺🇸 翻译成英文": ["将内容翻译成英语", ""]
 }
-
 const edit_tool = {
     "Start": "arrow.left.to.line",
     "Left": "arrow.left",
@@ -58,19 +57,15 @@ const edit_tool = {
     "Empty": "trash",
     "Dismiss": "keyboard.chevron.compact.down"
 }
-
 const edit_tool_amount = Object.keys(edit_tool).length
 let dialogue = $cache.get("dialogue")
 let multi_turn = false
 if (dialogue) multi_turn = dialogue.mode
-
 $app.theme = "auto"
-$ui.render({
-    props: {
+const view = {    props: {
         title: "ChatGPT",
         navBarHidden: $app.env == $env.keyboard,
         pageSheet: $app.env == $env.keyboard,
-        bgcolor: $color("#D0D3D9", "#2D2D2D"),
     },
     views: [{
         type: "matrix",
@@ -88,7 +83,8 @@ $ui.render({
                         titleColor: $color("black", "white"),
                         tintColor: $color("black", "white"),
                         bgcolor: $color("#FFFFFF", "#6B6B6B"),
-                                                                                                                                                font: $font(14) //按键文字大小                            
+                                                                                                                                               font: $font(14) //按键文字大小                                                    
+                        
                     },
                     layout: $layout.fill,
                     events: {
@@ -101,12 +97,10 @@ $ui.render({
                     }
                 }]
             },
-            
             footer: {
-                                type: "button",  
+                type: "button",
                 props: {
-                                      id: "footer",
-                  
+                    id: "footer",
                     height: 20,
                                                             title: " JSBox'ChatGPT 键盘",
                                                             titleColor: $color("#AAAAAA"),
@@ -114,7 +108,6 @@ $ui.render({
                                                             symbol: multi_turn ? "bubble.left.and.bubble.right" : "bubble.left",
                                                             tintColor: $color("#AAAAAA"),
                                         
-                    
                     align: $align.center,
                     font: $font(10)
                 },
@@ -153,9 +146,9 @@ $ui.render({
                     },
                     longPressed: function (info) {
                         multi_turn = multi_turn ? false : true
-                        
-                                                set_bubble()
-                                        $ui.toast("对话模式" + (multi_turn ? " 开" : " 关"))
+                                                
+                                                                        set_bubble()
+                                                                $ui.toast("对话模式" + (multi_turn ? " 开" : " 关"))
                         $cache.set("dialogue", { mode: multi_turn })
                     }
                 }
@@ -168,16 +161,25 @@ $ui.render({
                 return $size(($device.info.screen.width - (keyboard_columns + 1) * keyboard_spacing) / keyboard_columns, keyboard_height);
             }
         }
-        }],
-        events: {
-            appeared: function () {
-                if (keyboard_total_height) $keyboard.height = keyboard_total_height
-            },
-            disappeared: function () {
-                $keyboard.barHidden = false
-            }
+    }],
+    layout: (make, view) => {
+        make.width.equalTo(view.super)
+        if (keyboard_total_height){
+            make.height.equalTo(keyboard_total_height)
+        } else {
+            make.height.equalTo(view.super)
         }
-})
+    }
+}
+if ($app.env === $env.keyboard) {
+  $ui.render({ props: { navBarHidden: true } })
+    $delay(0, () => {
+        $ui.controller.view = $ui.create(view)
+        $ui.controller.view.layout(view.layout)
+    })
+} else {
+    $ui.render(view)
+}
 
 function dataPush(data) {
     let key_title = []
@@ -239,7 +241,6 @@ async function gpt(role, gesture) {
     if (generating) return $ui.warning("正在生成中")
     let user_content = await get_content(0)
     if (!user_content && !multi_turn) return $ui.warning("未找到提示")
-
     generating = true
 
     let messages = []
@@ -290,6 +291,7 @@ async function gpt(role, gesture) {
 
         messages.push({ "role": "user", "content": user_content })
     }
+
     if (heartbeat != -1) {
         timer = $timer.schedule({
             interval: heartbeat_interval,
@@ -318,7 +320,6 @@ async function gpt(role, gesture) {
         })
     }
 
-
     let openai = await $http.post({
         url: "https://api.openai.com/v1/chat/completions",
         header: {
@@ -330,11 +331,11 @@ async function gpt(role, gesture) {
             "messages": messages
         }
     })
+
     timer.invalidate()
     set_bubble()
     generating = false
     generating_icon = 0
-    
     if (openai.data.error) return $ui.error(openai.data.error.message)
 
     if (!multi_turn) $keyboard.insert(openai.data.choices[0].message.content)
