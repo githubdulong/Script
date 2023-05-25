@@ -27,7 +27,7 @@ const keyboard_vibrate = 0 // -1: 无振动, 0~2: 振动强度
 const edit_tool_columns = 5 // 编辑工具默认列数
 const chatgpt_role_columns = 3 // ChatGPT 角色默认列数
 const keyboard_spacing = 6 // 按键间隔
-const keyboard_height = 40 // 按键高度
+const keyboard_height = 42 // 按键高度
 const keyboard_total_height = 265 //键盘总高度 0为系统默认
 $keyboard.barHidden = true //是否隐藏JSBox 键盘底部工具栏
 
@@ -249,19 +249,19 @@ async function gpt(role, gesture) {
 
         if ($keyboard.selectedText) $keyboard.moveCursor(1)
 
-        if (!user_content.match(/⚙️ SYSTEM:[^🔚]+/)) {
+        if (!user_content.match(/⚙️ 系统:[^🔚]+/)) {
             $ui.warning("未找到对话")
-            $keyboard.insert(`\n⚙️ SYSTEM:\n${role_data[role][0] || "-"}🔚\n\n👨‍💻 USER:\n`)
+            $keyboard.insert(`\n⚙️ 系统:\n${role_data[role][0] || "-"}🔚\n\n👨‍💻 用户:\n`)
             generating = false
             return
         }
 
-        let contents = user_content.match(/(👨‍💻 USER|🤖 ASSISTANT):\n([^🔚]+)/g)
+        let contents = user_content.match(/(👨‍💻 用户|🤖 助手):\n([^🔚]+)/g)
 
         if (contents) {
             for (let i in contents) {
-                if (contents[i].match(/👨‍💻 USER:\n([^🔚]+)/)) messages.push({ "role": "user", "content": contents[i].match(/👨‍💻 USER:\n([^🔚]+)/)[1] })
-                if (contents[i].match(/🤖 ASSISTANT:\n([^🔚]+)/)) messages.push({ "role": "assistant", "content": contents[i].match(/🤖 ASSISTANT:\n([^🔚]+)/)[1] })
+                if (contents[i].match(/👨‍💻 用户:\n([^🔚]+)/)) messages.push({ "role": "user", "content": contents[i].match(/👨‍💻 用户:\n([^🔚]+)/)[1] })
+                if (contents[i].match(/🤖 助手:\n([^🔚]+)/)) messages.push({ "role": "assistant", "content": contents[i].match(/🤖 助手:\n([^🔚]+)/)[1] })
             }
         }
 
@@ -271,7 +271,7 @@ async function gpt(role, gesture) {
             return
         }
 
-        let system_content = user_content.match(/⚙️ SYSTEM:\n([^🔚]+)/)[1]
+        let system_content = user_content.match(/⚙️ 系统:\n([^🔚]+)/)[1]
         if (system_content != "-") messages = [{ "role": "system", "content": system_content }].concat(messages)
     }
 
@@ -339,7 +339,7 @@ async function gpt(role, gesture) {
     if (openai.data.error) return $ui.error(openai.data.error.message)
 
     if (!multi_turn) $keyboard.insert(openai.data.choices[0].message.content)
-    if (multi_turn) $keyboard.insert(`🔚\n\n🤖 ASSISTANT:\n${openai.data.choices[0].message.content}🔚\n\n👨‍💻 USER:\n`)
+    if (multi_turn) $keyboard.insert(`🔚\n\n🤖 助手:\n${openai.data.choices[0].message.content}🔚\n\n👨‍💻 用户:\n`)
 
     if (!usage_toast) return
     let usage = openai.data.usage
@@ -348,7 +348,7 @@ async function gpt(role, gesture) {
 
 async function get_content(length) {
     let content = $keyboard.selectedText || await $keyboard.getAllText()
-    if (length) content = `长度: ${content.replace(/(⚙️ SYSTEM|👨‍💻 USER|🤖 ASSISTANT):\n|🔚/g, "").replace(/\n+/g, "\n").length}\n\n${content}`
+    if (length) content = `长度: ${content.replace(/(⚙️ 系统|👨‍💻 用户|🤖 助手):\n|🔚/g, "").replace(/\n+/g, "\n").length}\n\n${content}`
     return content
 }
 
