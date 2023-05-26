@@ -15,22 +15,22 @@ AND,((DOMAIN,iosapps.itunes.apple.com), (SCRIPT,策略优选)),Apple
 [Script]
 策略优选 = type=rule,timeout=60,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/speedLimit.js,argument="Return=10min,Group=Apple&policy=DIRECT,PROXY,Support&time=15&minSpeed=20"
 
------------------------------------------
+----------------------------------------
 
 • 支持监控多个策略组，每个策略组可以监控多个域名，and 套 or 规则 or 可以放多个域名 and最下面放脚本规则；
 • Group 填 "策略组"是填策略组重要事情说3遍；
-• policy填 ‘策略’  第一个是填默认策略，默认策略可以是DIRECT，可以是其他策略，后面填你要跳转的策略，用英文的逗号 , 隔开。
-• 默认策略可以只填一个，表示循环跳转这个策略组的所有策略
-• Return 表示策略组返回默认策略时间，单位可以定义 ms s min h 表示 毫秒 秒 分钟 小时
+• policy填 "策略" 第一个是填默认策略，默认策略可以是DIRECT，可以是其他策略，后面填你要跳转的策略，多个用英文的逗号 , 隔开；
+• 默认策略可以只填一个，表示循环跳转这个策略组的所有策略；
+• Return 表示策略组返回默认策略时间，单位可以定义 ms s min h 表示 毫秒 秒 分钟 小时；
 • time 表示要监控的时间，单位为秒；
 • minSpeed 表示低于这个速度就跳转策略，单位MB/s；
 • 兼容了16以下的系统；
 • 多策略跳转顺序就是你填的顺序；
 • 只到速度达标或策略跳转完结束,Return设定的时间后自动跳转默认策略；
-• 如果所有策略轮询后都未达到监控需求则自动选择记录中最优策略；
-• 遇到不能用直接删缓存 last_update_time；
+• 如果所有策略轮询后都未达到监控需求则自动选择中最优策略；
+• 遇到不能用直接删缓存 last_update_time；（这也不会？都用睾贵的 Surge 了那谁还管你）
 
------------------------------------------
+----------------------------------------
 */
 
 const policyGroupName = (Group, policyStrategies = "decisions") => {
