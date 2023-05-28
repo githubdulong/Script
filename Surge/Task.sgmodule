@@ -48,4 +48,4 @@ iQIYI签到 = type=cron,cronexp=30 4 0 * * *,wake-system=1,timeout=120,script-pa
 # > SUB 订阅同步
 订阅同步 = type=cron,cronexp=15 0 20 * * *,script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/cron-sync-artifacts.min.js,script-update-interval=0,wake-system=1,timeout=60
 # > 切换会话
-切换会话 = type=cron,cronexp="0 1,3,5 8,20 * * *",script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,wake-system=true
+//切换会话 = type=cron,cronexp="0 1,3,5 8,20 * * *",script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,wake-system=true
