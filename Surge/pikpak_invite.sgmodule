@@ -1,0 +1,11 @@
+#!name=无限会员
+#!desc=PikPak 邀请赢会员,定时运行每日一次刷邀请,注意风控
+
+# 作者：小白脸
+# 版本：1.01
+# 更新：2023-05-30 09:45
+# 备注：无需手动运行，每日仅需运行一次，风控自行承担。脚本仅供测试使用，请支持正版购买使用。
+
+[Script]
+# ⚠️下方 argument 需填写个人邀请码
+无限会员 = type=cron,cronexp=0 45 1 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/pikpak_invite.js,argument=75016823
