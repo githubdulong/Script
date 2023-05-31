@@ -1,5 +1,5 @@
 #!name=定时脚本
-#!desc=最后更新时间 2023-05-12 11:24
+#!desc=最后更新时间 2023-05-31 13:30
 #!system=ios
 
 # 分割线——————————————————————————
@@ -47,5 +47,3 @@ iQIYI签到 = type=cron,cronexp=30 4 0 * * *,wake-system=1,timeout=120,script-pa
 帐户检测 = type=cron,cronexp="0 36 5,11,17,23 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/lowking/Scripts/master/jd/jd_cookie_search.js,script-update-interval=0,timeout=60
 # > SUB 订阅同步
 订阅同步 = type=cron,cronexp=15 0 20 * * *,script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/cron-sync-artifacts.min.js,script-update-interval=0,wake-system=1,timeout=60
-# > 切换会话
-//切换会话 = type=cron,cronexp="0 1,3,5 8,20 * * *",script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,wake-system=true
