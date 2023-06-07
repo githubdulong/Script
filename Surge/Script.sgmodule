@@ -179,7 +179,7 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 //喜马拉雅去广告Surge版 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/XiMaLaYa.sgmodule
 //TF内测修正 https://raw.githubusercontent.com/NobyDa/Script/master/Surge/Module/TestFlightAccount.sgmodule 
 //策略面板 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Panel.sgmodule
-//模块更新捷径 https://www.icloud.com/shortcuts/67c3ace4fb3a4f9ebbe8d3184cd82e39
+//模块更新捷径 https://www.icloud.com/shortcuts/62e7e65ae1b04dc88ca4c81cef6c6f2e
 //格式转换 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Surge_Qx.sgmodule
 //格式转换优化版 https://raw.githubusercontent.com/gitupdate/updateTeam/master/QxToSurge.sgmodule
 //高德地图去广告 https://raw.githubusercontent.com/kokoryh/Script/master/Surge/module/amap.sgmodule
