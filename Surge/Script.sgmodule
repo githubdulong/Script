@@ -170,8 +170,6 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 //知乎助手 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/zheye/zheye.sgmodule
 //spotify解锁 https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module
 //Siri区域解锁 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Siri.sgmodule
-//京东助手(注入式需key）https://raw.githubusercontent.com/githubdulong/Script/master/jdHelper.sgmodule
-//京东联盟转链（联盟、助手二选一）https://raw.githubusercontent.com/githubdulong/Script/master/Surge/jdapp_to_union.sgmodule
 //浏览器搜索 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Q-Search_All_in_one.sgmodule
 //字幕翻译 https://raw.githubusercontent.com/Neurogram-R/Surge/master/module/Dualsub.sgmodule 指令https://www.icloud.com/shortcuts/136b52e6452b4a10b3ea647f925cddd0
 //跳过代理检测 https://raw.githubusercontent.com/mieqq/mieqq/master/skip-proxy-lists.sgmodule
@@ -180,8 +178,7 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 //TF内测修正 https://raw.githubusercontent.com/NobyDa/Script/master/Surge/Module/TestFlightAccount.sgmodule 
 //策略面板 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Panel.sgmodule
 //模块更新捷径 https://www.icloud.com/shortcuts/62e7e65ae1b04dc88ca4c81cef6c6f2e
-//格式转换 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Surge_Qx.sgmodule
-//格式转换优化版 https://raw.githubusercontent.com/gitupdate/updateTeam/master/QxToSurge.sgmodule
+//格式转换 https://raw.githubusercontent.com/gitupdate/updateTeam/master/QxToSurge.sgmodule
 //高德地图去广告 https://raw.githubusercontent.com/kokoryh/Script/master/Surge/module/amap.sgmodule
 //WARP配置 https://raw.githubusercontent.com/VirgilClyne/Cloudflare/main/sgmodule/Cloudflare.1.1.1.1.sgmodule
 //哔哩哔哩自定义 https://github.com/BiliUniverse/Enhanced/raw/main/modules/BiliBili.Enhanced.sgmodule
