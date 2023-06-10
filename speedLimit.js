@@ -1,8 +1,8 @@
 /*
 
 作者：小白脸
-版本：1.08
-日期：2023.05.27 07:43
+版本：1.10
+日期：2023.06.10 21:50
 
 Surge配置参考注释
 
@@ -82,11 +82,38 @@ const findParentKey = (obj, value) => {
    return null;
 };
 
-const fn = () => {
-   for (const key in cache[Group]) {
-      if (key === "policy0" || key === "time") continue;
-      cache[Group][key] &&= 0;
-   }
+const startTime = (_policy0, lastUpdateTime) => {
+   return new Promise((r) =>
+      $httpAPI("GET", "v1/traffic", null, (data) => {
+         const { startTime } = data;
+         const { _startTime_ } = cache;
+         const bool = startTime == _startTime_;
+
+         if (bool) {
+            if (Group && _policy0 && Date.now() - lastUpdateTime >= tomilli()) {
+               if (policyGroupName(Group) !== _policy0 || cache[Group]?.mix?.mix_end)
+                  $surge.setSelectGroupPolicy(Group, _policy0), fn();
+            }
+         } else {
+            cache._startTime_ = startTime;
+            fn();
+         }
+
+         function fn() {
+            Object.entries(cache).forEach(([key, value]) => {
+               if (bool ? key === Group : key !== "_startTime_") {
+                  Object.keys(value).forEach((prop) => {
+                     if (prop !== "policy0" && prop !== "time") {
+                        value[prop] = 0;
+                     }
+                  });
+               }
+            });
+         }
+
+         r();
+      }),
+   );
 };
 
 const mixspeed = (speed, policy) => {
@@ -130,7 +157,7 @@ const optimizePolicyCode = (policy, Group) => {
 
 const findArg = async (G, isFound) => {
    let args = $argument.match(`=${G}.+?minSpeed=[0-9]+`);
-   
+
    if (args) {
       return args[0].replace(/\s+/g, "");
    } else if (isFound) {
@@ -151,7 +178,7 @@ const findArg = async (G, isFound) => {
    return await findArg(Group, true);
 };
 
-let cache = JSON.parse($persistentStore.read("last_update_time") || "{}");
+const cache = JSON.parse($persistentStore.read("last_update_time") || "{}");
 
 const host = $request.hostname || $request.url;
 
@@ -161,17 +188,12 @@ const lastUpdateTime = cache[Group]?.time ?? 0;
 
 const _policy0 = cache[Group]?.policy0;
 
-if (Group && _policy0 && Date.now() - lastUpdateTime >= tomilli()) {
-   if (policyGroupName(Group) !== _policy0 || cache[Group]?.mix?.mix_end) {
-      $surge.setSelectGroupPolicy(Group, _policy0);
-      fn();
-   }
-}
-
-$done({ matched: true });
-
-// 主逻辑循环
 (async () => {
+   await startTime(_policy0, lastUpdateTime);
+
+   $done({ matched: true });
+
+   // 主逻辑循环
    try {
       // 获取参数并确定当前所在的策略组
       const arg = await findArg(Group);
@@ -186,7 +208,7 @@ $done({ matched: true });
       // 解析参数,校验参数
       const { policy, time, minSpeed } = parameters(arg);
       // 对策略进行优化处理
-      const arr_policy = optimizePolicyCode(policy, Group);			
+      const arr_policy = optimizePolicyCode(policy, Group);
       // 获取当前使用的策略
       const policy1 = policyGroupName(Group);
       // 获取默认策略
@@ -241,5 +263,3 @@ $done({ matched: true });
       $notification.post("错误: ⚠️", "策略切换失败", err || err.message);
    }
 })();
-
-
