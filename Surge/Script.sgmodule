@@ -183,6 +183,7 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 //WARP配置 https://raw.githubusercontent.com/VirgilClyne/Cloudflare/main/sgmodule/Cloudflare.1.1.1.1.sgmodule
 //哔哩哔哩自定义 https://github.com/BiliUniverse/Enhanced/raw/main/modules/BiliBili.Enhanced.sgmodule
 //哔哩哔哩换区 https://github.com/BiliUniverse/Global/raw/main/modules/BiliBili.Global.sgmodule
+//什么值得买广告 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/smzdm/smzdm_remove_ads.sgmodule
 
 # 分割线——————————————————————————
 
