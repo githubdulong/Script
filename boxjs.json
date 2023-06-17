@@ -129,7 +129,7 @@
     "appid",
     "securityKey"
   ],
-  "repo": "https://github.com/githubdulong/Script",
+  "repo": "https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-lyric.js",
   "settings": [
     {
       "id": "appid",
