@@ -116,6 +116,42 @@
         "https://is5-ssl.mzstatic.com/image/thumb/Purple125/v4/eb/a8/f6/eba8f63a-b550-4586-b5d3-f22c0718ef81/source/100x100bb.jpg"
       ]
     },
+    
+    {
+      "id": "spotify.token",
+      "name": "Spotify歌词翻译",
+      "author": "@app2smile",
+      "script": "https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-lyric.js",
+      "descs_html": [
+        "使用方法参考作者脚本注释",
+      "keys": [
+        "appid",
+        "securityKey"
+      ],
+      "repo": "https://github.com/githubdulong/Script",
+      "settings": [
+        {
+          "id": "appid",
+          "name": "APP_ID",
+          "val": "",
+          "type": "text",
+          "desc": "填入百度翻译APP_ID"
+        },
+        {
+          "id": "securityKey",
+          "name": "密钥",
+          "placeholder": "",
+          "val": "",
+          "type": "text",
+          "desc": "填入百度翻译密钥"
+        }
+      ],
+      "icons": [
+        "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Spotify.png",
+        "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Spotify.png"
+      ]
+    },
+    
     {
       "id": "xmYd",
       "name": "小米运动",
@@ -392,41 +428,6 @@
         }
       ]
     },
-        {
-      "id": "spotify.token",
-      "name": "Spotify歌词翻译",
-      "author": "@app2smile",
-      "script": "https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-lyric.js",
-      "descs_html": [
-        "使用方法参考作者脚本注释",
-      "keys": [
-        "appid",
-        "securityKey"
-      ],
-      "repo": "https://github.com/githubdulong/Script",
-      "settings": [
-        {
-          "id": "appid",
-          "name": "APP_ID",
-          "val": "",
-          "type": "text",
-          "desc": "填入百度翻译APP_ID"
-        },
-        {
-          "id": "securityKey",
-          "name": "密钥",
-          "placeholder": "",
-          "val": "",
-          "type": "text",
-          "desc": "填入百度翻译密钥"
-        }
-      ],
-      "icons": [
-        "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Spotify.png",
-        "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Spotify.png"
-      ]
-    },
-    
     {
 
       "id": "Auto_join_TF",
