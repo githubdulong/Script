@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=最后更新时间 2023-05-26 12:30
+#!desc=最后更新时间 2023-06-28 14:40
 #!system=ios
 
 # 分割线——————————————————————————
@@ -20,15 +20,15 @@ force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com
 # > 策略优选
 AND,((DOMAIN,iosapps.itunes.apple.com), (SCRIPT,策略优选)),Apple
 # > Siri与搜索 代理
-PROCESS-NAME,LookupViewService,Hong Kong
-PROCESS-NAME,/System/Library/PrivateFrameworks/Lookup.framework/Versions/A/XPCServices/LookupViewService.xpc/Contents/MacOS/LookupViewService,Hong Kong
-DOMAIN,lookup-api.apple.com,Hong Kong
-DOMAIN,lookup-api.apple.com.edgekey.net,Hong Kong
-DOMAIN,e16991.b.akamaiedge.net,Hong Kong
+PROCESS-NAME,LookupViewService,PROXY
+PROCESS-NAME,/System/Library/PrivateFrameworks/Lookup.framework/Versions/A/XPCServices/LookupViewService.xpc/Contents/MacOS/LookupViewService,PROXY
+DOMAIN,lookup-api.apple.com,PROXY
+DOMAIN,lookup-api.apple.com.edgekey.net,PROXY
+DOMAIN,e16991.b.akamaiedge.net,PROXY
 # 慧车天下 去广告修正
 URL-REGEX,api-access.pangolin-sdk-toutiao.com,REJECT-NO-DROP
 # > VSCO 代理
-DOMAIN,measurement.com,Hong Kong
+DOMAIN,measurement.com,PROXY
 # > 555电影网
 DOMAIN,www.o8tv.com,DIRECT
 # > 大师兄影视
@@ -36,9 +36,9 @@ DOMAIN,dsxys.pro,DIRECT
 # > Safari 防跳转
 DOMAIN,app-site-association.cdn-apple.com,REJECT
 # > 机场网站 代理
-DOMAIN,dlercloud.com,Hong Kong
-DOMAIN,zhuan.mlsao.xyz,Hong Kong
-DOMAIN,zh.mk,Hong Kong
+DOMAIN,dlercloud.com,PROXY
+DOMAIN,zhuan.mlsao.xyz,PROXY
+DOMAIN,zh.mk,PROXY
 # > Passkey
 DOMAIN,ql.lowking.pro,服务器 01
 # > 爱奇艺 去广告
@@ -49,11 +49,11 @@ URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 # > 京东 去广告
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
 # > Boxjs 代理
-DOMAIN-KEYWORD,jsdelivr.net,Hong Kong
+DOMAIN-KEYWORD,jsdelivr.net,PROXY
 # > Sub-Store 代理
-DOMAIN-KEYWORD,vercel.app,Hong Kong
+DOMAIN-KEYWORD,vercel.app,PROXY
 # > Price 代理
-DOMAIN-SUFFIX,coingecko.com,Hong Kong
+DOMAIN-SUFFIX,coingecko.com,PROXY
 # > 腾讯视频 去开屏
 OR,((DOMAIN,pgdt.gtimg.cn), (AND,((USER-AGENT,live4iphoneRel*), (IP-CIDR,0.0.0.0/0,no-resolve)))),REJECT-DROP
 # > 掌阅 去广告
