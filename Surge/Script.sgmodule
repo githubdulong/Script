@@ -32,11 +32,8 @@ DOMAIN,dsxys.pro,DIRECT
 # > Safari 防跳转
 DOMAIN,app-site-association.cdn-apple.com,REJECT
 # > 机场网站 代理
-DOMAIN,dlercloud.com,PROXY
 DOMAIN,zhuan.mlsao.xyz,PROXY
 DOMAIN,zh.mk,PROXY
-# > Passkey
-DOMAIN,ql.lowking.pro,服务器 01
 # > 爱奇艺 去广告
 DOMAIN-SUFFIX,cupid.iqiyi.com,REJECT
 # > 优酷 去广告
