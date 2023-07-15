@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=更新时间 2023-07-07 20:53
+#!desc=更新时间 2023-07-15 09:02
 #!system=ios
 
 # 分割线——————————————————————————
@@ -11,6 +11,8 @@
 [General]
 # > Boxjs
 force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com
+# > 代理检测
+skip-proxy = %APPEND% www.baidu.com,yunbusiness.ccb.com,wxh.wo.cn,gate.lagou.com,www.abchina.com.cn,www.shanbay.com,login-service.mobile-bank.psbc.com,mobile-bank.psbc.com
 
 # 分割线——————————————————————————
 
