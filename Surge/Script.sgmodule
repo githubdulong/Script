@@ -4,6 +4,10 @@
 
 # 分割线——————————————————————————
 
+[Header Rewrite]
+# > Bing Ai
+^https:\/\/www\.bing\.com\/search header-replace User-Agent "Mozilla/5.0 (iphone; Intel Mac OS X 10_12_6) AppleWebKit/537.36 Chrome/110.0 Safari/537.36 Edg/110.0"
+
 [General]
 # > Boxjs
 force-http-engine-hosts = %APPEND% boxjs.net, boxjs.com
@@ -170,4 +174,4 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, dayone.*, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, spclient.wg.spotify.com, pan.baidu.com, btrace.qq.com, vsco.co, syh.zybang.com, security.wechat.com, m.douban.com, m.ithome.com, api.ithome.com, api.zuihuimai.com, napi.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, boxjs.net, boxjs.com, sub.store, mb3admin.com, flowplus.meituan.net, ms.jr.jd.com, api-access.pangolin-sdk-toutiao.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, doc.linkease.com, flowplus.meituan.net, s3plus.meituan.net
+hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, dayone.*, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, spclient.wg.spotify.com, pan.baidu.com, btrace.qq.com, vsco.co, syh.zybang.com, security.wechat.com, m.douban.com, m.ithome.com, api.ithome.com, api.zuihuimai.com, napi.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, boxjs.net, boxjs.com, sub.store, mb3admin.com, flowplus.meituan.net, ms.jr.jd.com, api-access.pangolin-sdk-toutiao.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, doc.linkease.com, flowplus.meituan.net, s3plus.meituan.net, www.bing.com
