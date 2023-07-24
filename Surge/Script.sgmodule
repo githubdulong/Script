@@ -50,6 +50,7 @@ DOMAIN-KEYWORD,vercel.app,PROXY
 # > Price 代理
 DOMAIN-SUFFIX,coingecko.com,PROXY
 # > 腾讯视频 去开屏
+IP-CIDR,47.110.187.87/32,REJECT
 OR,((DOMAIN,pgdt.gtimg.cn), (AND,((USER-AGENT,live4iphoneRel*), (IP-CIDR,0.0.0.0/0,no-resolve)))),REJECT-DROP
 # > 掌阅 去广告
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/bookstore\/ad\/,REJECT-TINYGIF
