@@ -21,9 +21,9 @@
 数码之家 = type=http-request,pattern=^https:\/\/my\.ruanmei\.com\/api\/usersign\/getsigninfo?,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ithome/ithome.cookie.js,debug=true
 # > 慢慢买 app获取
 慢买获取 = script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/manmanbuy/manmanbuy_checkin.js,type=http-request,requires-body=true,pattern=^https?:\/\/apph5\.manmanbuy\.com\/taolijin\/(login.aspx|logserver.aspx)
-# > 哔哩哔哩 app或网页 https://www.bilibili.com/
-哔哩哔哩 = type=http-request,pattern=^https:\/\/app\.bilibili\.com\/x\/resource\/domain\?,script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/BiliBili.js
-哔哩哔哩 = type=http-request,pattern=^https:\/\/m.bilibili.com/$,script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/BiliBili.js
+# > 哔哩哔哩 app或网页 https://www.bilibili.com
+哔哩哔哩 = type=http-request,pattern=^https?:\/\/app\.bilibili\.com\/x\/resource\/domain\?,script-path=https://raw.githubusercontent.com/ClydeTime/BiliBili/main/js/BiliBiliDailyBonus.js,requires-body=0
+哔哩哔哩 = type=http-request,pattern=^https?:\/\/m.bilibili.com/$,script-path=https://raw.githubusercontent.com/ClydeTime/BiliBili/main/js/BiliBiliDailyBonus.js,requires-body=0
 # > 伊利乳品 小程序获取
 伊利乳品 = type=http-request, requires-body=1, pattern=https:\/\/club\.yili\.com\/MALLIFChe\/MCSWSIAPI\.asmx\/Call,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/yiLi.cookie.js
 # > 爱奇艺 登陆 https://m.iqiyi.com/user.html
