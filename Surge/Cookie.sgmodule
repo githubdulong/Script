@@ -31,7 +31,7 @@
 微博推送 = type=http-request,pattern=^https:\/\/m\.weibo\.cn\/feed\/,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js
 # > 联通组件 app话费获取
 联通组件 = type=http-request,pattern=^https:\/\/m\.client\.10010\.com\/serviceimportantbusiness\/smart\/smartwisdomCommon,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,script-update-interval=0
-# > 建行生活
+# > 建行生活 app获取
 建行生活 = type=http-request,pattern=^https:\/\/yunbusiness\.ccb\.com\/clp_coupon\/txCtrl\?txcode=A3341A040,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jhsh_checkIn.js
 
 # 分割线——————————————————————————
