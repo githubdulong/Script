@@ -1,5 +1,5 @@
 #!name=定时脚本
-#!desc=最后更新时间 2023-06-10 07:39
+#!desc=最后更新时间 2023-08-01 10:12
 #!system=ios
 
 # 分割线——————————————————————————
@@ -9,8 +9,8 @@
 ＩＴ之家 = type=cron,cronexp=0 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ithome/ithome.js,script-update-interval=0
 # > 喜马拉雅
 喜马拉雅 = type=cron,cronexp=30 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/xmlySign.js,script-update-interval=0,timeout=30
-# > 美团
-美团签到 = type=cron,cronexp=0 1 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.js,script-update-interval=0
+# > 建行生活
+建行生活 = type=cron,cronexp=0 1 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jhsh_checkIn.js,script-update-interval=0,timeout=30
 # > 网易新闻
 网易新闻 = type=cron,cronexp=30 1 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasenews/neteasenews.js,script-update-interval=0
 # > 百度贴吧
