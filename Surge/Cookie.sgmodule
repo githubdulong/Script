@@ -34,7 +34,6 @@
 # > 联通组件 点话费获取
 联通组件 = type=http-request,pattern=^https:\/\/m\.client\.10010\.com\/serviceimportantbusiness\/smart\/smartwisdomCommon,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,script-update-interval=0
 
-
 # 分割线——————————————————————————
 
 [MITM]
