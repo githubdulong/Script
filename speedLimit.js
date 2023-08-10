@@ -1,8 +1,8 @@
 /*
 
 作者：小白脸
-版本：1.10
-日期：2023.06.10 21:50
+版本：2.10
+日期：2023.08.10 13:26
 
 Surge配置参考注释
 
@@ -32,6 +32,8 @@ AND,((DOMAIN,iosapps.itunes.apple.com), (SCRIPT,策略优选)),Apple
 ----------------------------------------
 */
 
+const api = (p) => new Promise(r => $httpAPI("GET", p, null, d => r(d)));
+
 const policyGroupName = (Group, policyStrategies = "decisions") => {
    return $surge.selectGroupDetails()[policyStrategies][Group];
 };
@@ -47,23 +49,29 @@ const tomilli = (String = $argument) => {
    return num * obj[unit];
 };
 
-const speed = (includes = "inCurrentSpeed") => {
-   return new Promise((r, j) => {
-      $httpAPI("GET", "/v1/requests/active", null, (data) => {
-         try {
-            const Data = data.requests
-               .filter((item) => item.URL.includes(host))
-               .reduce((prev, current) => (prev.speed > current.speed ? prev : current))[includes];
-            r(Data);
-         } catch (error) {
-            j();
-         }
-      });
-   });
-};
+async function speed(include = "inCurrentSpeed") {
+   const arr = (requests,include2) => requests
+      .filter((item) => item.URL.includes(host))
+      .reduce((prev, current) => (prev[include2] > current[include2] ? prev : current));
+   try {
+      const { requests } = await api("/v1/requests/active");
+			 $persistentStore.write(JSON.stringify(requests), "kkk")
+      const { [include]: result, method } = arr(requests,"inCurrentSpeed");
+      return /TCP|POST|UDP/.test(method) ? result : "Nomedia";
+			
+			
+			
+			
+   } catch (err) {
+      const { requests } = await api("/v1/requests/recent");
+      const {inMaxSpeed} = arr(requests,"inMaxSpeed");
+      if (inMaxSpeed === 0) return "break";
+      else throw "";
+   }
+}
 
 const speed_unit = (speed) => {
-   for (units of ["B/s", "KB/s", "MB/s", "GB/s", "TB/s"]) {
+   for (units of ["B/S", "KB/S", "MB/S", "GB/S", "TB/S"]) {
       if (speed < 1000 || !(speed = parseFloat(speed / 1024))) return `${speed.toFixed(2)} ${units}`;
    }
 };
@@ -82,38 +90,34 @@ const findParentKey = (obj, value) => {
    return null;
 };
 
-const startTime = (_policy0, lastUpdateTime) => {
-   return new Promise((r) =>
-      $httpAPI("GET", "v1/traffic", null, (data) => {
-         const { startTime } = data;
-         const { _startTime_ } = cache;
-         const bool = startTime == _startTime_;
+const startTime = async (_policy0, lastUpdateTime) => {
+   const data = api("v1/traffic");
+   const { startTime } = data;
+   const { _startTime_ } = cache;
+   const bool = startTime == _startTime_;
+   if (bool) {
+      if (Group && _policy0 && Date.now() - lastUpdateTime >= tomilli()) {
+         if (policyGroupName(Group) !== _policy0 || cache[Group]?.mix?.mix_end)
+            $surge.setSelectGroupPolicy(Group, _policy0), fn();
+      }
+   } else {
+      cache._startTime_ = startTime;
+      fn();
+   }
 
-         if (bool) {
-            if (Group && _policy0 && Date.now() - lastUpdateTime >= tomilli()) {
-               if (policyGroupName(Group) !== _policy0 || cache[Group]?.mix?.mix_end)
-                  $surge.setSelectGroupPolicy(Group, _policy0), fn();
-            }
-         } else {
-            cache._startTime_ = startTime;
-            fn();
-         }
 
-         function fn() {
-            Object.entries(cache).forEach(([key, value]) => {
-               if (bool ? key === Group : key !== "_startTime_") {
-                  Object.keys(value).forEach((prop) => {
-                     if (prop !== "policy0" && prop !== "time") {
-                        value[prop] = 0;
-                     }
-                  });
+   function fn() {
+      Object.entries(cache).forEach(([key, value]) => {
+         if (bool ? key === Group : key !== "_startTime_") {
+            Object.keys(value).forEach((prop) => {
+               if (prop !== "policy0" && prop !== "time") {
+                  value[prop] = 0;
                }
             });
          }
+      });
+   }
 
-         r();
-      }),
-   );
 };
 
 const mixspeed = (speed, policy) => {
@@ -121,39 +125,26 @@ const mixspeed = (speed, policy) => {
    mix.mix_speed ??= 0;
    return speed > mix.mix_speed
       ? {
-           mix_speed: speed,
-           mix_policy: policy,
-           mix_end: false,
-        }
+         mix_speed: speed,
+         mix_policy: policy,
+         mix_end: false,
+      }
       : mix;
 };
 
 const parameters = (arg, obj = {}) => {
    arg.split("&").forEach((value, index) => {
       const [key, val] = value.split("=");
-      if (!val) throw `${key} 不能为空`;
-      else if (index >= 2 && isNaN(val)) throw `${key} 必须为数字`;
+      if (!val) throw new Error(`${key} 不能为空`);
       obj[key] = val;
    });
    return obj;
 };
 
-const optimizePolicyCode = (policy, Group) => {
-   let ar = policy.split(",").filter((x) => !!x);
-   const index = ar.length;
+const optimizePolicyCode = (policy, Group) => policy
+   ? policy.split(",").filter((x) => !!x)
+   : policyGroupName(Group, "groups");
 
-   if (index < 1) throw "policy必须至少包含一个默认策略";
-
-   if (index === 1) {
-      ar = policyGroupName(Group, "groups");
-      const n = ar.indexOf(policy);
-      if (n !== -1) {
-         [ar[0], ar[n]] = [ar[n], ar[0]];
-      } else throw `在${Group}策略组中未找到默认策略${policy}`;
-   }
-
-   return ar;
-};
 
 const findArg = async (G, isFound) => {
    let args = $argument.match(`=${G}.+?minSpeed=[0-9]+`);
@@ -161,12 +152,12 @@ const findArg = async (G, isFound) => {
    if (args) {
       return args[0].replace(/\s+/g, "");
    } else if (isFound) {
-      throw "策略组匹配失败,不要加空格什么的";
+      throw new Error("策略组匹配失败,不要加空格什么的");
    }
 
    const parent = (await speed("notes")).find((x) => x.includes("->"));
 
-   if (!parent) throw "Group策略组不存在";
+   if (!parent) throw new Error("Group策略组不存在");
 
    Group = parent.match(/path\:\s(.+?)\s->/)[1];
 
@@ -190,7 +181,6 @@ const _policy0 = cache[Group]?.policy0;
 
 (async () => {
    await startTime(_policy0, lastUpdateTime);
-
    $done({ matched: true });
 
    // 主逻辑循环
@@ -209,46 +199,55 @@ const _policy0 = cache[Group]?.policy0;
       const { policy, time, minSpeed } = parameters(arg);
       // 对策略进行优化处理
       const arr_policy = optimizePolicyCode(policy, Group);
-      // 获取当前使用的策略
-      const policy1 = policyGroupName(Group);
       // 获取默认策略
       const policy0 = arr_policy[0];
+      if (_policy0 && policy0 !== _policy0) {
+         cache[Group].policy0 = policy0;
+         $surge.setSelectGroupPolicy(`${Group}`, policy0);
+      }
+      // 获取当前使用的策略
+      const policy1 = policyGroupName(Group);
       // 获取当前循环speed最快策略和结束条件
       const { mix_end, mix_policy } = cache[Group].mix || {};
       // 判断是否达到结束循环条件
       const End = mix_end && policy1 === mix_policy;
 
       let current_speed;
-      let count = 0;
 
       // 循环监测下载速度和策略切换条件
       for (let i = 0; i < Math.ceil(time / 3); i++) {
          // 等待3秒
          await new Promise((r) => setTimeout(r, 3000));
-
          // 获取当前下载速度
          current_speed = await speed();
 
-         // 判断两次下载速度为0
-         if (current_speed === 0) count++;
+         //判断请求方法
+         if (typeof current_speed === "string") {
+            if (current_speed === "break") {
+               current_speed = 0;
+               break;
+            }
+            throw "";
+         }
 
          //结束循环条件
-         if ((End || count >= 2 || current_speed >= minSpeed * 1048576) && write(0)) return;
+         if ((End || current_speed >= minSpeed * 1048576) && write(0)) return;
       }
       //记录当前最快策略信息
       const Endjson = mixspeed(current_speed, policy1);
       // 计算下一个要切换的策略，如果策略循环结束未达到条件则退回速度最快的策略并结束循环
+
       const p = arr_policy[arr_policy.indexOf(policy1) + 1] || ((Endjson.mix_end = true), Endjson.mix_policy);
 
       // 执行策略切换
       if (p !== policy1) {
-      if ($surge.setSelectGroupPolicy(`${Group}`, `${p}`))
-         $notification.post(
-      `策略切换成功 🎉`,
-      `速度 ➟ ${speed_unit(current_speed)} ➟ ${minSpeed} MB/s`,
-      `域名 ${host}\n监控时长${time}秒 切换${p}策略`,
-         );
-	   else throw `${p}在策略组中不存在`;
+         if ($surge.setSelectGroupPolicy(`${Group}`, `${p}`))
+            $notification.post(
+               `🎉 策略切换成功 监控时间${time}秒`,
+               `当前速度 ➟ ${speed_unit(current_speed)} ➟ ${minSpeed} MB/S`,
+               `${host}平均 下载速度低余${minSpeed} MB/S 已自动切换至${p}策略`,
+            );
+         else throw new Error(`${p}在策略组中不存在`);
       }
 
       // 更新缓存信息
@@ -259,7 +258,7 @@ const _policy0 = cache[Group]?.policy0;
       });
    } catch (err) {
       // 处理错误情况
-      write(0);
-      $notification.post("错误: ⚠️", "策略切换失败", err || err.message);
+      write(0)
+      err && $notification.post("错误: ❌", "☹️😞😫切换失败", `${err.message}\n${err.stack}`);
    }
 })();
