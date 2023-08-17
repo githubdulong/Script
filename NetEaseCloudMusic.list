@@ -1,9 +1,9 @@
 # 网易云音乐解锁分流 by墨鱼手记 自用Surge格式
 # 2023-08-17 09:33
 
-DOMAIN,, interface3.music.163.com.163jiasu.com
-DOMAIN,, iadmat.nosdn.127.net
-DOMAIN,, netease.ugcvideoss.ourdvs.com
+DOMAIN, interface3.music.163.com.163jiasu.com
+DOMAIN, iadmat.nosdn.127.net
+DOMAIN, netease.ugcvideoss.ourdvs.com
 DOMAIN-SUFFIX, 163yun.com
 DOMAIN-SUFFIX, api.iplay.163.com
 DOMAIN-SUFFIX, hz.netease.com
