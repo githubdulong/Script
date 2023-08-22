@@ -2,7 +2,7 @@
 #!desc=京东,建行生活,活动页面调试工具（点击器）
 
 [Script]
-京东活动= type=http-response,pattern=^https?:\/\/([\w-]+\.)?([\w-]+\.)(jd|jingxi|jkcsjd)\.(com|hk)\/?((?!\.(js|jpg|png|gif|ico|webp|css|dpg|flv|mp3|mp4|zip|rar)).)*$,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/vConsole.js
+京东活动 = type=http-response,pattern=^https?:\/\/([\w-]+\.)?([\w-]+\.)(jd|jingxi|jkcsjd)\.(com|hk)\/?((?!\.(js|jpg|png|gif|ico|webp|css|dpg|flv|mp3|mp4|zip|rar)).)*$,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/vConsole.js
 京东活动 = type=http-response,pattern=^https?:\/\/([\w-]+\.)?([\w-]+\.)(jd|jingxi|jkcsjd)\.(com|hk)\/.+?\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/vConsole.js
 建行生活 = type=http-response, pattern=^https:\/\/res\.yunbusiness\.ccb\.com\/service\/resource\/mng\/quickTopicsPage\/.+?\.html, requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/vConsole.js
 
