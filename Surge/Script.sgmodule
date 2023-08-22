@@ -41,7 +41,7 @@ DOMAIN, iyes.youku.com,REJECT
 URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 # > 京东 去广告
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(start|queryMaterialAdverts),REJECT
-URL-REGEX,^https:\/\/m\.360buyimg\.com\/mobilecms\/s\d{4,}x\d{4,},REJECT
+URL-REGEX,^https:\/\/m\.360buyimg\.com\/mobilecms\/s\d{4}x\d{4},REJECT
 # > Boxjs 代理
 DOMAIN-KEYWORD,jsdelivr.net,PROXY
 # > Sub-Store 代理
