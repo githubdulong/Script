@@ -1,5 +1,5 @@
-#!name=重写获取
-#!desc=最后更新时间 2023-08-15 15:30
+#!name=❐ 重写获取
+#!desc=最后更新时间 2023-08-23 20:37
 #!system=ios
 
 # 分割线——————————————————————————
@@ -37,8 +37,10 @@
 京东商城 = type=http-request,requires-body=1,pattern=^https:\/\/(api\.m|me-api|ms\.jr)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?|gw\/generic\/hy\/h5\/m\/appSign\?),script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
 # > 高德打车 微信小程序获取
 高德打车 = type=http-response, pattern=^https:\/\/m5(-zb)?\.amap\.com\/ws\/yuece\/(act|openapi)\/(activity\/current\/)?query, requires-body=1, script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js
+# > 途虎养车 小程序获取
+途虎养车 = type=http-request,pattern=https://api.tuhu.cn/User/GetInternalCenterInfo,script-path=https://raw.githubusercontent.com/Crazy-Z7/Task/main/Tuhyche.js,timeout=60,script-update-interval=0,requires-body=0
 
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %APPEND% *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, user-api.smzdm.com, my.ruanmei.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, passport.iqiyi.com, mobile.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, auth.alipan.com, ccsp-egmas.sf-express.com, m.weibo.cn, m.client.10010.com, yunbusiness.ccb.com, ms.jr.jd.com, me-api.jd.com, *.amap.com
+hostname = %APPEND% *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, user-api.smzdm.com, my.ruanmei.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, passport.iqiyi.com, mobile.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, auth.alipan.com, ccsp-egmas.sf-express.com, m.weibo.cn, m.client.10010.com, yunbusiness.ccb.com, ms.jr.jd.com, me-api.jd.com, *.amap.com, api.tuhu.cn

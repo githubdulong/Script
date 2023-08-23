@@ -1,5 +1,5 @@
 #!name=定时脚本
-#!desc=最后更新时间 2023-08-15 15:30
+#!desc=最后更新时间 2023-08-23 20:37
 #!system=ios
 
 # 分割线——————————————————————————
@@ -33,6 +33,8 @@ iQIYI签到 = type=cron,cronexp=30 4 0 * * *,wake-system=1,timeout=120,script-pa
 顺丰速运 = type=cron,cronexp=30 6 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js,script-update-interval=0,timeout=30
 # > 高德打车
 高德打车 = type=cron,cronexp=0 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js,script-update-interval=0,timeout=30
+# > 途虎养车
+途虎养车 = type=cron,cronexp=30 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Crazy-Z7/Task/main/Tuhyche.js,script-update-interval=0,timeout=60
 # > BoxjsGist备份
 数据备份 = type=cron,cronexp=50 23 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/backup.js,script-update-interval=0,timeout=60
 # > SUB 订阅同步
