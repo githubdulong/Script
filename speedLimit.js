@@ -71,7 +71,7 @@ async function speed(include = "inCurrentSpeed") {
 }
 
 const speed_unit = (speed) => {
-   for (units of ["B/S", "KB/S", "MB/S", "GB/S", "TB/S"]) {
+   for (units of ["B/s", "KB/s", "MB/s", "GB/s", "TB/s"]) {
       if (speed < 1000 || !(speed = parseFloat(speed / 1024))) return `${speed.toFixed(2)} ${units}`;
    }
 };
@@ -241,13 +241,13 @@ const _policy0 = cache[Group]?.policy0;
 
       // 执行策略切换
       if (p !== policy1) {
-         if ($surge.setSelectGroupPolicy(`${Group}`, `${p}`))
-            $notification.post(
-               `🎉 策略切换成功 监控时间${time}秒`,
-               `当前速度 ➟ ${speed_unit(current_speed)} ➟ ${minSpeed} MB/S`,
-               `${host}平均 下载速度低余${minSpeed} MB/S 已自动切换至${p}策略`,
-            );
-         else throw new Error(`${p}在策略组中不存在`);
+      if ($surge.setSelectGroupPolicy(`${Group}`, `${p}`))
+         $notification.post(
+      `策略切换成功 🎉`,
+      `速度 ➟ ${speed_unit(current_speed)} ➟ ${minSpeed} MB/s`,
+      `域名 ${host}\n监控时长${time}秒 切换${p}策略`,
+         );
+	   else throw `${p}在策略组中不存在`;
       }
 
       // 更新缓存信息
@@ -259,6 +259,6 @@ const _policy0 = cache[Group]?.policy0;
    } catch (err) {
       // 处理错误情况
       write(0)
-      err && $notification.post("错误: ❌", "☹️😞😫切换失败", `${err.message}\n${err.stack}`);
+      err && $notification.post("错误:", "策略切换失败", `${err.message}\n${err.stack}`);
    }
 })();
