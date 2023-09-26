@@ -27,8 +27,6 @@
 阿里云盘 = requires-body=1,type=http-response,pattern=https:\/\/auth.alipan.com\/v2\/account\/token,script-path=https://raw.githubusercontent.com/lowking/Scripts/master/ali/aliYunPanCheckIn.js
 # > 顺丰速运 app获取
 顺丰速运 = type=http-request, pattern=^https:\/\/ccsp-egmas.sf-express.com\/cx-app-member\/member\/app\/user\/universalSign,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.cookie.js,requires-body=1
-# > 微博推送 登陆 https://m.weibo.cn 获取
-微博推送 = type=http-request,pattern=^https:\/\/m\.weibo\.cn\/feed\/,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/Weibo/Weibo.js
 # > 联通组件 app话费获取
 联通组件 = type=http-request,pattern=^https:\/\/m\.client\.10010\.com\/serviceimportantbusiness\/smart\/smartwisdomCommon,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,script-update-interval=0
 # > 建行生活 app获取
@@ -41,4 +39,4 @@
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %APPEND% *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, user-api.smzdm.com, my.ruanmei.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, passport.iqiyi.com, mobile.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, auth.alipan.com, ccsp-egmas.sf-express.com, m.weibo.cn, m.client.10010.com, yunbusiness.ccb.com, ms.jr.jd.com, me-api.jd.com, *.amap.com
+hostname = %APPEND% *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, user-api.smzdm.com, my.ruanmei.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, passport.iqiyi.com, mobile.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, auth.alipan.com, ccsp-egmas.sf-express.com, m.client.10010.com, yunbusiness.ccb.com, ms.jr.jd.com, me-api.jd.com, *.amap.com
