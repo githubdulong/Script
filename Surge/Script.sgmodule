@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=更新时间 2023-09-14 15:06
+#!desc=更新时间 2023-09-26 12:51
 #!system=ios
 
 # 分割线——————————————————————————
@@ -15,12 +15,6 @@ skip-proxy = %APPEND% www.baidu.com,yunbusiness.ccb.com,wxh.wo.cn,gate.lagou.com
 # 分割线——————————————————————————
 
 [Rule]
-# > Siri与搜索 代理
-PROCESS-NAME,LookupViewService,PROXY
-PROCESS-NAME,/System/Library/PrivateFrameworks/Lookup.framework/Versions/A/XPCServices/LookupViewService.xpc/Contents/MacOS/LookupViewService,PROXY
-DOMAIN,lookup-api.apple.com,PROXY
-DOMAIN,lookup-api.apple.com.edgekey.net,PROXY
-DOMAIN,e16991.b.akamaiedge.net,PROXY
 # 慧车天下 去广告修正
 URL-REGEX,api-access.pangolin-sdk-toutiao.com,REJECT-NO-DROP
 # > VSCO 代理
@@ -160,7 +154,7 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 //贴吧去除广告 https://raw.githubusercontent.com/app2smile/rules/master/module/tieba.sgmodule
 //知乎助手 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/zheye/zheye.sgmodule
 //spotify解锁 https://raw.githubusercontent.com/app2smile/rules/master/module/spotify.module
-//Siri区域解锁 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Siri.sgmodule
+//Siri区域解锁 https://raw.githubusercontent.com/VirgilClyne/iRingo/main/sgmodule/Siri.Uppercase_PROXY.sgmodule
 //浏览器搜索 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Q-Search_All_in_one.sgmodule
 //字幕翻译 https://raw.githubusercontent.com/Neurogram-R/Surge/master/module/Dualsub.sgmodule 指令https://www.icloud.com/shortcuts/136b52e6452b4a10b3ea647f925cddd0
 //跳过代理检测 https://raw.githubusercontent.com/mieqq/mieqq/master/skip-proxy-lists.sgmodule
