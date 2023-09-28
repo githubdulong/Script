@@ -1,9 +1,12 @@
-#!name=调试工具
+#!name=调试助手
 #!desc=联通抢券、京东App、Web,活动页面调试工具
 
 [Script]
+# 联通App 28号9点、17点抢话费券
 联通抢券 = type=http-response,pattern=^https:\/\/img\.client\.10010\.com\/2023unicomyuedu\/index\.html,requires-body=1,max-size=-1,timeout=100,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/vConsole.js
+# 京东 Web 活动页面调试
 京东活动 = type=http-response,pattern=^https?:\/\/([\w-]+\.)?([\w-]+\.)(jd|jingxi|jkcsjd)\.(com|hk)\/?((?!\.(js|jpg|png|gif|ico|webp|css|dpg|flv|mp3|mp4|zip|rar)).)*$,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/vConsole.js
+# 京东 App 活动页面调试
 京东活动 = type=http-response,pattern=^https?:\/\/([\w-]+\.)?([\w-]+\.)(jd|jingxi|jkcsjd)\.(com|hk)\/.+?\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/vConsole.js
 
 [MITM]
