@@ -6,7 +6,7 @@
  * 打开活动页面自动注入console 手动执行脚本
 
 */
-const $ = new Env('京东助手', { noLog: true });
+const $ = new Env('调试工具', { noLog: true });
 $.domain = $request.url.match(/https?:\/\/([^\/]+)/)[1];
 $.JDDomain = ['jd.com', 'jd.hk', 'jingxi.com'];
 $.isJD = false;
