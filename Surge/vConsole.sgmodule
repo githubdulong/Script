@@ -1,10 +1,10 @@
 #!name=调试工具
-#!desc=京东,建行生活,活动页面调试工具（点击器）
+#!desc=联通抢券、京东App、Web,活动页面调试工具
 
 [Script]
-京东活动 = type=http-response,pattern=^https?:\/\/([\w-]+\.)?([\w-]+\.)(jd|jingxi|jkcsjd)\.(com|hk)\/?((?!\.(js|jpg|png|gif|ico|webp|css|dpg|flv|mp3|mp4|zip|rar)).)*$,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/vConsole.js
-京东活动 = type=http-response,pattern=^https?:\/\/([\w-]+\.)?([\w-]+\.)(jd|jingxi|jkcsjd)\.(com|hk)\/.+?\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/vConsole.js
-建行生活 = type=http-response, pattern=^https:\/\/res\.yunbusiness\.ccb\.com\/service\/resource\/mng\/quickTopicsPage\/.+?\.html, requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/vConsole.js
+联通抢券 = type=http-response,pattern=https://img.client.10010.com,requires-body=1,max-size=-1,timeout=100,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/vConsole.js
+京东活动 = type=http-response,pattern=^https?:\/\/([\w-]+\.)?([\w-]+\.)(jd|jingxi|jkcsjd)\.(com|hk)\/?((?!\.(js|jpg|png|gif|ico|webp|css|dpg|flv|mp3|mp4|zip|rar)).)*$,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/vConsole.js
+京东活动 = type=http-response,pattern=^https?:\/\/([\w-]+\.)?([\w-]+\.)(jd|jingxi|jkcsjd)\.(com|hk)\/.+?\.html,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/vConsole.js
 
 [MITM]
-hostname = %APPEND% -ap-dd*.jd.com, -ddms.jd.com, -imio.jd.com, -jdcs.m.jd.com, -jdpaycert.jd.com, -jdpaysdk.jd.com, -jtk.jd.com, -lite-msg.m.jd.com, -msjdpay.jd.com, -payfinish.jd.com, -payfinish.m.jd.com, -poly-merchant.jd.com, -redpoint-msg.m.jd.com, *.*.jd.com, *.*.jingxi.com, *.*.jkcsjd.com, *.jd.com, *.jingxi.com, *.jkcsjd.com, res.yunbusiness.ccb.com
+hostname = %APPEND% -ap-dd*.jd.com, -ddms.jd.com, -imio.jd.com, -jdcs.m.jd.com, -jdpaycert.jd.com, -jdpaysdk.jd.com, -jtk.jd.com, -lite-msg.m.jd.com, -msjdpay.jd.com, -payfinish.jd.com, -payfinish.m.jd.com, -poly-merchant.jd.com, -redpoint-msg.m.jd.com, *.*.jd.com, *.*.jingxi.com, *.*.jkcsjd.com, *.jd.com, *.jingxi.com, *.jkcsjd.com, img.client.10010.com
