@@ -149,6 +149,7 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 彩云天气 = type=http-response, pattern=^https:\/\/biz\.cyapi\.cn\/(p\/v1\/vip_info|v2\/user), requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/break/caiyun.js
 # > 哔哩哔哩 保持ck
 哔哩哔哩 = type=http-request,pattern=^https?:\/\/app\.bilibili\.com\/x\/resource\/domain\?,script-path=https://raw.githubusercontent.com/ClydeTime/BiliBili/main/js/BiliBiliDailyBonus.js,requires-body=0
+# 联通28号抢券
 联通抢券 = type=http-response,pattern=^https:\/\/img\.client\.10010\.com\/2023unicomyuedu\/index\.html,requires-body=1,max-size=-1,timeout=100,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/vConsole.js
 
 # > 模块订阅(按需单独添加)
