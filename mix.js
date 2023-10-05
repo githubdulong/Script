@@ -6,18 +6,24 @@ by @hiepkimcdtk55
 =======Quantumult X=======
 
 [rewrite_local]
-^https:\/\/bmall\.camera360\.com\/api\/mix\/recovery$ url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/mix.js
+^https:\/\/cdn-bm\.camera360\.com\/api\/mix\/recovery url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/mix.js
 
 [MITM]
-hostname = bmall.camera360.com
+hostname = cdn-bm.camera360.com
 
 ========Surge==========
 
 [Script]
-camera360-Mix = requires-body=1,script-path= https://raw.githubusercontent.com/githubdulong/Script/master/mix.js,type=http-response,pattern= ^https:\/\/bmall\.camera360\.com\/api\/mix\/recovery$
+camera360-Mix = requires-body=1,script-path= https://raw.githubusercontent.com/githubdulong/Script/master/mix.js,type=http-response,pattern= ^https:\/\/cdn-bm\.camera360\.com\/api\/mix\/recovery$
 
 [MITM]
-hostname = bmall.camera360.com
+hostname = cdn-bm.camera360.com
+
+//MIX 去开屏广告
+^https:\/\/mix-api\.camera360\.com\/v1\/operational-positions url reject-dict
+
+mix-api.camera360.com
+
 */
 
 let body= $response.body;
