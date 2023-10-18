@@ -574,7 +574,7 @@ async function getRecentElcFee() {
 var { sevenEleList, totalPq } = result
 if (sevenEleList.length > 0 && totalPq !== "-") {
     totalPq = parseFloat(totalPq); // Convert totalPq to a number
-    Message += `\n\n近周用电: ${totalPq.toFixed(2)} 度 ⚡️`
+    Message += `\n\n最近用电:${totalPq.toFixed(2)} kW/h`
     sevenEleList.map((item, index) => {
         if (item?.thisVPq && item.dayElePq !== "-") {
             item.dayElePq = parseFloat(item.dayElePq); // Convert dayElePq to a number
