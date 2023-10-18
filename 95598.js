@@ -461,7 +461,7 @@ async function getElcFee() {
             subTitle += `上月用电: ${totalPq}度`
         }
         if (sumMoney) {
-            subTitle += `  账户余额: ${sumMoney}元`
+            subTitle += `\t 账户余额: ${sumMoney}元`
         }
         if (date) {
             Message += `截至日期: ${date}`
@@ -485,10 +485,10 @@ async function getElcFee() {
         throw e
     }
 }
-// 近期用电量(7/30)
+// 近期用电量(6/30)
 async function getRecentElcFee() {
     var yesterday = $.time('yyyy-MM-dd', new Date().getTime() - 24 * 60 * 60 * 1000)
-    var recentday = $.time('yyyy-MM-dd', new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
+    var recentday = $.time('yyyy-MM-dd', new Date().getTime() - 6 * 24 * 60 * 60 * 1000)
     var year = $.time('yyyy', new Date().getTime())
     var params = {
         url: `/api/osg-web0004/member/c24/f01`,
@@ -574,7 +574,7 @@ async function getRecentElcFee() {
 var { sevenEleList, totalPq } = result
 if (sevenEleList.length > 0 && totalPq !== "-") {
     totalPq = parseFloat(totalPq); // Convert totalPq to a number
-    Message += `\n\n最近用电:${totalPq.toFixed(2)} kW/h`
+    Message += `\n\n近期用电:${totalPq.toFixed(2)} kW/h`
     sevenEleList.map((item, index) => {
         if (item?.thisVPq && item.dayElePq !== "-") {
             item.dayElePq = parseFloat(item.dayElePq); // Convert dayElePq to a number
