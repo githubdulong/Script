@@ -472,14 +472,14 @@ async function getElcFee() {
         if (dayNum) {
             Message += `\n预计可用: ${dayNum}天`
         }
-        if (consNo_dst) {
-            Message += `\n用电户号: ${consNo_dst}`
-        }
+        if (consNo_dst && consName_dst) {
+            Message += `\n户号信息: ${consNo_dst} | ${consName_dst}`;
+}
         if (orgName) {
             Message += `\n供电单位: ${orgName}`
         }
         if (elecAddr_dst) {
-            Message += `\n详细地址: ${elecAddr_dst}`
+            Message += `\n用电地址: ${elecAddr_dst}`
         }
     } catch (e) {
         throw e
