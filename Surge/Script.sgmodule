@@ -13,7 +13,7 @@
 skip-proxy = %APPEND% www.baidu.com,yunbusiness.ccb.com,wxh.wo.cn,gate.lagou.com,www.abchina.com.cn,www.shanbay.com,login-service.mobile-bank.psbc.com,mobile-bank.psbc.com
 
 [URL Rewrite]
-# 区域解锁 JP=日本 US=美国 SG=新加坡
+# TikTok区域解锁 JP=日本 US=美国 SG=新加坡
 (?<=_region=)CN(?=&) JP 307
 (^h.+v5\/)(.+) $1 302
 (?<=&mcc_mnc=)4 2 307
