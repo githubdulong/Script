@@ -12,6 +12,13 @@
 # > 代理检测
 skip-proxy = %APPEND% www.baidu.com,yunbusiness.ccb.com,wxh.wo.cn,gate.lagou.com,www.abchina.com.cn,www.shanbay.com,login-service.mobile-bank.psbc.com,mobile-bank.psbc.com
 
+[URL Rewrite]
+# TikTok区域解锁 JP=日本 US=美国 SG=新加坡
+(?<=_region=)CN(?=&) JP 307
+(^h.+v5\/)(.+) $1 302
+(?<=&mcc_mnc=)4 2 307
+(?<=eme\/v)2(?=\/f\w{2}d\/\?.*) 1 302
+
 # 分割线——————————————————————————
 
 [Rule]
@@ -172,4 +179,4 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 
 [MITM]
 hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, dayone.*, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, spclient.wg.spotify.com, pan.baidu.com, btrace.qq.com, syh.zybang.com, security.wechat.com, m.douban.com, m.ithome.com, api.ithome.com, api.zuihuimai.com, napi.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, sub.store, mb3admin.com, flowplus.meituan.net, m.360buyimg.com, api-access.pangolin-sdk-toutiao.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, doc.linkease.com, flowplus.meituan.net, s3plus.meituan.net, www.bing.com, security.wechat.com, biz.cyapi.cn
-hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, spclient.wg.spotify.com, pan.baidu.com, btrace.qq.com, syh.zybang.com, security.wechat.com, m.douban.com, m.ithome.com, api.ithome.com, api.zuihuimai.com, napi.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, sub.store, mb3admin.com, flowplus.meituan.net, m.360buyimg.com, api-access.pangolin-sdk-toutiao.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, doc.linkease.com, flowplus.meituan.net, s3plus.meituan.net, www.bing.com, security.wechat.com, biz.cyapi.cn, app.bilibili.com
+hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, spclient.wg.spotify.com, pan.baidu.com, btrace.qq.com, syh.zybang.com, security.wechat.com, m.douban.com, m.ithome.com, api.ithome.com, api.zuihuimai.com, napi.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, sub.store, mb3admin.com, flowplus.meituan.net, m.360buyimg.com, api-access.pangolin-sdk-toutiao.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, doc.linkease.com, flowplus.meituan.net, s3plus.meituan.net, www.bing.com, security.wechat.com, biz.cyapi.cn, app.bilibili.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com
