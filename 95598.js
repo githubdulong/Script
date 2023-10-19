@@ -211,13 +211,25 @@ async function doLogin(key, verifyCode) {
         }
         var result = await getDecryptData(opts2)
         var { bizrt } = result
-        // 20231017 -> 显示默认户主
-        bizrt.userInfo[0].powerUserList = bizrt.userInfo[0].powerUserList.filter((item) => item.isDefault == '1')
-        $.setdata(JSON.stringify(bizrt), '95598_bizrt')
-        requestBizrt = bizrt
-        var { token, userInfo } = bizrt
-        console.log(`✔️ 登录成功: ${token} !`)
-        console.log(`✔️ 用户信息: ${JSON.stringify(userInfo[0])} !`)
+        if (bizrt?.userInfo?.length > 0) {
+            // 20231017 -> 显示默认户主
+            bizrt.userInfo[0].powerUserList = bizrt.userInfo[0].powerUserList.filter(
+                (item) => item.isDefault == '1' // 主户号
+            )
+            // 20231018 -> 双重过滤(存在默认多户号的情况)
+            if (bizrt.userInfo[0].powerUserList.length > 1) {
+                bizrt.userInfo[0].powerUserList = bizrt.userInfo[0].powerUserList.filter(
+                    (item) => item.elecTypeCode == '01' // 住宅
+                )
+            }
+            $.setdata(JSON.stringify(bizrt), '95598_bizrt')
+            requestBizrt = bizrt
+            var { token, userInfo } = bizrt
+            console.log(`✔️ 登录成功: ${token} !`)
+            console.log(`✔️ 用户信息: ${JSON.stringify(userInfo[0])} !`)
+        } else {
+            throw '获取用户信息失败, 请检查!'
+        }
     } catch (e) {
         throw e
     }
@@ -372,6 +384,9 @@ async function getBindInfo() {
         var { bizrt } = await getDecryptData(opts2)
         // 显示默认户主
         bizrt.powerUserList = bizrt.powerUserList.filter((item) => item.isDefault === '1')
+        if (bizrt.powerUserList.length > 1) {
+            bizrt.powerUserList = bizrt.powerUserList.filter((item) => item.elecTypeCode === '01')
+        }
         console.log(`✔️ 查询绑定信息成功: ${JSON.stringify(bizrt)} !`)
         $.setdata(JSON.stringify(bizrt), '95598_bindInfo')
         bindInfo = bizrt
@@ -571,16 +586,16 @@ async function getRecentElcFee() {
         }
         var result = await getDecryptData(opts2)
         console.log(`✔️ 获取近期用电量成功: ${JSON.stringify(result)} !`)
-var { sevenEleList, totalPq } = result
+        var { sevenEleList, totalPq } = result
 if (sevenEleList.length > 0 && totalPq !== "-") {
     totalPq = parseFloat(totalPq); // Convert totalPq to a number
-    Message += `\n\n近期用电:${totalPq.toFixed(2)} kW/h`
+    Message += `\n\n近期用电: ${totalPq.toFixed(2)} 度 ⚡️`
     sevenEleList.map((item, index) => {
         if (item?.thisVPq && item.dayElePq !== "-") {
             item.dayElePq = parseFloat(item.dayElePq); // Convert dayElePq to a number
             Message += `\n${item.day}: ${item.dayElePq.toFixed(2)} 度 ⚡️`
         }
-    })
+        })
 }
 } catch (e) {
     throw e
@@ -652,8 +667,8 @@ async function getLastMonthElcFee() {
             totalPq // 用电量
         } = result
         // Message += `${totalAmt && `\n上个月花费金额: ${totalAmt}`}` + `\t${totalPq && `上个月用电量: ${totalPq}`}`
-        if(totalAmt) Message += `\n上个月花费金额: ${totalAmt}`
-        if(totalPq) Message += `  上个月用电量: ${totalPq}`
+        if (totalAmt) Message += `\n上个月花费金额: ${totalAmt}`
+        if (totalPq) Message += ` 上个月用电量: ${totalPq}`
     } catch (e) {
         throw e
     }
@@ -699,7 +714,7 @@ function getDecryptData(params) {
                     reject(err)
                 } else {
                     var resp = JSON.parse(data).data
-                    console.log(resp, '--------------------')
+                    console.log(`------${JSON.stringify(resp, null, 2)}------`)
                     var { code, message, data } = resp
                     if (code.toString() === '1') {
                         resolve(data)
