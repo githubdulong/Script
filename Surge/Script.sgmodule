@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=更新时间 2023-10-18 10:40
+#!desc=更新时间 2023-10-24 18:27
 #!system=ios
 
 # 分割线——————————————————————————
@@ -50,7 +50,8 @@ DOMAIN-KEYWORD,vercel.app,PROXY
 # > Price 代理
 DOMAIN-SUFFIX,coingecko.com,PROXY
 # > 腾讯视频 去开屏
-IP-CIDR,47.110.187.87/32,REJECT
+URL-REGEX,^https:\/\/ossgw\.alicdn\.com\/creatives-assets/prod/feupload/user,REJECT
+IP-CIDR,47.110.187.87/32,REJECT,no-resolve
 OR,((DOMAIN,pgdt.gtimg.cn), (AND,((USER-AGENT,live4iphoneRel*), (IP-CIDR,0.0.0.0/0,no-resolve)))),REJECT-DROP
 # > 掌阅 去广告
 URL-REGEX,^https?:\/\/ih2\.ireader\.com\/zyapi\/bookstore\/ad\/,REJECT-TINYGIF
@@ -125,9 +126,9 @@ URL-REGEX,^https?:\/\/api\.(pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash,R
 # > 易有云 去横幅广告
 URL-REGEX,^https:\/\/doc\.linkease\.com\/linkease\/appGuide\/banner,REJECT
 # > SOUL 去开屏
-IP-CIDR,47.110.187.87/32,REJECT
-IP-CIDR,47.96.15.52/32,REJECT
-IP-CIDR,116.62.220.39/32,REJECT
+IP-CIDR,47.110.187.87/32,REJECT,no-resolve
+IP-CIDR,47.96.15.52/32,REJECT,no-resolve
+IP-CIDR,116.62.220.39/32,REJECT,no-resolve
 DOMAIN,ssp.soulapp.cn,REJECT
 
 # 分割线——————————————————————————
