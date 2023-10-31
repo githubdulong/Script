@@ -22,19 +22,8 @@ skip-proxy = %APPEND% www.baidu.com,yunbusiness.ccb.com,wxh.wo.cn,gate.lagou.com
 # 分割线——————————————————————————
 
 [Rule]
-# 慧车天下 去广告修正
-URL-REGEX,api-access.pangolin-sdk-toutiao.com,REJECT-NO-DROP
-# > VSCO 代理
-DOMAIN,measurement.com,PROXY
-# > 555电影网
-DOMAIN,www.o8tv.com,DIRECT
-# > 大师兄影视
-DOMAIN,dsxys.pro,DIRECT
 # > Safari 防跳转
 DOMAIN,app-site-association.cdn-apple.com,REJECT
-# > 机场网站 代理
-DOMAIN,zhuan.mlsao.xyz,PROXY
-DOMAIN,zh.mk,PROXY
 # > 爱奇艺 去广告
 DOMAIN-SUFFIX,cupid.iqiyi.com,REJECT
 # > 优酷 去广告
@@ -47,8 +36,6 @@ URL-REGEX,^https:\/\/m\.360buyimg\.com\/mobilecms\/s\d{4}x\d{4},REJECT
 DOMAIN-KEYWORD,jsdelivr.net,PROXY
 # > Sub-Store 代理
 DOMAIN-KEYWORD,vercel.app,PROXY
-# > Price 代理
-DOMAIN-SUFFIX,coingecko.com,PROXY
 # > 腾讯视频 去开屏
 URL-REGEX,^https:\/\/ossgw\.alicdn\.com\/creatives-assets/prod/feupload/user,REJECT
 IP-CIDR,47.110.187.87/32,REJECT,no-resolve
@@ -66,8 +53,6 @@ DOMAIN-SUFFIX,applvn.com,REJECT
 URL-REGEX,^https:\/\/gab\.122\.gov\.cn\/eapp\/m\/sysquery\/adver$,REJECT
 # > 小米运动 去广告 
 URL-REGEX,^https:\/\/api-mifit-cn2\.huami\.com\/discovery\/mi\/cards\/startpage_ad,REJECT
-# > 京东极速版 去广告
-URL-REGEX,https://api.m.jd.com/client.action\?functionId=lite_advertising,REJECT
 # > 京东金融 去广告
 URL-REGEX,^https?:\/\/ms\.jr\.jd\.com\/gw\/generic\/aladdin\/(new)?na\/m\/getLoadingPicture,REJECT
 # > 滴滴出行 去广告
@@ -123,8 +108,6 @@ URL-REGEX,^https?:\/\/ccsp-egmas\.sf-express\.com\/cx-app-base\/base\/app\/ad\/,
 URL-REGEX,^https?:\/\/shopic\.sf-express\.com\/crm\/mobile\/common\/flashscreen,REJECT
 # > 拼多多 去开屏
 URL-REGEX,^https?:\/\/api\.(pinduoduo|yangkeduo)\.com\/api\/cappuccino\/splash,REJECT
-# > 易有云 去横幅广告
-URL-REGEX,^https:\/\/doc\.linkease\.com\/linkease\/appGuide\/banner,REJECT
 # > SOUL 去开屏
 IP-CIDR,47.110.187.87/32,REJECT,no-resolve
 IP-CIDR,47.96.15.52/32,REJECT,no-resolve
@@ -180,4 +163,4 @@ B站 Web = type=http-request,pattern=^https?:\/\/m.bilibili.com/$,script-path=ht
 # 分割线——————————————————————————
 
 [MITM]
-hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, spclient.wg.spotify.com, btrace.qq.com, syh.zybang.com, security.wechat.com, m.douban.com, m.ithome.com, api.ithome.com, api.zuihuimai.com, napi.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, sub.store, mb3admin.com, flowplus.meituan.net, m.360buyimg.com, api-access.pangolin-sdk-toutiao.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, doc.linkease.com, flowplus.meituan.net, s3plus.meituan.net, www.bing.com, security.wechat.com, biz.cyapi.cn, app.bilibili.com, m.bilibili.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, ossgw.alicdn.com
+hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, spclient.wg.spotify.com, btrace.qq.com, syh.zybang.com, security.wechat.com, m.douban.com, m.ithome.com, api.ithome.com, api.zuihuimai.com, napi.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, sub.store, mb3admin.com, flowplus.meituan.net, m.360buyimg.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, flowplus.meituan.net, s3plus.meituan.net, www.bing.com, security.wechat.com, biz.cyapi.cn, app.bilibili.com, m.bilibili.com, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, spclient.wg.spotify.com, ossgw.alicdn.com
