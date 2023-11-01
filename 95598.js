@@ -58,8 +58,8 @@ var panelParams = null
     // 近7天用电量
     if (recentElcFee.toString() === 'true') await getRecentElcFee()
     // 每月1号查询上个月用电量
-    var day = $.time('dd', new Date().getTime())
-    if (day === '01') await getLastMonthElcFee()
+    //var day = $.time('dd', new Date().getTime())
+    //if (day === '01') await getLastMonthElcFee()
     // 通知
     $.msg(`网上国网`, subTitle, Message)
 })()
