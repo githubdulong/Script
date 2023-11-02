@@ -34,7 +34,7 @@ iQIYI签到 = type=cron,cronexp=30 4 0 * * *,wake-system=1,script-path=https://r
 # > 高德打车
 高德打车 = type=cron,cronexp=0 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js,script-update-interval=0,timeout=30
 # > 网上国网 
-网上国网 = type=cron,cronexp=0 1 8 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/95598.js,script-update-interval=0,timeout=60
+网上国网 = type=cron,cronexp=0 0 12 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/95598.js,script-update-interval=0,timeout=60
 # > Boxjs备份
 数据备份 = type=cron,cronexp=0 50 23 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/backup.js,script-update-interval=0,,script-update-interval=0,timeout=60
 # > SUB订阅同步
