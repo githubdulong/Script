@@ -33,6 +33,8 @@ iQIYI签到 = type=cron,cronexp=30 4 0 * * *,wake-system=1,script-path=https://r
 顺丰速运 = type=cron,cronexp=30 6 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js,script-update-interval=0,timeout=30
 # > 高德打车
 高德打车 = type=cron,cronexp=0 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js,script-update-interval=0,timeout=30
+# > 托迈酷客
+托迈酷客 = type=cron,cronexp=30 7 0 * * *,timeout=60,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/ThomasCook.js,script-update-interval=0,timeout=30
 # > 网上国网 
 网上国网 = type=cron,cronexp=0 0 14 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/95598/95598.js,script-update-interval=0,timeout=60
 # > Boxjs备份
