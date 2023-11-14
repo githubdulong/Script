@@ -1,10 +1,6 @@
-#!name=兼容模式
-#!desc=启用tun模式并强制80端口使用HTTP代理
+#!name=兼容监控
+#!desc=搭配Shortcots自动化兼容HomeKit摄像头在HomeApp链接问题
 #!system=ios
 
 [General]
-compatibility-mode = 3
-force-http-engine-hosts = %APPEND% -<ip-address>, *
-
-[MITM]
-tcp-connection = true
+compatibility-mode = 5
