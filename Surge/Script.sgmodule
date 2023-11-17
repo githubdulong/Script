@@ -22,6 +22,8 @@ skip-proxy = %APPEND% www.baidu.com,yunbusiness.ccb.com,wxh.wo.cn,gate.lagou.com
 # 分割线——————————————————————————
 
 [Rule]
+# > Jsbox Erots 商店代理
+DOMAIN,lc.liuguogy.com,Hong Kong 
 # > Safari 防跳转
 DOMAIN,app-site-association.cdn-apple.com,REJECT
 # > 爱奇艺 去广告
