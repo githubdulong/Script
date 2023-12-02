@@ -1,5 +1,5 @@
 #!name=兼容监控
-#!desc=搭配Shortcots自动化兼容HomeKit摄像头在HomeApp链接问题
+#!desc=搭配Shortcots自动化兼容HomeKit摄像头链接问题
 #!system=ios
 
 [General]

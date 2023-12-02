@@ -6,8 +6,6 @@
 # 注：先进入设置更改 Safari 默认搜索为 DuckDuckGO
 # 可自行修改指令或者添加搜索引擎
 
-# 分割线——————————————————————————
-
 # gh: GitHub搜索
 # gm: Google图片搜索
 # sof: Stack Overflow
@@ -48,8 +46,6 @@
 # ec: Ecosia 搜索
 # ddg: DuckDuckGo 搜索
 # 无指令则转 google 搜索
-
-# 分割线——————————————————————————
 
 [URL Rewrite]
 # > 图片
@@ -139,8 +135,6 @@
 ^https:\/\/duckduckgo.com\/\?q=ddg\+([^&]+).+ https://duckduckgo.com/?ia=about&q=$1 302
 # 无指令: google
 ^https:\/\/duckduckgo.com\/\?q=([^&]+).+ https://www.google.com/search?q=$1 302
-
-# 分割线——————————————————————————
 
 [MITM]
 hostname = %APPEND% duckduckgo.com
