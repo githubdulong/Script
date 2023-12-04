@@ -1,0 +1,20 @@
+#!name=❐ 私库脚本
+#!desc=流媒体解锁状态检测,机场信息,京东Wskey上传
+#!system=ios
+
+[Panel]
+# 面板信息
+策略面板 = script-name=云端信息,update-interval=1800
+策略面板 = script-name=机场信息,update-interval=1800
+策略面板 = script-name=媒体检测,update-interval=7200
+
+[Script]
+# 面板信息
+媒体检测 = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Stream-All.js,script-update-interval=0,argument=title=媒体检测&icon=play.circle.fill&color=#82AE46
+云端信息 = type=generic, timeout=15, script-path=https://raw.githubusercontent.com/VirgilClyne/Cloudflare/main/js/Cloudflare.1.1.1.1.panel.js,script-update-interval=0,argument=Title=WARP信息&Icon=icloud.circle.fill&IconColor=#EB5C20&Language=auto
+机场信息 = type=generic,timeout=15,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info_panel.js,script-update-interval=0,argument=url=https%3A%2F%2Fzh.mk%2Fapi%2Fv1%2Fclient%2Fsubscribe%3Ftoken%3Dd7eb79b89e0af708b73422a3ed5ca519&reset_day=1&title=机场信息&icon=airplane.circle.fill&color=#00A3AF
+# 京东上传(点消息)
+京东上传 = type=http-response,pattern=functionId=newUserInfo,requires-body=1,max-size=0,timeout=1000,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/JDWSKey.js,script-update-interval=0
+
+[MITM]
+hostname = %APPEND% api.m.jd.com, api-dd.jd.com
