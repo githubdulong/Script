@@ -1,5 +1,5 @@
 #!name=定时脚本
-#!desc=最后更新时间 2023-11-03 13:53
+#!desc=最后更新时间 2023-12-04 13:43
 #!system=ios
 
 [Script]
@@ -31,8 +31,8 @@ iQIYI签到 = type=cron,cronexp=30 4 0 * * *,wake-system=1,script-path=https://r
 顺丰速运 = type=cron,cronexp=30 6 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js,script-update-interval=0,timeout=30
 # > 高德打车
 高德打车 = type=cron,cronexp=0 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js,script-update-interval=0,timeout=30
-# > 云闪付
-银联闪付 = type=cron,cronexp=30 7 0 * * *,timeout=60,script-path=https://gist.githubusercontent.com/githubdulong/eedb88b4dcc39cc674c19efa68377a16/raw/ysfV2.js,script-update-interval=0,timeout=30
+# > 云闪付 私库脚本
+银联闪付 = type=cron,cronexp=30 7 0 * * *,timeout=60,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/ysf.js,script-update-interval=0,timeout=30
 # > 网上国网 
 网上国网 = type=cron,cronexp=0 0 14 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/95598/95598.js,script-update-interval=0,timeout=60
 # > Boxjs备份
