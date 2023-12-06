@@ -33,7 +33,7 @@ iQIYI获取 = type=http-request,pattern=^https:\/\/passport\.iqiyi\.com\/apis\/u
 高德打车 = type=http-response, pattern=^https:\/\/m5(-zb)?\.amap\.com\/ws\/yuece\/(act|openapi)\/(activity\/current\/)?query,requires-body=1,script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js
 # > 云闪付 app获取(私库脚本）
 银联获取 = type=http-response, pattern=^https:\/\/youhui.95516.com\/newsign\/api\/sharing_power\/showUserTask, requires-body=1, script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/ysf.js
-# > i 茅台申购(私库脚本）
+# > i 茅台申购 app获取(私库脚本）
 茅台申购 = type=http-request,pattern=^https:\/\/app\.moutai519\.com\.cn\/xhr\/front\/mall\/message\/unRead\/query,requires-body=0,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/i-maotai.js
 
 [MITM]
