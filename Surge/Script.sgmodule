@@ -60,18 +60,16 @@ URL-REGEX,^https:\/\/guard\.sec\.xiaojukeji\.com\/api\/guard\/psg\/v2\/getShield
 URL-REGEX,^https:\/\/conf\.diditaxi\.com\.cn\/one,REJECT
 //03 福利专区-金融服务-公交-骑车-滴滴乐园
 URL-REGEX,^https:\/\/conf\.diditaxi\.com\.cn\/nav\/widget,REJECT
-//04 接送机-优惠商城
-URL-REGEX,^https:\/\/api\.udache\.com\/gulfstream,REJECT
-//05 主页 领任务
+//04 主页 领任务
 URL-REGEX,^https:\/\/conf\.diditaxi\.com\.cn\/api\/(component|fusion|dynamicmodule|usercenter),REJECT
 URL-REGEX,^https:\/\/conf\.diditaxi\.com\.cn\/dynamic,REJECT
-//06 主页 非主流式悬浮挂件
+//05 主页 非主流式悬浮挂件
 URL-REGEX,^https:\/\/res\.xiaojukeji\.com\/resapi\/activity\/mget,REJECT
-//07 商城
+//06 商城
 URL-REGEX,^https:\/\/shop-gw\.chengxinyouxuan\.com\/(route|indexConfig|apolloConfig|getShopTuanInfos),REJECT
-//08 开屏广告
+//07 开屏广告
 URL-REGEX,^https:\/\/img-ys011\.didistatic\.com\/static,REJECT
-//09 骑行
+//08 骑行
 URL-REGEX,^https:\/\/pt-starimg\.didistatic\.com\/static,REJECT
 # > 云闪付 去广告
 URL-REGEX,^https:\/\/wallet\.95516\.com\/s\/wl\/icon\/long,REJECT
