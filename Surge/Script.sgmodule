@@ -111,8 +111,6 @@ IP-CIDR,47.110.187.87/32,REJECT,no-resolve
 IP-CIDR,47.96.15.52/32,REJECT,no-resolve
 IP-CIDR,116.62.220.39/32,REJECT,no-resolve
 DOMAIN,ssp.soulapp.cn,REJECT
-# > MyBlockAds分流（Script-Hub）
-RULE-SET,http://script.hub/file/_start_/https://raw.githubusercontent.com/RuCu6/QuanX/main/Rules/MyBlockAds.list/_end_/MyBlockAds.list?type=rule-set&target=surge-rule-set&del=true&nore=true,REJECT
 
 [Script]
 # > 扫描全能王 pro
