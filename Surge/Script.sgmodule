@@ -20,6 +20,8 @@ force-http-engine-hosts = %APPEND% boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.ne
 (?<=eme\/v)2(?=\/f\w{2}d\/\?.*) 1 302
 
 [Rule]
+# > Gemini 美国代理
+DOMAIN,generativelanguage.googleapis.com,United States
 # > Jsbox Erots 商店代理
 DOMAIN,lc.liuguogy.com,Hong Kong 
 # > Safari 防跳转
