@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=更新时间 2023-12-17 12:55
+#!desc=更新时间 2023-12-24 18:03
 #!system=ios
 
 [Header Rewrite]
@@ -11,6 +11,8 @@
 skip-proxy = %APPEND% www.baidu.com,yunbusiness.ccb.com,wxh.wo.cn,gate.lagou.com,www.abchina.com.cn,www.shanbay.com,login-service.mobile-bank.psbc.com,mobile-bank.psbc.com,iosapps.itunes.apple.com
 # > Boxjs
 force-http-engine-hosts = %APPEND% boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net
+# > HomeKit Accessories Quirk
+always-raw-tcp-keywords = %APPEND% "Content-Type: application/pairing+tlv8"
 
 [URL Rewrite]
 # TikTok区域解锁 JP=日本 US=美国 SG=新加坡
