@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=更新时间 2023-12-31 21:45
+#!desc=更新时间 2024-01-03 18:35
 #!system=ios
 
 [Header Rewrite]
@@ -139,8 +139,9 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 # > 彩云天气 解锁
 彩云天气 = type=http-response, pattern=^https:\/\/biz\.cyapi\.cn\/(p\/v1\/vip_info|v2\/user)|^https:\/\/wrapper\.cyapi\.cn\/v1\/activity\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/break/caiyun.js, requires-body=true, max-size=-1
 彩云天气 = type=http-request, pattern=^https:\/\/wrapper\.cyapi\.cn\/v1\/(nafp\/origin_images|satellite)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/break/caiyun.js
-# > 声田音乐 歌词翻译
-声田歌词 = type=http-response,pattern=^https:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/,requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/spotify/spotify-lyric.ios.js
+# > 声田音乐 歌词翻译补全
+歌词翻译 = type=http-response,pattern=^https:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/,requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/spotify/spotify-lyric.search.js, timeout=120
+歌词请求 = type=http-request,pattern=^https:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/dompling/Script/master/spotify/spotify-lyric.request.js, timeout=120
 # > GitHub 访问私有仓库(指定触发)
 访问私库 = type=http-request, requires-body=0, pattern=^https?:\/\/(raw|gist)\.githubusercontent\.com\/githubdulong\/Scripts\/, script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Rewrites/GithubPrivate/github-private-repo.js
 # > 联通app28号抢话费券(私库脚本)
