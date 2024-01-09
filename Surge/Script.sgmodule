@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=更新时间 2024-01-03 18:35
+#!desc=更新时间 2024-01-09 13:57
 #!system=ios
 
 [Header Rewrite]
@@ -12,7 +12,7 @@
 
 [General]
 # > 代理检测
-skip-proxy = %APPEND% www.baidu.com,yunbusiness.ccb.com,wxh.wo.cn,gate.lagou.com,www.abchina.com.cn,www.shanbay.com,login-service.mobile-bank.psbc.com,mobile-bank.psbc.com,iosapps.itunes.apple.com
+skip-proxy = %APPEND% www.baidu.com,yunbusiness.ccb.com,wxh.wo.cn,gate.lagou.com,www.abchina.com.cn,www.shanbay.com,login-service.mobile-bank.psbc.com,mobile-bank.psbc.com,iosapps.itunes.apple.com, script.hub, *.script.hub
 # > Boxjs
 force-http-engine-hosts = %APPEND% boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net
 # > HomeKit Accessories Quirk
@@ -141,8 +141,6 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 彩云天气 = type=http-request, pattern=^https:\/\/wrapper\.cyapi\.cn\/v1\/(nafp\/origin_images|satellite)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/break/caiyun.js
 # > GitHub 访问私有仓库(指定触发)
 访问私库 = type=http-request, requires-body=0, pattern=^https?:\/\/(raw|gist)\.githubusercontent\.com\/githubdulong\/Scripts\/, script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Rewrites/GithubPrivate/github-private-repo.js
-# > 联通app28号抢话费券(私库脚本)
-联通抢券 = type=http-response,pattern=^https:\/\/img\.client\.10010\.com\/2023unicomyuedu\/index\.html,requires-body=1,max-size=-1,timeout=100,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/vConsole.js
 # > TF 账户管理
 内测管理 = type=http-request,pattern=^https:\/\/testflight\.apple\.com\/v\d\/(app|account|invite)s\/,requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/TestFlight/TestFlightAccount.js
 # > Boxjs
@@ -150,6 +148,11 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 # > VVebo 用户主页修复
 微博主页 = type=http-request, pattern=^https:\/\/api\.weibo\.cn\/2\/(users\/show\?|statuses\/user_timeline\?), requires-body=0, timeout=5, script-path=https://raw.githubusercontent.com/suiyuran/stash/main/scripts/fix-vvebo-user-timeline.js
 微博主页 = type=http-response, pattern=^https:\/\/api\.weibo\.cn\/2\/profile\/statuses\/tab\?, requires-body=1, timeout=5, script-path=https://raw.githubusercontent.com/suiyuran/stash/main/scripts/fix-vvebo-user-timeline.js
+# > Script-hub 解析转换
+前端配置 = type=http-request, pattern=^https?:\/\/script\.hub\/($|edit\/|reload), script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-hub.beta.js, timeout=300
+重写转换 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=(?:qx-rewrite|surge-module|loon-plugin|all-module), script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/Rewrite-Parser.beta.js, timeout=300
+规则转换 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set, script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/rule-parser.beta.js, timeout=300
+脚本转换 = type=http-request, pattern=^https?:\/\/script\.hub\/convert\/, script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-converter.beta.js, timeout=300
 
 [MITM]
-hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, spclient.wg.spotify.com, btrace.qq.com, syh.zybang.com, security.wechat.com, m.douban.com, m.ithome.com, api.ithome.com, api.zuihuimai.com, napi.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, sub.store, mb3admin.com, flowplus.meituan.net, m.360buyimg.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, flowplus.meituan.net, s3plus.meituan.net, www.bing.com, security.wechat.com, biz.cyapi.cn, wrapper.cyapi.cn, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, ossgw.alicdn.com, raw.githubusercontent.com, gist.githubusercontent.com, img.client.10010.com, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net, testflight.apple.com, api.weibo.cn
+hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, spclient.wg.spotify.com, btrace.qq.com, syh.zybang.com, security.wechat.com, m.douban.com, m.ithome.com, api.ithome.com, api.zuihuimai.com, napi.ithome.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, sub.store, mb3admin.com, flowplus.meituan.net, m.360buyimg.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, flowplus.meituan.net, s3plus.meituan.net, www.bing.com, security.wechat.com, biz.cyapi.cn, wrapper.cyapi.cn, *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com, ossgw.alicdn.com, raw.githubusercontent.com, gist.githubusercontent.com, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net, testflight.apple.com, api.weibo.cn, script.hub, *.script.hub
