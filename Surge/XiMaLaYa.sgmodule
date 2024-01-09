@@ -8,7 +8,7 @@
 hijack-dns = %APPEND% 114.114.114.114 
 
 [Rule]
-# 阻止IP变化
+# 阻止IP跳动
 DOMAIN,gslbali.ximalaya.com,REJECT
 DOMAIN,gslbtx.ximalaya.com,REJECT
 # 修复轮播Ad失效
