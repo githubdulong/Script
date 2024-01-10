@@ -1,10 +1,10 @@
 #!name=定时脚本
-#!desc=最后更新时间 2023-12-06 08:43
+#!desc=最后更新时间 2024-01-10 14:10
 #!system=ios
 
 [Script]
-# > IT之家
-软媒之家 = type=cron,cronexp=0 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ithome/ithome.js,script-update-interval=0,timeout=30
+# > 高德打车
+高德打车 = type=cron,cronexp=0 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js,script-update-interval=0,timeout=30
 # > 喜马拉雅
 喜马拉雅 = type=cron,cronexp=30 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/ClydeTime/Quantumult/main/Script/Task/xmlySign.js,script-update-interval=0,timeout=30
 # > 建行生活
