@@ -33,9 +33,11 @@ URL-REGEX,^http:\/\/.*\.cp31\.ott\.cibntv\.net\/youku\/,REJECT-TINYGIF
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=(start|queryMaterialAdverts),REJECT
 URL-REGEX,^https:\/\/m\.360buyimg\.com\/mobilecms\/s\d{4}x\d{4},REJECT
 # > Boxjs 代理
-DOMAIN-KEYWORD,jsdelivr.net,PROXY
+DOMAIN-KEYWORD,jsdelivr.net,Hong Kong
+DOMAIN-KEYWORD,i.pinimg.com,Hong Kong
+DOMAIN-KEYWORD,64.media.tumblr.com,Hong Kong
 # > Sub-Store 代理
-DOMAIN-KEYWORD,vercel.app,PROXY
+DOMAIN-KEYWORD,vercel.app,Hong Kong
 # > 腾讯视频 去开屏
 URL-REGEX,^https:\/\/ossgw\.alicdn\.com\/creatives-assets/prod/feupload/user,REJECT
 IP-CIDR,47.110.187.87/32,REJECT,no-resolve
