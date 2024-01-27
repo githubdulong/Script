@@ -1,5 +1,5 @@
 #!name=重写获取
-#!desc=最后更新时间 2024-01-10 14:10
+#!desc=最后更新时间 2024-01-27 11:03
 
 [Script]
 # > 喜马拉雅 app获取
@@ -28,12 +28,14 @@
 建行生活 = type=http-request,pattern=^https:\/\/yunbusiness\.ccb\.com\/(clp_coupon|clp_service)\/txCtrl\?txcode=(A3341A038|autoLogin),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jhsh_checkIn.js
 # > 京东CK Web获取
 京东商城 = type=http-request,requires-body=1,pattern=^https:\/\/(api\.m|me-api|ms\.jr)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?|gw\/generic\/hy\/h5\/m\/appSign\?),script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
-# > 云闪付 app获取(私库脚本）
+# > 云闪付 app获取(私库）
 银联获取 = type=http-response, pattern=^https:\/\/youhui.95516.com\/newsign\/api\/sharing_power\/showUserTask, requires-body=1, script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/ysf.js
-# > i 茅台申购 app获取(私库脚本）
+# > i 茅台申购 app获取(私库）
 茅台申购 = type=http-request,pattern=^https:\/\/app\.moutai519\.com\.cn\/xhr\/front\/mall\/message\/unRead\/query,requires-body=0,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/i-maotai.js
 # > 哔哩哔哩 app获取+web
 哔站获取 = type=http-request, pattern=^https?:\/\/(app\.bilibili\.com\/x\/resource\/domain\?|m.bilibili.com\/$), script-path=https://raw.githubusercontent.com/ClydeTime/BiliBili/main/js/BiliBiliDailyBonus.js, requires-body=0
+# > 托迈酷客 微信小程序获取
+托迈酷客 = type=http-request,pattern=^https:\/\/apis\.folidaymall\.com\/online\/capi\/uc\/getCount,requires-body=0,max-size=0,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/ThomasCook.js
     
 [MITM]
-hostname = %APPEND% *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, user-api.smzdm.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, passport.iqiyi.com, xmc.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, auth.alipan.com,auth.aliyundrive.com, ccsp-egmas.sf-express.com, yunbusiness.ccb.com, ms.jr.jd.com, me-api.jd.com, youhui.95516.com, app.moutai519.com.cn, app.bilibili.com, m.bilibili.com
+hostname = %APPEND% *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, user-api.smzdm.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, passport.iqiyi.com, xmc.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, auth.alipan.com,auth.aliyundrive.com, ccsp-egmas.sf-express.com, yunbusiness.ccb.com, ms.jr.jd.com, me-api.jd.com, youhui.95516.com, app.moutai519.com.cn, app.bilibili.com, m.bilibili.com, apis.folidaymall.com
