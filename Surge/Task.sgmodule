@@ -25,7 +25,7 @@
 # > 威锋论坛
 威锋论坛 = type=cron,cronexp=30 5 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/weifeng.js,script-update-interval=0,timeout=30
 # > 阿里云盘
-阿里云盘 = type=cron,cronexp="0 6 0,2,4 * * *",wake-system=1,script-path=https://gist.githubusercontent.com/Sliverkiss/33800a98dcd029ba09f8b6fc6f0f5162/raw/aliyun.js,script-update-interval=0,timeout=240
+阿里云盘 = type=cron,cronexp="0 6 0,3 * * *",wake-system=1,script-path=https://gist.githubusercontent.com/Sliverkiss/33800a98dcd029ba09f8b6fc6f0f5162/raw/aliyun.js,script-update-interval=0,timeout=240
 # > 顺丰速运
 顺丰速运 = type=cron,cronexp=30 6 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js,script-update-interval=0,timeout=30
 # > 云闪付(私库脚本）
