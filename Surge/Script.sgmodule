@@ -8,6 +8,8 @@
 [Map Local]
 # 彩云天气 去广告
 ^https:\/\/biz\.cyapi\.cn\/p\/v1\/entries\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+# 向日葵 去广告
+^https:\/\/client-api-v2\.oray\.com\/materials\/SUNLOGIN_CLIENT_IOS_PROMOTION data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
 
 [General]
 # > 代理检测
@@ -89,7 +91,6 @@ DOMAIN,sl-tk.oray.com,REJECT
 DOMAIN,client-api.oray.com,REJECT
 DOMAIN,push.oray.com,REJECT
 DOMAIN-SUFFIX,offline-adv.oray.com,REJECT
-DOMAIN-KEYWORD,upload-cdn.orayimg.com-upload-activity,REJECT
 # > 美团 去广告
 URL-REGEX,^https:\/\/flowplus\.meituan\.net\/v1\/mss_\w+\/linglong\/\d+\.jpg$,REJECT
 URL-REGEX,^https:\/\/s3plus\.meituan\.net\/v1\/mss_\w+\/(brandcpt-vedio|waimai-alita)\/\w+\.zip$,REJECT
@@ -147,4 +148,4 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 # 快捷指令 https://www.icloud.com/shortcuts/ae29a360baf24788a1997460bf0c609d
 
 [MITM]
-hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, spclient.wg.spotify.com, btrace.qq.com, syh.zybang.com, security.wechat.com, m.douban.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, sub.store, mb3admin.com, flowplus.meituan.net, m.360buyimg.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, flowplus.meituan.net, s3plus.meituan.net, www.bing.com, security.wechat.com, biz.cyapi.cn, wrapper.cyapi.cn, ossgw.alicdn.com, raw.githubusercontent.com, gist.githubusercontent.com, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net, testflight.apple.com, api.weibo.cn, script.hub, *.script.hub
+hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, spclient.wg.spotify.com, btrace.qq.com, syh.zybang.com, security.wechat.com, m.douban.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn2.huami.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, sub.store, mb3admin.com, flowplus.meituan.net, m.360buyimg.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, flowplus.meituan.net, s3plus.meituan.net, www.bing.com, security.wechat.com, biz.cyapi.cn, wrapper.cyapi.cn, ossgw.alicdn.com, raw.githubusercontent.com, gist.githubusercontent.com, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net, testflight.apple.com, api.weibo.cn, script.hub, *.script.hub, client-api-v2.oray.com
