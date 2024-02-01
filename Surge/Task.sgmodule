@@ -1,5 +1,5 @@
 #!name=定时脚本
-#!desc=最后更新时间 2024-01-27 11:02
+#!desc=最后更新时间 2024-02-01 12:48
 
 [Script]
 # > 高德打车
@@ -32,6 +32,8 @@
 托迈酷客 = type=cron,cronexp=0 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/ThomasCook.js,script-update-interval=0,timeout=30
 # > 云闪付(私库）
 银联闪付 = type=cron,cronexp=30 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/ysf.js,script-update-interval=0,timeout=30
+# > 捷停车
+捷顺停车 = type=cron,cronexp=0 8 0 * * *,wake-system=1, script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jparking_sign.js, script-update-interval=0,timeout=60
 # > i 茅台申购(私库)
 茅台申购 = type=cron,cronexp=0 15 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/i-maotai.js,script-update-interval=0,timeout=60
 # > 网上国网 
