@@ -22,14 +22,14 @@
         {
           "id": "jfUseConvert",
           "name": "开启转链",
-          "val": true,
+          "val": "true",
           "type": "boolean",
           "desc": "是否开启京粉转链？"
         },
         {
           "id": "jfAutoScheme",
           "name": "自动目标",
-          "val": true,
+          "val": "true",
           "type": "boolean",
           "desc": "开启后如转链成功有返利，点击通知跳转正在使用的 app，关闭则跳转自选的 app。"
         },
@@ -65,7 +65,7 @@
         {
           "id": "jfusejsapp",
           "name": "京东极速版使用 app",
-          "val": false,
+          "val": "false",
           "type": "boolean",
           "desc": "开启时对目标为京东极速版则跳转京东极速版，关闭则跳转浏览器，默认关闭。注意：即使开启，由于极速版 URL Scheme 问题，跳转后只能先加入购物车，返回原购物车界面进行结账，否则无法使用极速版优惠券。"
         },
@@ -96,7 +96,7 @@
           "val": "",
           "type": "textarea",
           "placeholder": "Foxok://url?",
-          "autoGrow": true,
+          "autoGrow": "true",
           "rows": 2,
           "desc": "自定义跳转浏览器 URL Scheme，拼接后会是 diy+convertURL，如 Foxok://url?convertURL"
         },
@@ -104,7 +104,7 @@
           "id": "jfCookie",
           "name": "Cookie",
           "type": "textarea",
-          "autoGrow": true,
+          "autoGrow": "true",
           "rows": 2,
           "desc": "使用京粉的京东账号 Cookie，如不填则为京东系脚本中的第一个 Cookie。"
         }
@@ -279,28 +279,28 @@
         {
           "id": "lkJdHelperIsNotifyKey",
           "name": "是否显示通知",
-          "val": false,
+          "val": "false",
           "type": "boolean",
           "desc": "默认关闭"
         },
         {
           "id": "jdHelperIsShowSmzdm",
           "name": "是否显示什么值得买按钮",
-          "val": true,
+          "val": "true",
           "type": "boolean",
           "desc": "默认显示"
         },
         {
           "id": "jdHelperIsShowJf",
           "name": "是否显示京粉按钮",
-          "val": true,
+          "val": "true",
           "type": "boolean",
           "desc": "默认显示"
         },
         {
           "id": "jdHelperIsShowMmm",
           "name": "是否显示慢慢买按钮",
-          "val": true,
+          "val": "true",
           "type": "boolean",
           "desc": "默认显示"
         }
@@ -308,33 +308,32 @@
       "author": "@lowking@MuTu888",
       "repo": "https://github.com/githubdulong/Script"
     },
-         {
-        "id": "mtmc",
-        "name": "美团买菜",
-        "keys": [
-          "jojo_mall_meituan"
-        ],
-        "settings": [
-         {
-            "id": "jojo_mall_meituan",
-            "name": "美团买菜Token",
-            "val": "",
-            "type": "text",
-            "placeholder": "",
-            "autoGrow": true,
-            "rows": 2,
-            "desc": "美团买菜Token"
-          }
-        ],
-        "author": "@JoJoJotarou@MuTu888",
-        "repo": "https://raw.githubusercontent.com/JoJoJotarou/myScript/master/script/meituan/mall.meituan.mallcoin.task.js",
-        "script": "https://raw.githubusercontent.com/JoJoJotarou/myScript/master/script/meituan/mall.meituan.mallcoin.task.js",
-        "icons": [
-          "https://raw.githubusercontent.com/JoJoJotarou/myScript/master/script/meituan/icon/mall.meituan.png",
-          "https://raw.githubusercontent.com/JoJoJotarou/myScript/master/script/meituan/icon/mall.meituan.png"
-        ]
-      },
-      
+    {
+      "id": "mtmc",
+      "name": "美团买菜",
+      "keys": [
+        "jojo_mall_meituan"
+      ],
+      "settings": [
+        {
+          "id": "jojo_mall_meituan",
+          "name": "美团买菜Token",
+          "val": "",
+          "type": "text",
+          "placeholder": "",
+          "autoGrow": "true",
+          "rows": 2,
+          "desc": "美团买菜Token"
+        }
+      ],
+      "author": "@JoJoJotarou@MuTu888",
+      "repo": "https://raw.githubusercontent.com/JoJoJotarou/myScript/master/script/meituan/mall.meituan.mallcoin.task.js",
+      "script": "https://raw.githubusercontent.com/JoJoJotarou/myScript/master/script/meituan/mall.meituan.mallcoin.task.js",
+      "icons": [
+        "https://raw.githubusercontent.com/JoJoJotarou/myScript/master/script/meituan/icon/mall.meituan.png",
+        "https://raw.githubusercontent.com/JoJoJotarou/myScript/master/script/meituan/icon/mall.meituan.png"
+      ]
+    },
     {
       "id": "feng.com",
       "name": "威锋论坛",
@@ -389,12 +388,29 @@
           "val": "",
           "type": "text",
           "desc": ""
-
         }
       ]
     },
     {
-
+      "id": "chinatelecomEnquiry",
+      "name": "天翼数据备份",
+      "author": "@sunert",
+      "script": "",
+      "descs_html": [
+        ""
+      ],
+      "icons": [
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/telecominfinty.png",
+        "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/telecominfinty.png"
+      ],
+      "keys": [
+        "china_telecom_authToken_10000",
+        "china_telecom_cookie",
+        "telecom_sign",
+        "telecom_act"
+      ]
+    },
+    {
       "id": "Auto_join_TF",
       "name": "TestFlight监控",
       "author": "@MuTu888",
@@ -418,10 +434,9 @@
           "name": "填写 APP_ID",
           "val": "",
           "type": "textarea",
-          "autoGrow": true,
+          "autoGrow": "true",
           "rows": 1,
           "desc": "填写 APP_ID 多个用英文逗号隔开 示例：iSTXKF4K,INmLTx8d"
-
         }
       ]
     }
