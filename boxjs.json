@@ -8,7 +8,7 @@
     {
       "id": "jf",
       "name": "京粉转链",
-      "desc": "在京东比价中增加京粉转链，如显示有转链信息（即使显示无详细返利信息）则可点击跳转跟单，如未显示返利信息则为未参加推广的商品，不会跳转。",
+      "desc_html": "<font class=\"green--text\">在京东比价中增加京粉转链，如显示有转链信息（即使显示无详细返利信息）则可点击跳转跟单，如未显示返利信息则为未参加推广的商品，不会跳转。</font>",
       "keys": [
         "jfCookie",
         "jfUseConvert",
@@ -188,7 +188,7 @@
     {
       "id": "lkJdHelper",
       "name": "京东助手",
-      "desc_html": "注：私人使用",
+      "desc_html": "<font class=\"red--text\">注:私人使用,或自己折腾KEY</font>",
       "icons": [
         "https://raw.githubusercontent.com/anker1209/icon/main/jdsc.png",
         "https://raw.githubusercontent.com/anker1209/icon/main/jdsc.png"
@@ -393,12 +393,10 @@
     },
     {
       "id": "chinatelecomEnquiry",
-      "name": "天翼数据备份",
-      "author": "@sunert",
+      "name": "天翼数据",
+      "author": "@MuTu888",
       "script": "",
-      "descs_html": [
-        ""
-      ],
+      "desc_html": "<font class=\"purple--text\">天翼账号中心App老数据,仅作备份提供予Scriptable</font>",
       "icons": [
         "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Alpha/telecominfinty.png",
         "https://cdn.jsdelivr.net/gh/Orz-3/mini@master/Color/telecominfinty.png"
