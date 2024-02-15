@@ -108,9 +108,9 @@ def get_app_token(login_token):
     return app_token
 
 if __name__ == "__main__":
-    user = ""  # 填写用户,使用#分隔多账户
-passwd = ""  # 填写密码,使用#分隔多账户
-step_ranges = "26000-35000#25000-30000"  # 为每个用户定义的步数范围,使用#分隔多账户
+    user = "138xxx"  # 填写用户,使用#分隔多账户
+passwd = "xxx"  # 填写密码,使用#分隔多账户
+step_ranges = "xxx-xxx"  # 为每个用户定义的步数范围,使用#分隔多账户
 
 user_list = user.split('#') 
 passwd_list = passwd.split('#') 
