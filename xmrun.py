@@ -1,5 +1,6 @@
 # -*- coding: utf8 -*-
 # python版本 >=3.9
+# 个人设置项在代码最底部
 
 import requests, time, re, random
 from urllib.parse import quote
@@ -90,9 +91,9 @@ def main(user, passwd, step_range):
 
     response = requests.post(url, data=data, headers=head, verify=False).json()
 
-    now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())  # 获取当前执行时间
+    now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())  
     print(f"执行时间:{now}")
-    print(f"执行结果:成功修改步数为{step}步")  # 显示实际修改的步数
+    print(f"执行结果:成功修改步数{step}步")  
 # 获取时间戳
 def get_time():
     url = 'http://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp'
@@ -108,20 +109,23 @@ def get_app_token(login_token):
     return app_token
 
 if __name__ == "__main__":
-    user = "138xxx"  # 填写用户,使用#分隔多账户
-passwd = "xxx"  # 填写密码,使用#分隔多账户
-step_ranges = "xxx-xxx"  # 为每个用户定义的步数范围,使用#分隔多账户
+    print("小米运动 🏃🏿")  # 通知标题
+    user = "138xxx"  # 填写手机号,使用#分隔多账户
+    passwd = "xxx"  # 填写密码,使用#分隔多账户
+    step_ranges = "xxx-xxx"  # 为每个用户定义的步数范围,使用#分隔多账户
 
-user_list = user.split('#') 
-passwd_list = passwd.split('#') 
-step_ranges_list = step_ranges.split('#')  
+    user_list = user.split('#') 
+    passwd_list = passwd.split('#') 
+    step_ranges_list = step_ranges.split('#')  
 
-if len(user_list) == len(passwd_list) == len(step_ranges_list):
-    for line in range(0, len(user_list)):
-        step_range = step_ranges_list[line].split('-')  
-        actual_step = str(random.randint(int(step_range[0]), int(step_range[1])))  
-        print(f"登录账户:{user_list[line][:4]}****{user_list[line][-4:]}")
-        print(f"设置参数:{step_ranges_list[line]}步")  
-        main(user_list[line], passwd_list[line], actual_step)  
-else:
-    print('用户、密码或步数范围数量不匹配')
+    if len(user_list) == len(passwd_list) == len(step_ranges_list):
+        for line in range(0, len(user_list)):
+            step_range = step_ranges_list[line].split('-')  
+            actual_step = str(random.randint(int(step_range[0]), int(step_range[1])))  
+            print(f"登录账户:{user_list[line][:3]}*****{user_list[line][-4:]}") #脱敏5位
+            print(f"设置参数:{step_ranges_list[line]}步")  
+            main(user_list[line], passwd_list[line], actual_step)  
+            if line != len(user_list) - 1:  
+                print()
+    else:
+        print('用户、密码或步数范围数量不匹配')
