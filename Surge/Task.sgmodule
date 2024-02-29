@@ -1,5 +1,5 @@
 #!name=定时脚本
-#!desc=最后更新时间 2024-02-28 20:15
+#!desc=最后更新时间 2024-02-29 18:12
 
 [Script]
 # > 高德打车
@@ -34,13 +34,15 @@
 银联闪付 = type=cron,cronexp=30 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/ysf.js,script-update-interval=0,timeout=30
 # > 捷停车
 捷顺停车 = type=cron,cronexp=0 8 0 * * *,wake-system=1, script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jparking_sign.js, script-update-interval=0,timeout=60
+# > 摸鱼日历
+摸鱼日历 = type=cron,cronexp=0 0 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/moyu.js,script-update-interval=0,timeout=60
 # > i 茅台申购(私库)
 茅台申购 = type=cron,cronexp=0 15 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/i-maotai.js,script-update-interval=0,timeout=60
 # > 网上国网 
 网上国网 = type=cron,cronexp=0 0 14 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/95598/95598.js,script-update-interval=0,timeout=60
 # > 小米刷步
 小米刷步 = type=cron,cronexp=0 30 21 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/mi/step.js,script-update-interval=0,timeout=60
-# > Boxjs备份
+# > Boxjs 备份
 数据备份 = type=cron,cronexp=0 50 23 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/backup.js,script-update-interval=0,,script-update-interval=0,timeout=120
-# > SUB订阅同步
+# > Sub-Store 订阅同步
 订阅同步 = type=cron,cronexp=0 52 23 * * *,wake-system=1,script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/cron-sync-artifacts.min.js,script-update-interval=0,timeout=120
