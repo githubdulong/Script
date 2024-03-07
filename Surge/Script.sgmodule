@@ -7,9 +7,9 @@
 
 [Map Local]
 # 彩云天气 去广告
-^https:\/\/biz\.cyapi\.cn\/p\/v1\/entries\? data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+^https:\/\/biz\.cyapi\.cn\/p\/v1\/entries\? data-type=text data="{}" status-code=200
 # 向日葵 去广告
-^https:\/\/client-api-v2\.oray\.com\/materials\/SUNLOGIN_CLIENT_IOS_PROMOTION data="https://raw.githubusercontent.com/mieqq/mieqq/master/reject-dict.json"
+^https:\/\/client-api-v2\.oray\.com\/materials\/SUNLOGIN_CLIENT_IOS_PROMOTION data-type=text data="{}" status-code=200
 
 [General]
 # > 代理检测
