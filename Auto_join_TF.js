@@ -26,7 +26,7 @@ if (typeof $request !== 'undefined' && $request) {
     $persistentStore.write(request_id, 'request_id');
 
     if ($persistentStore.read('request_id') !== null) {
-        $notification.post('信息获取成功', '请编辑参数把信息获取改为#', '');
+        $notification.post('信息获取成功', '请编辑参数把信息获取改为#以注释该脚本', '');
     } else {
         $notification.post('信息获取失败', '请检查网络或配置', '');
     }
