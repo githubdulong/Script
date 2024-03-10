@@ -412,7 +412,7 @@
       "id": "Auto_join_TF",
       "name": "TestFlight监控",
       "author": "@MuTu888",
-      "script": "",
+      "script": "https://raw.githubusercontent.com/githubdulong/Script/master/Auto_join_TF.js",
       "descs_html": [
         ""
       ],
@@ -434,7 +434,7 @@
           "type": "textarea",
           "autoGrow": "true",
           "rows": 1,
-          "desc": "填写 APP_ID 多个用英文逗号隔开 示例：iSTXKF4K,INmLTx8d"
+          "desc": "填写 APP_ID 多个用英文逗号隔开(勿加空格)示例：iSTXKF4K,INmLTx8d"
         }
       ]
     }
