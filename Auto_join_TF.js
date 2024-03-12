@@ -1,6 +1,6 @@
 /*
 
-更新时间：2024.03.12
+更新时间：2024.03.12 17:03
 更新内容：优化脚本，修复Bug，增加自动获取APP_ID逻辑
 
 Surge配置
@@ -38,6 +38,7 @@ if (typeof $request !== 'undefined' && $request) {
                 console.log(`已捕获并存储APP_ID: ${appId}`);
             } else {
                 $notification.post('APP_ID重复', '', `APP_ID: ${appId} 已存在，无需重复添加。`);
+                console.log(`APP_ID: ${appId} 已存在，无需重复添加。`);
             }
         } else {
             console.log('未捕获到有效的TestFlight APP_ID');
@@ -97,12 +98,18 @@ async function autoPost(ID, ids) {
                             resolve();
                         } else {
                             console.log(`${ID} 加入失败: ${error}`);
+                            ids.splice(ids.indexOf(ID), 1); 
+                            $persistentStore.write(ids.join(','), 'APP_ID'); 
+                            $notification.post('APP_ID 加入失败', '', `${ID} 已被移除`);
                             resolve();
                         }
                     });
                 }
             } else {
                 console.log(`${ID} 请求失败: ${error}`);
+                ids.splice(ids.indexOf(ID), 1); 
+                $persistentStore.write(ids.join(','), 'APP_ID'); 
+                $notification.post('APP_ID 请求失败', '', `${ID} 已被移除`);
                 resolve();
             }
         });
