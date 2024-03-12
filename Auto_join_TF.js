@@ -23,7 +23,7 @@ if (typeof $request !== 'undefined' && $request) {
         $persistentStore.write(session_digest, 'session_digest');
         $persistentStore.write(request_id, 'request_id');
 
-        $notification.post('信息获取成功', '请继续获取APP_ID后编辑参数停用该脚本', '');
+        $notification.post('信息获取成功', '请在获取APP_ID后编辑参数停用该脚本', '');
         console.log(`信息获取成功: session_id=${session_id}, session_digest=${session_digest}, request_id=${request_id}`);
     } else if (/^https:\/\/testflight\.apple\.com\/join\/([A-Za-z0-9]+)$/.test(url)) {
         const appIdMatch = url.match(/^https:\/\/testflight\.apple\.com\/join\/([A-Za-z0-9]+)$/);
@@ -88,7 +88,7 @@ async function autoPost(ID, ids) {
                 console.log(`${ID} 不是有效链接: 状态码 ${response.status}，移除 APP_ID`);
                 ids.splice(ids.indexOf(ID), 1);
                 $persistentStore.write(ids.join(','), 'APP_ID');
-                $notification.post('APP_ID 不是有效链接', '', `${ID} 已被移除`);
+                $notification.post('不是有效的TestFlight链接', '', `${ID} 已被移除`);
                 resolve();
                 return;
             }
@@ -106,10 +106,10 @@ async function autoPost(ID, ids) {
             }
 
             if (!jsonData || !jsonData.data) {
-                console.log(`${ID} 不接受邀请，移除 APP_ID`);
+                console.log(`${ID} 无法接受邀请，移除 APP_ID`);
                 ids.splice(ids.indexOf(ID), 1);
                 $persistentStore.write(ids.join(','), 'APP_ID');
-                $notification.post('APP_ID 不接受邀请', '', `${ID} 已被移除`);
+                $notification.post('无法接受TestFlight邀请', '', `${ID} 已被移除`);
                 resolve();
                 return;
             }
