@@ -1,7 +1,7 @@
 /*
 
-更新时间：2024.03.10
-更新内容：优化脚本，修复Bug
+更新时间：2024.03.12
+更新内容：优化脚本，修复Bug，增加自动获取APP_ID逻辑
 
 Surge配置
 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/autotf.sgmodule
@@ -12,40 +12,54 @@ https://raw.githubusercontent.com/githubdulong/Script/master/boxjs.json
 
 if (typeof $request !== 'undefined' && $request) {
     let url = $request.url;
-    let key = url.replace(/(.*accounts\/)(.*)(\/apps)/, '$2');
-		let headers = Object.fromEntries(Object.entries($request.headers).map(([key, value]) => [key.toLowerCase(), value]));
-    let session_id = headers['x-session-id'];
-    let session_digest = headers['x-session-digest'];
-    let request_id = headers['x-request-id'];
 
-    console.log(`信息获取：Key: ${key}, Session ID: ${session_id}, Session Digest: ${session_digest}, Request ID: ${request_id}`);
+    if (/^https:\/\/testflight\.apple\.com\/v3\/accounts\/.*\/apps$/.test(url)) {
+        let headers = Object.fromEntries(Object.entries($request.headers).map(([key, value]) => [key.toLowerCase(), value]));
+        let session_id = headers['x-session-id'];
+        let session_digest = headers['x-session-digest'];
+        let request_id = headers['x-request-id'];
 
-    $persistentStore.write(key, 'key');
-    $persistentStore.write(session_id, 'session_id');
-    $persistentStore.write(session_digest, 'session_digest');
-    $persistentStore.write(request_id, 'request_id');
+        $persistentStore.write(session_id, 'session_id');
+        $persistentStore.write(session_digest, 'session_digest');
+        $persistentStore.write(request_id, 'request_id');
 
-    if ($persistentStore.read('request_id') !== null) {
-        $notification.post('信息获取成功', '请编辑参数把信息获取改为#以注释该脚本', '');
-    } else {
-        $notification.post('信息获取失败', '请检查网络或配置', '');
+        $notification.post('信息获取成功', '请继续获取APP_ID后编辑信息停用该脚本', '');
+        console.log(`信息获取成功: session_id=${session_id}, session_digest=${session_digest}, request_id=${request_id}`);
+    } else if (/^https:\/\/testflight\.apple\.com\/join\/([A-Za-z0-9]+)$/.test(url)) {
+        const appIdMatch = url.match(/^https:\/\/testflight\.apple\.com\/join\/([A-Za-z0-9]+)$/);
+        if (appIdMatch && appIdMatch[1]) {
+            let appId = appIdMatch[1];
+            let existingAppIds = $persistentStore.read('APP_ID');
+            let appIdSet = new Set(existingAppIds ? existingAppIds.split(',') : []);
+            if (!appIdSet.has(appId)) {
+                appIdSet.add(appId);
+                $persistentStore.write(Array.from(appIdSet).join(','), 'APP_ID');
+                $notification.post('已捕获APP_ID', '', `已捕获并存储APP_ID: ${appId}`);
+                console.log(`已捕获并存储APP_ID: ${appId}`);
+            } else {
+                $notification.post('APP_ID重复', '', `APP_ID: ${appId} 已存在，无需重复添加。`);
+            }
+        } else {
+            console.log('未捕获到有效的TestFlight APP_ID');
+        }
     }
+
     $done({});
 } else {
     !(async () => {
         let ids = $persistentStore.read('APP_ID');
-        if (!ids) {
-            notifyAndDisable();
+        if (ids == null || ids == '') {
+            console.log('未检测到APP_ID');
+            $done();
         } else {
             ids = ids.split(',');
-            for (let i = 0; i < ids.length; i++) {
-                await autoPost(ids[i], ids);
-                ids = $persistentStore.read('APP_ID') ? $persistentStore.read('APP_ID').split(',') : [];
+            for await (const ID of ids) {
+                await autoPost(ID, ids);
             }
             if (ids.length === 0) {
-                notifyAndDisable();
+                $notification.post('所有TF已加入完毕 🎉', '模块已自动关闭', '');
+                $done($httpAPI('POST', '/v1/modules', {'公测监控': false}));
             } else {
-                console.log('还有未处理的APP_ID，脚本继续执行。');
                 $done();
             }
         }
@@ -61,56 +75,36 @@ async function autoPost(ID, ids) {
         'X-Request-Id': $persistentStore.read('request_id')
     };
 
-    for (let retries = 3; retries > 0; retries--) {
-        try {
-            let response = await httpRequestWithTimeout(testurl + ID, header);
-            if (response && response.data && response.data.status !== 'FULL') {
-                console.log(`${ID}: 加入成功`);
-                updateIDList(ID);
-                $notification.post(`${ID}加入成功 🎉`, ids.length > 1 ? '还有未处理的APP_ID，脚本继续执行。' : '', '');
-                break;
-            } else {
-                console.log(`${ID}: TestFlight应用已满`);
-                break;
-            }
-        } catch (error) {
-            console.log(`${ID}: 尝试失败，剩余重试次数: ${retries - 1}，错误: ${error}`);
-            if (retries <= 1) {
-                console.log(`${ID}: 重试结束，未能成功。`);
-            }
-        }
-    }
-}
-
-async function httpRequestWithTimeout(url, headers) {
-    const timeout = 5000; // 设置5秒超时
-    return new Promise((resolve, reject) => {
-        let timedOut = false;
-        const timer = setTimeout(() => {
-            timedOut = true;
-            reject('请求超时');
-        }, timeout);
-
-        $httpClient.get({url, headers}, (error, response, data) => {
-            clearTimeout(timer);
-            if (!timedOut) {
-                if (error) {
-                    reject(error);
+    return new Promise(resolve => {
+        $httpClient.get({url: testurl + ID, headers: header}, (error, response, data) => {
+            if (error === null && response.status === 200) {
+                let jsonData = JSON.parse(data);
+                if (jsonData.data.status === 'FULL') {
+                    console.log(`${ID} 测试已满`);
+                    resolve();
                 } else {
-                    resolve(JSON.parse(data));
+                    $httpClient.post({url: testurl + ID + '/accept', headers: header}, (error, response, body) => {
+                        if (!error && response.status === 200) {
+                            let jsonBody = JSON.parse(body);
+                            console.log(`${jsonBody.data.name} TestFlight加入成功`);
+                            ids.splice(ids.indexOf(ID), 1);
+                            $persistentStore.write(ids.join(','), 'APP_ID');
+                            if (ids.length > 0) {
+                                $notification.post(jsonBody.data.name + ' TestFlight加入成功', '', `继续执行APP ID：${ids.join(',')}`);
+                            } else {
+                                $notification.post(jsonBody.data.name + ' TestFlight加入成功', '', '所有APP ID处理完毕');
+                            }
+                            resolve();
+                        } else {
+                            console.log(`${ID} 加入失败: ${error}`);
+                            resolve();
+                        }
+                    });
                 }
+            } else {
+                console.log(`${ID} 请求失败: ${error}`);
+                resolve();
             }
         });
     });
-}
-
-function updateIDList(ID) {
-    let currentIds = $persistentStore.read('APP_ID').split(',');
-    let updatedIds = currentIds.filter(item => item !== ID);
-    $persistentStore.write(updatedIds.join(','), 'APP_ID');
-}
-
-function notifyAndDisable() {
-    $notification.post('所有TF已加入完毕 🎉', '模块已自动关闭', '');
-    $done($httpAPI('POST', '/v1/modules', {'公测监控': false}));
 }
