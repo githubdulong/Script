@@ -429,7 +429,7 @@
       "settings": [
         {
           "id": "APP_ID",
-          "name": "填写 APP_ID",
+          "name": "填写 APP_ID或复制TF链接至浏览器自动捕获",
           "val": "",
           "type": "textarea",
           "autoGrow": "true",
