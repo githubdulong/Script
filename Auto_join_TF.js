@@ -1,7 +1,7 @@
 /*
 
-更新时间：2024.03.12 19:38
-更新内容：优化脚本，修复Bug，增加自动获取APP_ID逻辑
+更新时间：2024.03.13 00:11
+更新内容：优化脚本，修复Bug，增加无效APP_ID移除机制
 
 Surge配置
 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/autotf.sgmodule
@@ -49,7 +49,7 @@ if (typeof $request !== 'undefined' && $request) {
 } else {
     !(async () => {
         let ids = $persistentStore.read('APP_ID');
-        if (ids == null || ids == '') {
+        if (!ids) {
             console.log('未检测到APP_ID');
             $done();
         } else {
@@ -79,44 +79,72 @@ async function autoPost(ID, ids) {
     return new Promise(resolve => {
         $httpClient.get({url: testurl + ID, headers: header}, (error, response, data) => {
             if (error) {
-
-                console.log(`${ID} 网络请求失败: ${error}, 保留 APP_ID`);
+                console.log(`${ID} 网络请求失败: ${error}，保留 APP_ID`);
                 resolve();
-            } else if (response.status !== 200) {
-
-                console.log(`${ID} 请求失败: 状态码 ${response.status}, 移除 APP_ID`);
-                ids.splice(ids.indexOf(ID), 1); 
-                $persistentStore.write(ids.join(','), 'APP_ID'); 
+                return;
+            }
+            
+            if (response.status !== 200) {
+                console.log(`${ID} 请求失败: 状态码 ${response.status}，移除 APP_ID`);
+                ids.splice(ids.indexOf(ID), 1);
+                $persistentStore.write(ids.join(','), 'APP_ID');
                 $notification.post('APP_ID 请求失败', '', `${ID} 已被移除`);
                 resolve();
-            } else {
-
-                let jsonData = JSON.parse(data);
-                if (jsonData.data.status === 'FULL') {
-                    console.log(`${ID} 测试已满`);
-                    resolve();
-                } else {
-                    $httpClient.post({url: testurl + ID + '/accept', headers: header}, (error, response, body) => {
-                        if (!error && response.status === 200) {
-                            let jsonBody = JSON.parse(body);
-                            console.log(`${jsonBody.data.name} TestFlight加入成功`);
-                            ids.splice(ids.indexOf(ID), 1);
-                            $persistentStore.write(ids.join(','), 'APP_ID');
-                            if (ids.length > 0) {
-                                $notification.post(jsonBody.data.name + ' TestFlight加入成功', '', `继续执行APP ID：${ids.join(',')}`);
-                            } else {
-                                $notification.post(jsonBody.data.name + ' TestFlight加入成功', '', '所有APP ID处理完毕');
-                            }
-                        } else {
-                            console.log(`${ID} 加入失败: ${error}`);
-                            ids.splice(ids.indexOf(ID), 1); 
-                            $persistentStore.write(ids.join(','), 'APP_ID'); 
-                            $notification.post('APP_ID 加入失败', '', `${ID} 已被移除`);
-                        }
-                        resolve();
-                    });
-                }
+                return;
             }
+            
+            let jsonData;
+            try {
+                jsonData = JSON.parse(data);
+            } catch (parseError) {
+                console.log(`${ID} 响应解析失败: ${parseError}，移除 APP_ID`);
+                ids.splice(ids.indexOf(ID), 1);
+                $persistentStore.write(ids.join(','), 'APP_ID');
+                $notification.post('APP_ID 解析失败', '', `${ID} 已被移除`);
+                resolve();
+                return;
+            }
+
+            if (!jsonData || !jsonData.data) {
+                console.log(`${ID} 数据异常，移除 APP_ID`);
+                ids.splice(ids.indexOf(ID), 1);
+                $persistentStore.write(ids.join(','), 'APP_ID');
+                $notification.post('APP_ID 数据异常', '', `${ID} 已被移除`);
+                resolve();
+                return;
+            }
+
+            if (jsonData.data.status === 'FULL') {
+                console.log(`${ID} 测试已满，保留 APP_ID`);
+                resolve();
+                return;
+            }
+
+
+            $httpClient.post({url: testurl + ID + '/accept', headers: header}, (error, response, body) => {
+                if (!error && response.status === 200) {
+                    let jsonBody;
+                    try {
+                        jsonBody = JSON.parse(body);
+                    } catch (parseError) {
+                        console.log(`${ID} 加入请求响应解析失败: ${parseError}，保留 APP_ID`);
+                        resolve();
+                        return;
+                    }
+
+                    console.log(`${jsonBody.data.name} TestFlight加入成功`);
+                    ids.splice(ids.indexOf(ID), 1);
+                    $persistentStore.write(ids.join(','), 'APP_ID');
+                    if (ids.length > 0) {
+                        $notification.post(jsonBody.data.name + ' TestFlight加入成功', '', `继续执行APP ID：${ids.join(',')}`);
+                    } else {
+                        $notification.post(jsonBody.data.name + ' TestFlight加入成功', '', '所有APP ID处理完毕');
+                    }
+                } else {
+                    console.log(`${ID} 加入失败: ${error || `状态码 ${response.status}`}，保留 APP_ID`);
+                }
+                resolve();
+            });
         });
     });
 }

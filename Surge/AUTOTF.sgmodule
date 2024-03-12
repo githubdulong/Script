@@ -2,7 +2,7 @@
 #!desc=监控TestFlight位置加入并关闭模块,仅限Surge使用
 #!system=ios
 #!arguments=INFO_FETCH_SCRIPT_NAME:信息获取,CRON_SECONDS:5
-#!arguments-desc=[参数设置]\n1、INFO_FETCH_SCRIPT_NAME: 自定义"信息获取"脚本启停, 获取完TestFlight信息及APP_ID后为避免不必要的mitm, 建议在脚本名称前添加#以注释停止该脚本;\n2、CRON_SECONDS: 自定义"加入测试"脚本执行的秒数间隔, 默认每5秒执行一次, 请根据需要调整此值(默认单位为/秒);\n\n[使用方法]\n1、开启Surge http-api;\n2、启用"信息获取"脚本(由INFO_FETCH_SCRIPT_NAME参数定义)后打开TestFlight app获取TestFlight信息;\n3、启用"信息获取"脚本(由INFO_FETCH_SCRIPT_NAME参数定义)后复制TF链接粘贴到浏览器下拉刷新即可自动获取APP_ID;\n4、调整CRON_SECONDS参数以改变"加入测试"脚本的执行频率;\n\n[手动获取]\n1、Boxjs填写"APP_ID"的持久化数据,数据key(内容)为TestFlight链接 https://testflight.apple.com/join/LPQmtkUs 的join后的字符串(列如"LPQmtkUs,xxx,xxx多条key用,隔开");\n2、Boxjs订阅 https://raw.githubusercontent.com/githubdulong/Script/master/boxjs.json;
+#!arguments-desc=[参数设置]\n1、INFO_FETCH_SCRIPT_NAME: 自定义"信息获取"脚本启停, 获取完TestFlight信息及APP_ID后为避免不必要的mitm, 建议在脚本名称前添加#以注释停止该脚本;\n2、CRON_SECONDS: 自定义"加入测试"脚本执行的秒数间隔, 默认每5秒执行一次, 请根据需要调整此值(默认单位为/秒,＜5s间隔可能会因APP_ID移除不及时导致重复通知);\n\n[使用方法]\n1、开启Surge http-api;\n2、启用"信息获取"脚本(由INFO_FETCH_SCRIPT_NAME参数定义)后打开TestFlight app获取TestFlight信息;\n3、启用"信息获取"脚本(由INFO_FETCH_SCRIPT_NAME参数定义)后复制TF链接粘贴到浏览器下拉刷新即可自动获取APP_ID;\n4、调整CRON_SECONDS参数以改变"加入测试"脚本的执行频率;\n\n[手动获取]\n1、Boxjs填写"APP_ID"的持久化数据,数据key(内容)为TestFlight链接 https://testflight.apple.com/join/LPQmtkUs 的join后的字符串(列如"LPQmtkUs,xxx,xxx多条key用,隔开");\n2、Boxjs订阅 https://raw.githubusercontent.com/githubdulong/Script/master/boxjs.json;
 
 [Script]
 {{{INFO_FETCH_SCRIPT_NAME}}} = type=http-request,pattern=^https:\/\/testflight\.apple\.com\/(v3\/accounts\/.*\/apps|join\/[A-Za-z0-9]+)$,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Auto_join_TF.js
