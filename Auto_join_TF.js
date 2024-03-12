@@ -1,6 +1,6 @@
 /*
 
-更新时间：2024.03.12 17:03
+更新时间：2024.03.12 19:38
 更新内容：优化脚本，修复Bug，增加自动获取APP_ID逻辑
 
 Surge配置
@@ -78,7 +78,19 @@ async function autoPost(ID, ids) {
 
     return new Promise(resolve => {
         $httpClient.get({url: testurl + ID, headers: header}, (error, response, data) => {
-            if (error === null && response.status === 200) {
+            if (error) {
+
+                console.log(`${ID} 网络请求失败: ${error}, 保留 APP_ID`);
+                resolve();
+            } else if (response.status !== 200) {
+
+                console.log(`${ID} 请求失败: 状态码 ${response.status}, 移除 APP_ID`);
+                ids.splice(ids.indexOf(ID), 1); 
+                $persistentStore.write(ids.join(','), 'APP_ID'); 
+                $notification.post('APP_ID 请求失败', '', `${ID} 已被移除`);
+                resolve();
+            } else {
+
                 let jsonData = JSON.parse(data);
                 if (jsonData.data.status === 'FULL') {
                     console.log(`${ID} 测试已满`);
@@ -95,22 +107,15 @@ async function autoPost(ID, ids) {
                             } else {
                                 $notification.post(jsonBody.data.name + ' TestFlight加入成功', '', '所有APP ID处理完毕');
                             }
-                            resolve();
                         } else {
                             console.log(`${ID} 加入失败: ${error}`);
                             ids.splice(ids.indexOf(ID), 1); 
                             $persistentStore.write(ids.join(','), 'APP_ID'); 
                             $notification.post('APP_ID 加入失败', '', `${ID} 已被移除`);
-                            resolve();
                         }
+                        resolve();
                     });
                 }
-            } else {
-                console.log(`${ID} 请求失败: ${error}`);
-                ids.splice(ids.indexOf(ID), 1); 
-                $persistentStore.write(ids.join(','), 'APP_ID'); 
-                $notification.post('APP_ID 请求失败', '', `${ID} 已被移除`);
-                resolve();
             }
         });
     });
