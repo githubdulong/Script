@@ -34,8 +34,6 @@
 银联闪付 = type=cron,cronexp=30 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/ysf.js,script-update-interval=0,timeout=30
 # > 捷停车
 捷顺停车 = type=cron,cronexp=0 8 0 * * *,wake-system=1, script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jparking_sign.js, script-update-interval=0,timeout=60
-# > 摸鱼日历
-摸鱼日历 = type=cron,cronexp=0 0 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/moyu.js,script-update-interval=0,timeout=60
 # > i 茅台申购(私库)
 茅台申购 = type=cron,cronexp=0 15 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/i-maotai.js,script-update-interval=0,timeout=60
 # > 网上国网 

@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=更新时间 2024-03-10 14:50
+#!desc=更新时间 2024-03-18 11:38
 
 [Header Rewrite]
 # > Bing Ai
@@ -14,6 +14,7 @@
 [General]
 # > 代理检测
 skip-proxy = %APPEND% www.baidu.com,yunbusiness.ccb.com,wxh.wo.cn,gate.lagou.com,www.abchina.com.cn,www.shanbay.com,login-service.mobile-bank.psbc.com,mobile-bank.psbc.com,iosapps.itunes.apple.com
+always-real-ip = %APPEND% easy-login.10099.com.cn
 # > Boxjs,Script hub
 force-http-engine-hosts = %APPEND% boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net, script.hub, *.script.hub
 # > HomeKit Accessories Quirk
