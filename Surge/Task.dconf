@@ -45,13 +45,13 @@
 # > 托迈酷客 小程序获取 //apis.folidaymall.com
 # 托迈酷客 = type=http-request,pattern=^https:\/\/apis\.folidaymall\.com\/online\/capi\/uc\/getCount,requires-body=0,max-size=0,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/ThomasCook.js
 托迈酷客 = type=cron,cronexp=0 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/ThomasCook.js,script-update-interval=0,timeout=30
-# > 银联闪付 app获取//youhui.95516.com
+# > 银联闪付(私库)app获取//youhui.95516.com
 # 银联闪付 = type=http-response,pattern=^https:\/\/youhui.95516.com\/newsign\/api\/sharing_power\/showUserTask,requires-body=1,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/ysf.js
 银联闪付 = type=cron,cronexp=30 7 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/ysf.js,script-update-interval=0,timeout=30
 # > 捷顺停车 app获取 //sytgate.jslife.com.cn
 # 捷顺停车 = type=http-request,pattern=^https:\/\/sytgate\.jslife\.com\.cn\/core-gateway\/order\/carno\/pay\/info,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jparking_sign.js
 捷顺停车 = type=cron,cronexp=0 8 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jparking_sign.js,script-update-interval=0,timeout=60
-# > 茅台申购 app获取 //app.moutai519.com.cn
+# > 茅台申购(私库)app获取 //app.moutai519.com.cn
 # 茅台申购 = type=http-request,pattern=^https:\/\/app\.moutai519\.com\.cn\/xhr\/front\/mall\/message\/unRead\/query,requires-body=0,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/i-maotai.js
 茅台申购 = type=cron,cronexp=0 15 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/i-maotai.js,script-update-interval=0,timeout=60
 # > 网上国网 小程序获取 //osg-open.sgcc.com.cn
