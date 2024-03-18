@@ -25,7 +25,7 @@
 # > 慢慢买 app获取 //apph5.manmanbuy.com
 # 慢买获取 = type=http-request,pattern=^https?:\/\/apph5\.manmanbuy\.com\/taolijin\/(login.aspx|logserver.aspx),requires-body=true,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/manmanbuy/manmanbuy_checkin.js
 慢买签到 = type=cron,cronexp=0 3 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/script/manmanbuy/manmanbuy_checkin.js,script-update-interval=0,timeout=30
-# > 哔哩哔哩 app获取+web //app.bilibili.com,m.bilibili.com,180.153.255.,180.153.255.10,180.153.250.,114.80.99., 1.62.62.64
+# > 哔哩哔哩 app获取+web //app.bilibili.com,m.bilibili.com
 # 哔站获取 = type=http-request,pattern=^https?:\/\/(app\.bilibili\.com\/x\/resource\/domain\?|m.bilibili.com\/$),script-path=https://raw.githubusercontent.com/ClydeTime/BiliBili/main/js/BiliBiliDailyBonus.js,requires-body=0
 哔哩哔哩 = type=cron,cronexp=30 3 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/ClydeTime/BiliBili/main/js/BiliBiliDailyBonus.js,script-update-interval=0,timeout=60
 # > 伊利乳品 小程序获取 //club.yili.com
@@ -65,5 +65,5 @@
 订阅同步 = type=cron,cronexp=0 52 23 * * *,wake-system=1,script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/cron-sync-artifacts.min.js,script-update-interval=0,timeout=120
 
 [MITM]
-hostname = %APPEND% *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, user-api.smzdm.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, passport.iqiyi.com, xmc.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, auth.alipan.com,auth.aliyundrive.com, ccsp-egmas.sf-express.com, yunbusiness.ccb.com, youhui.95516.com, app.moutai519.com.cn, app.bilibili.com, m.bilibili.com, apis.folidaymall.com, sytgate.jslife.com.cn, *.amap.com, osg-open.sgcc.com.cn
+hostname = %APPEND% *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, user-api.smzdm.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, passport.iqiyi.com, xmc.ximalaya.com, auth.alipan.com,auth.aliyundrive.com, ccsp-egmas.sf-express.com, yunbusiness.ccb.com, youhui.95516.com, app.moutai519.com.cn, app.bilibili.com, m.bilibili.com, apis.folidaymall.com, sytgate.jslife.com.cn, *.amap.com, osg-open.sgcc.com.cn
 

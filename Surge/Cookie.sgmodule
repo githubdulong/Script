@@ -42,4 +42,4 @@
 网上国网 = type=http-request,pattern=^https:\/\/osg-open\.sgcc\.com\.cn\/osg-open-p0001\/member\/c5\/f05,requires-body=0,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/95598/95598.js
 
 [MITM]
-hostname = %APPEND% *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, user-api.smzdm.com, apph5.manmanbuy.com, club.yili.com, passport.iqiyi.com, xmc.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, auth.alipan.com, auth.aliyundrive.com, ccsp-egmas.sf-express.com, yunbusiness.ccb.com, ms.jr.jd.com, me-api.jd.com, youhui.95516.com, app.moutai519.com.cn, app.bilibili.com, m.bilibili.com, apis.folidaymall.com, sytgate.jslife.com.cn, *.amap.com, osg-open.sgcc.com.cn
+hostname = %APPEND% *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, user-api.smzdm.com, apph5.manmanbuy.com, club.yili.com, passport.iqiyi.com, xmc.ximalaya.com, auth.alipan.com, auth.aliyundrive.com, ccsp-egmas.sf-express.com, yunbusiness.ccb.com, ms.jr.jd.com, me-api.jd.com, youhui.95516.com, app.moutai519.com.cn, app.bilibili.com, m.bilibili.com, apis.folidaymall.com, sytgate.jslife.com.cn, *.amap.com, osg-open.sgcc.com.cn
