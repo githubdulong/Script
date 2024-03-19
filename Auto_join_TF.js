@@ -1,14 +1,14 @@
 /*
 
-更新时间：2024.03.13 00:11
-更新内容：优化脚本，修复Bug，增加无效APP_ID移除机制
+更新时间：2024.03.19 11:25
+更新内容：优化脚本，修复Bug，修改无效APP_ID移除机制（仅当链接错误时移除）
 
 Surge配置
 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/autotf.sgmodule
 Boxjs订阅
 https://raw.githubusercontent.com/githubdulong/Script/master/boxjs.json
 
- */
+*/
 
 if (typeof $request !== 'undefined' && $request) {
     let url = $request.url;
@@ -83,7 +83,7 @@ async function autoPost(ID, ids) {
                 resolve();
                 return;
             }
-            
+
             if (response.status !== 200) {
                 console.log(`${ID} 不是有效链接: 状态码 ${response.status}，移除 APP_ID`);
                 ids.splice(ids.indexOf(ID), 1);
@@ -92,24 +92,18 @@ async function autoPost(ID, ids) {
                 resolve();
                 return;
             }
-            
+
             let jsonData;
             try {
                 jsonData = JSON.parse(data);
             } catch (parseError) {
-                console.log(`${ID} 响应解析失败: ${parseError}，移除 APP_ID`);
-                ids.splice(ids.indexOf(ID), 1);
-                $persistentStore.write(ids.join(','), 'APP_ID');
-                $notification.post('APP_ID 解析失败', '', `${ID} 已被移除`);
+                console.log(`${ID} 响应解析失败: ${parseError}，保留 APP_ID`);
                 resolve();
                 return;
             }
 
             if (!jsonData || !jsonData.data) {
-                console.log(`${ID} 无法接受邀请，移除 APP_ID`);
-                ids.splice(ids.indexOf(ID), 1);
-                $persistentStore.write(ids.join(','), 'APP_ID');
-                $notification.post('无法接受TestFlight邀请', '', `${ID} 已被移除`);
+                console.log(`${ID} 无法接受邀请，保留 APP_ID`);
                 resolve();
                 return;
             }
@@ -119,7 +113,6 @@ async function autoPost(ID, ids) {
                 resolve();
                 return;
             }
-
 
             $httpClient.post({url: testurl + ID + '/accept', headers: header}, (error, response, body) => {
                 if (!error && response.status === 200) {
