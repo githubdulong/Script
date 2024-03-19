@@ -1,0 +1,12 @@
+#!name=公测监控
+#!desc=监控TestFlight位置加入并关闭模块,仅限Surge使用
+#!system=ios
+#!arguments=INFO_FETCH_SCRIPT_NAME:信息获取,CRON_SECONDS:5
+#!arguments-desc=[参数设置]\n1. INFO_FETCH_SCRIPT_NAME: 自定义"信息获取"脚本启停, 获取完TestFlight Token及APP_ID后为避免不必要的mitm, 建议在脚本名称参数添加#以注释停止该脚本;\n2. CRON_SECONDS: 自定义"加入测试"脚本执行的秒数间隔, 默认每5秒执行一次, 请根据需要调整此值(默认单位为/秒,＜5s间隔可能会因APP_ID移除不及时导致重复通知);\n\n[使用方法]\n1. 开启Surge http-api;\n2. 启用"信息获取"脚本后打开TestFlight app获取Token;\n3. 启用"信息获取"脚本后复制TestFlight链接粘贴到浏览器打开获取APP_ID;\n4. 调整CRON_SECONDS参数以改变"加入测试"脚本的执行频率;\n\n[手动获取]\n1. Boxjs填写"APP_ID"的持久化数据,数据key(内容)为TestFlight链接 https://testflight.apple.com/join/LPQmtkUs 的join后的字符串(列如"LPQmtkUs,xxx,xxx多条key用,隔开");\n2. Boxjs订阅 https://raw.githubusercontent.com/githubdulong/Script/master/boxjs.json;\n\n[模块介绍]\n▎手动或自动捕获并存储TestFlight作者开放的应用ID，并尝试自动加入TestFlight程序。\n▎自动移除无效或不开放测试位置的TestFlight应用ID，专注于抢占开放但满员的ID。\n▎适配Surge新参数，简化模块自定义配置，可摒弃其他依赖环境。
+
+[Script]
+{{{INFO_FETCH_SCRIPT_NAME}}} = type=http-request,pattern=^https:\/\/testflight\.apple\.com\/(v3\/accounts\/.*\/apps|join\/[A-Za-z0-9]+)$,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Auto_join_TF.js
+加入测试 = type=cron,cronexp="*/{{{CRON_SECONDS}}} * * * * *",script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Auto_join_TF.js,wake-system=0,timeout=180,engine=auto
+
+[MITM]
+hostname = %APPEND% testflight.apple.com
