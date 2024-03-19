@@ -1,5 +1,5 @@
 /*
-更新时间：2024.03.19 15:41
+更新时间：2024.03.19 16:12
 更新内容：优化脚本，修复Bug，修改无效APP_ID移除机制（仅当链接错误时移除）
 
 Surge配置
@@ -83,6 +83,12 @@ async function autoPost(ID, ids) {
         $httpClient.get({url: testurl + ID, headers: header}, (error, response, data) => {
             if (error) {
                 console.log(`${ID} 网络请求失败: ${error}，保留 APP_ID`);
+                resolve();
+                return;
+            }
+
+            if (response.status === 500) {
+                console.log(`${ID} 服务器错误，状态码 500，保留 APP_ID`);
                 resolve();
                 return;
             }
