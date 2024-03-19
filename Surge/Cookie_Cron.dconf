@@ -55,8 +55,7 @@
 # > 茅台申购 app获取 //app.moutai519.com.cn
 # 茅台申购 = type=http-request,pattern=^https:\/\/app\.moutai519\.com\.cn\/xhr\/front\/mall\/message\/unRead\/query,requires-body=0,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/i-maotai.js
 茅台申购 = type=cron,cronexp=0 15 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/i-maotai.js,script-update-interval=0,timeout=60
-# > 网上国网 小程序获取 //osg-open.sgcc.com.cn
-# 网上国网 = type=http-request,pattern=^https:\/\/osg-open\.sgcc\.com\.cn\/osg-open-p0001\/member\/c5\/f05,requires-body=0,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/95598/95598.js
+# > 网上国网 Boxjs填写账户
 网上国网 = type=cron,cronexp=0 0 14 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/95598/95598.js,script-update-interval=0,timeout=60
 # > 小米刷步 Boxjs登录账户
 小米刷步 = type=cron,cronexp=0 30 21 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/mi/step.js,script-update-interval=0,timeout=60
@@ -66,5 +65,5 @@
 订阅同步 = type=cron,cronexp=0 52 23 * * *,wake-system=1,script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/cron-sync-artifacts.min.js,script-update-interval=0,timeout=120
 
 [MITM]
-hostname = %APPEND% *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, user-api.smzdm.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, passport.iqiyi.com, xmc.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, auth.alipan.com,auth.aliyundrive.com, ccsp-egmas.sf-express.com, yunbusiness.ccb.com, youhui.95516.com, app.moutai519.com.cn, app.bilibili.com, m.bilibili.com, apis.folidaymall.com, sytgate.jslife.com.cn, *.amap.com, osg-open.sgcc.com.cn
+hostname = %APPEND% *.m.163.com, c.tieba.baidu.com, tiebac.baidu.com, *.xxjjappss.com,*.*.mob.com,*.huaerdadi.com, user-api.smzdm.com, apph5.manmanbuy.com, account.huami.com, club.yili.com, passport.iqiyi.com, xmc.ximalaya.com, 180.153.255.*, 180.153.255.10*, 180.153.250.*, 114.80.99.*, 1.62.62.64, auth.alipan.com,auth.aliyundrive.com, ccsp-egmas.sf-express.com, yunbusiness.ccb.com, youhui.95516.com, app.moutai519.com.cn, app.bilibili.com, m.bilibili.com, apis.folidaymall.com, sytgate.jslife.com.cn, *.amap.com
 
