@@ -409,34 +409,32 @@
       ]
     },
     {
-      "id": "Auto_join_TF",
-      "name": "TestFlight监控",
-      "author": "@MuTu888",
-      "script": "https://raw.githubusercontent.com/githubdulong/Script/master/Auto_join_TF.js",
-      "descs_html": [
-        ""
-      ],
-      "icons": [
-        "https://raw.githubusercontent.com/githubdulong/Script/master/Images/testflight.png",
-        "https://raw.githubusercontent.com/githubdulong/Script/master/Images/testflight.png"
-      ],
-      "keys": [
-        "session_id",
-        "session_digest",
-        "request_id",
-        "APP_ID"
-      ],
-      "settings": [
-        {
-          "id": "APP_ID",
-          "name": "填写 APP_ID或复制TF链接至浏览器自动捕获",
-          "val": "",
-          "type": "textarea",
-          "autoGrow": "true",
-          "rows": 1,
-          "desc": "填写 APP_ID 多个用英文逗号隔开(勿加空格)示例：iSTXKF4K,INmLTx8d"
-        }
-      ]
+  "id": "Auto_join_TF",
+  "name": "TestFlight监控",
+  "author": "@MuTu888",
+  "script": "https://raw.githubusercontent.com/githubdulong/Script/master/Auto_join_TF.js",
+  "icons": [
+    "https://raw.githubusercontent.com/githubdulong/Script/master/Images/testflight.png",
+    "https://raw.githubusercontent.com/githubdulong/Script/master/Images/testflight.png"
+  ],
+  "keys": [
+    "session_id",
+    "session_digest",
+    "request_id",
+    "key",
+    "APP_ID"
+  ],
+  "settings": [
+    {
+      "id": "APP_ID",
+      "name": "填写 APP_ID或复制TF链接至浏览器自动捕获",
+      "val": "",
+      "type": "textarea",
+      "autoGrow": "true",
+      "rows": 1,
+      "desc": "填写 APP_ID 多个用英文逗号隔开(勿加空格)示例：iSTXKF4K,INmLTx8d"
     }
   ]
+      }
+    ]
 }
