@@ -26,7 +26,7 @@ if (typeof $request !== 'undefined' && $request) {
         $persistentStore.write(request_id, 'request_id');
         $persistentStore.write(key, 'key'); 
 
-        $notification.post('信息获取成功', '请在获取APP_ID后编辑参数停用该脚本', '');
+        $notification.post('信息获取成功 🎉', '', '请在获取APP_ID后编辑参数停用该脚本');
         console.log(`信息获取成功: session_id=${session_id}, session_digest=${session_digest}, request_id=${request_id}, key=${key}`);
     } else if (/^https:\/\/testflight\.apple\.com\/join\/([A-Za-z0-9]+)$/.test(url)) {
         const appIdMatch = url.match(/^https:\/\/testflight\.apple\.com\/join\/([A-Za-z0-9]+)$/);
@@ -61,7 +61,7 @@ if (typeof $request !== 'undefined' && $request) {
                 await autoPost(ID, ids);
             }
             if (ids.length === 0) {
-                $notification.post('所有TestFlight已加入完毕 🎉', '模块已自动关闭', '');
+                $notification.post('所有TestFlight已加入完毕 🎉', '', '模块已自动关闭');
                 $done($httpAPI('POST', '/v1/modules', {'公测监控': false}));
             } else {
                 $done();
