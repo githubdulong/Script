@@ -1,6 +1,7 @@
 /*
-更新时间：2024.03.20 19:59
-更新内容：优化脚本，点击Testflight链接自动获取APP_ID
+更新时间：2024.03.20 23:20
+更新内容：
+优化脚本，点击Testflight链接自动获取APP_ID。优化通知，判断有APP_ID数据时不再触发获取信息通知。
 
 Surge配置
 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/AUTOTF.sgmodule
@@ -42,7 +43,10 @@ if (typeof $request !== 'undefined' && $request) {
         $persistentStore.write(request_id, 'request_id')
         $persistentStore.write(key, 'key')
 
-        $notification.post('信息获取成功 🎉', '', '请获取APP_ID后编辑模块参数停用该脚本')
+        let existingAppIds = $persistentStore.read('APP_ID')
+        if (!existingAppIds) {
+            $notification.post('信息获取成功 🎉', '', '请获取APP_ID后编辑模块参数停用该脚本')
+        }
         console.log(`信息获取成功: session_id=${session_id}, session_digest=${session_digest}, request_id=${request_id}, key=${key}`)
     } else if (/^https:\/\/testflight\.apple\.com\/join\/([A-Za-z0-9]+)$/.test(url)) {
         const appIdMatch = url.match(/^https:\/\/testflight\.apple\.com\/join\/([A-Za-z0-9]+)$/)
