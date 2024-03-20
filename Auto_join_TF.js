@@ -65,7 +65,7 @@ if (typeof $request !== 'undefined' && $request) {
                 await autoPost(ID, ids)
             }
             if (ids.length === 0) {
-                $notification.post('所有TestFlight已加入完毕 🎉', '模块已自动关闭', '');
+                $notification.post('所有TestFlight已加入完毕 🎉', '', '模块已自动关闭停止运行');
                 $done($httpAPI('POST', '/v1/modules', {'公测监控': false}));
             } else {
                 $done()
