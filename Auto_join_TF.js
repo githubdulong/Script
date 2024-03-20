@@ -3,7 +3,7 @@
 更新内容：优化脚本，点击Testflight链接自动获取APP_ID
 
 Surge配置
-https://raw.githubusercontent.com/githubdulong/Script/master/Surge/autotf.sgmodule
+https://raw.githubusercontent.com/githubdulong/Script/master/Surge/AUTOTF.sgmodule
 Boxjs订阅
 https://raw.githubusercontent.com/githubdulong/Script/master/boxjs.json
 */
