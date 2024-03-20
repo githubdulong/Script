@@ -427,12 +427,12 @@
   "settings": [
     {
       "id": "APP_ID",
-      "name": "填写 APP_ID或复制TF链接至浏览器自动捕获",
+      "name": "填写APP_ID或点击TF链接自动捕获",
       "val": "",
       "type": "textarea",
       "autoGrow": "true",
       "rows": 1,
-      "desc": "填写 APP_ID 多个用英文逗号隔开(勿加空格)示例：iSTXKF4K,INmLTx8d"
+      "desc": "填写APP_ID 多个用英文逗号隔开(勿加空格)示例：iSTXKF4K,INmLTx8d"
     }
   ]
       }
