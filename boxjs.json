@@ -157,12 +157,13 @@
       ]
     },
     {
-      "id": "lk.jd.wskeyupload",
-      "name": "wskey配置",
+      "id": "jd.wskeyupload",
+      "name": "Wskey配置",
       "keys": [
-        "lkJdUploadWskeyBotToken"
+        "TGBotToken",
+        "TGUserIDs"
       ],
-      "author": "@lowking@MuTu888",
+      "author": "@MuTu888",
       "repo": "https://github.com/githubdulong/Script",
       "icons": [
         "https://raw.githubusercontent.com/id77/QuantumultX/master/icon/link.png",
@@ -170,18 +171,18 @@
       ],
       "settings": [
         {
-          "id": "lkJdUploadWskeyBotToken",
+          "id": "TGBotToken",
           "name": "Telegram机器人token",
           "val": "",
           "type": "text",
-          "desc": "去@BotFather获取bot token之后填在这里"
+          "desc": "bot token,数组形式保存 '123456:xxx_xxx'"
         },
         {
-          "id": "lkJdUploadWskeyToTgUserid",
+          "id": "TGUserIDs",
           "name": "wskey发送目标Id",
-          "val": "[\"-1001241545347\"]",
+          "val": "",
           "type": "text",
-          "desc": "wskey发送目标Id。数组形式保存[\"-1001241545347\"]"
+          "desc": "wskey发送目标Id,数组形式保存 [\"123456789\"]"
         }
       ]
     },
