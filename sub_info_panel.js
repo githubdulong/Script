@@ -33,19 +33,22 @@ let args = getArgs();
 (async () => {
   let info = await getDataInfo(args.url);
   if (!info) $done();
-  let resetDayLeft = getRmainingDays(parseInt(args["reset_day"]));
 
   let used = info.download + info.upload;
   let total = info.total;
   let expire = args.expire || info.expire;
+
   let content = [`用量：${bytesToSize(used)} | ${bytesToSize(total)}`];
 
-if (resetDayLeft) {
-    content.push(`\n到期：${resetDayLeft}天 | `);
-  }
   if (expire && expire !== "false") {
     if (/^[\d.]+$/.test(expire)) expire *= 1000;
-    content.push(`${formatTime(expire)}`);
+  }
+
+  if (args["reset_day"] && parseInt(args["reset_day"]) > 0) {
+    let resetDayLeft = getRemainingDays(parseInt(args["reset_day"]));
+    content.push(`到期：${resetDayLeft}天 | ${formatTime(expire)}`);
+  } else {
+    content.push(`到期：${formatTime(expire)}`);
   }
 
   let now = new Date();
@@ -56,7 +59,7 @@ if (resetDayLeft) {
 
   $done({
     title: `${args.title} | ${hour}:${minutes}`,
-    content: content.join(""),
+    content: content.join("\n"),
     icon: args.icon || "airplane.circle",
     "icon-color": args.color || "#007aff",
   });
@@ -84,9 +87,7 @@ function getUserInfo(url) {
         reject(resp.status);
         return;
       }
-      let header = Object.keys(resp.headers).find(
-        (key) => key.toLowerCase() === "subscription-userinfo"
-      );
+      let header = Object.keys(resp.headers).find(key => key.toLowerCase() === "subscription-userinfo");
       if (header) {
         resolve(resp.headers[header]);
         return;
@@ -98,8 +99,8 @@ function getUserInfo(url) {
 
 async function getDataInfo(url) {
   const [err, data] = await getUserInfo(url)
-    .then((data) => [null, data])
-    .catch((err) => [err, null]);
+    .then(data => [null, data])
+    .catch(err => [err, null]);
   if (err) {
     console.log(err);
     return;
@@ -108,33 +109,31 @@ async function getDataInfo(url) {
   return Object.fromEntries(
     data
       .match(/\w+=[\d.eE+-]+/g)
-      .map((item) => item.split("="))
+      .map(item => item.split("="))
       .map(([k, v]) => [k, Number(v)])
   );
 }
 
-function getRmainingDays(resetDay) {
-  if (!resetDay) return;
+function getRemainingDays(resetDay) {
+  if (!resetDay) return 0;
 
   let now = new Date();
   let today = now.getDate();
   let month = now.getMonth();
   let year = now.getFullYear();
-  let daysInMonth;
+  let daysInMonth = new Date(year, month + 1, 0).getDate();
 
-  if (resetDay > today) {
-    daysInMonth = 0;
+  if (resetDay >= today) {
+    return resetDay - today;
   } else {
-    daysInMonth = new Date(year, month + 1, 0).getDate();
+    return daysInMonth - today + resetDay;
   }
-
-  return daysInMonth - today + resetDay;
 }
 
 function bytesToSize(bytes) {
   if (bytes === 0) return "0B";
   let k = 1024;
-  sizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  let sizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
   let i = Math.floor(Math.log(bytes) / Math.log(k));
   return (bytes / Math.pow(k, i)).toFixed(2) + " " + sizes[i];
 }
