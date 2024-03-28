@@ -33,8 +33,6 @@
 捷顺停车 = type=cron,cronexp=0 8 0 * * *,wake-system=1, script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/jparking_sign.js, script-update-interval=0,timeout=60
 # > i 茅台申购(私库)
 茅台申购 = type=cron,cronexp=0 15 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/i-maotai.js,script-update-interval=0,timeout=60
-# > 微付金币
-微付金币 = type=cron,cronexp=0 0 17 * * *,timeout=30,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/wechat_pay_coupon.js,script-update-interval=0
 # > 网上国网 Boxjs填写账户
 网上国网 = type=cron,cronexp=0 0 14 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/95598/95598.js,script-update-interval=0,timeout=60
 # > 小米刷步 Boxjs登录账户
