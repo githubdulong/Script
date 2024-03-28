@@ -175,14 +175,14 @@
           "name": "Telegram机器人token",
           "val": "",
           "type": "text",
-          "desc": "bot token,数组形式保存 '123456:xxx_xxx'"
+          "desc": "bot token,数组格式保存 123456:xxx_xxx"
         },
         {
           "id": "TGUserIDs",
           "name": "wskey发送目标Id",
           "val": "",
           "type": "text",
-          "desc": "wskey发送目标Id,数组形式保存 [\"123456789\"]"
+          "desc": "wskey发送目标Id,数组格式保存 [\"123456789\"]"
         }
       ]
     },
