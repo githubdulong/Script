@@ -1,6 +1,6 @@
 #!name=Streaming Media Unlock
 #!desc=Netflix, Disney+, YouTube Unlock Detection
-#!system=ios
+#!category=Third-party module
 #!arguments=UPDATE_INTERVAL:7200,TITLE:解锁检测,ICON:play.circle.fill,COLOR:#FF2121
 #!arguments-desc=[参数设置]\n1. UPDATE_INTERVAL: 自定义策略面板的刷新时间间隔, 单位为秒, 默认每7200秒刷新一次;\n2. TITLE: 自定义面板标题, 默认为"解锁检测";\n3. ICON: 自定义面板图标, 默认为"play.circle.fill";\n4. COLOR: 自定义图标颜色, 默认为"#FF2121";\n\n[模块描述]\n▎本模块用于检测Netflix,Disney+,YouTube的解锁状态查询;\n▎三种状态显示"☑" 表示支持解锁,"☒" 表示不支持解锁,"N/A" 表示检测超时或异常;\n▎地区代码缩写表示已解锁地区。
 
