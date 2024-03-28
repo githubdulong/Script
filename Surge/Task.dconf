@@ -1,6 +1,3 @@
-#!name=定时脚本
-#!desc=最后更新时间 2024-04-28 14:25
-#!include Task.dconf
 [Script]
 # > 高德打车
 高德打车 = type=cron,cronexp=0 0 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js,script-update-interval=0,timeout=30
