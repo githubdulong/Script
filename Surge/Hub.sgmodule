@@ -6,9 +6,9 @@
 
 [URL Rewrite]
 # 转为Surge
-^https:\/\/(.*git.*)\/(.*\.)(js|conf|snippet|plugin|list).*{{{SURGE_SUFFIX}}}$ http://script.hub/file/_start_/https://$1/$2$3/_end_/$2.sgmodule?type=surge-module&target=surge-module&del=true
+^https:\/\/(.*git.*)\/(.*\.)(js|conf|snippet|plugin|list).*({{{SURGE_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2$3/_end_/$2.sgmodule?type=surge-module&target=surge-module&del=true
 # 转为Stash
-^https:\/\/(.*git.*)\/(.*\.)(js|conf|snippet|plugin|list).*{{{STASH_SUFFIX}}}$ http://script.hub/file/_start_/https://$1/$2$3/_end_/$2.sgmodule?type=qx-rewrite&target=stash-stoverride&del=true
+^https:\/\/(.*git.*)\/(.*\.)(js|conf|snippet|plugin|list).*({{{STASH_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2$3/_end_/$2.sgmodule?type=qx-rewrite&target=stash-stoverride&del=true
 # 转为Loon
-^https:\/\/(.*git.*)\/(.*\.)(js|conf|snippet|plugin|list).*{{{LOON_SUFFIX}}}$ http://script.hub/file/_start_/https://$1/$2$3/_end_/$2.sgmodule?type=loon-plugin&target=loon-plugin&del=true
+^https:\/\/(.*git.*)\/(.*\.)(js|conf|snippet|plugin|list).*({{{LOON_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2$3/_end_/$2.sgmodule?type=loon-plugin&target=loon-plugin&del=true
 
