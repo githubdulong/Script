@@ -1,4 +1,4 @@
-#!name=Sub_info
+#!name=Sub_info_C
 #!desc=机场订阅信息展示,包含重置日,到期日,流量消耗
 #!category=Third-party module
 #!arguments=URL:机场订阅,RESET_DAY:1,TITLE:机场信息,ICON:shippingbox.circle.fill,COLOR:#81AC7A,AIRPORT_NAME:我的机场1,UPDATE_INTERVAL:1800
