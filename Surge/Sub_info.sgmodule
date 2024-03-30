@@ -7,7 +7,7 @@
 [Panel]
 {{{AIRPORT_NAME_1}}} = script-name={{{AIRPORT_NAME_1}}},update-interval={{{UPDATE_INTERVAL_1}}}
 {{{AIRPORT_NAME_2}}} = script-name={{{AIRPORT_NAME_2}}},update-interval={{{UPDATE_INTERVAL_2}}}
-{{{AIRPORT_NAME_2}}} = script-name={{{AIRPORT_NAME_3}}},update-interval={{{UPDATE_INTERVAL_3}}}
+{{{AIRPORT_NAME_3}}} = script-name={{{AIRPORT_NAME_3}}},update-interval={{{UPDATE_INTERVAL_3}}}
 
 [Script]
 {{{AIRPORT_NAME_1}}} = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/sub_info_panel.js,script-update-interval=0,argument=url={{{URL_1}}}&reset_day={{{RESET_DAY_1}}}&title={{{TITLE_1}}}&icon={{{ICON_1}}}&color={{{COLOR_1}}}
