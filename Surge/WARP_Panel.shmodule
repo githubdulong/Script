@@ -1,5 +1,5 @@
 #!name=信息展示
-#!desc=WARP 详细信息展示 薯条
+#!desc=WARP_Panel https://github.com/VirgilClyne
 #!category=Third-party module
 #!arguments=SCRIPT_NAME:WARP信息,UPDATE_INTERVAL:1800,TITLE:WARP信息,ICON:icloud.circle.fill,ICON_COLOR:#EB5C20,LANGUAGE:auto
 #!arguments-desc=[参数设置]\n1. SCRIPT_NAME: 自定义脚本名称,默认为WARP信息;\n2. UPDATE_INTERVAL: 自定义刷新间隔,单位为秒,默认1800秒;\n3. TITLE: 自定义面板标题,默认为WARP信息;\n4. ICON: 自定义Panel显示图标,默认为icloud.circle.fill;\n5. ICON_COLOR: 自定义图标颜色,请使用十六进制颜色代码,默认为#EB5C20;\n6. LANGUAGE: 自定义语言设置,默认为auto;
