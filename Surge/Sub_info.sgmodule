@@ -1,4 +1,4 @@
-#!name=Sub_info_A
+#!name=订阅信息
 #!desc=机场订阅信息展示,多订阅添加"Sub_info-2,3,4,5.module"后缀数字不同多模块
 #!category=Third-party module
 #!arguments=URL:机场订阅,RESET_DAY:1,TITLE:机场信息,ICON:shippingbox.circle.fill,COLOR:#81AC7A,AIRPORT_NAME:我的机场1,UPDATE_INTERVAL:1800

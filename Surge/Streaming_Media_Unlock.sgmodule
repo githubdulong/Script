@@ -1,4 +1,4 @@
-#!name=Streaming Media Unlock
+#!name=媒体解锁
 #!desc=Netflix, Disney+, YouTube Unlock Detection
 #!category=Third-party module
 #!arguments=UPDATE_INTERVAL:7200,TITLE:解锁检测,ICON:play.circle.fill,COLOR:#FF2121
