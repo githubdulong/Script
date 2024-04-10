@@ -1,5 +1,5 @@
 #!name=脚本合集
-#!desc=更新时间 2024-04-09 14:45
+#!desc=更新时间 2024-04-10 10:38
 
 [Header Rewrite]
 # > Bing Ai
@@ -131,8 +131,8 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 # > 彩云天气 解锁
 彩云天气 = type=http-response, pattern=^https:\/\/biz\.cyapi\.cn\/(p\/v1\/vip_info|v2\/user)|^https:\/\/wrapper\.cyapi\.cn\/v1\/activity\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/break/caiyun.js, requires-body=true, max-size=-1
 彩云天气 = type=http-request, pattern=^https:\/\/wrapper\.cyapi\.cn\/v1\/(nafp\/origin_images|satellite)\?, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/break/caiyun.js
-# > 京东Wskey Boxjs填写Token
-京东上传 = type=http-response,pattern=functionId=newUserInfo,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/JDWSKey.js,script-update-interval=0,timeout=60
+# > 京东Wskey
+京东上传 = type=http-request,pattern=https:\/\/(api\.m\.jd\.com\/client\.action\?functionId=xview2Config|perf\.m\.jd\.com\/app_monitor\/v2\/getRule),requires-body=0,max-size=0,binary-body-mode=0,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/get_jd_wskey.js,script-update-interval=0,timeout=60
 # > 美图秀秀 解锁
 美图秀秀 = type=http-response,requires-body=1,max-size=0,pattern=^https?://(api|h5).xiuxiu.meitu.com/(?!(v1/feed/)),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Mtxx.js
 # > GitHub 请求私库
@@ -149,4 +149,4 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 规则转换 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set, script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/rule-parser.beta.js,timeout=300,engine=auto
 脚本转换 = type=http-request, pattern=^https?:\/\/script\.hub\/convert\/, script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-converter.beta.js,timeout=300,engine=auto
 [MITM]
-hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, btrace.qq.com, syh.zybang.com, security.wechat.com, api.m.jd.com, gab.122.gov.cn, api-mifit-cn3.zepp.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, sub.store, mb3admin.com, flowplus.meituan.net, m.360buyimg.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, s3plus.meituan.net, www.bing.com, biz.cyapi.cn, wrapper.cyapi.cn, ossgw.alicdn.com, raw.githubusercontent.com, gist.githubusercontent.com, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net, testflight.apple.com, script.hub, *.script.hub, client-api-v2.oray.com, yunbusiness.ccb.com, iobs.pingan.com.cn, api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com
+hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, btrace.qq.com, syh.zybang.com, security.wechat.com, api.m.jd.com, perf.m.jd.com, gab.122.gov.cn, api-mifit-cn3.zepp.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, sub.store, mb3admin.com, flowplus.meituan.net, m.360buyimg.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, s3plus.meituan.net, www.bing.com, biz.cyapi.cn, wrapper.cyapi.cn, ossgw.alicdn.com, raw.githubusercontent.com, gist.githubusercontent.com, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net, testflight.apple.com, script.hub, *.script.hub, client-api-v2.oray.com, yunbusiness.ccb.com, iobs.pingan.com.cn, api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com
