@@ -1,28 +1,34 @@
 /*
 README：https://raw.githubusercontent.com/githubdulong/Script/master/One.js
-每日一言（有道词典）
+每日一言（有道词典） 
 */
 
-const $tool = new Tool()
+const $tool = new Tool();
 $tool.get('https://dict.youdao.com/infoline/style/cardList?mode=publish&client=mobile&style=daily&size=2', function (error, response, data) {
     let obj = JSON.parse(data);
     let date = new Date();
-    let isAM = date.getHours() < 12 ? true : false;
+    let isAM = date.getHours() < 12;
     let title = '每日' + (isAM ? '一言' : '一言') + (isAM ? ' ☀️' : ' 🌙');
     let subtitle = '';
-    let scheme = 'alipay://platformapi/startapp?appId=60000002';
-    let content = ""+scheme;
-    let option = {"open-url" : scheme};
-    if (!error) {
-        if (obj && obj.length > 1) {
-            let yi = obj[1];
-            content = yi.title + '\n' + yi.summary;
-            option["media-url"] = yi.image[0];
-        }
+    let content = obj[1] ? obj[1].title + '\n' + obj[1].summary : '';
+
+    if (!error && obj && obj.length > 1) {
+        let yi = obj[1];
+        let imageUrl = yi.image[0];  
+        let options = {
+            "action": "clipboard",
+            "text": content,  
+            "media-url": imageUrl,  
+            "sound": true  
+        };
+        $tool.notify(title, subtitle, content, options);
+    } else {
+
+        $tool.notify(title, subtitle, content);
     }
-    $tool.notify(title, subtitle, content);
     $done();
-})
+});
+
 
 function Tool() {
     _node = (() => {
