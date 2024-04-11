@@ -1,6 +1,6 @@
 /*
 更新时间：2024.04.11 10:40
-更新内容：新增按通知类别保留或延迟消失(SurgeTF参数)
+更新内容：新增按通知类别保留或延迟消失,模块关闭提示音(SurgeTF参数)
 
 Surge配置
 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/AUTOTF.sgmodule
@@ -68,7 +68,7 @@ if (typeof $request !== 'undefined' && $request) {
                 await autoPost(ID, ids)
             }
             if (ids.length === 0) {
-                $notification.post('所有TestFlight已加入完毕 🎉', '', '模块已自动关闭停止运行');
+                $notification.post('所有TestFlight已加入完毕 🎉', '', '模块已自动关闭停止运行', {"sound": true});
                 $done($httpAPI('POST', '/v1/modules', {'公测监控': false}));
             } else {
                 $done()
