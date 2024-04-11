@@ -44,7 +44,7 @@ if (typeof $request !== 'undefined' && $request) {
 
         let existingAppIds = $persistentStore.read('APP_ID')
         if (!existingAppIds) {
-            $notification.post('信息获取成功 🎉', '', '请获取APP_ID后编辑模块参数停用该脚本' , {"auto-dismiss": 60})
+            $notification.post('信息获取成功 🎉', '', '请获取APP_ID后编辑模块参数停用该脚本')
         }
         console.log(`信息获取成功: session_id=${session_id}, session_digest=${session_digest}, request_id=${request_id}, key=${key}`)
     } else if (/^https:\/\/testflight\.apple\.com\/join\/([A-Za-z0-9]+)$/.test(url)) {
