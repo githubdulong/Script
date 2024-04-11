@@ -20,7 +20,7 @@ $tool.get('https://dict.youdao.com/infoline/style/cardList?mode=publish&client=m
             "text": content,  
             "media-url": imageUrl,  
             "sound": true,
-						"auto-dismiss": 500
+            "auto-dismiss": 500
         };
         $tool.notify(title, subtitle, content, options);
     } else {
