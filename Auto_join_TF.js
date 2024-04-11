@@ -22,10 +22,10 @@ if (typeof $request !== 'undefined' && $request) {
             if (!appIdSet.has(appId)) {
                 appIdSet.add(appId)
                 $persistentStore.write(Array.from(appIdSet).join(','), 'APP_ID')
-                $notification.post('已捕获APP_ID', '', `已捕获并存储APP_ID: ${appId}`)
+                $notification.post('已捕获APP_ID', '', `已捕获并存储APP_ID: ${appId}`, {"auto-dismiss": 5})
                 console.log(`已捕获并存储APP_ID: ${appId}`)
             } else {
-                $notification.post('APP_ID重复', '', `APP_ID: ${appId} 已存在，无需重复添加。`)
+                $notification.post('APP_ID重复', '', `APP_ID: ${appId} 已存在，无需重复添加。` {"auto-dismiss": 5})
                 console.log(`APP_ID: ${appId} 已存在，无需重复添加。`)
             }
         } else {
@@ -45,7 +45,7 @@ if (typeof $request !== 'undefined' && $request) {
 
         let existingAppIds = $persistentStore.read('APP_ID')
         if (!existingAppIds) {
-            $notification.post('信息获取成功 🎉', '', '请获取APP_ID后编辑模块参数停用该脚本')
+            $notification.post('信息获取成功 🎉', '', '请获取APP_ID后编辑模块参数停用该脚本' {"auto-dismiss": 60})
         }
         console.log(`信息获取成功: session_id=${session_id}, session_digest=${session_digest}, request_id=${request_id}, key=${key}`)
     } else if (/^https:\/\/testflight\.apple\.com\/join\/([A-Za-z0-9]+)$/.test(url)) {
@@ -105,7 +105,7 @@ async function autoPost(ID, ids) {
                 console.log(`${ID} 不是有效链接: 状态码 ${response.status}，移除 APP_ID`)
                 ids.splice(ids.indexOf(ID), 1)
                 $persistentStore.write(ids.join(','), 'APP_ID')
-                $notification.post('不是有效的TestFlight链接', '', `${ID} 已被移除`)
+                $notification.post('不是有效的TestFlight链接', '', `${ID} 已被移除` {"auto-dismiss": 5})
                 resolve()
                 return
             }

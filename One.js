@@ -19,7 +19,8 @@ $tool.get('https://dict.youdao.com/infoline/style/cardList?mode=publish&client=m
             "action": "clipboard",
             "text": content,  
             "media-url": imageUrl,  
-            "sound": true  
+            "sound": true,
+						"auto-dismiss": 500
         };
         $tool.notify(title, subtitle, content, options);
     } else {
