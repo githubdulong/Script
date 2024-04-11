@@ -1,7 +1,6 @@
 /*
-更新时间：2024.03.20 23:20
-更新内容：
-优化脚本，点击Testflight链接自动获取APP_ID。优化通知，判断有APP_ID数据时不再触发获取信息通知。
+更新时间：2024.04.11 10:30
+更新内容：新增按通知类别保留或延迟消失(SurgeTF参数)
 
 Surge配置
 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/AUTOTF.sgmodule
