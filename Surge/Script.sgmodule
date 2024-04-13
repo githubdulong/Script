@@ -13,7 +13,7 @@
 
 [General]
 # > 代理检测
-skip-proxy = %APPEND% www.baidu.com,yunbusiness.ccb.com,wxh.wo.cn,gate.lagou.com,www.abchina.com.cn,www.shanbay.com,login-service.mobile-bank.psbc.com,mobile-bank.psbc.com
+skip-proxy = %APPEND% www.baidu.com,yunbusiness.ccb.com,wxh.wo.cn,gate.lagou.com,www.abchina.com.cn,www.shanbay.com,login-service.mobile-bank.psbc.com,mobile-bank.psbc.com,iosapps.itunes.apple.com
 always-real-ip = %APPEND% easy-login.10099.com.cn
 # > Boxjs,Script hub
 force-http-engine-hosts = %APPEND% boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net, script.hub, *.script.hub
@@ -135,6 +135,9 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 京东上传 = type=http-request,pattern=https:\/\/(api\.m\.jd\.com\/client\.action\?functionId=xview2Config|perf\.m\.jd\.com\/app_monitor\/v2\/getRule),requires-body=0,max-size=0,binary-body-mode=0,script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/get_jd_wskey.js,script-update-interval=0,timeout=60
 # > 美图秀秀 解锁
 美图秀秀 = type=http-response,requires-body=1,max-size=0,pattern=^https?://(api|h5).xiuxiu.meitu.com/(?!(v1/feed/)),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Mtxx.js
+# > TestFlight 管理
+内测请求 = type=http-request,requires-body=true,pattern=^https?:\/\/testflight\.apple\.com\/(.+)(\?.*)?$, script-path=https://raw.githubusercontent.com/VirgilClyne/iRingo/main/js/TestFlight.request.js,timeout=60,engine=auto
+内测回应 = type=http-response,requires-body=true,pattern=^https?:\/\/testflight\.apple\.com\/(.+)(\?.*)?$, script-path=https://raw.githubusercontent.com/VirgilClyne/iRingo/main/js/TestFlight.response.js,timeout=60,engine=auto
 # > GitHub 请求私库
 访问私库 = type=http-request, requires-body=0, pattern=^https?:\/\/(raw|gist)\.githubusercontent\.com\/githubdulong\/Scripts\/, script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Rewrites/GithubPrivate/github-private-repo.js
 # > Sub-Store 订阅管理
@@ -147,4 +150,4 @@ EmbyPro = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/r
 规则转换 = type=http-request, pattern=^https?:\/\/script\.hub\/file\/_start_\/.+type=rule-set, script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/rule-parser.beta.js,timeout=300,engine=auto
 脚本转换 = type=http-request, pattern=^https?:\/\/script\.hub\/convert\/, script-path=https://raw.githubusercontent.com/Script-Hub-Org/Script-Hub/main/script-converter.beta.js,timeout=300,engine=auto
 [MITM]
-hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, btrace.qq.com, syh.zybang.com, security.wechat.com, api.m.jd.com, perf.m.jd.com, gab.122.gov.cn, api-mifit-cn3.zepp.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, sub.store, mb3admin.com, flowplus.meituan.net, m.360buyimg.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, s3plus.meituan.net, www.bing.com, biz.cyapi.cn, wrapper.cyapi.cn, ossgw.alicdn.com, raw.githubusercontent.com, gist.githubusercontent.com, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net, script.hub, *.script.hub, client-api-v2.oray.com, yunbusiness.ccb.com, iobs.pingan.com.cn, api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com
+hostname = %APPEND% -*.amemv.com, -*.snssdk.com, ap*.intsig.net, *.lagoapps.com, api.meiyan.com, raw.githubusercontent.com, btrace.qq.com, syh.zybang.com, security.wechat.com, api.m.jd.com, perf.m.jd.com, gab.122.gov.cn, api-mifit-cn3.zepp.com, as.xiaojukeji.com, pt-starimg.didistatic.com, security.xiaojukeji.com, guard.sec.xiaojukeji.com, conf.diditaxi.com.cn, api.udache.com, res.xiaojukeji.com, shop-gw.chengxinyouxuan.com, img-ys011.didistatic.com, wallet.95516.com, api-daoshang.shiqiao.com, api.wfdata.club, sub.store, mb3admin.com, flowplus.meituan.net, m.360buyimg.com,  ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, *.sf-express.com, api.pinduoduo.com, s3plus.meituan.net, www.bing.com, biz.cyapi.cn, wrapper.cyapi.cn, ossgw.alicdn.com, raw.githubusercontent.com, gist.githubusercontent.com, boxjs.com, boxjs.net, *.boxjs.com, *.boxjs.net, script.hub, *.script.hub, client-api-v2.oray.com, yunbusiness.ccb.com, iobs.pingan.com.cn, api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com, testflight.apple.com
