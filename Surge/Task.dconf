@@ -55,6 +55,10 @@
 # > 柠季柠檬茶
 # 柠季奶茶 = type=http-response,pattern=^https?:\/\/pos\.meituan\.com\/api\/v1\/crm\/frontend\/campaign\/display,script-path=https://raw.githubusercontent.com/leiyiyan/resource/main/script/ningji/ningji.js,requires-body=1,max-size=0,script-update-interval=0
 柠季奶茶 = type=cron,cronexp=30 8 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/leiyiyan/resource/main/script/ningji/ningji.js,script-update-interval=0,timeout=60
+# > 4K 世界论坛
+电影世界 = type=cron,cronexp=0 9 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/4ksj.js,script-update-interval=0,timeout=60
+# > JAVDsy每日推荐
+每日推荐 = type=cron,cronexp=0 30 22 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/javday.js,script-update-interval=0,timeout=60
 # > i 茅台申购 app获取(私库）
 # 茅台申购 = type=http-request,pattern=^https:\/\/app\.moutai519\.com\.cn\/xhr\/front\/mall\/message\/unRead\/query,requires-body=0,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/i-maotai.js,script-update-interval=0
 茅台申购 = type=cron,cronexp=0 15 9 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/githubdulong/Scripts/main/Script/i-maotai.js,script-update-interval=0,timeout=60
@@ -65,4 +69,6 @@
 # > Boxjs 数据备份
 数据备份 = type=cron,cronexp=0 50 23 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/dompling/Script/master/gist/backup.js,script-update-interval=0,timeout=120
 # > Sub-Store 订阅同步
-订阅同步 = type=cron,cronexp=0 55 11,wake-system=1,script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/cron-sync-artifacts.min.js,script-update-interval=0,timeout=120
+订阅同步 = type=cron,cronexp=0 55 11 * * *,wake-system=1,script-path=https://github.com/sub-store-org/Sub-Store/releases/latest/download/cron-sync-artifacts.min.js,script-update-interval=0,timeout=120
+# > BoxJs 会话切换
+# 会话切换 = type=cron,cronexp=0 0 25 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/box/switcher/box.switcher.js,script-update-interval=0,timeout=30
