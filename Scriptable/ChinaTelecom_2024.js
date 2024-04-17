@@ -240,12 +240,12 @@ async function main() {
   const flowBalance = (balanceFlow / 1048576).toFixed(2);
   const flow = flowTotal > 0 ? ((flowBalance / flowTotal) * 100).toFixed(1) : 0;
   // 格式化流量
-  const flowBalFormat = formatFlows(flowTotal) || 0;
+  const flowBalFormat = formatFlows(flowBalance) || 0;
   
   // 余额
   const fetchBalance = async () => {
     const balances = await getCacheString('balance.json', 'https://e.dlife.cn/user/balance.do');  
-    return balances || {}
+    return balances || {};
   };
   
   const bal = await fetchBalance();
