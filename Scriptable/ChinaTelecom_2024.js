@@ -1,10 +1,10 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: deep-blue; icon-glyph: mobile-alt;
+// icon-color: deep-blue; icon-glyph: phone-volume;
 /**
  * 组件作者: 95度茅台
- * 组件名称: 中国电信余量
- * Version 1.0.2
+ * 组件名称: 中国电信_2
+ * Version 1.0.5
  * 2023-10-30 16:30
  */
 
@@ -131,12 +131,13 @@ async function main() {
       return JSON.parse(jsonString);
     }
     
-    const response = await makeReq(jsonUrl);
+    let response = await makeReq(jsonUrl);
     if (response?.serviceResultCode == 0 && setting.cookie) {
       const jsonFile = JSON.stringify(response);
       cache.writeString(jsonName, jsonFile);
     } else {
       await updateCookie(setting.loginUrl);
+      response = await makeReq(jsonUrl);
     }
     return response;
   };
@@ -174,8 +175,8 @@ async function main() {
         setting.cookie = cookie;
         writeSettings(setting);
         notify('中国电信', '天翼账号中心 Cookie 更新成功');
+        return cookie;
       }
-      return cookie;
     }
   };
   
@@ -198,52 +199,57 @@ async function main() {
     }
   };
   
-  const fetchPackage = async () => {
-    const package = await getCacheString('package_detail.json', 'https://e.dlife.cn/user/package_detail.do');
-    return package || { items: [] };
-  };
-
-  const { items, total, balance } = await fetchPackage();
-  const packageIiems = items.flatMap(item => item.items);
-  
-  // 获取流量
-  const flowItems = packageIiems.filter(item => {
-    const { ratableAmount: amount, ratableResourcename: name } = item;
-    return item.unitTypeId == 3 && amount < 999999990000 && (setting.orient ? name.includes('定向') : !name.includes('定向'));
-  });
-  
-  const totalFlow = flowItems.length > 0 ? flowItems.reduce((acc, item) => acc + Number(item.ratableAmount), 0) / 1048576 : total / 1048576;
-  const totalBalance = flowItems.length > 0 ? flowItems.reduce((acc, item) => acc + Number(item.balanceAmount), 0) / 1048576 : balance / 1048576;
-  
-  const formatFlow = (bal) => {
-    const balance = bal.toFixed(2);
+  const formatFlows = (balance) => {
     if (balance < 1) {
       return `${(balance * 1024).toFixed(1)} MB`;
     } else {
       return `${balance} GB`;
     }
   };
-  const flowBalance = formatFlow(totalBalance);
-  const flow = ((totalBalance / totalFlow) * 100).toPrecision(3);
   
-  // 获取语音  
-  const voiceItems = packageIiems.filter((item) => {
-    const { ratableAmount: amount, ratableResourcename: name } = item;
-    return name.includes('通话') && amount > 0 || item.unitTypeId == 1;
+  const fetchPackage = async () => {
+    const package = await getCacheString('package_detail.json', 'https://e.dlife.cn/user/package_detail.do');
+    return package || {};
+  };
+  
+  let voiceTotal = 0;
+  let voiceBalance = 0;
+  let totalFlow = 0;
+  let balanceFlow = 0;
+  
+  const package = await fetchPackage();
+  // 遍历 items 数组
+  package?.items?.forEach(data => {
+    data?.items?.forEach(item => {
+      const { ratableAmount: amount, ratableResourcename: name } = item;
+      if (item.unitTypeId == 1) {
+        voiceTotal += parseFloat(item.ratableAmount);
+        voiceBalance += parseFloat(item.balanceAmount);
+      } else if (item.unitTypeId == 3 && amount < 999999990000 && (setting.orient ? name.includes('定向') : !name.includes('定向'))) {
+        totalFlow += parseFloat(item.ratableAmount);
+        balanceFlow += parseFloat(item.balanceAmount);
+      } 
+    });
   });
-    
-  const voiceAmount = voiceItems.reduce((acc, item) => acc + Number(item.ratableAmount), voiceItems.length ? 0 : 1);
-  const voiceBalance = voiceItems.reduce((acc, item) => acc + Number(item.balanceAmount), 0);
-  const voice = (voiceBalance / voiceAmount * 100).toFixed(1) || 0;
   
-  // 获取余额
+  // 语音
+  const voice = voiceTotal > 0 ? (voiceBalance / voiceTotal * 100).toFixed(1) : 0;
+  
+  // 流量
+  const flowTotal = (totalFlow / 1048576).toFixed(2);
+  const flowBalance = (balanceFlow / 1048576).toFixed(2);
+  const flow = flowTotal > 0 ? ((flowBalance / flowTotal) * 100).toFixed(1) : 0;
+  // 格式化流量
+  const flowBalFormat = formatFlows(flowTotal) || 0;
+  
+  // 余额
   const fetchBalance = async () => {
     const balances = await getCacheString('balance.json', 'https://e.dlife.cn/user/balance.do');  
     return balances || {}
   };
   
   const bal = await fetchBalance();
-  const balanceAvailable = (bal.totalBalanceAvailable / 100).toFixed(2);
+  const balanceAvailable = (bal?.totalBalanceAvailable / 100).toFixed(2) || 0;
   
   /**
    * Get dayNumber
@@ -255,9 +261,9 @@ async function main() {
     writeSettings({ 
       ...setting,
       dayNumber,
-      flow: flow ?? '0',
+      flow,
       flowBalance,
-      voice: voice ?? '0',
+      voice,
       voiceBalance
     });
     return null;
@@ -413,7 +419,7 @@ async function main() {
     
     const flowStack = Stack1.addStack();
     flowStack.addSpacer();
-    const flowText = flowStack.addText(flowBalance);
+    const flowText = flowStack.addText(flowBalFormat);
     flowText.textColor = MainTextColor
     flowText.font = Font.boldSystemFont(16);
     flowStack.addSpacer();
@@ -580,7 +586,7 @@ async function main() {
     );
     return context.getImage();
   };
-  
+
   /**
    * Create Small Widget
    * @param { string } string
@@ -605,24 +611,24 @@ async function main() {
     } else {
       const logoImage = widget.addImage(image);
       logoImage.centerAlignImage();
-      logoImage.imageSize = new Size(screenSize < 926 ? 110 : 120, screenSize < 926 ? 32 : 35);
+      logoImage.imageSize = new Size(screenSize < 926 ? 110 : 115, screenSize < 926 ? 32 : 35);
       logoImage.tintColor = new Color('#2B83F1');
     }
-    const balText = widget.addText('¥\u0020' + balanceAvailable);  
+    const balText = widget.addText('¥\u0020' + balanceAvailable);    
     balText.textColor = Color.orange();
     balText.font = new Font("Georgia-Bold", 22);
     balText.centerAlignText();
     widget.addSpacer(5);
     
-    getwidget(voiceAmount, voiceBalance, `${voiceBalance} 分钟 » ${voice}%`, getColor(voice));
-    getwidget(totalFlow, totalBalance, `${flowBalance} » ${flow}%`, getColor(flow));
+    getwidget(voiceTotal, voiceBalance, `${voiceBalance} 分钟 » ${voice}%`, getColor(voice));
+    getwidget(totalFlow, balanceFlow, `${flowBalFormat} » ${flow}%`, getColor(flow));
     
     function getwidget(Total, haveGone, str, progressColor) {
       const title = widget.addText(str);
       title.centerAlignText();
       title.textColor = textColor;
       title.font = Font.mediumSystemFont(13); //小组件字体大小
-      widget.addSpacer(2);
+      widget.addSpacer(1);
       
       const drawImage = widget.addImage(creatProgress(Total, haveGone, progressColor));
       drawImage.centerAlignImage();
