@@ -1,6 +1,6 @@
 #!name=抖音国际
 #!desc=Surge版 TikTok解锁区域限制,下载去水印,App需抓包旧版本或在线安装 https://itiktok.best 
-#!category=Third-party module
+#!category=Third Party Module
 #!arguments=RULE_SET_ENABLED:RULE-SET,PROXY_NAME:PROXY,REGION_CODE:JP,WATERMARK_REMOVAL:下载水印
 #!arguments-desc=[参数设置]\nRULE_SET_ENABLED: 是否启用TikTok 分流规则集(添加注释符号'#'为禁用,默认启用);\nPROXY_NAME: 自定义分流规则对应的策略名称,默认PROXY;\nREGION_CODE: TikTok重定向区域解锁国家简称,JP=日本,US=美国,SG=新加坡,KR=韩国,默认日本;\nWATERMARK_REMOVAL: 是否启用TikTok下载去水印脚本(添加注释符号'#'为禁用,默认启用);
 

@@ -1,7 +1,7 @@
 #!name=内测切换
 #!desc=https://github.com/VirgilClyne TestFlight
 #!author=VirgilClyne
-#!category=Third-party module
+#!category=Third Party Module
 #!arguments=ENGINE:auto
 #!arguments-desc=[参数设置]\nENGINE: 脚本执行引擎,默认为"auto"自动选择,可选择"auto,jsc,或webview"
 
