@@ -58,8 +58,13 @@
 # > 达美乐披萨 公众号获取
 # 披萨抽奖 = type=http-request,pattern=^https:\/\/game\.dominos\.com\.cn\/.+\/game\/gameDone,requires-body=1,script-path=https://gist.githubusercontent.com/Sliverkiss/6b4da0d367d13790a9fd1d928c82bdf8/raw/dlm.js,script-update-interval=0
 披萨抽奖 = type=cron,cronexp=0 9 0 * * *,wake-system=1,script-path=https://gist.githubusercontent.com/Sliverkiss/6b4da0d367d13790a9fd1d928c82bdf8/raw/dlm.js,script-update-interval=0,timeout=300
+# > 夸克网盘 web+app获取
+# 网页获取 = type=http-response,pattern=^https:\/\/drive-pc\.quark\.cn\/1\/clouddrive\/file\/sort,requires-body=1,script-path=https://gist.githubusercontent.com/Sliverkiss/1589f69e675019b0b685a57a89de9ea5/raw/quarkV2.js,script-update-interval=0
+# 福利中心 = type=http-response,pattern=^https:\/\/coral2\.quark\.cn\/quark\/welfare\/v2\/signIn,requires-body=1,script-path=https://gist.githubusercontent.com/Sliverkiss/1589f69e675019b0b685a57a89de9ea5/raw/quarkV2.js,script-update-interval=0
+# 低碳空间 = type=http-request,pattern=^https:\/\/coral2\.quark\.cn\/quark\/carbon\/v1\/signIn,requires-body=1,script-path=https://gist.githubusercontent.com/Sliverkiss/1589f69e675019b0b685a57a89de9ea5/raw/quarkV2.js,script-update-interval=0
+夸克网盘 = type=cron,cronexp=30 9 0 * * *,wake-system=1,script-path=https://gist.githubusercontent.com/Sliverkiss/1589f69e675019b0b685a57a89de9ea5/raw/quarkV2.js,script-update-interval=0,timeout=60
 # > 4K 世界论坛 web获取
-电影世界 = type=cron,cronexp=30 9 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/4ksj.js,script-update-interval=0,timeout=60
+电影世界 = type=cron,cronexp=0 10 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/4ksj.js,script-update-interval=0,timeout=60
 # > JAVDsy 每日推荐
 每日推荐 = type=cron,cronexp=0 30 22 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/javday.js,script-update-interval=0,timeout=60
 # > i 茅台申购 app获取(私库）
