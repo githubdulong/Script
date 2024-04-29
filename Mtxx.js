@@ -5,7 +5,7 @@ by：https://iosgs.xyz/gzFile/quanX/mtxx.conf
 【Quantumult_X】
 
 [rewrite_local]
-^https?://(api|h5).xiuxiu.meitu.com/(?!(v1/feed/)) url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/Mtxx.js
+^https?://(api|h5).xiuxiu.meitu.com/(?!(v1/feed/|/v2/search/feeds.json)) url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/Mtxx.js
 
 [MITM]
 hostname: api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com
@@ -14,7 +14,7 @@ hostname: api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com
 
 【Surge】
 [Script]
-美图秀秀 = type=http-response,requires-body=1,max-size=0,pattern=^https?://(api|h5).xiuxiu.meitu.com/(?!(v1/feed/)),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Mtxx.js
+美图秀秀 = type=http-response,requires-body=1,max-size=0,pattern=^https?://(api|h5).xiuxiu.meitu.com/(?!(v1/feed/|/v2/search/feeds.json)),script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Mtxx.js
 
 [MITM]
 hostname: api.xiuxiu.meitu.com, h5.xiuxiu.meitu.com
