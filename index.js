@@ -35,7 +35,7 @@ let result = {}
         }
       }
       const message = `🅰 活跃请求${requests.length}个\n🅂 成功打断${count}个`
-  $notification.post('', '', message, { 'auto-dismiss': 2 })
+  $notification.post('', '', message, { 'auto-dismiss': 1 })
       await kill()
     }
     const { requests = [] } = await httpAPI('/v1/requests/active', 'GET') || {}
@@ -55,7 +55,7 @@ let result = {}
       }
       if (arg?.REQ_NOTIFY == 1) {
         const message = `🅰 活跃请求${requests.length}个\n🅂 成功打断${count}个`
-  $notification.post('', '', message, { 'auto-dismiss': 2 })
+  $notification.post('', '', message, { 'auto-dismiss': 1 })
       }
       result = {
         response: {
@@ -69,7 +69,7 @@ let result = {}
       await kill()
       if(arg?.REQ_NOTIFY == 1) {
         const message = `🅰 活跃请求${requests.length}个\n🅂 成功打断${count}个`
-  $notification.post('', '', message, { 'auto-dismiss': 2 })
+  $notification.post('', '', message, { 'auto-dismiss': 1 })
       }
       result = {
         response: {
