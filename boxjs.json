@@ -415,8 +415,8 @@
           "author": "@Xiaobailian",
           "script": "",
           "icons": [
-            "https://is1-ssl.mzstatic.com/image/thumb/Purple123/v4/08/88/f1/0888f1e3-da8d-9c44-187a-dee92acdf2e7/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-4.png/200x200bb.png",
-            "https://is1-ssl.mzstatic.com/image/thumb/Purple123/v4/08/88/f1/0888f1e3-da8d-9c44-187a-dee92acdf2e7/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-4.png/200x200bb.png"
+            "https://raw.githubusercontent.com/githubdulong/Script/master/Images/SpeedSwitcher.png",
+            "https://raw.githubusercontent.com/githubdulong/Script/master/Images/SpeedSwitcher.png"
           ],
           "keys": [
 "@Xiao_download.default_config.MINSPEED",
