@@ -1,0 +1,18 @@
+#!name=番茄小说
+#!desc=番茄小说去广告Surge版,兼容今日头条内置小说
+#!category=Ad Blocking Module
+
+[Rule]
+DOMAIN,dig.bdurl.net,REJECT
+AND,((DOMAIN-SUFFIX,zijieapi.com), (DOMAIN-KEYWORD,ad)),REJECT
+DOMAIN,is.snssdk.com,REJECT
+
+[Map Local]
+^https:\/\/api-access\.pangolin-sdk-toutiao\d?\.com\/api\/ad\/ data-type=text data="{}"
+^https:\/\/sf3-fe-tos\.pglstatp-toutiao\.com\/obj\/ad-pattern\/renderer\/package\.json data-type=text data="{}"
+
+[Script]
+番茄小说 = type=http-response,pattern=^https:\/\/lf-cdn-tos\.bytescm\.com\/obj\/static\/ad\/play-comp\/playable-component-sdk\/package\.ugen\.json,requires-body=1,max-size=0,binary-body-mode=0,debug=1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Fq_Ad.js
+
+[MITM]
+hostname = %APPEND% api-access.pangolin-sdk-toutiao*.com, sf3-fe-tos.pglstatp-toutiao.com, lf-cdn-tos.bytescm.com
