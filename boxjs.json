@@ -410,6 +410,89 @@
       ]
     },
     {
+          "id": "Xiao.Downloadmonitoring",
+          "name": "下载监控",
+          "author": "@Xiaobailian",
+          "script": "",
+          "icons": [
+            "https://is1-ssl.mzstatic.com/image/thumb/Purple123/v4/08/88/f1/0888f1e3-da8d-9c44-187a-dee92acdf2e7/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-4.png/200x200bb.png",
+            "https://is1-ssl.mzstatic.com/image/thumb/Purple123/v4/08/88/f1/0888f1e3-da8d-9c44-187a-dee92acdf2e7/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-4.png/200x200bb.png"
+          ],
+          "keys": [
+"@Xiao_download.default_config.MINSPEED",
+"@Xiao_download.default_config.TOTALTIME",
+"@Xiao_download.default_config.INTERVAL",
+"@Xiao_download.default_config.INITTIME",
+"@Xiao_download.default_config.GROUP",
+"@Xiao_download.default_config.TIMEOUT",
+"@Xiao_download.default_config.isDebug",
+"@Xiao_download.configList"
+          ],
+          "settings": [
+            {
+              "id": "@Xiao_download.default_config.MINSPEED",
+              "name": "MINSPEED-最低速度",
+              "val": "",
+              "type": "text",
+              "desc": "设置监测的最小速度要求（单位MB/S）"
+            },
+            {
+              "id": "@Xiao_download.default_config.TOTALTIME",
+              "name": "TOTALTIME-监控时间",
+              "val": "",
+              "type": "text",
+              "desc": "设置监控时间（单位秒）"
+            },
+            {
+              "id": "@Xiao_download.default_config.INTERVAL",
+              "name": "INTERVAL-轮询时间",
+              "val": "",
+              "type": "text",
+              "desc": "设置查询间隔（单位秒）"
+            },
+            {
+              "id": "@Xiao_download.default_config.INITTIME",
+              "name": "INITTIME-更新时间",
+              "val": "",
+              "type": "text",
+              "desc": "切换策略后，会等待一段时间恢复初始化(单位自定义: s ms min h)"
+            },
+            {
+              "id": "@Xiao_download.default_config.GROUP",
+              "name": "GROUP-策略组",
+              "val": "",
+              "type": "text",
+              "desc": "设置监测的策略组名称(必填)"
+            },
+            {
+              "id": "@Xiao_download.default_config.TIMEOUT",
+              "name": "TIMEOUT-超时",
+              "val": "380",
+              "type": "text",
+              "desc": "脚本超时时间 (单位秒)"
+            },
+            {
+              "id": "@Xiao_download.default_config.isDebug",
+              "name": "isDebug",
+              "val": true,
+              "type": "boolean",
+              "desc": "打印日志"
+            },
+            {
+              "id": "@Xiao_download.configList",
+              "name": "自定义域名配置 (可选)",
+              "val": "",
+              "type": "textarea",
+              "placeholder": "HOST=域名&isDebug=false\nHOST=域名2&TOTALTIME=30",
+              "autoGrow": true,
+              "rows": 2,
+              "desc": "每个域名可配置多个属性,只需要填写与主配置不同的部分"
+            }
+            
+          ],
+          "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple123/v4/08/88/f1/0888f1e3-da8d-9c44-187a-dee92acdf2e7/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-4.png/200x200bb.png"
+        },
+    {
   "id": "Auto_join_TF",
   "name": "TestFlight监控",
   "author": "@MuTu888",
