@@ -1,22 +1,12 @@
 /*
-更新时间：2024.05.14 14:02
-更新内容：404状态码判断更改为模块参数自定义选择保留或移除
+更新时间：2024.05.14 13:08
+更新内容：404状态码判断更改为手动移除APP_ID，避免误杀
 
 Surge配置
 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/AUTOTF.sgmodule
 Boxjs订阅
 https://raw.githubusercontent.com/githubdulong/Script/master/boxjs.json
 */
-
-let args = {}
-if ($argument) {
-    $argument.split('&').forEach(arg => {
-        let [key, value] = arg.split('=')
-        args[key] = value
-    })
-}
-
-let handle404 = args['HANDLE_404'] === '1'
 
 if (typeof $request !== 'undefined' && $request) {
     let url = $request.url
@@ -34,7 +24,7 @@ if (typeof $request !== 'undefined' && $request) {
                 $notification.post('已捕获APP_ID', '', `已捕获并存储APP_ID: ${appId}`, {"auto-dismiss": 2})
                 console.log(`已捕获并存储APP_ID: ${appId}`)
             } else {
-                $notification.post('APP_ID重复', '', `APP_ID: ${appId} 已存在，无需重复添加。`, {"auto-dismiss": 2})
+                $notification.post('APP_ID重复', '', `APP_ID: ${appId} 已存在，无需重复添加。` , {"auto-dismiss": 2})
                 console.log(`APP_ID: ${appId} 已存在，无需重复添加。`)
             }
         } else {
@@ -54,7 +44,7 @@ if (typeof $request !== 'undefined' && $request) {
 
         let existingAppIds = $persistentStore.read('APP_ID')
         if (!existingAppIds) {
-            $notification.post('信息获取成功 🎉', '', '请获取APP_ID后编辑模块参数停用该脚本', {"auto-dismiss": 10})
+            $notification.post('信息获取成功 🎉', '', '请获取APP_ID后编辑模块参数停用该脚本' , {"auto-dismiss": 10})
         }
         console.log(`信息获取成功: session_id=${session_id}, session_digest=${session_digest}, request_id=${request_id}, key=${key}`)
     } else if (/^https:\/\/testflight\.apple\.com\/join\/([A-Za-z0-9]+)$/.test(url)) {
@@ -78,8 +68,8 @@ if (typeof $request !== 'undefined' && $request) {
                 await autoPost(ID, ids)
             }
             if (ids.length === 0) {
-                $notification.post('所有TestFlight已加入完毕 🎉', '', '模块已自动关闭停止运行', {"sound": true})
-                $done($httpAPI('POST', '/v1/modules', {'公测监控': false}))
+                $notification.post('所有TestFlight已加入完毕 🎉', '', '模块已自动关闭停止运行', {"sound": true});
+                $done($httpAPI('POST', '/v1/modules', {'公测监控': false}));
             } else {
                 $done()
             }
@@ -99,38 +89,31 @@ async function autoPost(ID, ids) {
     return new Promise((resolve) => {
         $httpClient.get({ url: testurl + ID, headers: header }, (error, response, data) => {
             if (error) {
-                console.log(`${ID} 网络请求失败: ${error}，保留 APP_ID`)
-                resolve()
-                return
+                console.log(`${ID} 网络请求失败: ${error}，保留 APP_ID`);
+                resolve();
+                return;
             }
 
             if (response.status === 500) {
-                console.log(`${ID} 服务器错误，状态码 500，保留 APP_ID`)
-                resolve()
-                return
+                console.log(`${ID} 服务器错误，状态码 500，保留 APP_ID`);
+                resolve();
+                return;
             }
 
             if (response.status === 404) {
-                if (handle404) {
-                    console.log(`${ID} 链接无效，状态码 404，自动移除APP_ID`)
-                    ids.splice(ids.indexOf(ID), 1)
-                    $persistentStore.write(ids.join(','), 'APP_ID')
-                    $notification.post('链接无效', '', `${ID} 状态码 404，已自动移除`, {"auto-dismiss": 2})
-                } else {
-                    console.log(`${ID} 链接无效，状态码 404，请前往BoxJs手动移除APP_ID`)
-                    $notification.post('链接无效', '', `${ID} 状态码 404，请前往BoxJs手动移除APP_ID`, {"auto-dismiss": 2})
-                }
-                resolve()
-                return
+                console.log(`${ID} 链接无效：状态码 404，请前往BoxJs手动移除APP_ID`);
+                $notification.post('链接无效', '', `${ID} 状态码 404，请前往BoxJs手动移除APP_ID`, {"auto-dismiss": 2});
+                resolve();
+                return;
             }
 
             if (response.status !== 200) {
-                console.log(`${ID} 不是有效链接: 状态码 ${response.status}，移除 APP_ID`)
+                console.log(`${ID} 不是有效链接: 状态码 ${response.status}，移除 APP_ID`);
                 ids.splice(ids.indexOf(ID), 1);
-                $persistentStore.write(ids.join(','), 'APP_ID')
-                $notification.post('不是有效的TestFlight链接', '', `${ID} 已被移除`, {"auto-dismiss": 2})
-                resolve()
-                return
+                $persistentStore.write(ids.join(','), 'APP_ID');
+                $notification.post('不是有效的TestFlight链接', '', `${ID} 已被移除`, {"auto-dismiss": 2});
+                resolve();
+                return;
             }
 
             let jsonData
@@ -143,13 +126,13 @@ async function autoPost(ID, ids) {
             }
 
             if (!jsonData || !jsonData.data) {
-                console.log(`${ID} 无法接受邀请，保留 APP_ID`);
+                console.log(`${ID} 无法接受邀请，保留 APP_ID`)
                 resolve()
                 return
             }
 
             if (jsonData.data.status === 'FULL') {
-                console.log(`${ID} 测试已满，保留 APP_ID`);
+                console.log(`${ID} 测试已满，保留 APP_ID`)
                 resolve()
                 return
             }
