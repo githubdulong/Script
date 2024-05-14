@@ -6,7 +6,7 @@
 
 [Script]
 {{{INFO_FETCH_SCRIPT_NAME}}} = type=http-request,pattern=^https:\/\/testflight\.apple\.com\/(v3\/accounts\/.*[^\/accept]|join\/[A-Za-z0-9]+)$,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Auto_join_TF.js
-加入测试 = type=cron,cronexp="*/{{{CRON_SECONDS}}} * {{{START_HOUR}}}-{{{END_HOUR}}} * * *",script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Auto_join_TF.js,wake-system=1,timeout=180,engine=auto
+加入测试 = type=cron,cronexp="*/{{{CRON_SECONDS}}} * {{{START_HOUR}}}-{{{END_HOUR}}} * * *",script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Auto_join_TF.js,wake-system=1,timeout=180,engine=auto,argument=HANDLE_404={{{HANDLE_404}}}
 
 [MITM]
 hostname = %APPEND% testflight.apple.com
