@@ -106,20 +106,20 @@ async function autoPost(ID, ids) {
             }
 
             if (response.status === 500) {
-                console.log(`${ID} 服务器错误，状态码 500，保留 APP_ID`);
+                console.log(`${ID} 服务器错误: 状态码 500，保留 APP_ID`);
                 resolve();
                 return;
             }
 
             if (response.status === 404) {
                 if (handle404) {
-                    console.log(`${ID} 链接无效，状态码 404，自动移除APP_ID`);
+                    console.log(`${ID} 链接无效: 状态码 404，自动移除APP_ID`);
                     ids.splice(ids.indexOf(ID), 1);
                     $persistentStore.write(ids.join(','), 'APP_ID');
                     $notification.post('链接无效', '', `${ID} 状态码 404，已自动移除`, {"auto-dismiss": 2});
                 } else {
-                    console.log(`${ID} 链接无效，状态码 404，请前往BoxJs手动移除APP_ID`);
-                    $notification.post('链接无效', '', `${ID} 状态码 404，请前往BoxJs手动移除APP_ID`, {"auto-dismiss": 2});
+                    console.log(`${ID} 链接无效: 状态码 404，请在BoxJs或模块参数移除APP_ID`);
+                    $notification.post('链接无效', '', `${ID} 状态码 404，请在BoxJs或模块参数移除APP_ID`, {"auto-dismiss": 2});
                 }
                 resolve();
                 return;
@@ -144,13 +144,13 @@ async function autoPost(ID, ids) {
             }
 
             if (!jsonData || !jsonData.data) {
-                console.log(`${ID} 无法接受邀请，保留 APP_ID`);
+                console.log(`${ID} 无法接受邀请: 保留 APP_ID`);
                 resolve();
                 return;
             }
 
             if (jsonData.data.status === 'FULL') {
-                console.log(`${ID} 测试已满，保留 APP_ID`);
+                console.log(`${ID} 测试已满: 保留 APP_ID`);
                 resolve();
                 return;
             }
@@ -170,7 +170,7 @@ async function autoPost(ID, ids) {
                     ids.splice(ids.indexOf(ID), 1);
                     $persistentStore.write(ids.join(','), 'APP_ID');
                     if (ids.length > 0) {
-                        $notification.post(jsonBody.data.name + ' TestFlight加入成功', '', `继续执行APP ID：${ids.join(',')}`, {"sound": true});
+                        $notification.post(jsonBody.data.name + ' TestFlight加入成功', '', `继续执行APP         ID: ${ids.join(',')}`, {"sound": true});
                     } else {
                         $notification.post(jsonBody.data.name + ' TestFlight加入成功', '', '所有APP ID处理完毕', {"sound": true});
                     }
