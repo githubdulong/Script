@@ -1,6 +1,6 @@
 /*
-更新时间：2024.05.14 13:08
-更新内容：404状态码判断更改为手动移除APP_ID，避免误杀
+更新时间：2024.05.14 14:02
+更新内容：404状态码判断更改为模块参数自定义选择保留或移除
 
 Surge配置
 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/AUTOTF.sgmodule
@@ -79,6 +79,7 @@ if (typeof $request !== 'undefined' && $request) {
 
 async function autoPost(ID, ids) {
     let Key = $persistentStore.read('key')
+    let handle404 = $persistentStore.read('HANDLE_404') === '1'; // 从模块参数中读取HANDLE_404的值
     let testurl = `https://testflight.apple.com/v3/accounts/${Key}/ru/`
     let header = {
         'X-Session-Id': $persistentStore.read('session_id'),
@@ -101,8 +102,15 @@ async function autoPost(ID, ids) {
             }
 
             if (response.status === 404) {
-                console.log(`${ID} 链接无效：状态码 404，请前往BoxJs手动移除APP_ID`);
-                $notification.post('链接无效', '', `${ID} 状态码 404，请前往BoxJs手动移除APP_ID`, {"auto-dismiss": 2});
+                if (handle404) {
+                    console.log(`${ID} 链接无效，状态码 404，自动移除APP_ID`);
+                    ids.splice(ids.indexOf(ID), 1);
+                    $persistentStore.write(ids.join(','), 'APP_ID');
+                    $notification.post('链接无效', '', `${ID} 状态码 404，已自动移除`, {"auto-dismiss": 2});
+                } else {
+                    console.log(`${ID} 链接无效，状态码 404，请前往BoxJs手动移除APP_ID`);
+                    $notification.post('链接无效', '', `${ID} 状态码 404，请前往BoxJs手动移除APP_ID`, {"auto-dismiss": 2});
+                }
                 resolve();
                 return;
             }
