@@ -2,7 +2,7 @@
 #!desc=https://github.com/VirgilClyne TestFlight
 #!author=VirgilClyne
 #!category=Third Party Module
-#!arguments=APPIDS:iRingo.TestFlight,ENGINE:auto,CUSTOM_NAME:会话切换
+#!arguments=APPIDS:iRingo.TestFlight,CUSTOM_NAME:会话切换,ENGINE:auto
 #!arguments-desc=[参数设置]\n▪︎ APPIDS: 指定需要切换的应用ID,多个应用ID用英文逗号分隔,默认变量"iRingo.TestFlight"会话切换;\n▪︎ CUSTOM_NAME: 会话切换脚本启停状态,使用"#"作为注释停止项;\n▪︎ ENGINE: 脚本执行引擎,默认为"auto"自动选择,可选参数"auto ↪︎ jsc ↪︎ webview";\n[使用说明]\n▫︎ iOS端点击TestFlight App右上角"图标"触发会话切换,tvOS端点击TestFlight App中上方"设置"触发会话切换;\n▫︎ 会话切换成功后无需删后台,下拉一次刷新即可;\n▫︎ 更多使用方法参考 https://github.com/VirgilClyne/iRingo/wiki/✈-TestFlight
 
 [General]
