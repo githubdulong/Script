@@ -185,7 +185,7 @@ async function check_netflix() {
 
   let netflix_check_result = 'NF: '
 
-  await inner_check(80062035)
+  await inner_check(81280792)
     .then((code) => {
       if (code === 'Not Found') {
         return inner_check(80018499)
