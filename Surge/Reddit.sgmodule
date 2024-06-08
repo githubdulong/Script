@@ -3,7 +3,7 @@
 #!category=Ad Blocking Module
 
 [Script]
-RedditPro = type=http-response, pattern=^https?:\/\/gql(-fed)?\.reddit\.com,requires-body=1,max-size=-1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/reddit.js
+RedditPro = type=http-response, pattern=^https?:\/\/gql(-fed)?\.reddit\.com,requires-body=1,max-size=-1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Reddit.js
 
 [MITM]
 hostname = %APPEND% gql.reddit.com, gql-fed.reddit.com
