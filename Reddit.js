@@ -1,5 +1,5 @@
 /*
-去广告by@xream 解锁会员功能 by@ios151
+去广告by@xream 解锁会员 by@ios151
 */
 let body;
 try {
