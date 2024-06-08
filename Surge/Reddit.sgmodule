@@ -1,0 +1,9 @@
+#!name=应用调试
+#!desc=Reddit过滤应用内推广,阻止NSFW提示,解锁会员功能
+#!category=Ad Blocking Module
+
+[Script]
+RedditPro = type=http-response, pattern=^https?:\/\/gql(-fed)?\.reddit\.com,requires-body=1,max-size=-1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/reddit.js
+
+[MITM]
+hostname = %APPEND% gql.reddit.com, gql-fed.reddit.com
