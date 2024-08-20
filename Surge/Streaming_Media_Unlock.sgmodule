@@ -8,4 +8,4 @@
 Panel = script-name=解锁检测,update-interval={{{UPDATE_INTERVAL}}}
 
 [Script]
-解锁检测 = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Stream-All.js,script-update-interval=0,argument=title={{{TITLE}}}&icon={{{ICON}}}&color={{{COLOR}}}
+解锁检测 = type=generic,timeout=120,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Stream-All.js,script-update-interval=0,argument=title={{{TITLE}}}&icon={{{ICON}}}&color={{{COLOR}}}
