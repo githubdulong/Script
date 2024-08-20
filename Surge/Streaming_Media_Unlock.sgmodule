@@ -1,4 +1,4 @@
-#!name=媒体解锁
+#!name=解锁检测
 #!desc=Netflix, Disney+, YouTube, ChatGPT Unlock
 #!category=Third Party Module
 #!arguments=UPDATE_INTERVAL:7200,TITLE:解锁检测,ICON:play.circle.fill,COLOR:#FF2121
