@@ -1,7 +1,7 @@
 /*
 
 脚本参考 @Helge_0x00 
-修改日期：2022.12.16
+修改日期：2024.08.20
 Surge配置参考注释
  
  ----------------------------------------
@@ -21,26 +21,17 @@ Surge配置参考注释
  
  */
 
-let args = getArgs();
-
-const REQUEST_HEADERS = {
-  'User-Agent':
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36',
-  'Accept-Language': 'en',
-}
-
-// 即将登陆
 const STATUS_COMING = 2
-// 支持解锁
 const STATUS_AVAILABLE = 1
-// 不支持解锁
 const STATUS_NOT_AVAILABLE = 0
-// 检测超时
 const STATUS_TIMEOUT = -1
-// 检测异常
 const STATUS_ERROR = -2
-
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36';
+const REQUEST_HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36',
+    'Accept-Language': 'en',
+  }
+let args = getArgs();
 
 (async () => {
   let now = new Date();
@@ -48,42 +39,31 @@ const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (
   let minutes = now.getMinutes();
   hour = hour > 9 ? hour : "0" + hour;
   minutes = minutes > 9 ? minutes : "0" + minutes;
+
   let panel_result = {
     title: `${args.title} | ${hour}:${minutes}` || `流媒体解锁查询 | ${hour}:${minutes}`,
     content: '',
     icon: args.icon || "play.circle",
     "icon-color": args.color || "#007aff",
   }
-  let [{ region, status }] = await Promise.all([testDisneyPlus()])
-  await Promise.all([check_youtube_premium(), check_netflix()])
-    .then((result) => {
-      console.log(result)
-      let disney_result = ""
-      if (status == STATUS_COMING) {
-        //console.log(1)
-        disney_result = "D+: 即将登陆~" + region.toUpperCase()
-      } else if (status == STATUS_AVAILABLE) {
-        //console.log(2)
-        console.log(region)
-        disney_result = "D+: \u2611" + region.toUpperCase()
-        // console.log(result["Disney"])
-      } else if (status == STATUS_NOT_AVAILABLE) {
-        //console.log(3)
-        disney_result = "D+: \u2612"
-      } else if (status == STATUS_TIMEOUT) {
-        disney_result = "D+: N/A"
-      }
-      result.push(disney_result)
-      console.log(result)
-      let content = result.join(' ')
-      console.log(content)
 
-      panel_result['content'] = content
-    })
-    .finally(() => {
-      $done(panel_result)
-    })
-})()
+  let [{ region, status }] = await Promise.all([testDisneyPlus()])
+  let youtubeResult = await check_youtube_premium();
+  let netflixResult = await check_netflix();
+  
+  let disney_result = formatDisneyPlusResult(status, region);
+  let content = `${youtubeResult} ${netflixResult} ${disney_result}`;
+  panel_result['content'] = content;
+
+  let traceData = await getTraceData();
+  let gptSupportStatus = traceData.loc ? "G: \u2611" : "G: \u2612";
+
+  content += ` ${gptSupportStatus}${traceData.loc}`;
+
+  panel_result['content'] = content;
+
+  $done(panel_result);
+})();
 
 function getArgs() {
   return Object.fromEntries(
@@ -92,6 +72,21 @@ function getArgs() {
       .map((item) => item.split("="))
       .map(([k, v]) => [k, decodeURIComponent(v)])
   );
+}
+
+function formatDisneyPlusResult(status, region) {
+  switch (status) {
+    case STATUS_COMING:
+      return `D: 即将登陆~ ${region.toUpperCase()} |`;
+    case STATUS_AVAILABLE:
+      return `D: \u2611${region.toUpperCase()} |`;
+    case STATUS_NOT_AVAILABLE:
+      return `D: \u2612 |`;
+    case STATUS_TIMEOUT:
+      return `D: N/A |`;
+    default:
+      return `D: 错误 |`;
+  }
 }
 
 async function check_youtube_premium() {
@@ -127,7 +122,7 @@ async function check_youtube_premium() {
     })
   }
 
-  let youtube_check_result = 'YT: '
+  let youtube_check_result = 'Y: '
 
   await inner_check()
     .then((code) => {
@@ -183,7 +178,7 @@ async function check_netflix() {
     })
   }
 
-  let netflix_check_result = 'NF: '
+  let netflix_check_result = 'N: '
 
   await inner_check(81280792)
     .then((code) => {
@@ -212,17 +207,13 @@ async function check_netflix() {
       netflix_check_result += 'N/A |'
     })
 
-  return netflix_check_result
+  return netflix_check_result;
 }
 
 async function testDisneyPlus() {
   try {
     let { region, cnbl } = await Promise.race([testHomePage(), timeout(7000)])
     console.log(`homepage: region=${region}, cnbl=${cnbl}`)
-    // 即将登陆
-    //  if (cnbl == 2) {
-    //    return { region, status: STATUS_COMING }
-    //  }
     let { countryCode, inSupportedLocation } = await Promise.race([getLocationInfo(), timeout(7000)])
     console.log(`getLocationInfo: countryCode=${countryCode}, inSupportedLocation=${inSupportedLocation}`)
 
@@ -353,7 +344,34 @@ function testHomePage() {
 function timeout(delay = 5000) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      reject('Timeout')
-    }, delay)
-  })
+      reject('Timeout');
+    }, delay);
+  });
+}
+
+function getFlagEmoji(countryCode, flagMapping) {
+  for (let i = 0; i < flagMapping.length; i++) {
+    if (flagMapping[i][0] === countryCode) {
+      return flagMapping[i][1];
+    }
+  }
+  return '';
+}
+
+async function getTraceData() {
+  return new Promise((resolve, reject) => {
+    $httpClient.get("http://chat.openai.com/cdn-cgi/trace", function(error, response, data) {
+      if (error) {
+        reject(error);
+        return;
+      }
+      let lines = data.split("\n");
+      let cf = lines.reduce((acc, line) => {
+        let [key, value] = line.split("=");
+        acc[key] = value;
+        return acc;
+      }, {});
+      resolve(cf);
+    });
+  });
 }
