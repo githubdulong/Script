@@ -1,7 +1,7 @@
 /*
 Surge Panel：https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Oil.sgmodule
 
-今日油价，仅限Surge Panel使用 @MuTu888
+今日油价，仅限Surge Panel使用
 */
 
 const params = getParams($argument);
