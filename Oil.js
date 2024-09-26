@@ -81,7 +81,7 @@ function handleResponse(data) {
                     console.log(`${currentTime} [Script Completed]`);
 
                     const body = {
-                        title: `今日油价 | ${formattedDate} ${adjustmentSymbols} ${priceAdjustment}`,
+                        title: `${params.title} | ${formattedDate} ${adjustmentSymbols} ${priceAdjustment}`, 
                         content: `${message}`,
                         provname: params.provname,
                         icon: params.icon,
