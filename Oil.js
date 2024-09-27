@@ -65,7 +65,7 @@ function handleResponse(data) {
                     let adjustmentSymbols = "";
                     const adjustmentMatch = tishiContent.match(/(下调|下跌|上调|上涨)/);
                     if (adjustmentMatch) {
-                        adjustmentSymbols = (adjustmentMatch[1].includes("下")) ? "▼△" : "▽▲";
+                        adjustmentSymbols = (adjustmentMatch[1].includes("下")) ? "\u25BC\u25B3" : "\u25BD\u25B2";
                     }
 
                     const priceRangeMatch = tishiContent.match(/(\d+\.\d+)元\/升-(\d+\.\d+)元\/升/);
