@@ -1,12 +1,24 @@
 /*
+
 脚本参考 @Helge_0x00 
-更新日期：2024.09.28
-更新内容：优化日志显示
+修改日期：2024.08.21
+Surge配置参考注释
+ 
+ ----------------------------------------
+ 
+[Panel]
+策略面板 = script-name=解锁检测,update-interval=7200
 
-仅支持Surge Panel
+[Script]
+解锁检测 = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Stream-All.js,script-update-interval=0,argument=title=解锁检测&icon=headphones.circle&color=#FF2121
 
-https://raw.githubusercontent.com/githubdulong/Script/master/Surge/Streaming_Media_Unlock.sgmodule
+----------------------------------------
 
+支持使用脚本使用 argument 参数自定义配置，如：argument=title=解锁检测&icon=headphones.circle&color=#FF2121，具体参数如下所示，
+ * title: 面板标题
+ * icon: SFSymbols 图标
+ * color：图标颜色
+ 
  */
 
 const STATUS_COMING = 2;
@@ -48,16 +60,14 @@ let args = getArgs();
   let traceData = await getTraceData();
   let gptSupportStatus = SUPPORTED_LOCATIONS.includes(traceData.loc) ? "G: \u2611" : "G: \u2612";
 
-  panel_result['content'] = content;
-  $done(panel_result);
+  content += ` ${gptSupportStatus}${traceData.loc}`;
 
-  let log = `${hour}:${minutes}.${now.getMilliseconds()} 解锁状态：\n`;
-  log += `YouTube: ${youtubeResult.replace('Y:', '').trim()}\n`;
-  log += `Netflix: ${netflixResult.replace('N:', '').trim()}\n`;
-  log += `Disney Plus: ${disney_result.replace('D:', '').trim()}\n`;
-  log += `ChatGPT: ${gptSupportStatus.replace('G:', '').trim()}${traceData.loc}`;
+  let log = `${hour}:${minutes}.${now.getMilliseconds()} 解锁检测完成：${content}`;
   console.log(log);
 
+  panel_result['content'] = content;
+
+  $done(panel_result);
 })();
 
 function getArgs() {
@@ -214,7 +224,6 @@ async function testDisneyPlus() {
 
     region = countryCode ?? region;
     console.log("region:" + region);
-    
     // 即将登陆
     if (inSupportedLocation === false || inSupportedLocation === 'false') {
       return { region, status: STATUS_COMING };
