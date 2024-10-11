@@ -219,7 +219,7 @@ class Wps {
       headers: this.headers,
     };
 
-    if (total / 3600 < 24) return;
+    if (total / 3600 < 24 || !DAY) return;
     const { msg, result } = await $.fetch.post(op).toJson();
     const message = result === "ok" ? `兑换成功获得${DAY}天会员` : `兑换失败: ${msg}`;
     $.notifyAndLog({ info: true, msg: true, message });
