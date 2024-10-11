@@ -19,7 +19,7 @@ $.getScript`https://cdn.jsdelivr.net/npm/fabric@latest/dist/fabric.min.js`;
 const {
   AK = "",
   SK = "",
-  MAX_RETRIES = 5,
+  MAX_RETRIES = "",
 } = $.parseArgument();
 
 
