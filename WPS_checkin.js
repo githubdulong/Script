@@ -15,7 +15,7 @@ hostname = %APPEND% moapi.wps.cn
 const $ = new ToolClient();
 $.getScript`https://cdn.jsdelivr.net/npm/fabric@latest/dist/fabric.min.js`;
 
-const { AK, SK, DAY, MAX_RETRIES = 5 } = $.parseArgument();
+const { AK, SK, DAY = 0, MAX_RETRIES = 5 } = $.parseArgument();
 
 const captureRequest = () => {
   const parse = (delimiter) => (str) =>
