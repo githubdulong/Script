@@ -17,8 +17,8 @@ $.getScript`https://cdn.jsdelivr.net/npm/fabric@latest/dist/fabric.min.js`;
 
 
 const {
-  AK = "NTYO14N5LlpPmegIGolpZOFp",
-  SK = "vYr4P0geeHr4RS27UYFiiY1RCQhVIWgm###",
+  AK = "",
+  SK = "",
   MAX_RETRIES = 5,
 } = $.parseArgument();
 
