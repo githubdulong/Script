@@ -186,7 +186,7 @@ class Wps {
     const { reward, todayReward } = await this.formatRewardInfo();
     await this.exchangeVip(total);
 
-    reward.unshift(`${message}, ${todayReward}  🎉`);
+    reward.unshift(`${message}, ${todayReward} 🎊`);
     reward.unshift(`用户信息: ${userName}`);
 
     reward.push(`已使用额度: ${cost / 3600}小时(${Math.floor(cost / 86400)})天`);
@@ -286,7 +286,7 @@ const main = async () => {
 
     if (result === "ok" || msg === "ClockAgent") {
       this.todayReward = data?.member?.hour;
-      return await wps.rewardInfo(msg ? "今日已签到" : "今日签到成功");
+      return await wps.rewardInfo(msg ? "今日已经签到" : "今日签到成功");
     } else if (retryCount >= MAX_RETRIES - 1) {
       return $.notifyAndLog({
         info: true,
