@@ -255,7 +255,9 @@ const main = async () => {
 
     //签到
     const { msg, result } = await wps.checkin(position);
-
+    
+    await delay(3);  // 延迟查询结果
+    
     if (result === "ok" || msg === "ClockAgent") {
       return await wps.rewardInfo(msg ? "今日已签到" : "今日签到成功");
     } else if (retryCount >= MAX_RETRIES - 1) {
