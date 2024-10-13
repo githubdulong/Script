@@ -75,10 +75,12 @@ function handleResponse(data) {
                         priceAdjustment = `${priceRangeMatch[1]}~${priceRangeMatch[2]}`;
                     }
 
+                    tishiContent = tishiContent.replace(/<br\s*\/?>/g, '\n');
                     // 日志记录部分
                     const currentTime = new Date().toISOString().replace('T', ' ').split('.')[0];
                     console.log(`${currentTime} 今日油价：\n${message}\n`);
-                    console.log(`${currentTime} 油价预告：\n下次油价${logDate}24点开始调整\n目前预计${adjustmentAction}油价(${priceRangeMatch[1]}元/升-${priceRangeMatch[2]}元/升)，大家相互转告油价开始${adjustmentAction === '上调' ? '涨了' : '降了'}。\n`);
+                    console.log(`${currentTime} 油价预告：\n${tishiContent}\n`);
+                    
                     console.log(`${currentTime} [Script Completed]`);
 
                     const body = {
