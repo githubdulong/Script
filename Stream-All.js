@@ -223,7 +223,7 @@ async function testDisneyPlus() {
    // console.log(`getLocationInfo: countryCode=${countryCode}, inSupportedLocation=${inSupportedLocation}`); //调试日志
 
     region = countryCode ?? region;
-    console.log("region:" + region);
+   // console.log("region:" + region);
     // 即将登陆
     if (inSupportedLocation === false || inSupportedLocation === 'false') {
       return { region, status: STATUS_COMING };
