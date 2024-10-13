@@ -78,8 +78,8 @@ function handleResponse(data) {
                     tishiContent = tishiContent.replace(/<br\s*\/?>/g, '\n');
                     // 日志记录部分
                     const currentTime = new Date().toISOString().replace('T', ' ').split('.')[0];
-                    console.log(`${currentTime} 今日油价：\n${message}\n`);
-                    console.log(`${currentTime} 油价预告：\n${tishiContent}\n`);
+                    console.log(`${currentTime} \n◼︎ 今日油价\n${message}`);
+                    console.log(`${currentTime} \n◼︎ 油价预告\n${tishiContent}`);
                     
                     console.log(`${currentTime} [Script Completed]`);
 
