@@ -7,6 +7,7 @@ Surge Panel：https://raw.githubusercontent.com/githubdulong/Script/master/Surge
 const params = getParams($argument);
 const provinceName = params.provname || "湖南";
 const apiKey = params.apikey;  // 使用模块参数填写Apikey.申请地址：https://www.tianapi.com/apiview/104 (该接口普通会员每天赠送100次调用额度);
+
 const apiUrls = [
     `https://apis.tianapi.com/oilprice/index?key=${apiKey}&prov=${encodeURIComponent(provinceName)}`,
     `https://apis.tianapi.com/oilprice/index?key=231de491563c35731436829ac52aad43&prov=${encodeURIComponent(provinceName)}`,
@@ -43,7 +44,8 @@ function handleResponse(data) {
         const oilPriceInfo = oilPriceData.result;
         const message = `0#柴油:${oilPriceInfo.p0}元 | 92汽油:${oilPriceInfo.p92}元\n95汽油:${oilPriceInfo.p95}元 | 98汽油:${oilPriceInfo.p98}元`;
 
-        // 获取 http://m.qiyoujiage.com 网页 HTML 内容并提取 tishiContent
+                // 获取 http://m.qiyoujiage.com 网页 HTML 内容并提取 tishiContent
+
         $httpClient.get('http://m.qiyoujiage.com/', (error, response, data) => {
             if (error) {
                 console.log(`获取HTML内容出错: ${error}`);
@@ -64,9 +66,8 @@ function handleResponse(data) {
 
                     let adjustmentSymbols = "";
                     const adjustmentMatch = tishiContent.match(/(下调|下跌|上调|上涨)/);
-                    if (adjustmentMatch) {
-                        adjustmentSymbols = (adjustmentMatch[1].includes("下")) ? "\u25BC\u25B3" : "\u25BD\u25B2";
-                    }
+                    let adjustmentAction = adjustmentMatch[1];
+                    adjustmentSymbols = (adjustmentAction.includes("下")) ? "\u25BC\u25B3" : "\u25BD\u25B2";
 
                     const priceRangeMatch = tishiContent.match(/(\d+\.\d+)元\/升-(\d+\.\d+)元\/升/);
                     let priceAdjustment = "0.00~0.00元";
@@ -77,7 +78,7 @@ function handleResponse(data) {
                     // 日志记录部分
                     const currentTime = new Date().toISOString().replace('T', ' ').split('.')[0];
                     console.log(`${currentTime} 今日油价：\n${message}\n`);
-                    console.log(`${currentTime} 油价预告：\n下次油价${logDate}24点开始调整\n目前预计${adjustmentMatch[1]}油价(${priceRangeMatch[1]}元/升-${priceRangeMatch[2]}元/升)，大家相互转告油价开始${adjustmentMatch[1] === '上调' ? '涨了' : '降了'}。\n`);
+                    console.log(`${currentTime} 油价预告：\n下次油价${logDate}24点开始调整\n目前预计${adjustmentAction}油价(${priceRangeMatch[1]}元/升-${priceRangeMatch[2]}元/升)，大家相互转告油价开始${adjustmentAction === '上调' ? '涨了' : '降了'}。\n`);
                     console.log(`${currentTime} [Script Completed]`);
 
                     const body = {
@@ -90,6 +91,8 @@ function handleResponse(data) {
                     $done(body);
                 } else {
                     console.log("提取`tishiContent`失败");
+                    currentIndex++;
+                    testNextUrl();
                 }
             }
         });
