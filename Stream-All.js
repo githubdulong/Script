@@ -218,9 +218,9 @@ async function check_netflix() {
 async function testDisneyPlus() {
   try {
     let { region, cnbl } = await Promise.race([testHomePage(), timeout(7000)]);
-    console.log(`homepage: region=${region}, cnbl=${cnbl}`);
+   // console.log(`homepage: region=${region}, cnbl=${cnbl}`); //调试日志
     let { countryCode, inSupportedLocation } = await Promise.race([getLocationInfo(), timeout(7000)]);
-    console.log(`getLocationInfo: countryCode=${countryCode}, inSupportedLocation=${inSupportedLocation}`);
+   // console.log(`getLocationInfo: countryCode=${countryCode}, inSupportedLocation=${inSupportedLocation}`); //调试日志
 
     region = countryCode ?? region;
     console.log("region:" + region);
