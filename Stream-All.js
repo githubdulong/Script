@@ -62,7 +62,7 @@ let args = getArgs();
 
   content += ` ${gptSupportStatus}${traceData.loc}`;
 
-  let log = `${hour}:${minutes}.${now.getMilliseconds()} 解锁检测完成：${content}`;
+  let log = `${hour}:${minutes}.${now.getMilliseconds()}\n◼︎ 检测结果:\n${content}`;
   console.log(log);
 
   panel_result['content'] = content;
