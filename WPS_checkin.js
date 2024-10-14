@@ -5,7 +5,7 @@
 
 by@小白脸
 
-更新时间：2024/10/12 13:38
+更新时间：2024/10/14 09:16
 
 ----------------------------------------
 [Surge本地配置]示例↓↓↓ 
@@ -41,8 +41,12 @@ WPS_checkin = type=cron,cronexp={{{CRONEXP}}},wake-system=1,timeout={{{TIMEOUT}}
 
 const $ = new ToolClient();
 $.getScript`https://cdn.jsdelivr.net/npm/fabric@latest/dist/fabric.min.js`;
-
-const { AK, SK, DAY = 0, MAX_RETRIES = 5 } = $.parseArgument();
+const {
+  AK,
+  SK,
+  DAY = 0,
+  MAX_RETRIES = 5,
+} = $.parseArgument();
 
 const captureRequest = () => {
   const parse = (delimiter) => (str) =>
@@ -147,7 +151,6 @@ const baidu = async (image, cb) => {
 class Wps {
   nickname;
   userid;
-  todayReward;
   constructor({ cookie }) {
     this.headers = {
       cookie: "wps_sid=" + cookie.wps_sids,
@@ -198,16 +201,17 @@ class Wps {
 
   //格式化奖励信息
   async formatRewardInfo() {
+    let todayReward;
     const { list } = await this.checkin().then((body) => body.data);
     const reward = list.map(({ status, times, selected, ext }) => {
       const { hour, name } = JSON.parse(ext)[0];
 
-      selected && status && (this.todayReward = hour);
+      selected && status && (todayReward = `获得${hour}小时会员`);
 
       return `第${times}天 奖励${hour}小时会员 ${status ? "已领取 🎉" : "未领取"}`;
     });
 
-    return { reward, todayReward: `获得${this.todayReward}小时会员` };
+    return { reward, todayReward };
   }
 
   //验证
@@ -284,8 +288,9 @@ const main = async () => {
     //签到
     const { data, msg, result } = await wps.checkin(position);
 
-    if (result === "ok" || msg === "ClockAgent") {
-      this.todayReward = data?.member?.hour;
+    if (
+      (result === "ok" && data?.member?.hour) || msg === "ClockAgent"
+      ) {
       return await wps.rewardInfo(msg ? "今日已经签到" : "今日签到成功");
     } else if (retryCount >= MAX_RETRIES - 1) {
       return $.notifyAndLog({
