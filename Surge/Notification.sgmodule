@@ -4,4 +4,4 @@
 #!arguments-desc=[参数设置]\n⓵ BARK_TOKEN: 填入你的Bark Key, Bark App 获取Key(格式:https://api.day.app/DmHjjgNYLydgsxrH2KUD68/取值"DmHjjgNYLydgsxrH2KUD68");\n⓶ GROUP: 指定通知的分组, 默认值为 "Surge";\n⓷ AUTO_COPY: 是否自动复制通知内容到剪贴板, 1 启用,0关闭, 默认值 1;\n⓸ IS_ARCHIVE: 是否将通知存档, 1 启用,0关闭, 默认值 1;\n⓹ ICON: 自定义通知图标URL, 默认值暗色 Surge 图标链接;\n⓺ SOUND: 通知音效, 默认值为 "shake",可在bark自行选择相应参数;\n⓻ LEVEL: 通知时效性, 可选值为 "active", "timeSensitive", "passive", 默认值为 "active";
 
 [Script]
-通知推送 = script-path=notification.js,type=event,event-name=https://raw.githubusercontent.com/githubdulong/Script/master/Notification.js,argument="BARK_TOKEN={{{BARK_TOKEN}}}&group={{{GROUP}}}&autoCopy={{{AUTO_COPY}}}&isArchive={{{IS_ARCHIVE}}}&icon={{{ICON}}}&sound={{{SOUND}}}&level={{{LEVEL}}}"
+通知推送 = script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Notification.js,type=event,event-name=https://raw.githubusercontent.com/githubdulong/Script/master/Notification.js,argument="BARK_TOKEN={{{BARK_TOKEN}}}&group={{{GROUP}}}&autoCopy={{{AUTO_COPY}}}&isArchive={{{IS_ARCHIVE}}}&icon={{{ICON}}}&sound={{{SOUND}}}&level={{{LEVEL}}}"
