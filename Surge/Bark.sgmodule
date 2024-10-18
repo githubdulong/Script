@@ -1,8 +1,0 @@
-#!name=通知推送
-#!desc=将 Surge 通知内容利用 Bark 推送至其他设备
-#!author=Sliverkiss
-#!arguments=BARK_TOKEN
-#!arguments-desc=[参数设置]\n⓵ BARK_TOKEN: 填入你的Bark Key, Bark App 获取Key;\n⓶ 参数示例：BARK_TOKEN=xxxxxxxxxx;
-
-[Script]
-通知推送 = script-path=https://raw.githubusercontent.com/Sliverkiss/GoodNight/master/Script/notification.js,type=event,event-name=notification,argument="BARK_TOKEN={{{BARK_TOKEN}}}"
