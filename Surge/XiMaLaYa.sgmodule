@@ -9,42 +9,42 @@ hijack-dns = %APPEND% 114.114.114.114
 
 [Rule]
 # 阻止IP跳动
-DOMAIN,gslbali.ximalaya.com,REJECT
-DOMAIN,gslbtx.ximalaya.com,REJECT
+DOMAIN,gslbali.ximalaya.com,REJECT,pre-matching
+DOMAIN,gslbtx.ximalaya.com,REJECT,pre-matching
 # 修复轮播Ad失效
-URL-REGEX,^https?:\/\/.*\.xima.*\.com\/discovery-feed\/focus\/queryF,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/discovery-feed\/focus\/queryF,REJECT,pre-matching
 # 屏蔽播放页Live
-URL-REGEX,^https?:\/\/.*\.xima.*\.com\/mobile-playpage\/view\/,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/mobile-playpage\/view\/,REJECT,pre-matching
 # MyInfo红点提醒
-URL-REGEX,^https?:\/\/.*\.xima.*\.com\/chaos-notice-web\/v1\/message\/preview\/list,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/chaos-notice-web\/v1\/message\/preview\/list,REJECT,pre-matching
 # 屏蔽大红包Tips
-URL-REGEX,^https?:\/\/.*\.xima.*\.com\/social-web\/bottomTabs\/dynamicEntrance\/status,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/social-web\/bottomTabs\/dynamicEntrance\/status,REJECT,pre-matching
 # 屏蔽gif弹窗_Ad
-URL-REGEX,^https?:\/\/.*\.xmcdn\.com\/\w{8}\/\w{4}-\w{16}\/.+gif$,REJECT
+URL-REGEX,^https?:\/\/.*\.xmcdn\.com\/\w{8}\/\w{4}-\w{16}\/.+gif$,REJECT,pre-matching
 # 屏蔽Aged请求
-URL-REGEX,^https?:\/\/.*\.xima.*\.com\/(dog-portal\/checkOld|(child-mobile\/child|aged-mobile\/aged)\/mode\/query),REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/(dog-portal\/checkOld|(child-mobile\/child|aged-mobile\/aged)\/mode\/query),REJECT,pre-matching
 # 部分Tab弹窗
-URL-REGEX,^https?:\/\/.*\.xima.*\.com\/discovery-feed\/isShowUserGiftPendant,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/discovery-feed\/isShowUserGiftPendant,REJECT,pre-matching
 # 屏蔽红点提示
-URL-REGEX,^https?:\/\/.*\.xima.*\.com\/mobile-user\/unread,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/mobile-user\/unread,REJECT,pre-matching
 # 屏蔽minor请求
-URL-REGEX,^https?:\/\/.*\.xima.*\.com/mobile-user/minorProtection/pop,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com/mobile-user/minorProtection/pop,REJECT,pre-matching
 # 屏蔽隐私搜集
-URL-REGEX,^https?:\/\/.*\.xima.*\.com\/collector/xl\/v\d,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/collector/xl\/v\d,REJECT,pre-matching
 # 屏蔽版本更新
-URL-REGEX,^https?:\/\/.*\.xima.*\.com\/butler-portal\/versionCheck,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/butler-portal\/versionCheck,REJECT,pre-matching
 # 屏蔽开屏广告
-URL-REGEX,^https?:\/\/(adse\.wsa|adse|adbehavior|xdcs-collector)\.xima.*\.com\/.*,REJECT
+URL-REGEX,^https?:\/\/(adse\.wsa|adse|adbehavior|xdcs-collector)\.xima.*\.com\/.*,REJECT,pre-matching
 # 屏蔽位置请求
-URL-REGEX,^https?:\/\/.*\.xima.*\.com\/mobile\/discovery\/v\d\/location,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/mobile\/discovery\/v\d\/location,REJECT,pre-matching
 # 屏蔽热搜词
-URL-REGEX,^https?:\/\/.*\.xima.*\.com\/hotWord,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/hotWord,REJECT,pre-matching
 # 屏蔽搜索框定时_Ad
-URL-REGEX,^https?:\/\/.*\.xima.*\.com\/guideWord,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/guideWord,REJECT,pre-matching
 # 屏蔽实时_Ad请求
-URL-REGEX,^https?:\/\/.*\.xima.*\.com\/api\/v\d\/adRealTime,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/api\/v\d\/adRealTime,REJECT,pre-matching
 # 屏蔽ting_Ad
-URL-REGEX,^https?:\/\/.*\.xima.*\.com\/ting\/(loading|feed|home)?,REJECT
+URL-REGEX,^https?:\/\/.*\.xima.*\.com\/ting\/(loading|feed|home)?,REJECT,pre-matching
 
 [Script]
 # 首页滚动_Ad、Tab页滚动_Ad、我的页面_Ad
