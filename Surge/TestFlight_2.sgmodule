@@ -1,5 +1,5 @@
 #!name=区域限制
-#!desc=解除 TestFlight App 区域安装限制
+#!desc=TestFlight 解除中国区无法安装外区App限制
 
 [General]
 skip-proxy = %APPEND% iosapps.itunes.apple.com
