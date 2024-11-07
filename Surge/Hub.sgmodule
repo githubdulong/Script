@@ -2,7 +2,7 @@
 #!desc=快速添加通用链接为Surge模块,依赖Script.hub
 #!category=Third Party Module
 #!arguments=SURGE_SUFFIX:Surge,STASH_SUFFIX:Stash,LOON_SUFFIX:Loon
-#!arguments-desc=[参数设置]\n▪︎ SURGE_SUFFIX: 自定义Surge转换链接的后戳参数\n▪︎ STASH_SUFFIX: 自定义Stash转换链接的后戳参数\n▪︎ LOON_SUFFIX: 自定义Loon转换链接的后戳参数\n\n[模块说明]\n▫ 模块依赖于https://script.hub环境运行;\n▫ 模块限Surge使用,Loon或Stash可复制相关重写至本地使用;\n▫ Surge用户只需修改SURGE_SUFFIX参数即可安装,另外两个参数仅供格式预览;
+#!arguments-desc=[参数设置]\n▪︎ SURGE_SUFFIX: 自定义Surge转换链接的后戳参数\n▪︎ STASH_SUFFIX: 自定义Stash转换链接的后戳参数\n▪︎ LOON_SUFFIX: 自定义Loon转换链接的后戳参数\n\n[模块说明]\n⓵ 模块依赖于https://script.hub环境运行;\n⓶ 模块限Surge使用,Loon或Stash自行修改格式;\n⓷ Surge修改参数"1"即可,其他参数仅供预览;
 
 [URL Rewrite]
 # 转为Surge
