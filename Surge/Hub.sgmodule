@@ -6,11 +6,11 @@
 
 [URL Rewrite]
 # 转换格式为：Surge
-^https:\/\/([a-zA-Z0-9.-]*(git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*)\/(.*)\/(.*\.(js|conf|snippet|plugin|list|yaml)).*({{{SURGE_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$3/$4/_end_/$4.sgmodule?type=surge-module&target=surge-module&del=true
+^https:\/\/([a-zA-Z0-9.-]*(git|github|gitlab|gitee|gitcode|kelee)[a-zA-Z0-9.-]*)\/(.*)\/(.*\.(js|conf|snippet|plugin|list|yaml)).*({{{SURGE_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$3/$4/_end_/$4.sgmodule?type=surge-module&target=surge-module&del=true
 # 转换格式为：Stash
-^https:\/\/([a-zA-Z0-9.-]*(git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*)\/(.*)\/(.*\.(js|conf|snippet|plugin|list|yaml)).*({{{STASH_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$3/$4/_end_/$4.sgmodule?type=qx-rewrite&target=stash-stoverride&del=true
+^https:\/\/([a-zA-Z0-9.-]*(git|github|gitlab|gitee|gitcode|kelee)[a-zA-Z0-9.-]*)\/(.*)\/(.*\.(js|conf|snippet|plugin|list|yaml)).*({{{STASH_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$3/$4/_end_/$4.sgmodule?type=qx-rewrite&target=stash-stoverride&del=true
 # 转换格式为：Loon
-^https:\/\/([a-zA-Z0-9.-]*(git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*)\/(.*)\/(.*\.(js|conf|snippet|plugin|list|yaml)).*({{{LOON_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$3/$4/_end_/$4.sgmodule?type=loon-plugin&target=loon-plugin&del=true
+^https:\/\/([a-zA-Z0-9.-]*(git|github|gitlab|gitee|gitcode|kelee)[a-zA-Z0-9.-]*)\/(.*)\/(.*\.(js|conf|snippet|plugin|list|yaml)).*({{{LOON_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$3/$4/_end_/$4.sgmodule?type=loon-plugin&target=loon-plugin&del=true
 
 [MITM]
-hostname = %APPEND% raw.githubusercontent.com, gist.github.com, gist.githubusercontent.com, gitlab.com, gitee.com, gitcode.net, github.*
+hostname = %APPEND% raw.githubusercontent.com, gist.github.com, gist.githubusercontent.com, gitlab.com, gitee.com, gitcode.net, github.*, kelee.one
