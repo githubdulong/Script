@@ -1,7 +1,7 @@
 /* 更新内容：
- * 增加模块自定义参数传入
+ * 增加critical、volume参数设置
  * 修复排版空行问题
- * 更新日期 2024.10.18 09:45
+ * 更新日期 2024.11.13 10:05
  * 原作者 @Sliverkiss
  */
 
@@ -34,7 +34,7 @@ $.info(`从持久化存储读取参数后: ${$.toStr(arg)}`)
     
     const barkBody = `${(subtitle ?? '').trim()}\n${(body ?? '').trim()}`.trim();
 
-    const BARK_URL = `https://api.day.app/${arg.BARK_TOKEN}/${encodeURIComponent(title)}/${encodeURIComponent(barkBody)}?group=${arg.group || 'Surge'}&autoCopy=${arg.autoCopy || 1}&isArchive=${arg.isArchive || 1}&icon=${decodeURIComponent(arg.icon) || 'https://raw.githubusercontent.com/xream/scripts/main/scriptable/surge/surge-dark.png'}&sound=${arg.sound || 'shake'}&level=${arg.level || 'active'}`
+    const BARK_URL = `https://api.day.app/${arg.BARK_TOKEN}/${encodeURIComponent(title)}/${encodeURIComponent(barkBody)}?group=${arg.group || 'Surge'}&autoCopy=${arg.autoCopy || 1}&isArchive=${arg.isArchive || 1}&icon=${decodeURIComponent(arg.icon) || 'https://raw.githubusercontent.com/xream/scripts/main/scriptable/surge/surge-dark.png'}&sound=${arg.sound || 'shake'}&level=${arg.level || 'active'}&volume=${arg.volume || 5}`
 
     $.info(`BARK URL: ${BARK_URL}`)
 

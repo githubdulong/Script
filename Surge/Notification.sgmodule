@@ -1,7 +1,7 @@
 #!name=通知推送
 #!desc=将 Surge 通知内容利用 Bark 推送至其他设备
-#!arguments=BARK_TOKEN:填写Token,GROUP:Surge,ICON:https://raw.githubusercontent.com/xream/scripts/main/scriptable/surge/surge-dark.png,SOUND:shake,AUTO_COPY:1,IS_ARCHIVE:1,LEVEL:active
-#!arguments-desc=[参数设置]\nBARK_TOKEN: 填写你的 Bark App Key\n   ├ 格式：https://api.day.app/DmHjjgNYLydgsxrH2KUD68/\n   └ 选取："DmHjjgNYLydgsxrH2KUD68"\nGROUP: 指定通知的分组，默认值为 "Surge"\nICON: 自定义通知图标 URL，默认值为暗色 Surge 图标链接\nSOUND: 通知音效，默认值为 "shake"，可在 Bark 中自行选择相应参数\nAUTO_COPY: 自动复制通知内容到剪贴板\n   ├ 1：启用（默认值）\n   └ 0：关闭\nIS_ARCHIVE: 是否将通知存档\n   ├ 1：启用（默认值）\n   └ 0：关闭\nLEVEL: 通知时效性\n   ├ active：系统会立即亮屏显示通知（默认值）\n   ├ timeSensitive：时效性通知，可在专注状态下显示通知\n   ├ passive：仅将通知添加到通知列表，不会亮屏提醒\n   └ critical：重要通知会忽略静音设置和勿扰模式，无论设备是否静音，通知都会提示并播放声音
+#!arguments=BARK_TOKEN:填写Token,GROUP:Surge,ICON:https://raw.githubusercontent.com/xream/scripts/main/scriptable/surge/surge-dark.png,SOUND:shake,AUTO_COPY:1,IS_ARCHIVE:1,LEVEL:active,VOLUME:5
+#!arguments-desc=[参数设置]\nBARK_TOKEN: 填入你的 Bark Key\n   ├ 获取 Key：在 Bark App 中\n   ├ 格式：https://api.day.app/DmHjjgNYLydgsxrH2KUD68/\n   └ 取值：DmHjjgNYLydgsxrH2KUD68\nGROUP: 指定通知的分组，默认值为 "Surge"\nICON: 自定义通知图标 URL，默认值为暗色Surge图标链接\nSOUND: 通知音效，默认值为 "shake"，可在 Bark 中自行选择相应参数\nAUTO_COPY: 自动复制通知内容到剪贴板\n   ├ 1：启用（默认值）\n   └ 0：关闭\nIS_ARCHIVE: 是否将通知存档\n   ├ 1：启用（默认值）\n   └ 0：关闭\nLEVEL: 通知时效性\n   ├ active：系统会立即亮屏显示通知（默认值）\n   ├ timeSensitive：时效性通知，可在专注状态下显示通知\n   ├ passive：仅将通知添加到通知列表，不会亮屏提醒\n   └ critical：重要通知会忽略静音设置和勿扰模式，无论设备是否静音，通知都会提示并播放声音\nVOLUME:  critical参数音量设置\n   ├ 取值：5（默认值）\n   └ 范围：1 < 10
 
 [Script]
-通知推送 = script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Notification.js,type=event,event-name=notification,argument="BARK_TOKEN={{{BARK_TOKEN}}}&group={{{GROUP}}}&autoCopy={{{AUTO_COPY}}}&isArchive={{{IS_ARCHIVE}}}&icon={{{ICON}}}&sound={{{SOUND}}}&level={{{LEVEL}}}"
+通知推送 = script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Notification.js,type=event,event-name=notification,argument="BARK_TOKEN={{{BARK_TOKEN}}}&group={{{GROUP}}}&autoCopy={{{AUTO_COPY}}}&isArchive={{{IS_ARCHIVE}}}&icon={{{ICON}}}&sound={{{SOUND}}}&level={{{LEVEL}}}&volume={{{VOLUME}}}"
