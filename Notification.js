@@ -1,7 +1,7 @@
 /* 更新内容：
  * 增加critical、volume参数设置
- * 修复排版空行问题
- * 更新日期 2024.11.13 10:05
+ * 增加关键词屏蔽参数
+ * 更新日期 2024.11.14 14:28
  * 原作者 @Sliverkiss
  */
 
@@ -19,6 +19,9 @@ if (typeof $argument !== 'undefined') {
 }
 $.info(`传入的 $argument: ${$.toStr(arg)}`)
 
+const ignoreRegexStr = arg.ignoreRegex || '';  
+const ignoreRegex = ignoreRegexStr ? new RegExp(ignoreRegexStr) : null;
+
 arg = { ...arg, ...$.getjson(NAMESPACE, {}) }
 
 $.info(`从持久化存储读取参数后: ${$.toStr(arg)}`)
@@ -29,9 +32,16 @@ $.info(`从持久化存储读取参数后: ${$.toStr(arg)}`)
     
     const {
         name,
-        data: { title, subtitle, body },
+        data: { title, subtitle, body, identifier },
     } = $event
     
+    const notificationContent = `${title} ${subtitle} ${body} ${identifier}`;
+    
+    if (ignoreRegex && ignoreRegex.test(notificationContent)) {
+        $.info(`忽略匹配正则的通知: ${notificationContent}`);
+        return $done(); 
+    }
+
     const barkBody = `${(subtitle ?? '').trim()}\n${(body ?? '').trim()}`.trim();
 
     const BARK_URL = `https://api.day.app/${arg.BARK_TOKEN}/${encodeURIComponent(title)}/${encodeURIComponent(barkBody)}?group=${arg.group || 'Surge'}&autoCopy=${arg.autoCopy || 1}&isArchive=${arg.isArchive || 1}&icon=${decodeURIComponent(arg.icon) || 'https://raw.githubusercontent.com/xream/scripts/main/scriptable/surge/surge-dark.png'}&sound=${arg.sound || 'shake'}&level=${arg.level || 'active'}&volume=${arg.volume || 5}`
