@@ -1,0 +1,12 @@
+#!name=公测监控
+#!desc=监控TestFlight占位并关闭模块,仅兼容Surge
+#!category=Third Party Module
+#!arguments=INFO_FETCH_SCRIPT_NAME:信息获取,CRON_SECONDS:5,START_HOUR:0,END_HOUR:23,HANDLE_404:0
+#!arguments-desc=[参数设置]\n1. INFO_FETCH_SCRIPT_NAME: 自定义"信息获取"脚本启停, 获取完TestFlight Token及APP_ID后为避免不必要的mitm, 建议在脚本名称参数添加#以注释停止该脚本;\n2. CRON_SECONDS: 自定义"加入测试"脚本执行的秒数间隔, 默认每5秒执行一次;\n3. START_HOUR: 自定义"加入测试"脚本每天开始执行的时间,默认为0点 (默认起止为全天);\n4. END_HOUR: 自定义"加入测试"脚本每天结束执行的时间,默认为23点 (默认起止为全天);\n5. HANDLE_404: 自定义404状态码的处理方式,设置为 1 则自动移除APP_ID,设置为 0 则保留并提示手动操作;\n\n[使用方法]\n1. 启用"信息获取"脚本后打开TestFlight app获取Token;\n2. 启用"信息获取"脚本后点击TestFlight链接获取APP_ID;\n3. 调整CRON_SECONDS,START_HOUR,END_HOUR参数以改变"加入测试"脚本的执行频率及起止时间段;\n4. 在模块参数中设置HANDLE_404以自定义404状态码的处理方式。\n\n[手动操作]\n1. Boxjs填写"APP_ID"的持久化数据,APP_ID为TestFlight链接 https://testflight.apple.com/join/LPQmtkUs 的join后的字符串(列如"LPQmtkUs,xxx,xxx多条key用,隔开");\n2. Boxjs订阅 https://raw.githubusercontent.com/githubdulong/Script/master/boxjs.json;\n\n[模块介绍]\n▎手动或自动捕获并存储TestFlight作者开放的应用ID，并尝试自动加入TestFlight程序。\n▎自动移除无效的TestFlight应用ID，占位类型可查看日志输出。
+
+[Script]
+{{{INFO_FETCH_SCRIPT_NAME}}} = type=http-request,pattern=^https:\/\/testflight\.apple\.com\/(v3\/accounts\/.*[^\/accept]|join\/[A-Za-z0-9]+)$,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Auto_join_TF.js,argument=HANDLE_404={{{HANDLE_404}}}
+加入测试 = type=cron,cronexp="*/{{{CRON_SECONDS}}} * {{{START_HOUR}}}-{{{END_HOUR}}} * * *",script-path=https://raw.githubusercontent.com/githubdulong/Script/master/Auto_join_TF.js,wake-system=1,timeout=180,engine=auto,argument=HANDLE_404={{{HANDLE_404}}}
+
+[MITM]
+hostname = %APPEND% testflight.apple.com
