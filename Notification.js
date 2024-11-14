@@ -44,7 +44,7 @@ $.info(`从持久化存储读取参数后: ${$.toStr(arg)}`)
 
     const barkBody = `${(subtitle ?? '').trim()}\n${(body ?? '').trim()}`.trim();
 
-    const BARK_URL = `https://api.day.app/${arg.BARK_TOKEN}/${encodeURIComponent(title)}/${encodeURIComponent(barkBody)}?group=${arg.group || 'Surge'}&autoCopy=${arg.autoCopy || 1}&isArchive=${arg.isArchive || 1}&icon=${decodeURIComponent(arg.icon) || 'https://raw.githubusercontent.com/xream/scripts/main/scriptable/surge/surge-dark.png'}&sound=${arg.sound || 'shake'}&level=${arg.level || 'active'}&volume=${arg.volume || 5}`
+    const BARK_URL = `https://api.day.app/${arg.BARK_TOKEN}/${encodeURIComponent(title)}/${encodeURIComponent(barkBody)}?group=${arg.group || 'Surge'}&automaticallyCopy=${arg.automaticallyCopy || 1}&isArchive=${arg.isArchive || 1}&icon=${decodeURIComponent(arg.icon) || 'https://raw.githubusercontent.com/xream/scripts/main/scriptable/surge/surge-dark.png'}&sound=${arg.sound || 'shake'}&level=${arg.level || 'active'}&volume=${arg.volume || 5}`
 
     $.info(`BARK URL: ${BARK_URL}`)
 
