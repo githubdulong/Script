@@ -1,7 +1,7 @@
 /* 更新内容：
  * 增加critical、volume参数设置
- * 增加关键词屏蔽参数
- * 更新日期 2024.11.14 14:28
+ * 增加关键词屏蔽参数，修改日志排版
+ * 更新日期 2024.11.17 00:48
  * 原作者 @Sliverkiss
  */
 
@@ -17,18 +17,18 @@ if (typeof $argument !== 'undefined') {
 } else {
     arg = {}
 }
-$.info(`传入的 $argument: ${$.toStr(arg)}`)
+$.info(`传入的参数: \n${formatLog(arg)}`)
 
 const ignoreRegexStr = arg.ignoreRegex || '';  
 const ignoreRegex = ignoreRegexStr ? new RegExp(ignoreRegexStr) : null;
 
 arg = { ...arg, ...$.getjson(NAMESPACE, {}) }
 
-$.info(`从持久化存储读取参数后: ${$.toStr(arg)}`)
+$.info(`从持久化存储读取参数后: \n${formatLog(arg)}`)
 
 !(async () => {
     $.info(`🔔 ${new Date().toLocaleString()}`)
-    $.info(JSON.stringify($event, null, 2))
+    $.info(`通知信息: \n${formatLog($event)}`)
     
     const {
         name,
@@ -61,7 +61,37 @@ $.info(`从持久化存储读取参数后: ${$.toStr(arg)}`)
     $done()
 })
 
-// 请求
+function formatLog(obj, indent = 2) {
+    const padKey = (key, maxLength) => key.padEnd(maxLength, ' ');
+    const maxKeyLength = (data) =>
+        Math.max(...Object.keys(data).map((key) => key.length));
+
+    const formatObject = (data, level) => {
+        const spaces = ' '.repeat(level);
+        const keyPadding = maxKeyLength(data);
+        const lines = [];
+
+        for (const [key, value] of Object.entries(data)) {
+            const paddedKey = padKey(key, keyPadding);
+            if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                lines.push(`${spaces}"${paddedKey}": {`);
+                lines.push(formatObject(value, level + 2));
+                lines.push(`${spaces}},`);
+            } else {
+                lines.push(
+                    `${spaces}"${paddedKey}": ${JSON.stringify(value)},`
+                );
+            }
+        }
+        return lines.join('\n').replace(/,\n$/, '\n');
+    };
+
+    if (typeof obj !== 'object' || obj === null) {
+        return JSON.stringify(obj, null, indent);
+    }
+    return `{\n${formatObject(obj, indent)}\n}`;
+}
+
 async function http(opt = {}) {
     const TIMEOUT = parseFloat(opt.timeout || $.lodash_get(arg, 'TIMEOUT') || 5)
     const RETRIES = parseFloat(opt.retries || $.lodash_get(arg, 'RETRIES') || 1)
