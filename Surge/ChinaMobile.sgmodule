@@ -1,0 +1,12 @@
+#!name= 移动组件
+#!desc= Scriptable小组件重写脚本,需配合设置参数
+#!category=移动
+#!arguments=TIMEOUT:60,手机号码:'',BarkKey:'',调试模式:0,静默模式:0,Scriptable服务模式:0,禁用获参重写:''
+#!arguments-desc=[参数设置]\n\n⓵ TIMEOUT: 脚本运行时间, 单位为秒, 超过该时间会强制中断;\n\n⓶ 手机号码：抓取参数对应的手机号码;\n\n⓷ BarkKey: 优先级高于代理通知,填写后将只使用Bark推送;\n\n⓸ 调试模式：true/1/是为开启,其他均为关闭,开启后输调试日志;\n\n⓹ 静默模式：true/1/是为开启,其他均为关闭,开启后不会收到通知;\n\n⓺ 服务模式：0为关闭,1为开启,为Scriptable小组件设置的服务项,不使用请无视;\n\n⓻禁用重写: 填写#禁用捕获参数重写;
+
+[Script]
+{{{禁用重写}}}移动获取 = type=http-request,pattern=^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(onekey|randcode)login\/autoLogin,requires-body=1,max-size=0,script-path=https://github.com/ChinaTelecomOperators/ChinaMobile/releases/download/Prerelease-Alpha/10086.js
+组件接口 = type=http-request, pattern=^https?:\/\/api\.example\.com\/10086\/query, script-path=https://github.com/ChinaTelecomOperators/ChinaMobile/releases/download/Prerelease-Alpha/10086.js, requires-body=true, max-size=-1, timeout={{{TIMEOUT}}},argument=phonenumber={{{手机号码}}}&bark_key={{{BarkKey}}}&debug={{{调试模式}}}&silent={{{静默模式}}}&service={{{服务模式}}}
+
+[MITM]
+hostname = %APPEND% api.example.com,{{{禁用重写}}}client.app.coc.10086.cn
