@@ -2,13 +2,13 @@
 #!desc=Revenuecat Unlock Surge@langkhach270389
 
 [Header Rewrite]
-.+ header-del if-modified-since
-.+ header-del if-none-match
-.+ header-del X-RevenueCat-ETag
-.+ header-del x-revenuecat-etag
+^https:\/\/(api\.revenuecat|isi\.csan\.goodnotes)\.com\/.+ header-del if-modified-since
+^https:\/\/(api\.revenuecat|isi\.csan\.goodnotes)\.com\/.+ header-del if-none-match
+^https:\/\/(api\.revenuecat|isi\.csan\.goodnotes)\.com\/.+ header-del X-RevenueCat-ETag
+^https:\/\/(api\.revenuecat|isi\.csan\.goodnotes)\.com\/.+ header-del x-revenuecat-etag
 
 [URL Rewrite]
-^https:\/\/(api\.revenuecat|isi.csan.goodnotes)\.com\/.+\/(receipts$|subscribers\/[^/]+$|offers$) https://api.langkhach89.workers.dev header
+^https:\/\/(api\.revenuecat|isi\.csan\.goodnotes)\.com\/.+\/(receipts$|subscribers\/[^/]+$|offers$) https://api.langkhach89.workers.dev header
 
 [MITM]
 hostname = %APPEND% api.revenuecat.com, isi.csan.goodnotes.com
