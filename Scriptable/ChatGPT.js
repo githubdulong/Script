@@ -14,8 +14,9 @@ ChatGPT Keyboard by Neurogram
 
 */
 
-const api_key = "" //  填写 key
-const model = "gpt-3.5-turbo"
+const api_key = "" // 填写 key
+const model = "gpt-4o" //模型选择
+const openai_proxy_url = "" // 第三方key可选的代理地址，若不使用代理则留空或注释掉
 const user_gesture = { // Generated results: 0: auto-wrap 1: overwrite selected/all prompts  
     tap: 1,
     long_press: 0
@@ -320,18 +321,19 @@ async function gpt(role, gesture) {
         })
     }
 
-    let openai = await $http.post({
-        url: "https://api.openai.com/v1/chat/completions",
-        header: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${api_key}`
-        },
-        body: {
-            "model": model,
-            "messages": messages
-        }
-    })
+    let api_url = openai_proxy_url ? openai_proxy_url + "/v1/chat/completions" : "https://api.openai.com/v1/chat/completions";
 
+    let openai = await $http.post({
+    url: api_url,
+    header: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${api_key}`
+    },
+    body: {
+        "model": model,
+        "messages": messages
+    }
+})
     timer.invalidate()
     set_bubble()
     generating = false
