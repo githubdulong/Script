@@ -1,0 +1,11 @@
+#!name=购物助手
+#!desc=京东购物助手，注入跳转、佣金返利、历史价格
+#!category=Third Party Module
+#!arguments=JD_UNION_ID:京东联盟ID,JD_POSITION_ID:推广位ID,JTT_APPID:京推推AppID,JTT_APPKEY:京推推AppKey,BUY_HELPER_ZDM:true,BUY_HELPER_MMM:true,BUY_HELPER_GWD:true,BUY_HELPER_COPY:true,BUY_HELPER_LR:left
+#!arguments-desc=[参数设置]\nJD_UNION_ID: 填写京东联盟ID\n   ├ 获取方式：登录京东联盟官网https://union.jd.com/index\n   └ 参考格式：12345678\nJD_POSITION_ID: 填写推广位ID\n   ├ 获取方式：在京东联盟后台创建推广位\n   └ 参考格式：1234567890\nJTT_APPID: 填写京推推AppID\n   ├ 获取方式：登录京推推官网https://www.jingtuitui.com/user/login\n   └ 参考格式：1234567890123456\nJTT_APPKEY: 填写京推推AppKey\n   ├ 获取方式：登录京推推官网\n   └ 参考格式：b123456ce90123456lk890126789012\nBUY_HELPER_ZDM: 值得买按钮\n   ├ true：启用（默认值）\n   └ false：关闭\nBUY_HELPER_MMM: 慢慢买按钮\n   ├ true：启用（默认值）\n   └ false：关闭\nBUY_HELPER_GWD: 购物党按钮\n   ├ true：启用（默认值）\n   └ false：关闭\nBUY_HELPER_COPY: 复制短链按钮\n   ├ true：启用（默认值）\n   └ false：关闭\nBUY_HELPER_LR: 按钮位置\n   ├ left：左边（默认值）\n   └ right：右边
+
+[Script]
+购物助手 = type=http-response,pattern=^https:\/\/in\.m\.jd\.com\/product\/.+?\.html,requires-body=1,max-size=-1,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_buy_helper.js,argument=jd_union_id={{{JD_UNION_ID}}}&jd_position_id={{{JD_POSITION_ID}}}&jtt_appid={{{JTT_APPID}}}&jtt_appkey={{{JTT_APPKEY}}}&buy_helper_zdm={{{BUY_HELPER_ZDM}}}&buy_helper_mmm={{{BUY_HELPER_MMM}}}&buy_helper_gwd={{{BUY_HELPER_GWD}}}&buy_helper_copy={{{BUY_HELPER_COPY}}}&buy_helper_LR={{{BUY_HELPER_LR}}}
+
+[MITM]
+hostname = %APPEND% in.m.jd.com, lite-in.m.jd.com
