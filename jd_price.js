@@ -15,7 +15,7 @@ hostname = %APPEND% in.m.jd.com
 const http = (op) => {
   const { promise, resolve, reject } = Promise.withResolvers();
 
-  this.$httpClient?.get(op, (err, resp, data) =>
+  this.$httpClient?.[op.method || "get"](op, (err, resp, data) =>
     err ? reject(err) : resolve(JSON.parse(data))
   );
 
@@ -311,6 +311,7 @@ const getJdData = (body) => {
 
 const getPriceData = async () => {
   const body = await http({
+    method: "post",
     url: "https://apapia-history.manmanbuy.com/ChromeWidgetServices/WidgetServices.ashx",
     headers: {
       "user-agent": "CFNetwork/3826.500.101 Darwin/24.4.0",
