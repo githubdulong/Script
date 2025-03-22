@@ -12,6 +12,15 @@ hostname = %APPEND% in.m.jd.com
 
 */
 
+Promise.withResolvers ||= function () {
+  let resolve, reject;
+  const promise = new this((res, rej) => {
+    resolve = res;
+    reject = rej;
+  });
+  return { promise, resolve, reject };
+};
+
 const http = (op) => {
   const { promise, resolve, reject } = Promise.withResolvers();
 
@@ -19,9 +28,16 @@ const http = (op) => {
     err ? reject(err) : resolve(JSON.parse(data))
   );
 
-  this.$task?.fetch(op).then(({ body }) => resolve(JSON.parse(body)), reject);
+  this.$task?.fetch(op).then(
+    ({ body }) => resolve(JSON.parse(body)),
+    ({ error }) => reject(error)
+  );
 
-  return promise;
+  const timer = setTimeout(() => {
+    reject(new Error("你超时了呀，我来盲猜一波，你没开直连"));
+  }, 4 * 1000);
+
+  return promise.finally(() => clearTimeout(timer));
 };
 
 const toDate = (t) => {
@@ -43,8 +59,6 @@ const comparePrices = (a, b) => {
   if (diff < 0) return `↓${-diff}`;
   return "●";
 };
-
-
 
 const priceHistoryTable = (data) => {
   if (data.err) return `<h2>${data.msg}</h2>`;
@@ -228,8 +242,6 @@ const priceHistoryTable = (data) => {
   return html;
 };
 
-
-
 const getJdData = (body) => {
   const { jiagequshiyh } = body.single;
   const jiageData = JSON.parse(`[${jiagequshiyh}]`).reverse().slice(0, 360);
@@ -329,11 +341,16 @@ const getPriceData = async () => {
   };
 };
 
-getPriceData().then((priceData) => {
-  let { body, headers } = $response;
-  const tableHTML = priceHistoryTable(priceData);
+getPriceData()
+  .then((priceData) => {
+    let { body, headers } = $response;
+    const tableHTML = priceHistoryTable(priceData);
 
-  body = body.replace("<body>", `<body>${tableHTML}`);
+    body = body.replace("<body>", `<body>${tableHTML}`);
 
-  $done({ body, headers });
-});
+    $done({ body, headers });
+  })
+  .catch((e) => {
+    console.log(e.toString());
+    $done({});
+  });
