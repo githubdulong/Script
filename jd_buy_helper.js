@@ -135,10 +135,10 @@ async function jingfenJingTuiTui() {
 async function get_price_comparison() {
   return new Promise((resolve) => {
     const options = {
-      url: "https://appia-history.manmanbuy.com/ChromeWidgetServices/WidgetServices.ashx", // 新接口参考灰灰
+      url: "https://apapia-history.manmanbuy.com/ChromeWidgetServices/WidgetServices.ashx", // 新接口URL
       headers: {
         "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios"
       },
       body: 'methodName=getHistoryTrend&p_url=' + encodeURIComponent(`https://item.m.jd.com/product/${$.sku}.html`)
     };
@@ -146,21 +146,22 @@ async function get_price_comparison() {
       try {
         data = JSON.parse(data);
         if (data?.ok == 1 && data?.single && data?.PriceRemark?.ListPriceDetail) {
-          // 获取历史最低价和历史最低日期
           const ListPriceDetail = data?.PriceRemark?.ListPriceDetail;
-
+          
           // 使用 find() 方法找到历史最低对象
           const lower_data = ListPriceDetail.find(item => item.ShowName == "历史最低");
           if (lower_data) {
-            const { extraPrice, Price, Difference, Date } = lower_data; // 提取最低价、价格差值和日期信息
-            $.Difference = Difference;  // 价格差值
-            $.desc = `历史最低: ${Price || `¥${extraPrice}`} (${Date})`; // 确保 $.desc 已初始化
+            const { extraPrice, Price, Difference, Date } = lower_data;
+            $.Difference = Difference;
+            $.desc = `历史最低: ${Price || `¥${extraPrice}`} (${Date})`;
           } else {
             $.desc = `历史最低: 暂无`; // 如果未找到历史最低价，初始化 $.desc
           }
-          $.price = data?.recentlyZK?.currentprice || $.price;  // 当前到手价
-          $.skuName = data?.single?.title || $.skuName;  // 商品标题
-          $.skuImg = data?.single?.smallpic || $.skuImg;  // 商品图片
+
+          // 获取当前到手价和商品信息
+          $.price = data?.recentlyZK?.currentprice || $.price;
+          $.skuName = data?.single?.title || $.skuName;
+          $.skuImg = data?.single?.smallpic || $.skuImg;
         } else {
           $.desc = `历史最低: 暂无`; // 如果获取比价信息失败，初始化 $.desc
           $.log(`获取比价信息失败`);
