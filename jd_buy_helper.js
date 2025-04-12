@@ -135,10 +135,10 @@ async function jingfenJingTuiTui() {
 async function get_price_comparison() {
   return new Promise((resolve) => {
     const options = {
-      url: "https://apapia-history.manmanbuy.com/ChromeWidgetServices/WidgetServices.ashx",
+      url: "https://appia-history.manmanbuy.com/ChromeWidgetServices/WidgetServices.ashx", // 新接口参考灰灰
       headers: {
         "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-        "User-Agent": "iPhone/CFNetwork/Darwin"
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
       },
       body: 'methodName=getHistoryTrend&p_url=' + encodeURIComponent(`https://item.m.jd.com/product/${$.sku}.html`)
     };
