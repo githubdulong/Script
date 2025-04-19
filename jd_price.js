@@ -406,6 +406,7 @@ getPriceData()
   })
   .catch((e) => {
     console.log(e.toString());
+    console.log(e.stack)
     $msg(e.toString());
     $done({});
   });
