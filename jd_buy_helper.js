@@ -46,24 +46,40 @@ let html = $response.body;
 async function init_tools() {
   $.log("初始化开始");
 
-  // 从模块传入参数
-  const args = typeof $argument !== "undefined" ? $argument : "";
-  $.log(`传入的参数: ${args}`);
-  const argObj = Object.fromEntries(
-    args.split("&").map((item) => item.split("=").map(decodeURIComponent))
-  );
+// 从模块传入参数
+const args = typeof $argument !== "undefined" ? $argument : "";
+$.log(`传入的参数: ${args}`);
 
-  // 参数优先级：模块参数 > BoxJs 参数
-  $.jd_unionId = argObj["jd_union_id"] || $.getdata("jd_unionId") || "";
-  $.jd_positionId =
-    argObj["jd_position_id"] || $.getdata("jd_positionId") || "";
-  $.jtt_appid = argObj["jtt_appid"] || $.getdata("jtt_appid") || "";
-  $.jtt_appkey = argObj["jtt_appkey"] || $.getdata("jtt_appkey") || "";
+const argObj = Object.fromEntries(
+  args.split("&").map((item) => item.split("=").map(decodeURIComponent))
+);
 
-  $.log(`jd_unionId: ${$.jd_unionId}`);
-  $.log(`jd_positionId: ${$.jd_positionId}`);
-  $.log(`jtt_appid: ${$.jtt_appid}`);
-  $.log(`jtt_appkey: ${$.jtt_appkey}`);
+// 判断函数：参数为空或为 null 字符串
+function isEmpty(val) {
+  return !val || val === "null";
+}
+
+// 参数优先级：模块参数 > BoxJs 参数（但跳过 "null"）
+$.jd_unionId = !isEmpty(argObj["jd_union_id"])
+  ? argObj["jd_union_id"]
+  : $.getdata("jd_unionId") || "";
+
+$.jd_positionId = !isEmpty(argObj["jd_position_id"])
+  ? argObj["jd_position_id"]
+  : $.getdata("jd_positionId") || "";
+
+$.jtt_appid = !isEmpty(argObj["jtt_appid"])
+  ? argObj["jtt_appid"]
+  : $.getdata("jtt_appid") || "";
+
+$.jtt_appkey = !isEmpty(argObj["jtt_appkey"])
+  ? argObj["jtt_appkey"]
+  : $.getdata("jtt_appkey") || "";
+
+$.log(`jd_unionId: ${$.jd_unionId}`);
+$.log(`jd_positionId: ${$.jd_positionId}`);
+$.log(`jtt_appid: ${$.jtt_appid}`);
+$.log(`jtt_appkey: ${$.jtt_appkey}`);
 
   $.button = [];
   const helperConfig = {
