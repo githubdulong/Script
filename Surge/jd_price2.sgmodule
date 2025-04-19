@@ -1,5 +1,5 @@
 #!name=京东比价
-#!desc=京东App历史价格（商品详情页面触发）
+#!desc=京东App历史价格（商品详情页面触发）需CK
 #!arguments=MMMCK_SCRIPT_NAME:慢慢买CK
 #!arguments-desc=[参数设置]\n1. MMMCK_SCRIPT_NAME:慢慢买CK 脚本前往慢慢买App获取Cookie\n2.避免不必要的重写，禁用请设置为"#"
 
