@@ -53,9 +53,10 @@ async function init_tools() {
     args.split("&").map((item) => item.split("=").map(decodeURIComponent))
   );
 
-  // 参数优先级：模块参数 > BoxJs 数据
-  $.jd_unionId = argObj["jd_unionId"] || $.getdata("jd_unionId") || "";
-  $.jd_positionId = argObj["jd_positionId"] || $.getdata("jd_positionId") || "";
+  // 参数优先级：模块参数 > BoxJs 参数
+  $.jd_unionId = argObj["jd_union_id"] || $.getdata("jd_unionId") || "";
+  $.jd_positionId =
+    argObj["jd_position_id"] || $.getdata("jd_positionId") || "";
   $.jtt_appid = argObj["jtt_appid"] || $.getdata("jtt_appid") || "";
   $.jtt_appkey = argObj["jtt_appkey"] || $.getdata("jtt_appkey") || "";
 
@@ -138,6 +139,12 @@ async function jingfenJingTuiTui() {
   });
 }
 
+const getmmCK = () => {
+  const ck =  $.getdata("慢慢买CK");
+  if (ck) return ck;
+  $.msg("未获取ck", "请先打开【慢慢买】APP--我的, 获取ck", "")
+};
+
 // 获取比价信息
 async function get_price_comparison() {
   return new Promise((resolve) => {
@@ -146,7 +153,8 @@ async function get_price_comparison() {
         methodName: "getHistoryTrend",
         p_url: encodeURIComponent(share_url),
         t: Date.now().toString(),
-        c_appver: "4.0.10",
+        c_appver: "4.8.3.1",
+        c_mmbDevId: getmmCK(),
       };
       rest_body.token = md5(
         encodeURIComponent(
