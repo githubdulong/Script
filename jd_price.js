@@ -42,6 +42,31 @@ const http = (op) => {
   return promise.finally(() => clearTimeout(timer));
 };
 
+const $prs = {
+  get: this.$prefs?.valueForKey ?? $persistentStore.read,
+  getJson: (key) => JSON.parse($prs.get(key), null, 4),
+  set: (key, value) =>
+    (this.$prefs?.setValueForKey ?? $persistentStore.write)(value, key),
+  setJson: (key, obj) => $prs.set(key, JSON.stringify(obj)),
+};
+
+const $msg = (...a) => {
+  const { $open, $copy, $media, ...r } = typeof a.at(-1) === "object" && a.pop();
+  const [t = "", s = "", b = ""] = a;
+  (this.$notify ??= $notification.post)(t, s, b, {
+    action: $copy ? "clipboard" : "open-url",
+    text: $copy,
+    "update-pasteboard": $copy,
+    clipboard: $copy,
+    "open-url": $open,
+    openUrl: $open,
+    url: $open,
+    mediaUrl: $media,
+    "media-url": $media,
+    ...r,
+  });
+};
+
 const toDate = (t) => {
   const d = new Date(t - new Date().getTimezoneOffset() * 60000);
   return d.toISOString().split("T")[0];
@@ -324,13 +349,20 @@ const getJdData = (body) => {
   return result;
 };
 
+const getmmCK = () => {
+  const ck =  $prs.get("慢慢买CK");
+  if (ck) return ck;
+  throw new Error("未获取ck，请先打开【慢慢买】APP--我的, 获取ck");
+};
+
 const getPriceData = async () => {
   const op = (share_url) => {
   const rest_body = {
     methodName: "getHistoryTrend",
     p_url: encodeURIComponent(share_url),
     t: Date.now().toString(),
-    c_appver: "4.0.10",
+    c_appver: "4.8.3.1",
+    c_mmbDevId: getmmCK(),
   };
   rest_body.token = md5(
     encodeURIComponent(
@@ -374,11 +406,13 @@ getPriceData()
   })
   .catch((e) => {
     console.log(e.toString());
+    $msg(e.toString());
     $done({});
   });
   
   
-  
+function parseQueryString(queryString) {const jsonObject = {};const pairs = queryString.split('&');pairs.forEach(pair => {const [key, value] = pair.split('=');jsonObject[decodeURIComponent(key)] = decodeURIComponent(value || '');});return jsonObject;}
+
   
 function jsonToQueryString(jsonObject) {return Object.keys(jsonObject).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(jsonObject[key])}`).join('&');}
 
