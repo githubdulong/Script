@@ -14,73 +14,74 @@ hostname = %APPEND% in.m.jd.com, lite-in.m.jd.com, apapia-sqk-weblogic.manmanbuy
  * Surge可填写模块参数使用 https://raw.githubusercontent.com/githubdulong/Script/master/Surge/jd_buy_helper.sgmodule
 
  */
+ 
 const $ = new Env("购物助手");
 intCryptoJS();
 let html = $response.body;
 
-!(async () => {
+(async () => {
   if (!html || !html.includes("</html>")) {
     $.log("找不到</html>标签，结束执行");
     $.done({ body: html });
-  } else {
-    $.log("已开始执行");
-    await init_tools(); // 初始化
-    if ($.jd_unionId && $.jtt_appid && $.jtt_appkey) {
-      await jingfenJingTuiTui(); // 京推推转链
-    } else {
-      $.msg($.name, ``, `请检查配置是否正确 ❌`);
-      $.done({ body: html });
-    }
-    await get_price_comparison(); // 获取比价信息
-    await notice(); // 通知
-    await hook_html(); // 注入
+    return;
   }
+  $.log("已开始执行");
+
+  // 初始化参数与环境变量
+  await init_tools();
+
+  if ($.jd_unionId && $.jtt_appid && $.jtt_appkey) {
+
+    await jingfenJingTuiTui();
+  } else {
+    $.msg($.name, "", "请检查配置是否正确 ❌");
+    $.done({ body: html });
+    return;
+  }
+
+  await get_price_comparison();
+
+  await notice();
+
+  await hook_html();
 })()
   .catch((e) => {
-    $.log($.name, ``, `出错了: ${e}❌`);
+    $.log($.name, "", "出错了: " + e + "❌");
   })
   .finally(() => {
     $.done({ body: html });
   });
 
-// 初始化
+/** 初始化：读取模块参数和本地存储参数，设置全局变量 */
 async function init_tools() {
   $.log("初始化开始");
 
-// 从模块传入参数
-const args = typeof $argument !== "undefined" ? $argument : "";
-$.log(`传入的参数: ${args}`);
+  // 获取模块传入参数
+  const args = typeof $argument !== "undefined" ? $argument : "";
+  $.log(`传入的参数: ${args}`);
+  const argObj = Object.fromEntries(
+    args.split("&").map(item => item.split("=").map(decodeURIComponent))
+  );
+  const isEmpty = (val) => !val || val === "null";
 
-const argObj = Object.fromEntries(
-  args.split("&").map((item) => item.split("=").map(decodeURIComponent))
-);
+  // 参数优先级：模块参数 > BoxJs 本地存储
+  $.jd_unionId = !isEmpty(argObj["jd_union_id"])
+    ? argObj["jd_union_id"]
+    : $.getdata("jd_unionId") || "";
+  $.jd_positionId = !isEmpty(argObj["jd_position_id"])
+    ? argObj["jd_position_id"]
+    : $.getdata("jd_positionId") || "";
+  $.jtt_appid = !isEmpty(argObj["jtt_appid"])
+    ? argObj["jtt_appid"]
+    : $.getdata("jtt_appid") || "";
+  $.jtt_appkey = !isEmpty(argObj["jtt_appkey"])
+    ? argObj["jtt_appkey"]
+    : $.getdata("jtt_appkey") || "";
 
-// 判断函数：参数为空或为 null 字符串
-function isEmpty(val) {
-  return !val || val === "null";
-}
-
-// 参数优先级：模块参数 > BoxJs 参数（但跳过 "null"）
-$.jd_unionId = !isEmpty(argObj["jd_union_id"])
-  ? argObj["jd_union_id"]
-  : $.getdata("jd_unionId") || "";
-
-$.jd_positionId = !isEmpty(argObj["jd_position_id"])
-  ? argObj["jd_position_id"]
-  : $.getdata("jd_positionId") || "";
-
-$.jtt_appid = !isEmpty(argObj["jtt_appid"])
-  ? argObj["jtt_appid"]
-  : $.getdata("jtt_appid") || "";
-
-$.jtt_appkey = !isEmpty(argObj["jtt_appkey"])
-  ? argObj["jtt_appkey"]
-  : $.getdata("jtt_appkey") || "";
-
-$.log(`jd_unionId: ${$.jd_unionId}`);
-$.log(`jd_positionId: ${$.jd_positionId}`);
-$.log(`jtt_appid: ${$.jtt_appid}`);
-$.log(`jtt_appkey: ${$.jtt_appkey}`);
+  $.log(`jd_unionId: ${$.jd_unionId}`);
+  $.log(`jd_positionId: ${$.jd_positionId}`);
+  $.log(`jtt_appid: ${$.jtt_appid}`);
+  $.log(`jtt_appkey: ${$.jtt_appkey}`);
 
   $.button = [];
   const helperConfig = {
@@ -89,18 +90,16 @@ $.log(`jtt_appkey: ${$.jtt_appkey}`);
     gwd: argObj["buy_helper_gwd"] || $.getdata("buy_helper_gwd") || "false",
     copy: argObj["buy_helper_copy"] || $.getdata("buy_helper_copy") || "true",
   };
-
   if (helperConfig.zdm !== "false") $.button.push("smzdm");
   if (helperConfig.mmm !== "false") $.button.push("mmm");
   if (helperConfig.gwd !== "false") $.button.push("gwd");
   if (helperConfig.copy !== "false") $.button.push("copy");
 
-  $.buy_helper_LR =
-    argObj["buy_helper_LR"] || $.getdata("buy_helper_LR") || "left";
+  $.buy_helper_LR = argObj["buy_helper_LR"] || $.getdata("buy_helper_LR") || "left";
 
   let url = $request.url;
   $.appType = url.includes("lite-in.m.jd.com") ? "jdtj" : "jd";
-  $.sku = url.match(/\/(\d+)\.html/)?.[1] || "";
+  $.sku = (url.match(/\/(\d+)\.html/) || [])[1] || "";
   $.shortUrl = `https://item.jd.com/${$.sku}.html`;
 
   $.log("初始化完成");
@@ -110,41 +109,36 @@ $.log(`jtt_appkey: ${$.jtt_appkey}`);
   $.log(`appkey: ${$.jtt_appkey}`);
 }
 
-// 京推推转链
+/** 京推推转链 */
 async function jingfenJingTuiTui() {
   $.log("转链开始");
   return new Promise((resolve) => {
     const options = {
       url: `http://japi.jingtuitui.com/api/universal?appid=${$.jtt_appid}&appkey=${$.jtt_appkey}&v=v3&unionid=${$.jd_unionId}&positionid=${$.jd_positionId}&content=https://item.jd.com/${$.sku}.html`,
       timeout: 100 * 1000,
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
+      headers: { "Content-Type": "application/json;charset=utf-8" },
     };
-    $.get(options, async (err, resp, data) => {
+    $.get(options, (err, resp, data) => {
       try {
         if (err) {
-          $.log(`京推推 universal 请求失败：${$.toStr(err)}\n`);
+          $.log("京推推 universal 请求失败：" + $.toStr(err));
         } else {
           data = JSON.parse(data);
           if (data["return"] == 0) {
-            const { chain_link, goods_info } = data?.result?.link_date?.[0];
-            const {
-              skuName = chain_link,
-              imageInfo,
-              commissionInfo,
-              priceInfo,
-            } = goods_info || {};
-            $.commissionShare = commissionInfo.commissionShare; // 佣金比例
-            $.commission = commissionInfo.couponCommission; // 券后佣金
-            $.shortUrl = chain_link; // 二合一短链
-            $.price = priceInfo.lowestPrice; // 商品原价
-            $.skuName = skuName; // 商品名称
-            $.skuImg = imageInfo.imageList[0].url; // 商品主图
-            $.log(`短链地址 ${$.shortUrl}`);
-            $.log("转链完成");
+            const linkData = data?.result?.link_date?.[0] || {};
+            const { chain_link, goods_info } = linkData;
+            if (goods_info) {
+              const { skuName = chain_link, imageInfo, commissionInfo, priceInfo } = goods_info;
+              $.commissionShare = commissionInfo.commissionShare;
+              $.commission = commissionInfo.couponCommission;
+              $.price = priceInfo.lowestPrice;
+              $.skuName = skuName;
+              $.skuImg = imageInfo.imageList?.[0]?.url;
+            }
+            $.shortUrl = chain_link;
+            $.log("转链完成，短链地址：" + $.shortUrl);
           } else {
-            console.log($.toStr(data));
+            $.log("转链返回异常：" + $.toStr(data));
           }
         }
       } catch (e) {
@@ -156,320 +150,177 @@ async function jingfenJingTuiTui() {
   });
 }
 
+/** 获取慢慢买 CK 的封装 */
 const getmmCK = () => {
-  const ck =  $.getdata("慢慢买CK");
-  if (ck) return ck;
-  $.msg("未获取ck", "请先打开【慢慢买】APP--我的, 获取ck", "")
+  const ck = $.getdata("慢慢买CK");
+  if (!ck) {
+    $.msg("未获取ck", "请先打开【慢慢买】APP--我的, 获取ck", "");
+  }
+  return ck;
 };
 
-// 获取比价信息
+/** 获取比价信息 */
 async function get_price_comparison() {
   return new Promise((resolve) => {
-    const options = (share_url) => {
-      const rest_body = {
-        methodName: "getHistoryTrend",
-        p_url: encodeURIComponent(share_url),
-        t: Date.now().toString(),
-        c_appver: "4.8.3.1",
-        c_mmbDevId: getmmCK(),
-      };
-      rest_body.token = md5(
-        encodeURIComponent(
-          "3E41D1331F5DDAFCD0A38FE2D52FF66F" +
-            jsonToCustomString(rest_body) +
-            "3E41D1331F5DDAFCD0A38FE2D52FF66F"
-        )
-      ).toUpperCase();
-      return {
-        method: "post",
-        url: "https://apapia-history.manmanbuy.com/ChromeWidgetServices/WidgetServices.ashx",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-          "User-Agent":
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios",
-        },
-        body: jsonToQueryString(rest_body),
-      };
+    const shareUrl = `https://item.m.jd.com/product/${$.sku}.html`;
+    const rest_body = {
+      methodName: "getHistoryTrend",
+      p_url: encodeURIComponent(shareUrl),
+      t: Date.now().toString(),
+      c_appver: "4.8.3.1",
+      c_mmbDevId: getmmCK(),
+    };
+    rest_body.token = md5(
+      encodeURIComponent(
+        "3E41D1331F5DDAFCD0A38FE2D52FF66F" +
+        jsonToCustomString(rest_body) +
+        "3E41D1331F5DDAFCD0A38FE2D52FF66F"
+      )
+    ).toUpperCase();
+
+    const options = {
+      method: "post",
+      url: "https://apapia-history.manmanbuy.com/ChromeWidgetServices/WidgetServices.ashx",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios"
+      },
+      body: jsonToQueryString(rest_body)
     };
 
-    $.post(
-      options(`https://item.m.jd.com/product/${$.sku}.html`),
-      (error, response, data) => {
-        try {
-          data = JSON.parse(data);
-          if (
-            data?.ok == 1 &&
-            data?.single &&
-            data?.PriceRemark?.ListPriceDetail
-          ) {
-            const ListPriceDetail = data?.PriceRemark?.ListPriceDetail;
-
-            // 使用 find() 方法找到历史最低对象
-            const lower_data = ListPriceDetail.find(
-              (item) => item.ShowName == "历史最低"
-            );
-            if (lower_data) {
-              const { extraPrice, Price, Difference, Date } = lower_data;
-              $.Difference = Difference;
-              $.desc = `历史最低: ${Price || `¥${extraPrice}`} (${Date})`;
-            } else {
-              $.desc = `历史最低: 暂无`; // 如果未找到历史最低价，初始化 $.desc
-            }
-
-            // 获取当前到手价和商品信息
-            $.price = data?.recentlyZK?.currentprice || $.price;
-            $.skuName = data?.single?.title || $.skuName;
-            $.skuImg = data?.single?.smallpic || $.skuImg;
+    $.post(options, (error, response, data) => {
+      try {
+        data = JSON.parse(data);
+        if (data?.ok == 1 && data?.single && data?.PriceRemark?.ListPriceDetail) {
+          const lowerItem = data.PriceRemark.ListPriceDetail.find(item => item.ShowName === "历史最低");
+          if (lowerItem) {
+            const { extraPrice, Price, Difference, Date } = lowerItem;
+            $.Difference = Difference;
+            $.desc = `历史最低: ${Price || `¥${extraPrice}`} (${Date})`;
           } else {
-            $.desc = `历史最低: 暂无`; // 如果获取比价信息失败，初始化 $.desc
-            $.log(`获取比价信息失败`);
+            $.desc = "历史最低: 暂无";
           }
-        } catch (e) {
-          $.logErr(e, response);
-        } finally {
-          resolve();
+          $.price = data?.recentlyZK?.currentprice || $.price;
+          $.skuName = data?.single?.title || $.skuName;
+          $.skuImg = data?.single?.smallpic || $.skuImg;
+        } else {
+          $.desc = "历史最低: 暂无";
+          $.log("获取比价信息失败");
         }
+      } catch (e) {
+        $.logErr(e, response);
+      } finally {
+        resolve();
       }
-    );
+    });
   });
 }
 
-// 通知
+/** 发送通知 */
 async function notice() {
-  $.log(`发送通知`);
-  $.title = $.skuName;
+  $.log("发送通知");
+  $.title = $.skuName || "商品信息";
+  $.opts = { "auto-dismiss": 30 };
 
-  // 定义 opts 对象
-  $.opts = {
-    "auto-dismiss": 30, // 30 秒自动删除通知
-  };
-
-  // 确保 $.desc 已初始化
-  if (!$.desc) {
-    $.desc = ""; // 如果 $.desc 未初始化，设置为空字符串
-  }
-
+  $.desc = $.desc || "";
   if (/u\.jd\.com/.test($.shortUrl)) {
-    $.desc += `\n预计返利: ¥${(($.price * $.commissionShare) / 100).toFixed(
-      2
-    )}  ${$.commissionShare}%`;
-    $.desc += `\n当前到手: ¥${$.price}${
-      $.Difference ? `  ${$.Difference}` : ``
-    }`;
+    $.desc += `\n预计返利: ¥${(($.price * $.commissionShare) / 100).toFixed(2)}  ${$.commissionShare}%`;
+    $.desc += `\n当前到手: ¥${$.price}${$.Difference ? "  " + $.Difference : ""}`;
 
-    // 生成跳转链接
-    switch ($.appType) {
-      case "jdtj":
-        $.jumpUrl = `openjdlite://virtual?params=${encodeURIComponent(
-          `{"category":"jump","des":"m","url":"${$.shortUrl}"}`
-        )}`;
-        break;
-      default:
-        $.jumpUrl = `openApp.jdMobile://virtual?params=${encodeURIComponent(
-          `{"category":"jump","des":"m","sourceValue":"babel-act","sourceType":"babel","url":"${$.shortUrl}"}`
-        )}`;
-        break;
+    // 根据平台生成跳转链接
+    if ($.appType === "jdtj") {
+      $.jumpUrl = `openjdlite://virtual?params=${encodeURIComponent(
+        '{"category":"jump","des":"m","url":"' + $.shortUrl + '"}'
+      )}`;
+    } else {
+      $.jumpUrl = `openApp.jdMobile://virtual?params=${encodeURIComponent(
+        '{"category":"jump","des":"m","sourceValue":"babel-act","sourceType":"babel","url":"' + $.shortUrl + '"}'
+      )}`;
     }
-
-    // 添加跳转链接
-    if ($.jumpUrl) $.opts["$open"] = $.jumpUrl;
+    $.opts["$open"] = $.jumpUrl;
   } else {
-    $.desc += `\n预计返利: 暂无`;
-    $.log(`无佣金商品`);
+    $.desc += "\n预计返利: 暂无";
+    $.log("无佣金商品");
   }
-
-  // 添加媒体图片
   if ($.skuImg) $.opts["$media"] = $.skuImg;
-
-  // 修复 Loon 在 iOS 16 带有媒体导致无法正常通知的 bug
-  if ($.isLoon()) {
-    $.opts =
-      $loon.split(" ")[1].split(".")[0] === "16"
-        ? { ...$.opts, $media: undefined }
-        : $.opts;
+  if ($.isLoon() && $loon.split(" ")[1].split(".")[0] === "16") {
+    $.opts["$media"] = undefined;
   }
-
-  // 发送通知
   $.msg($.title, $.subt, $.desc, $.opts);
 }
 
-// 注入html
+/** 注入 HTML */
 async function hook_html() {
   $.log("开始注入html");
-
   const buttons = [
-    {
-      key: "mmm",
-      icon: "https://raw.githubusercontent.com/FoKit/Scripts/main/images/icon/mmm.png",
-    },
-    {
-      key: "smzdm",
-      icon: "https://raw.githubusercontent.com/FoKit/Scripts/main/images/icon/zdm.png",
-    },
-    {
-      key: "gwd",
-      icon: "https://raw.githubusercontent.com/FoKit/Scripts/main/images/icon/gwd.png",
-    },
-    {
-      key: "jf",
-      icon: "https://raw.githubusercontent.com/FoKit/Scripts/main/images/icon/jf.png",
-    },
-    {
-      key: "copy",
-      icon: "https://raw.githubusercontent.com/FoKit/Scripts/main/images/icon/copy.png",
-    },
-  ].filter((item) => $.button.includes(item.key) && $.sku);
+    { key: "mmm", icon: "https://raw.githubusercontent.com/FoKit/Scripts/main/images/icon/mmm.png" },
+    { key: "smzdm", icon: "https://raw.githubusercontent.com/FoKit/Scripts/main/images/icon/zdm.png" },
+    { key: "gwd", icon: "https://raw.githubusercontent.com/FoKit/Scripts/main/images/icon/gwd.png" },
+    { key: "jf", icon: "https://raw.githubusercontent.com/FoKit/Scripts/main/images/icon/jf.png" },
+    { key: "copy", icon: "https://raw.githubusercontent.com/FoKit/Scripts/main/images/icon/copy.png" }
+  ].filter(item => $.button.includes(item.key) && $.sku);
 
-  $.hook = `
+
+  const hookContent = `
   <style>
-    html,
-    body {
-        -webkit-user-select: auto !important;
-        user-select: auto !important;
-    }
-
-    #tools {
-        position: fixed;
-        z-index: 99999;
-        border: none;
-        top: 40%;
-    }
-
-    #tools.right {
-        right: 0;
-    }
-
-    #tools.left {
-        left: 0;
-    }
-
-    #tools button {
-        background-color: #fff;
-        padding: 3px 8px;
-        display: block;
-        margin-bottom: 5px;
-        box-shadow: -2px 1px 8px #888888;
-        border: 1px;
-    }
-
-    #tools img {
-        width: 25px;
-        height: 25px;
-        border-radius: 50%;
-        overflow: hidden;
-        position: relative;
-    }
-
-    #tools.right button {
-        border-radius: 50px 0 0 50px;
-    }
-
-    #tools.right button img {
-        left: -5px;
-    }
-
-    #tools.left button {
-        border-radius: 0 50px 50px 0;
-    }
-
-    #tools.left button img {
-        right: -5px;
-    }
-
+    html, body { -webkit-user-select: auto !important; user-select: auto !important; }
+    #tools { position: fixed; z-index: 99999; border: none; top: 40%; }
+    #tools.right { right: 0; }
+    #tools.left { left: 0; }
+    #tools button { background-color: #fff; padding: 3px 8px; display: block; margin-bottom: 5px; box-shadow: -2px 1px 8px #888888; border: 1px; }
+    #tools img { width: 25px; height: 25px; border-radius: 50%; overflow: hidden; position: relative; }
+    #tools.right button { border-radius: 50px 0 0 50px; }
+    #tools.right button img { left: -5px; }
+    #tools.left button { border-radius: 0 50px 50px 0; }
+    #tools.left button img { right: -5px; }
     /* 半透明黑色背景 */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      display: none;
-    }
-
+    .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999; display: none; }
     /* 圆角提示框 */
-    .custom-alert {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: white;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      z-index: 1000;
-      display: none;
-    }
+    .custom-alert { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; border-radius: 10px; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); z-index: 1000; display: none; }
   </style>
-
   <div id="tools" class="${$.buy_helper_LR}">
-    ${buttons
-      .map((item) => {
-        return `<button id="${item.key}"><img src="${item.icon}"/></button>`;
-      })
-      .join(`\n`)}
+    ${buttons.map(item => `<button id="${item.key}"><img src="${item.icon}" /></button>`).join("\n")}
   </div>
-
   <script>
-    // 值得买
-    const zdmbtn = document.querySelector('#smzdm')
-    zdmbtn && zdmbtn.addEventListener('click', async () => {
-      const link = "https://item.jd.com/${$.sku}.html";
-      try {
-        await navigator.clipboard.writeText(link);
-        console.log('复制成功: ' + link);
-        window.location.href = 'smzdm://';
-      } catch (err) {
-        console.error('复制失败: ', err);
-      }
+    // 通用复制并跳转函数（复制成功后跳转对应 APP）
+    function copyAndJump(link, scheme) {
+      navigator.clipboard.writeText(link).then(() => {
+        console.log("复制成功: " + link);
+        window.location.href = scheme;
+      }).catch((err) => {
+        console.error("复制失败: ", err);
+      });
+    }
+    // 按钮事件：均使用转链后的 $.shortUrl
+    const zdmbtn = document.getElementById("smzdm");
+    zdmbtn && zdmbtn.addEventListener("click", () => {
+      copyAndJump("${$.shortUrl}", "smzdm://");
     });
-
-    // 慢慢买
-    const mmmbtn = document.querySelector('#mmm')
-    mmmbtn && mmmbtn.addEventListener('click', async () => {
-      const link = "https://item.jd.com/${$.sku}.html";
-      try {
-        await navigator.clipboard.writeText(link);
-        console.log('复制成功: ' + link);
-        window.location.href = 'manmanbuy://';
-      } catch (err) {
-        console.error('复制失败: ', err);
-      }
+    const mmmbtn = document.getElementById("mmm");
+    mmmbtn && mmmbtn.addEventListener("click", () => {
+      copyAndJump("${$.shortUrl}", "manmanbuy://");
     });
-
-    // 购物党
-    const gwdbtn = document.querySelector('#gwd')
-    gwdbtn && gwdbtn.addEventListener('click', async () => {
-      const link = "https://item.jd.com/${$.sku}.html";
-      try {
-        await navigator.clipboard.writeText(link);
-        console.log('复制成功: ' + link);
-        window.location.href = 'gwdang://';
-      } catch (err) {
-        console.error('复制失败: ', err);
-      }
+    const gwdbtn = document.getElementById("gwd");
+    gwdbtn && gwdbtn.addEventListener("click", () => {
+      copyAndJump("${$.shortUrl}", "gwdang://");
     });
-
-    // 复制短链
-    const cpbtn = document.querySelector('#copy')
-    cpbtn && cpbtn.addEventListener('click', async () => {
-      const link = "${$.shortUrl}";
-      try {
-        await navigator.clipboard.writeText(link);
-        window.alert(link);
-        console.log('复制成功: ' + link);
-      } catch (err) {
-        console.error('复制失败: ', err);
-      }
+    // 复制短链按钮，弹出提示显示转链后的链接
+    const cpbtn = document.getElementById("copy");
+    cpbtn && cpbtn.addEventListener("click", () => {
+      navigator.clipboard.writeText("${$.shortUrl}").then(() => {
+        window.alert("${$.shortUrl}");
+        console.log("复制成功: ${$.shortUrl}");
+      }).catch((err) => {
+        console.error("复制失败: ", err);
+      });
     });
   </script>
   </html>`;
-  html = html.replace(/(<\/html>)/g, $.hook);
+  
+  html = html.replace(/<\/html>/, hookContent);
   $.log("注入html完成");
   $.done({ body: html });
 }
-
 
 
 function jsonToQueryString(jsonObject) {return Object.keys(jsonObject).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(jsonObject[key])}`).join('&');}
