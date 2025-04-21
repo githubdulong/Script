@@ -278,7 +278,7 @@ const getMMdata = (id) => {
 /** 获取比价信息 */
 async function get_price_comparison() {
     try {
-        const data = await getMMdata($.s ku);
+        const data = await getMMdata($.sku);
         if (data?.ok && data?.result?.priceRemark?.ListPriceDetail) {
           const lowerItem = data?.result?.priceRemark?.ListPriceDetail.find(item => item.ShowName === "历史最低");
           if (lowerItem) {
