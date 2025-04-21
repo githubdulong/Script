@@ -192,12 +192,6 @@ const $http = (op, t = 4) => {
 };
 
 const getMMdata = (id) => {
-  const getmmCK = () => {
-    const ck = $prs.get("慢慢买CK");
-    if (ck) return ck;
-    throw new Error("未获取ck，请先打开【慢慢买】APP--我的, 获取ck");
-  };
-
   const buildMultipart = (fields) => {
     const boundary =
       "----WebKitFormBoundary" + Math.random().toString(36).substr(2);
@@ -296,7 +290,7 @@ async function get_price_comparison() {
           $.log("获取比价信息失败");
         }
       } catch (e) {
-        $.logErr(e, response);
+        $.logErr(e);
       }
 }
 
