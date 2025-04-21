@@ -22,21 +22,34 @@ Promise.withResolvers ||= function () {
   return { promise, resolve, reject };
 };
 
-const http = (op) => {
+const $http = (op, t = 4) => {
   const { promise, resolve, reject } = Promise.withResolvers();
+  const HTTPError = (e, req, res) =>
+    Object.assign(new Error(e), {
+      name: "HTTPError",
+      request: req,
+      response: res,
+    });
 
-  this.$httpClient?.[op.method || "get"](op, (err, resp, data) =>
-    err ? reject(err) : resolve(JSON.parse(data))
+  const handleRes = ({ bodyBytes, ...res }) => {
+    res.status ??= res.statusCode;
+    res.json = () => JSON.parse(res.body);
+    if (res.headers?.["binary-mode"] && bodyBytes)
+      res.body = new Uint8Array(bodyBytes);
+
+    res.error || res.status < 200 || res.status > 307
+      ? reject(HTTPError(res.error, op, res))
+      : resolve(res);
+  };
+
+  const timer = setTimeout(
+    () => reject(HTTPError("timeout", op)),
+    op.$timeout ?? t * 1000
   );
-
-  this.$task?.fetch(op).then(
-    ({ body }) => resolve(JSON.parse(body)),
-    ({ error }) => reject(error)
-  );
-
-  const timer = setTimeout(() => {
-    reject(new Error("你超时了呀，我来盲猜一波，你没开直连"));
-  }, 4 * 1000);
+  this.$httpClient?.[op.method || "get"](op, (error, resp, body) => {
+    handleRes({ error, ...resp, body });
+  });
+  this.$task?.fetch({ url: op, ...op }).then(handleRes, handleRes);
 
   return promise.finally(() => clearTimeout(timer));
 };
@@ -50,7 +63,8 @@ const $prs = {
 };
 
 const $msg = (...a) => {
-  const { $open, $copy, $media, ...r } = typeof a.at(-1) === "object" && a.pop();
+  const { $open, $copy, $media, ...r } =
+    typeof a.at(-1) === "object" && a.pop();
   const [t = "", s = "", b = ""] = a;
   (this.$notify ??= $notification.post)(t, s, b, {
     action: $copy ? "clipboard" : "open-url",
@@ -66,36 +80,32 @@ const $msg = (...a) => {
   });
 };
 
-const toDate = (t) => {
-  const d = new Date(t - new Date().getTimezoneOffset() * 60000);
-  return d.toISOString().split("T")[0];
-};
+const $log = new Proxy((...args) => args.forEach((i) => console.log(
+    i?.stack
+      ? `${i.toString()}\n${i.stack}`
+      : typeof i === "object"
+      ? JSON.stringify(i, null, 4)
+      : String(i)
+  )), {
+  get(target) {
+    if (!target.init) {
+      target.time = (id) => (target.time[id] = Date.now());
+      target.timeEnd = (id) => target(Date.now() - target.time[id]);
+      target.show = (...a) => (b) => b && target(...a);
+      target.init = true;
+    }
 
-const parseNumber = (input) => {
-  const cleaned = `${input}`.replace(/[^0-9.-]/g, "");
-  return parseFloat(cleaned);
-};
-
-const formatNumber = (num) => (Number.isInteger(num) ? num : num.toFixed(2));
-
-const comparePrices = (a, b) => {
-  const diff = formatNumber(parseNumber(a) - parseNumber(b));
-
-  if (diff > 0) return `↑${diff}`;
-  if (diff < 0) return `↓${-diff}`;
-  return "●";
-};
+    return Reflect.get(...arguments);
+  },
+});
 
 const priceHistoryTable = (data) => {
-  if (data.err) return `<h2>${data.msg}</h2>`;
-
   const themeDetection = `
     <script>
       const setTimeBasedTheme = () => {
-        const currentHour = new Date().getHours();
-        const rootElement = document.documentElement;
-        
-        const isDarkTime = currentHour >= 19 || currentHour < 7;
+      const currentHour = new Date().getHours();
+      const isDarkTime = currentHour >= 19 || currentHour < 7;
+      const rootElement = document.documentElement;
         
         if (isDarkTime) {
           rootElement.setAttribute('data-theme', 'dark');
@@ -268,152 +278,152 @@ const priceHistoryTable = (data) => {
   return html;
 };
 
-const getJdData = (body) => {
-  const { jiagequshiyh } = body.single;
-  const jiageStr = jiagequshiyh.replace(/,\s*\]/g, ']');
-  const jiageData = JSON.parse(`[${jiageStr}]`).reverse().slice(0, 360);
+const Table = (result) => {
+  const toDate = (t = Date.now()) => {
+    const d = new Date(t - new Date().getTimezoneOffset() * 60000);
+    return d.toISOString().split("T")[0];
+  };
 
-  const { result } = jiageData.reduce(
-    (acc, cur, index, arr) => {
-      return acc
-        .getMinNumber(cur)
-        .getToday(index)
-        .getLowestPrice(index, arr)
-        .getHolidays(cur)
-        .getHistPrices(++index);
-    },
-    {
-      map: new Map([
-        ["当前到手价", []],
-        ["历史最低价", []],
-        ["六一八价格", []],
-        ["双十一价格", []],
-      ]),
+  const getJdData = (data) => {
+    return data.flatMap(({ ShowName, Difference, Price, Date }) => {
+      const re = /历史最高|常购价/;
+      if (re.test(ShowName)) return [];
 
-      price: Number.MAX_SAFE_INTEGER,
-      todayPrice: null,
-      time: null,
+      return [
+        {
+          name: ShowName,
+          date: Date || toDate(),
+          price: Price,
+          status: Difference.replace("-", "●"),
+        },
+      ];
+    });
+  };
 
-      get result() {
-        return [...this.map].flatMap(([name, [date, price, status]]) =>
-          date ? [{ name, date, price, status }] : []
-        );
-      },
+  const { ListPriceDetail } = result.priceRemark;
+  const tableData = {
+    groupName: "历史比价",
+    atts: getJdData(ListPriceDetail),
+  };
 
-      getToday(i) {
-        if (i === 0) {
-          this.todayPrice = this.price;
-          this.storePriceInfo("当前到手价");
-        }
+  return priceHistoryTable(tableData);
+};
 
-        return this;
-      },
-      getLowestPrice(i, arr) {
-        if (i === arr.length - 1) this.storePriceInfo("历史最低价");
+const getMMdata = (id) => {
+  const getmmCK = () => {
+    const ck = $prs.get("慢慢买CK");
+    if (ck) return ck;
+    throw new Error("未获取ck，请先打开【慢慢买】APP--我的, 获取ck");
+  };
 
-        return this;
-      },
-      getHolidays([time, price]) {
-        const holidays = ["11-11", "06-18"];
-        const date = toDate(time);
-        const holiday = holidays.find((h) => date.endsWith(h));
-        if (holiday) {
-          const title = holiday === "11-11" ? "双十一价格" : "六一八价格";
-          this.storePriceInfo(`${title}`, date, `¥${price.toFixed(2)}`);
-        }
+  const buildMultipart = (fields) => {
+    const boundary =
+      "----WebKitFormBoundary" + Math.random().toString(36).substr(2);
+    let body = "";
 
-        return this;
-      },
-      getHistPrices(i) {
-        if ([30, 60, 90, 180, 360].includes(i))
-          this.storePriceInfo(`${i}天最低`);
-
-        return this;
-      },
-      getMinNumber([time, price]) {
-        if (price < parseNumber(this.price)) {
-          this.price = `¥${price.toFixed(2)}`;
-          this.time = toDate(time);
-        }
-
-        return this;
-      },
-      storePriceInfo(key, date = this.time, price = this.price) {
-        const value = [date, price, comparePrices(this.todayPrice, price)];
-        this.map.set(key, value);
-      },
+    for (const [name, value] of Object.entries(fields)) {
+      body += `--${boundary}\r\n`;
+      body += `Content-Disposition: form-data; name="${name}"\r\n\r\n`;
+      body += `${value}\r\n`;
     }
-  );
+    body += `--${boundary}--\r\n`;
 
-  return result;
-};
+    return { body, boundary };
+  };
 
-const getmmCK = () => {
-  const ck =  $prs.get("慢慢买CK");
-  if (ck) return ck;
-  throw new Error("未获取ck，请先打开【慢慢买】APP--我的, 获取ck");
-};
-
-const getPriceData = async () => {
-  const op = (share_url) => {
-  const rest_body = {
-    methodName: "getHistoryTrend",
-    p_url: encodeURIComponent(share_url),
+  const shareBody = {
+    methodName: "trendJava",
+    spbh: `1|${id}`,
+    url: `https://item.jd.com/${id}.html`,
     t: Date.now().toString(),
     c_appver: "4.8.3.1",
     c_mmbDevId: getmmCK(),
   };
-  rest_body.token = md5(
+
+  shareBody.token = md5(
     encodeURIComponent(
       "3E41D1331F5DDAFCD0A38FE2D52FF66F" +
-        jsonToCustomString(rest_body) +
+        jsonToCustomString(shareBody) +
         "3E41D1331F5DDAFCD0A38FE2D52FF66F"
     )
   ).toUpperCase();
-  return {
-		method: "post",
-    url: "https://apapia-history.manmanbuy.com/ChromeWidgetServices/WidgetServices.ashx",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-      "User-Agent":
-        "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios",
-    },
-    body: jsonToQueryString(rest_body),
+
+  const headers = {
+    "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+    "User-Agent":
+      "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios",
   };
-};
-  
-  const body = await http(op(`https://item.m.jd.com/product/${$request.url.match(
-      /\d+/
-    )}.html`));
 
-  if (body.err) return body;
-
-  return {
-    groupName: "历史比价",
-    atts: getJdData(body),
+  const reqShare = {
+    method: "post",
+    url: "https://apapia-history-weblogic.manmanbuy.com/app/share",
+    headers,
+    body: jsonToQueryString(shareBody),
   };
+
+  return $http(reqShare)
+    .then((res) => {
+      const { msg, code, data } = res.json();
+      if (code !== 2000) throw new Error(msg);
+      if (!data) throw new Error(`${reqShare.url}: 无效数据`);
+
+      return new URL(data).searchParams;
+    })
+    .then((params) => {
+      const fields = {
+        shareId: params.get("shareId"),
+        sign: params.get("sign"),
+        spbh: params.get("spbh"),
+        url: params.get("url"),
+      };
+
+      const { body, boundary } = buildMultipart(fields);
+
+      const reqTrendData = {
+        method: "post",
+        url: "https://apapia-history-weblogic.manmanbuy.com/h5/share/trendData",
+        headers: {
+          "content-type": `multipart/form-data; boundary=${boundary}`,
+        },
+        body,
+      };
+
+      return $http(reqTrendData);
+    })
+    .then((res) => res.json());
 };
 
-getPriceData()
-  .then((priceData) => {
-    let { body, headers } = $response;
-    const tableHTML = priceHistoryTable(priceData);
-
-    body = body.replace("<body>", `<body>${tableHTML}`);
-
+const Render = {
+  inject(html) {
+    const { body } = $response;
+    $response.body = body.replace("<body>", `<body>${html}`);
+    return this;
+  },
+  done() {
+    const { body, headers } = $response;
     $done({ body, headers });
-  })
-  .catch((e) => {
-    console.log(e.toString());
-    console.log(e.stack)
-    $msg(e.toString());
-    $done({});
-  });
-  
-  
-function parseQueryString(queryString) {const jsonObject = {};const pairs = queryString.split('&');pairs.forEach(pair => {const [key, value] = pair.split('=');jsonObject[decodeURIComponent(key)] = decodeURIComponent(value || '');});return jsonObject;}
+  },
+};
 
-  
+const main = async () => {
+  try {
+    const ID = $request.url.match(/\d+/);
+    const { msg, code, result } = await getMMdata(ID);
+    if (code !== 2000) {
+      Render.inject(`<h2>${msg}</h2>`).done();
+      return;
+    }
+
+    Render.inject(Table(result)).done();
+  } catch (e) {
+    $log(e);
+    $done({});
+  }
+};
+
+main();
+
+
 function jsonToQueryString(jsonObject) {return Object.keys(jsonObject).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(jsonObject[key])}`).join('&');}
 
 
