@@ -1,12 +1,13 @@
 #!name=京东比价
-#!desc=京东App历史价格（商品详情页面触发）需CK
-#!arguments=MMMCK_SCRIPT_NAME:慢慢买CK
-#!arguments-desc=[参数设置]\n1. MMMCK_SCRIPT_NAME:慢慢买CK 脚本前往慢慢买App获取Cookie\n2.避免不必要的重写，禁用请设置为"#"
+#!desc=京东App历史价格（商品详情页面触发）表格
+#!arguments=MMMCK_SCRIPT:慢慢买CK
+#!arguments-desc=[参数设置]\n1. MMMCK_SCRIPT:慢慢买CK 脚本前往慢慢买App获取Cookie\n2.避免不必要的重写，禁用请设置为"#"
 
 [Script]
-{{{MMMCK_SCRIPT_NAME}}} = type=http-request,pattern=^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com/baoliao\/center\/menu,requires-body=1,max-size=0,binary-body-mode=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/MmmCK.js
+{{{MMMCK_SCRIPT}}} = type=http-request, pattern=^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$, script-path=https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js, requires-body=true, max-size=-1, timeout=60
 
-京东比价 = type=http-response,pattern=^https:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html,requires-body=1,max-size=0,binary-body-mode=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jd_price.js,timeout=30
+京东比价 = type=http-response, pattern=^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html, script-path=https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js, requires-body=true, max-size=-1, timeout=60
+
 
 [MITM]
 hostname = %APPEND% in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com
