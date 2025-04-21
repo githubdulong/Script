@@ -159,40 +159,128 @@ const getmmCK = () => {
   return ck;
 };
 
+const $http = (op, t = 4) => {
+  const { promise, resolve, reject } = Promise.withResolvers();
+  const HTTPError = (e, req, res) =>
+    Object.assign(new Error(e), {
+      name: "HTTPError",
+      request: req,
+      response: res,
+    });
+
+  const handleRes = ({ bodyBytes, ...res }) => {
+    res.status ??= res.statusCode;
+    res.json = () => JSON.parse(res.body);
+    if (res.headers?.["binary-mode"] && bodyBytes)
+      res.body = new Uint8Array(bodyBytes);
+
+    res.error || res.status < 200 || res.status > 307
+      ? reject(HTTPError(res.error, op, res))
+      : resolve(res);
+  };
+
+  const timer = setTimeout(
+    () => reject(HTTPError("timeout", op)),
+    op.$timeout ?? t * 1000
+  );
+  this.$httpClient?.[op.method || "get"](op, (error, resp, body) => {
+    handleRes({ error, ...resp, body });
+  });
+  this.$task?.fetch({ url: op, ...op }).then(handleRes, handleRes);
+
+  return promise.finally(() => clearTimeout(timer));
+};
+
+const getMMdata = (id) => {
+  const getmmCK = () => {
+    const ck = $prs.get("慢慢买CK");
+    if (ck) return ck;
+    throw new Error("未获取ck，请先打开【慢慢买】APP--我的, 获取ck");
+  };
+
+  const buildMultipart = (fields) => {
+    const boundary =
+      "----WebKitFormBoundary" + Math.random().toString(36).substr(2);
+    let body = "";
+
+    for (const [name, value] of Object.entries(fields)) {
+      body += `--${boundary}\r\n`;
+      body += `Content-Disposition: form-data; name="${name}"\r\n\r\n`;
+      body += `${value}\r\n`;
+    }
+    body += `--${boundary}--\r\n`;
+
+    return { body, boundary };
+  };
+
+  const shareBody = {
+    methodName: "trendJava",
+    spbh: `1|${id}`,
+    url: `https://item.jd.com/${id}.html`,
+    t: Date.now().toString(),
+    c_appver: "4.8.3.1",
+    c_mmbDevId: getmmCK(),
+  };
+
+  shareBody.token = md5(
+    encodeURIComponent(
+      "3E41D1331F5DDAFCD0A38FE2D52FF66F" +
+        jsonToCustomString(shareBody) +
+        "3E41D1331F5DDAFCD0A38FE2D52FF66F"
+    )
+  ).toUpperCase();
+
+  const headers = {
+    "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
+    "User-Agent":
+      "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios",
+  };
+
+  const reqShare = {
+    method: "post",
+    url: "https://apapia-history-weblogic.manmanbuy.com/app/share",
+    headers,
+    body: jsonToQueryString(shareBody),
+  };
+
+  return $http(reqShare)
+    .then((res) => {
+      const { msg, code, data } = res.json();
+      if (code !== 2000) throw new Error(msg);
+      if (!data) throw new Error(`${reqShare.url}: 无效数据`);
+
+      return new URL(data).searchParams;
+    })
+    .then((params) => {
+      const fields = {
+        shareId: params.get("shareId"),
+        sign: params.get("sign"),
+        spbh: params.get("spbh"),
+        url: params.get("url"),
+      };
+
+      const { body, boundary } = buildMultipart(fields);
+
+      const reqTrendData = {
+        method: "post",
+        url: "https://apapia-history-weblogic.manmanbuy.com/h5/share/trendData",
+        headers: {
+          "content-type": `multipart/form-data; boundary=${boundary}`,
+        },
+        body,
+      };
+
+      return $http(reqTrendData);
+    })
+    .then((res) => res.json());
+};
+
 /** 获取比价信息 */
 async function get_price_comparison() {
-  return new Promise((resolve) => {
-    const shareUrl = `https://item.m.jd.com/product/${$.sku}.html`;
-    const rest_body = {
-      methodName: "getHistoryTrend",
-      p_url: encodeURIComponent(shareUrl),
-      t: Date.now().toString(),
-      c_appver: "4.8.3.1",
-      c_mmbDevId: getmmCK(),
-    };
-    rest_body.token = md5(
-      encodeURIComponent(
-        "3E41D1331F5DDAFCD0A38FE2D52FF66F" +
-        jsonToCustomString(rest_body) +
-        "3E41D1331F5DDAFCD0A38FE2D52FF66F"
-      )
-    ).toUpperCase();
-
-    const options = {
-      method: "post",
-      url: "https://apapia-history.manmanbuy.com/ChromeWidgetServices/WidgetServices.ashx",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios"
-      },
-      body: jsonToQueryString(rest_body)
-    };
-
-    $.post(options, (error, response, data) => {
-      try {
-        data = JSON.parse(data);
-        if (data?.ok == 1 && data?.single && data?.PriceRemark?.ListPriceDetail) {
-          const lowerItem = data.PriceRemark.ListPriceDetail.find(item => item.ShowName === "历史最低");
+    try {
+        const data = await getMMdata($sku);
+        if (data?.ok && data?.result?.priceRemark?.ListPriceDetail) {
+          const lowerItem = data?.result?.priceRemark?.ListPriceDetail.find(item => item.ShowName === "历史最低");
           if (lowerItem) {
             const { extraPrice, Price, Difference, Date } = lowerItem;
             $.Difference = Difference;
@@ -209,11 +297,7 @@ async function get_price_comparison() {
         }
       } catch (e) {
         $.logErr(e, response);
-      } finally {
-        resolve();
       }
-    });
-  });
 }
 
 /** 发送通知 */
