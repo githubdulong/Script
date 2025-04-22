@@ -1,10 +1,10 @@
 /*
 
-# 2025-04-22 16:40
+# 2025-04-22 20:37
 # 京东购物助手，京推推转链+比价图表
 
 # 更新内容：
-# 比价脚本原作者@苍井灰灰，在基础上增加京推推商品返利转链（点通知）+比价折线图表格显示，适配暗黑与明亮模式（早7点、晚19点自动切换）
+# 比价脚本原作者@苍井灰灰，在基础上增加京推推商品返利转链（点通知）+比价折线图表格显示，适配暗黑与明亮模式（自定义切换）
 
 # Surge模块设置参数，或自己折腾Boxjs配置京推推参数
 
@@ -32,6 +32,10 @@ $.jd_positionId = !isEmpty(argObj["jd_position_id"]) ? argObj["jd_position_id"] 
 $.jtt_appid = !isEmpty(argObj["jtt_appid"]) ? argObj["jtt_appid"] : $.getdata("jtt_appid") || "";
 $.jtt_appkey = !isEmpty(argObj["jtt_appkey"]) ? argObj["jtt_appkey"] : $.getdata("jtt_appkey") || "";
 $.disableNotice = argObj["disable_notice"] === "false" ? false : true;
+const defaultThemeTime = "7-19";
+$.themeTime = !isEmpty(argObj["theme_time"])
+  ? argObj["theme_time"]
+  : $.getdata("theme_time") || defaultThemeTime;
 
 if (url.includes(path2)) {
     const reqbody = $request.body;
@@ -287,8 +291,11 @@ body, table {
 </style>
 <script>
 const setTimeBasedTheme = () => {
+    const themeTime = "${$.themeTime}".split("-");
+    let start = parseInt(themeTime[0]) || 7;
+    let end = parseInt(themeTime[1]) || 19;
     const currentHour = new Date().getHours();
-    const isDarkTime = currentHour >= 19 || currentHour < 7;
+    const isDarkTime = currentHour < start || currentHour >= end;
     document.documentElement.setAttribute('data-theme', isDarkTime ? 'dark' : 'light');
     console.log('Theme set to:', document.documentElement.getAttribute('data-theme'));
 };
