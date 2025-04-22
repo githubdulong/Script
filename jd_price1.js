@@ -1,32 +1,13 @@
 /*
-# 2024-09-16
-# 京东比价
-# 仅适用于京东App版本≤V12.4.3
-# 2024-12-22
-# 发现13.8.3又支持此脚本了
-# 脚本修改来源 https://raw.githubusercontent.com/githubdulong/Script/master/jd_price2.sgmodule
-# 1. 修复比价接口
-# 2. 之前只能QX，Surge，更换为Env,兼容Loon等，仅测试QX
-2025-01-04
-# 脚本抄袭来源 https://raw.githubusercontent.com/mw418/Loon/main/script/jd_price.js
-# 1. 京东很奇怪，标题下面的比价时有时无  所以增加点击【详情】显示比价(显示在页内)
-# 2. 抄袭上面的部分代码，让显示格式尽量对其
-2025-04-10
-# 修复比价接口
-2025-04-18
-# 修复比价接口
-# 首次使用请打开【慢慢买】APP，点击【我的】，提示【获取ck成功🎉】即可正常比价
-2025-04-21
-# 修复比价接口，显示为表格
 
-[rewrite_local]
-^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html url script-response-body https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js
-^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ url script-request-body https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js
+# 2025-04-22 12:09
+# 京东比价脚本，图表+折线
+# 更新内容：原作者@苍井灰灰，仅在基础上增加折线图显示，适配暗黑与明亮模式（早7点、晚19点自动切换）
 
-# ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html url script-response-body http://192.168.2.170:8080/jd_price.js
-# ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ url script-request-body http://192.168.2.170:8080/jd_price.js
-[mitm]
-hostname = in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com
+# 模块链接：https://raw.githubusercontent.com/githubdulong/Script/master/Surge/jd_price1.sgmodule
+
+# 原始链接：https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js
+
 */
 
 const path1 = '/product/graphext/';
@@ -80,7 +61,7 @@ if (url.includes(path1)) {
     })();
 }
 
-// ================ 工具函数区域 ================
+// ============= 工具函数区域 =============
 
 function checkRes(res, desc = '') {
     if (res.code !== 2000 || !res.result && !res.data) {
@@ -90,10 +71,23 @@ function checkRes(res, desc = '') {
 }
 
 function buildPriceTableHTML(priceList) {
+    // 校验 priceList
+    if (!Array.isArray(priceList) || priceList.length === 0) {
+        console.warn('priceList is empty or invalid, returning empty table');
+        return `
+<div class="price-container">
+  <table class="price-table">
+    <thead><tr><th>类型</th><th>日期</th><th>价格</th><th>差价</th></tr></thead>
+    <tbody><tr><td colspan="4">暂无数据</td></tr></tbody>
+  </table>
+</div>`;
+    }
+
     const rows = priceList.map(item => {
         let { Name: name, Date: date, Price: price = '', Difference: diff = '' } = item;
         if (name === '当前到手价') {
-            date = $.time('yyyy-MM-dd');
+            // 容错处理 $.time
+            date = typeof $.time === 'function' ? $.time('yyyy-MM-dd') : new Date().toISOString().split('T')[0];
             diff = '仅供参考';
         } else {
             date = date || '-';
@@ -108,7 +102,7 @@ function buildPriceTableHTML(priceList) {
     const chartData = priceList
         .filter(i => i.Price && !isNaN(parseFloat(String(i.Price).replace(/[¥\s]/g, ''))))
         .map(i => ({
-            date: i.Name === '当前到手价' ? $.time('yyyy-MM-dd') : (i.Date || '-'),
+            date: i.Name === '当前到手价' ? (typeof $.time === 'function' ? $.time('yyyy-MM-dd') : new Date().toISOString().split('T')[0]) : (i.Date || '-'),
             price: parseFloat(String(i.Price).replace(/[¥\s]/g, ''))
         }))
         .sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -116,6 +110,7 @@ function buildPriceTableHTML(priceList) {
     const labels = chartData.map(i => i.date);
     const prices = chartData.map(i => i.price);
 
+    // 仅返回 HTML 结构，CSS 和 JS 逻辑分离
     return `
 <div class="price-container">
   <table class="price-table">
@@ -125,21 +120,40 @@ function buildPriceTableHTML(priceList) {
   <canvas id="priceChart" height="100"></canvas>
 </div>
 <style>
-body,table {
+body, table {
     font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+/* 主题变量 */
+:root {
+    --background-color: #FFF9F9;
+    --text-color: #333;
+    --border-color: #EEE;
+    --shadow-color: rgba(0,0,0,0.05);
+}
+
+/* 暗黑模式变量 */
+[data-theme="dark"] {
+    --background-color: #2a2a2a;
+    --text-color: #f0f0f0;
+    --border-color: #444;
+    --shadow-color: rgba(0,0,0,0.2);
+}
+
 .price-container {
     max-width: 800px;
     margin: 10px auto;
     padding: 10px;
     font-size: 14px;
     font-weight: bold;
-    background: #FFF9F9;
-    color: #333;
+    background: var(--background-color);
+    color: var(--text-color);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px var(--shadow-color);
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
+
 .price-table {
     width: 100%;
     border-collapse: separate;
@@ -147,6 +161,7 @@ body,table {
     border-radius: 8px;
     overflow: hidden;
 }
+
 .price-table th {
     background: #e61a23;
     color: #fff;
@@ -154,22 +169,56 @@ body,table {
     text-align: left;
     font-weight: bold;
 }
+
 .price-table td {
     padding: 12px;
-    border-bottom: 1px solid #EEE;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
+
 .price-diff.up {
     color: #C91623;
 }
+
 .price-diff.down {
     color: #00aa00;
 }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-setTimeout(() => {
-    const ctx = document.getElementById('priceChart').getContext('2d');
-    new Chart(ctx, {
+const setTimeBasedTheme = () => {
+    const currentHour = new Date().getHours();
+    const isDarkTime = currentHour >= 19 || currentHour < 7;
+    document.documentElement.setAttribute('data-theme', isDarkTime ? 'dark' : 'light');
+    console.log('Theme set to:', document.documentElement.getAttribute('data-theme'));
+};
+
+// 图表初始化函数
+const initializeChart = () => {
+    const canvas = document.getElementById('priceChart');
+    if (!canvas) {
+        console.error('Canvas element not found for priceChart');
+        return;
+    }
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error('Canvas context not found for priceChart');
+        return;
+    }
+
+    if (window.priceChartInstance) {
+        window.priceChartInstance.destroy();
+    }
+
+    const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+    console.log('isDarkMode:', isDarkMode);
+
+    // 获取 CSS 变量 --text-color
+    const themeTextColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
+    console.log('themeTextColor from CSS:', themeTextColor);
+
+    // 图表配置
+    window.priceChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: ${JSON.stringify(labels)},
@@ -191,38 +240,83 @@ setTimeout(() => {
                     display: true,
                     labels: {
                         boxWidth: 12,
-                        font: { size: 12 }
+                        font: { size: 12 },
+                        color: themeTextColor
                     }
                 },
                 tooltip: {
+                    backgroundColor: isDarkMode ? '#444' : '#fff',
+                    titleColor: themeTextColor,
+                    bodyColor: themeTextColor,
                     callbacks: {
                         label: ctx => '¥' + ctx.raw
                     }
                 }
             },
             scales: {
-    x: {
-        title: {
-            display: true,
-            text: '日期',
-            align: 'start'
-        },
-        ticks: {
-            autoSkip: false
-        }
-    },
-    y: {
-        title: {
-            display: true,
-            text: '价格（元）'
-        },
-        beginAtZero: false
-    }
-}
+                x: {
+                    title: {
+                        display: true,
+                        text: '日期（1年）',
+                        align: 'start',
+                        color: themeTextColor,
+                        font: { size: 12 }
+                    },
+                    ticks: {
+                        autoSkip: false,
+                        color: themeTextColor,
+                        font: { size: 12 }
+                    },
+                    grid: {
+                        color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: '价格（元）',
+                        color: themeTextColor,
+                        font: { size: 12 }
+                    },
+                    ticks: {
+                        color: themeTextColor,
+                        font: { size: 12 }
+                    },
+                    grid: {
+                        color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                    },
+                    beginAtZero: false
+                }
+            }
         }
     });
-}, 0);
-</script>`;
+};
+
+// 初始化主题和图表
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeBasedTheme();
+    initializeChart();
+
+    // 动态监听主题变化
+    const observer = new MutationObserver(() => {
+        const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+        const newThemeTextColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
+        if (window.priceChartInstance) {
+            window.priceChartInstance.options.plugins.legend.labels.color = newThemeTextColor;
+            window.priceChartInstance.options.scales.x.title.color = newThemeTextColor;
+            window.priceChartInstance.options.scales.x.ticks.color = newThemeTextColor;
+            window.priceChartInstance.options.scales.y.title.color = newThemeTextColor;
+            window.priceChartInstance.options.scales.y.ticks.color = newThemeTextColor;
+            window.priceChartInstance.options.plugins.tooltip.titleColor = newThemeTextColor;
+            window.priceChartInstance.options.plugins.tooltip.bodyColor = newThemeTextColor;
+            window.priceChartInstance.options.plugins.tooltip.backgroundColor = isDarkMode ? '#444' : '#fff';
+            window.priceChartInstance.update();
+        }
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>`;
 }
 
 function get_options(extraParams = {}, url) {
