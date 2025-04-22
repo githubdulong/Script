@@ -17,7 +17,7 @@ const path1 = '/product/graphext/';
 const path2 = '/baoliao/center/menu'
 const manmanbuy_key = 'manmanbuy_val';
 const url = $request.url;
-const $ = new Env("京东比价");
+const $ = new Env("京东助手");
 // 获取模块传入参数
 const args = typeof $argument !== "undefined" ? $argument : "";
 $.log(`读取参数: ${args}`);
