@@ -144,7 +144,7 @@ body, table {
     max-width: 800px;
     margin: 10px auto;
     padding: 10px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
     background: var(--background-color);
     color: var(--text-color);
