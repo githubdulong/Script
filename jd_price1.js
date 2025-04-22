@@ -8,7 +8,7 @@
 
 # Surge模块设置参数，或自己折腾Boxjs配置京推推参数
 
-# 模块链接：https://raw.githubusercontent.com/githubdulong/Script/master/Surge/jd_price1.sgmodule
+# 模块链接：https://raw.githubusercontent.com/githubdulong/Script/master/Surge/JD_Helper.sgmodule
 
 
 */
