@@ -65,10 +65,11 @@ if (url.includes(path1)) {
 } else if (!$.disableNotice) {
     $.log("已禁用京推推返利和通知，仅显示比价图表");
 }
-            const parseRes = await SiteCommand_parse(shareUrl);
-            const parse = checkRes(parseRes, '获取 stteId');
+            //const parseRes = await SiteCommand_parse(shareUrl);
+            //const parse = checkRes(parseRes, '获取 stteId');
+            //const basicRes = await getItemBasicInfo(parse.stteId, parse.link);
+            const basicRes = await getItemBasicInfo_v1(shareUrl); //V1
 
-            const basicRes = await getItemBasicInfo(parse.stteId, parse.link);
             const basic = checkRes(basicRes, '获取 spbh');
 
             const shareRes = await share(basic.spbh, basic.url);
@@ -463,7 +464,18 @@ async function SiteCommand_parse(searchKey) {
     const opt = get_options(payload, url);
     return await httpRequest(opt);
 }
+// spbh jf_url V1
+async function getItemBasicInfo_v1(link) {
+    const url = 'https://apapia-history-weblogic.manmanbuy.com/basic/getItemBasicInfo';
+    const payload = {
+        methodName: "getHistoryInfoJava",
+        searchKey: link//https://item.m.jd.com/product/100131792509.html
+    };
+    const opt = get_options(payload, url);
+    return await httpRequest(opt);
+}
 
+// spbh jf_url V2
 async function getItemBasicInfo(stteId, link) {
     const url = 'https://apapia-history-weblogic.manmanbuy.com/basic/v2/getItemBasicInfo';
     const payload = { methodName: "getHistoryInfoJava", searchKey: link, stteId };
