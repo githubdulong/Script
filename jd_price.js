@@ -223,8 +223,6 @@ const Table = (result) => {
 
 const JdLine = (data) => {
   return `
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
     <style>
         /* 基础样式 */
@@ -505,8 +503,6 @@ const JdLine = (data) => {
         myChart.setOption(option);
 
         //监听折线图切换 歪门斜道的法子
-let scaleRestoreTimer = null;
-
 myChart.on('legendselectchanged', ({ name }) => {
   const max = series.find(i => i.name === name).data.length;
   myChart.setOption({
@@ -597,25 +593,14 @@ const getMMdata = (id) => {
         return body;
       });
 
-  return apiCall(
-    "https://apapia-common.manmanbuy.com/SiteCommand/parse",
-    (set) =>
-      set({
-        methodName: "commonMethod",
-        searchKey: `https://item.jd.com/${id}.html`,
-      })
-  )
-    .then(({ result: { stteId, link } }) =>
-      apiCall(
-        "https://apapia-history-weblogic.manmanbuy.com/basic/v2/getItemBasicInfo",
+  return  apiCall(
+            "https://apapia-history-weblogic.manmanbuy.com/basic/getItemBasicInfo",
         (set) =>
           set({
             methodName: "getHistoryInfoJava",
-            searchKey: link,
-            stteId,
+            searchKey: `https://item.jd.com/${id}.html`,
           })
       )
-    )
     .then(({ result: { spbh, url } }) =>
       apiCall(
         "https://apapia-history-weblogic.manmanbuy.com/app/share",
