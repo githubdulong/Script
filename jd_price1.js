@@ -1,6 +1,6 @@
 /*
 
-# 2025-04-22 20:37
+# 2025-04-24 10:05
 # 京东购物助手，京推推转链+比价图表
 
 # 更新内容：
@@ -98,7 +98,7 @@ async function jingfenJingTuiTui() {
     return new Promise((resolve) => {
         const options = {
             url: `http://japi.jingtuitui.com/api/universal?appid=${$.jtt_appid}&appkey=${$.jtt_appkey}&v=v3&unionid=${$.jd_unionId}&positionid=${$.jd_positionId}&content=https://item.jd.com/${$.sku}.html`,
-            timeout: 10 * 1000,
+            timeout: 20000,
             headers: { "Content-Type": "application/json;charset=utf-8" },
         };
         $.get(options, (err, resp, data) => {
@@ -522,7 +522,7 @@ async function httpRequest(options) {
         options = options.url ? options : { url: options };
         const _method = options?._method || ('body' in options ? 'post' : 'get');
         const _respType = options?._respType || 'body';
-        const _timeout = options?._timeout || 15000;
+        const _timeout = options?._timeout || 240000;
         const _http = [
             new Promise((_, reject) => setTimeout(() => reject(`⛔️ 请求超时: ${options['url']}`), _timeout)),
             new Promise((resolve, reject) => {
