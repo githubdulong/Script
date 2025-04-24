@@ -18,8 +18,15 @@ const path2 = '/baoliao/center/menu'
 const manmanbuy_key = 'manmanbuy_val';
 const url = $request.url;
 const $ = new Env("京东助手");
-// 获取模块传入参数
-const args = typeof $argument !== "undefined" ? $argument : "";
+// 获取模块或插件传入参数
+let args = "";
+if (typeof $argument === "string") {
+  args = $argument;
+} else if (typeof $argument === "object" && $argument !== null) {
+  args = Object.entries($argument)
+    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+    .join("&");
+}
 $.log(`读取参数: ${args}`);
 const argObj = Object.fromEntries(
 args.split("&").map(item => item.split("=").map(decodeURIComponent))
