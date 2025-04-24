@@ -98,7 +98,7 @@ async function jingfenJingTuiTui() {
     return new Promise((resolve) => {
         const options = {
             url: `http://japi.jingtuitui.com/api/universal?appid=${$.jtt_appid}&appkey=${$.jtt_appkey}&v=v3&unionid=${$.jd_unionId}&positionid=${$.jd_positionId}&content=https://item.jd.com/${$.sku}.html`,
-            timeout: 5000,
+            timeout: 100 * 1000,
             headers: { "Content-Type": "application/json;charset=utf-8" },
         };
         $.get(options, (err, resp, data) => {
