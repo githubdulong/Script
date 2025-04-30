@@ -10,7 +10,7 @@ http-request ^https?:\/\/(raw|gist)\.githubusercontent\.com\/{{{USERNAME}}} head
 http-request ^https?:\/\/(raw|gist)\.githubusercontent\.com\/{{{USERNAME}}} header-add Authorization "token {{{TOKEN}}}"
 
 # 全局防 429 语言设置
-http-request ^https?:\/\/(raw|gist)\.githubusercontent\.com\/.+ header-replace Accept-Language en-US
+http-request (raw|gist).githubusercontent.com header-replace Accept-Language en-us
 
 [MITM]
 hostname = %APPEND% raw.githubusercontent.com, gist.githubusercontent.com
