@@ -1,36 +1,36 @@
 /*
 
-# 2025-04-24 15:19
 # 京东购物助手，京推推转链+比价图表
 
 # 更新内容：
-# 比价脚本原作者@苍井灰灰，在基础上增加京推推商品返利转链（点通知）+比价折线图表格显示，适配暗黑与明亮模式（自定义切换）
+# 2025-05-01 14:53
+# 优化代码逻辑
 
-# Surge模块设置参数，或自己折腾Boxjs配置京推推参数
+# 2025-04-24 15:19
+# 比价图表适配暗黑模式，UI细节处理
+
+# 2025-04-22 12:11
+# 增加京推推商品返利转链
+# 增加比价折线图表格显示
+# 比价代码@苍井灰灰
+
+
+# Surge模块设置参数，详见模块注释内容
 
 # 模块链接：https://raw.githubusercontent.com/githubdulong/Script/master/Surge/JD_Helper.sgmodule
-
 
 */
 
 const path1 = '/product/graphext/';
-const path2 = '/baoliao/center/menu'
+const path2 = '/baoliao/center/menu';
 const manmanbuy_key = 'manmanbuy_val';
 const url = $request.url;
 const $ = new Env("京东助手");
+
 // 获取模块或插件传入参数
-let args = "";
-if (typeof $argument === "string") {
-  args = $argument;
-} else if (typeof $argument === "object" && $argument !== null) {
-  args = Object.entries($argument)
-    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
-    .join("&");
-}
+let args = (typeof $argument === "string") ? $argument : (typeof $argument === "object" && $argument !== null) ? Object.entries($argument).map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`).join("&") : "";
 $.log(`读取参数: ${args}`);
-const argObj = Object.fromEntries(
-args.split("&").map(item => item.split("=").map(decodeURIComponent))
-);
+const argObj = Object.fromEntries(args.split("&").map(item => item.split("=").map(decodeURIComponent)));
 const isEmpty = (val) => !val || val === "null";
 
 // 参数优先级：模块参数 > BoxJs 本地存储
@@ -40,9 +40,19 @@ $.jtt_appid = !isEmpty(argObj["jtt_appid"]) ? argObj["jtt_appid"] : $.getdata("j
 $.jtt_appkey = !isEmpty(argObj["jtt_appkey"]) ? argObj["jtt_appkey"] : $.getdata("jtt_appkey") || "";
 $.disableNotice = argObj["disable_notice"] === "false" ? false : true;
 const defaultThemeTime = "7-19";
-$.themeTime = !isEmpty(argObj["theme_time"])
-  ? argObj["theme_time"]
-  : $.getdata("theme_time") || defaultThemeTime;
+$.themeTime = !isEmpty(argObj["theme_time"]) ? argObj["theme_time"] : $.getdata("theme_time") || defaultThemeTime;
+
+async function fetchWithRetry(url, options, maxRetries = 3) {
+    for (let i = 0; i < maxRetries; i++) {
+        try {
+            return await $.get({ url, timeout: 30000, ...options });
+        } catch (error) {
+            $.log(`请求失败，第 ${i + 1} 次重试: ${error}`);
+            if (i === maxRetries - 1) throw error; 
+            await new Promise(res => setTimeout(res, 2000));
+        }
+    }
+}
 
 if (url.includes(path2)) {
     const reqbody = $request.body;
@@ -66,17 +76,14 @@ if (url.includes(path1)) {
         const shareUrl = `https://item.jd.com/${match[1]}.html`;
         try {
             if ($.disableNotice && $.jd_unionId && $.jtt_appid && $.jtt_appkey) {
-    $.sku = match[1];
-    await jingfenJingTuiTui();
-    await notice();
-} else if (!$.disableNotice) {
-    $.log("已禁用京推推返利和通知，仅显示比价图表");
-}
-            //const parseRes = await SiteCommand_parse(shareUrl);
-            //const parse = checkRes(parseRes, '获取 stteId');
-            //const basicRes = await getItemBasicInfo(parse.stteId, parse.link);
-            const basicRes = await getItemBasicInfo_v1(shareUrl); //V1
+                $.sku = match[1];
+                await jingfenJingTuiTui();
+                await notice();
+            } else if (!$.disableNotice) {
+                $.log("已禁用京推推返利和通知，仅显示比价图表");
+            }
 
+            const basicRes = await getItemBasicInfo_v1(shareUrl); // V1
             const basic = checkRes(basicRes, '获取 spbh');
 
             const shareRes = await share(basic.spbh, basic.url);
@@ -105,15 +112,17 @@ async function jingfenJingTuiTui() {
     return new Promise((resolve) => {
         const options = {
             url: `http://japi.jingtuitui.com/api/universal?appid=${$.jtt_appid}&appkey=${$.jtt_appkey}&v=v3&unionid=${$.jd_unionId}&positionid=${$.jd_positionId}&content=https://item.jd.com/${$.sku}.html`,
-            timeout: 20000,
-            headers: { "Content-Type": "application/json;charset=utf-8" },
+            timeout: 20000, 
+            headers: { "Content-Type": "application/json;charset=utf-8" }
         };
+
         $.get(options, (err, resp, data) => {
-            try {
-                if (err) {
-                    $.log("京推推 universal 请求失败：" + $.toStr(err));
-                } else {
-                    data = JSON.parse(data);
+            if (err) {
+                $.log("京推推 universal 请求失败：" + $.toStr(err)); 
+                $.logErr("转链过程中的错误: " + err);
+            } else {
+                try {
+                    data = JSON.parse(data); 
                     if (data["return"] == 0) {
                         const linkData = data?.result?.link_date?.[0] || {};
                         const { chain_link, goods_info } = linkData;
@@ -125,39 +134,34 @@ async function jingfenJingTuiTui() {
                             $.skuName = skuName;
                             $.skuImg = imageInfo.imageList?.[0]?.url;
                         }
-                        $.shortUrl = chain_link;
+                        $.shortUrl = chain_link || ""; 
                         $.log("转链完成，短链地址：" + $.shortUrl);
                     } else {
-                        $.log("转链返回异常：" + $.toStr(data));
+                        $.log("转链返回异常：" + JSON.stringify(data));
                     }
+                } catch (e) {
+                    $.logErr("JSON 解析失败: " + e.message); 
                 }
-            } catch (e) {
-                $.logErr(e, resp);
-            } finally {
-                resolve();
             }
+            resolve(); 
         });
     });
 }
+
 /** 发送通知 */
 async function notice() {
     $.log("发送通知");
     $.title = $.skuName || "商品信息";
     $.opts = { "auto-dismiss": 30 };
-
     $.desc = $.desc || "";
     if (/u\.jd\.com/.test($.shortUrl)) {
         $.desc += `预计返利: ¥${(($.price * $.commissionShare) / 100).toFixed(2)}  ${$.commissionShare}%`;
 
         // 根据平台生成跳转链接
         if ($.appType === "jdtj") {
-            $.jumpUrl = `openjdlite://virtual?params=${encodeURIComponent(
-                '{"category":"jump","des":"m","url":"' + $.shortUrl + '"}'
-            )}`;
+            $.jumpUrl = `openjdlite://virtual?params=${encodeURIComponent('{"category":"jump","des":"m","url":"' + $.shortUrl + '"}')}`;
         } else {
-            $.jumpUrl = `openApp.jdMobile://virtual?params=${encodeURIComponent(
-                '{"category":"jump","des":"m","sourceValue":"babel-act","sourceType":"babel","url":"' + $.shortUrl + '"}'
-            )}`;
+            $.jumpUrl = `openApp.jdMobile://virtual?params=${encodeURIComponent('{"category":"jump","des":"m","sourceValue":"babel-act","sourceType":"babel","url":"' + $.shortUrl + '"}')}`;
         }
         $.opts["$open"] = $.jumpUrl;
     } else {
@@ -165,11 +169,9 @@ async function notice() {
         $.log("无佣金商品");
     }
     if ($.skuImg) $.opts["$media"] = $.skuImg;
-    if ($.isLoon() && $loon.split(" ")[1].split(".")[0] === "16") {
-        $.opts["$media"] = undefined;
-    }
     $.msg($.title, $.subt, $.desc, $.opts);
 }
+
 function checkRes(res, desc = '') {
     if (res.code !== 2000 || !res.result && !res.data) {
         throw new Error(`慢慢买提示您：${res.msg || `${desc}失败`}`);
@@ -178,46 +180,32 @@ function checkRes(res, desc = '') {
 }
 
 function buildPriceTableHTML(priceList) {
-    // 校验 priceList
+
     if (!Array.isArray(priceList) || priceList.length === 0) {
         console.warn('priceList is empty or invalid, returning empty table');
-        return `
-<div class="price-container">
-  <table class="price-table">
-    <thead><tr><th>类型</th><th>日期</th><th>价格</th><th>差价</th></tr></thead>
-    <tbody><tr><td colspan="4">暂无数据</td></tr></tbody>
-  </table>
-</div>`;
+        return `<div class="price-container">
+                  <table class="price-table">
+                    <thead><tr><th>类型</th><th>日期</th><th>价格</th><th>差价</th></tr></thead>
+                    <tbody><tr><td colspan="4">暂无数据</td></tr></tbody>
+                  </table>
+                </div>`;
     }
 
     const rows = priceList.map(item => {
         let { Name: name, Date: date, Price: price = '', Difference: diff = '' } = item;
-        if (name === '当前到手价') {
-            // 容错处理 $.time
-            date = typeof $.time === 'function' ? $.time('yyyy-MM-dd') : new Date().toISOString().split('T')[0];
-            diff = '仅供参考';
-        } else {
-            date = date || '-';
-        }
-        let diffClass = '';
-        if (diff.startsWith('↑')) diffClass = 'up';
-        else if (diff.startsWith('↓')) diffClass = 'down';
+        date = name === '当前到手价' ? (typeof $.time === 'function' ? $.time('yyyy-MM-dd') : new Date().toISOString().split('T')[0]) : date || '-';
+        let diffClass = (diff.startsWith('↑') ? 'up' : (diff.startsWith('↓') ? 'down' : ''));
         return `<tr><td>${name}</td><td>${date}</td><td>${price}</td><td class="price-diff ${diffClass}">${diff}</td></tr>`;
     }).join('');
 
-    // 提取可用于图表的数据（过滤空价格）
-    const chartData = priceList
-        .filter(i => i.Price && !isNaN(parseFloat(String(i.Price).replace(/[¥\s]/g, ''))))
-        .map(i => ({
-            date: i.Name === '当前到手价' ? (typeof $.time === 'function' ? $.time('yyyy-MM-dd') : new Date().toISOString().split('T')[0]) : (i.Date || '-'),
-            price: parseFloat(String(i.Price).replace(/[¥\s]/g, ''))
-        }))
-        .sort((a, b) => new Date(a.date) - new Date(b.date));
+    const chartData = priceList.filter(i => i.Price && !isNaN(parseFloat(String(i.Price).replace(/[¥\s]/g, '')))).map(i => ({
+        date: i.Name === '当前到手价' ? (typeof $.time === 'function' ? $.time('yyyy-MM-dd') : new Date().toISOString().split('T')[0]) : (i.Date || '-'),
+        price: parseFloat(String(i.Price).replace(/[¥\s]/g, ''))
+    })).sort((a, b) => new Date(a.date) - new Date(b.date));
 
     const labels = chartData.map(i => i.date);
     const prices = chartData.map(i => i.price);
 
-    // 仅返回 HTML 结构，CSS 和 JS 逻辑分离
     return `
 <div class="price-container">
   <table class="price-table">
@@ -249,15 +237,15 @@ body, table {
 
 .price-container {
     max-width: 800px;
-    margin: 0 auto; /* 去除上下间距 */
+    margin: 0 auto; 
     padding: 10px;
     font-size: 13px;
     font-weight: bold;
     background: var(--background-color);
     color: var(--text-color);
-    border-radius: 0; /* 去除圆角 */
+    border-radius: 0; 
     overflow: hidden;
-    box-shadow: none; /* 去除阴影 */
+    box-shadow: none; 
     transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -474,10 +462,7 @@ async function SiteCommand_parse(searchKey) {
 // spbh jf_url V1
 async function getItemBasicInfo_v1(link) {
     const url = 'https://apapia-history-weblogic.manmanbuy.com/basic/getItemBasicInfo';
-    const payload = {
-        methodName: "getHistoryInfoJava",
-        searchKey: link//https://item.m.jd.com/product/100131792509.html
-    };
+    const payload = { methodName: "getHistoryInfoJava", searchKey: link };
     const opt = get_options(payload, url);
     return await httpRequest(opt);
 }
