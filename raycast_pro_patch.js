@@ -1,14 +1,15 @@
 /*
 ------------------------------------------
-# Raycast 解锁 Pro 订阅
+# Raycast 解锁
 # 测试版本：1.0.2
-# 更新日期：2025.05.04 12:38
+# 更新日期：2025.05.04 13:33
 
-1.加载Raycast解锁 Pro 脚本
-2.登录账户后先试用订阅（如果选择试用Pro订阅就得搭配通杀脚本解锁Ai模型，如果选择试用高级订阅包含Ai模型订阅可能不需要再搭配通杀脚本。记得试用后立马取消订阅）
-3.通杀脚本解锁 Ai 模型
+# 登录账户后先试用订阅（选择高级版本试用，记得试用后立马取消订阅）
 
-注意事项：该脚本仅解锁 Pro 订阅，需另行搭配通杀脚本解锁 Ai 模型订阅，脚本仅供调试，切勿传播
+注意事项：
+# 如果选择试用普通版 pro 订阅就只会解锁 Pro 订阅，需另行搭配通杀脚本解锁 Ai 模型订阅。如果选择试用高级版订阅（包含 Ai 模型）就会解锁高级版本订阅。
+# 解锁账户订阅，如果更换账户将失去订阅。
+# 该脚本仅供调试使用，请于24小时内删除，切勿传播。
 ------------------------------------------
 [Script]
 Raycast_pro = type=http-response,pattern=^https:\/\/backend\.raycast\.com\/api\/v1\/(me|ai\/models|me\/sync.*)$,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/raycast_pro_patch.js
