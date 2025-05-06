@@ -8,7 +8,7 @@ ChatGPT键盘 修改自@Neurogram
 	•	支持多轮对话
 	•	支持显示提示的长度
 	•	支持显示使用的 Token 提醒
-	•	支持独立开喷模式“支持单击或按压连发模式”
+	•	支持连点三次切换“开喷、吐槽”模式，开喷模式支持单击或按压开启单发或连发模式
 
 教程：点击这里查看手册 https://neurogram.notion.site/ChatGPT-Keyboard-af8f7c74bc5c47989259393c953b8017
 
@@ -16,7 +16,7 @@ ChatGPT键盘 修改自@Neurogram
 const api_key = " " //  填写 key
 const openai_proxy_url = " "; // 可选的第三方代理地址，留空或注释掉以禁用代理
 const model = "gpt-4"
-const user_gesture = { // Generated results: 0: auto-wrap 1: overwrite selected/all prompts  
+const user_gesture = { // Generated results: 0: auto-wrap 1: overwrite selected/all prompts
     tap: 1,
     long_press: 0
 }
@@ -42,7 +42,7 @@ const role_data = { // "Role Name": ["System Content", "Prompts Template"]
     "润色": ["", "用相同语言对内容进行润色或优化。"],
     "译为英文": ["将所给内容翻译成美式英语。", ""],
     "扩展": ["", "你是一名高级网络工程师兼自动化脚本专家，精通 Surge、JSBox、JavaScript 和 API 调用，且具有极强的逻辑分析与优化能力。请从专业技术视角出发，基于以下内容，进行详细推演、拓展、优化或修复建议，以利于高效实现目标功能：\n\n{USER_CONTENT}"],
-    "开喷": ["", "使用相同语言启动强烈的怼人模式，进行尖锐的反击讽刺与谩骂。"], //重命名将废弃狂暴接口，调用GPT斯文接口
+    "吐槽": ["", "使用相同语言启动强烈的怼人模式，进行尖锐的反击讽刺与吐槽。"], // 连续点击三次切换模式
     "译为日文": ["将所给内容翻译成日语。", ""]
 }
 const edit_tool = {
@@ -65,9 +65,18 @@ $app.theme = "auto"
 let generating = false
 let timer = ""
 let generating_icon = 0
-let trollTimer = null 
+let trollTimer = null
+let sprayButtonTapCount = 0
 
-const view = {    
+// --- MODIFICATION 3 START: Persist sprayButtonMode ---
+const spray_mode_cache_key = "chatgpt_keyboard_spray_mode_v1"; 
+let sprayButtonMode = $cache.get(spray_mode_cache_key) || "吐槽"; 
+// --- MODIFICATION 3 END ---
+
+let lastSprayButtonTapTime = 0
+const tripleTapInterval = 500 
+
+const view = {
     props: {
         title: "ChatGPT",
         navBarHidden: $app.env == $env.keyboard,
@@ -78,7 +87,7 @@ const view = {
         props: {
             spacing: keyboard_spacing,
             bgcolor: $color("clear"),
-            data: dataPush(Object.keys(edit_tool).concat(Object.keys(role_data))),
+            data: dataPush(Object.keys(edit_tool).concat(Object.keys(role_data))), 
             template: {
                 props: {},
                 views: [{
@@ -88,26 +97,87 @@ const view = {
                         radius: 10,
                         titleColor: $color("black", "white"),
                         tintColor: $color("black", "white"),
-                        bgcolor: $color("#FFFFFF", "#6B6B6B"),
-                        font: $font(14)                                                     
+                        // bgcolor is now set dynamically in dataPush for the special button
+                        font: $font(14)
                     },
                     layout: $layout.fill,
                     events: {
+                        // --- MODIFIED tapped function (Bug fix + Persist state) ---
                         tapped: function (sender, indexPath, data) {
+                            if (trollTimer) {
+                                clearInterval(trollTimer);
+                                trollTimer = null;
+                            }
 
-                            if (trollTimer) {
-                                clearInterval(trollTimer);
-                                trollTimer = null;
+                            const originalButtonTitle = sender.title;
+
+                            if (originalButtonTitle === "开喷" || originalButtonTitle === "吐槽") {
+                                const currentTime = Date.now();
+                                let isTripleTapSuccess = false;
+
+                                if (currentTime - lastSprayButtonTapTime < tripleTapInterval) {
+                                    sprayButtonTapCount++;
+                                    if (sprayButtonTapCount === 3) {
+                                        isTripleTapSuccess = true;
+                                        sprayButtonMode = (sprayButtonMode === "开喷") ? "吐槽" : "开喷";
+                                        sender.title = sprayButtonMode;
+                                        sender.bgcolor = (sprayButtonMode === "开喷") ? $color("#FFF0F0", "#806B6B") : $color("#FFFFFF", "#6B6B6B");
+                                        $ui.toast(`已切换至“${sprayButtonMode}”模式`);
+                                        $cache.set(spray_mode_cache_key, sprayButtonMode); // Save current mode
+                                        sprayButtonTapCount = 0;
+                                        lastSprayButtonTapTime = 0;
+                                        return; 
+                                    }
+                                } else {
+                                    sprayButtonTapCount = 1;
+                                }
+                                lastSprayButtonTapTime = currentTime;
+
+                                if (!isTripleTapSuccess) {
+                                    $delay(tripleTapInterval + 100, () => {
+                                        if (Date.now() - lastSprayButtonTapTime >= tripleTapInterval && sprayButtonTapCount > 0 && sprayButtonTapCount < 3) {
+                                            sprayButtonTapCount = 0;
+                                        }
+                                    });
+                                }
+
+                                // Action based on the button's title when it was tapped
+                                if (originalButtonTitle === "开喷") {
+                                    if (keyboard_sound) $keyboard.playInputClick();
+                                    if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate);
+                                    fetchTextAndSend(); // Perform "开喷" action
+                                } else if (originalButtonTitle === "吐槽") {
+                                    // handler() itself will play sound & vibrate
+                                    handler(sender, "tap"); // Perform "吐槽" action
+                                }
+                            } else {
+                                // For any other button, reset the tap count for the special button
+                                sprayButtonTapCount = 0;
+                                handler(sender, "tap");
                             }
-                            handler(sender, "tap");
                         },
+                        // --- END OF MODIFIED tapped function ---
                         longPressed: function (info, indexPath, data) {
-                            
                             if (trollTimer) {
                                 clearInterval(trollTimer);
                                 trollTimer = null;
                             }
-                            handler(info.sender, "long_press");
+                            const buttonTitle = info.sender.title;
+                            // Long press "开喷" only works if button currently shows "开喷" AND internal mode is "开喷"
+                            if (buttonTitle === "开喷" && sprayButtonMode === "开喷") {
+                                if (keyboard_sound) $keyboard.playInputClick();
+                                if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate);
+                                if (trollTimer) {
+                                    clearInterval(trollTimer);
+                                    trollTimer = null;
+                                }
+                                trollTimer = setInterval(() => {
+                                    fetchTextAndSend();
+                                }, 1000);
+                                $ui.toast("长按连续开喷中，再次点击停止");
+                            } else {
+                                handler(info.sender, "long_press");
+                            }
                         }
                     }
                 }]
@@ -127,7 +197,6 @@ const view = {
                 },
                 events: {
                     tapped: async (sender) => {
-                        
                         if (trollTimer) {
                             clearInterval(trollTimer);
                             trollTimer = null;
@@ -164,7 +233,6 @@ const view = {
                         })
                     },
                     longPressed: function (info) {
-                        
                         if (trollTimer) {
                             clearInterval(trollTimer);
                             trollTimer = null;
@@ -204,27 +272,52 @@ if ($app.env === $env.keyboard) {
     $ui.render(view)
 }
 
+// --- MODIFIED dataPush function (Icon-only edit tools + Stateful "吐槽" button appearance) ---
 function dataPush(data) {
-    let key_title = []
+    let key_title = [];
     for (let i = 0; i < data.length; i++) {
+        const configName = data[i]; // Name from edit_tool or role_data
+        let displayTitle = configName;
+        let displayBgColor = $color("#FFFFFF", "#6B6B6B"); // Default color
+
+        if (i < edit_tool_amount) { // Is an edit tool button
+            displayTitle = ""; // Remove text for edit tools
+        } else { // Is a role button
+            // Handle stateful "吐槽" button, its appearance depends on sprayButtonMode
+            if (configName === "吐槽") { 
+                displayTitle = sprayButtonMode; // Its title is the current persisted/loaded mode ("开喷" or "吐槽")
+                if (sprayButtonMode === "开喷") {
+                    displayBgColor = $color("#FFF0F0", "#806B6B"); // Special color for "开喷" state
+                } else { // sprayButtonMode is "吐槽"
+                    displayBgColor = $color("#FFFFFF", "#6B6B6B"); // Default color for "吐槽" state
+                }
+            } else if (configName === "开喷") {
+                // This handles if a role is literally named "开喷" in role_data (distinct from "吐槽" button's state)
+                // For consistency, it should also get the "开喷" color.
+                displayBgColor = $color("#FFF0F0", "#806B6B");
+            }
+            // For other role buttons, displayTitle remains configName and displayBgColor remains default.
+        }
+
         key_title.push({
             button: {
-                title: i < edit_tool_amount ? "" : data[i],
-                symbol: i < edit_tool_amount ? edit_tool[data[i]] : "",
-                info: { action: i < edit_tool_amount ? data[i] : "" },
-                bgcolor: data[i] === "开喷" ? $color("#FFF0F0", "#806B6B") : $color("#FFFFFF", "#6B6B6B") 
+                title: displayTitle,
+                symbol: i < edit_tool_amount ? edit_tool[configName] : "",
+                info: { action: i < edit_tool_amount ? configName : "" },
+                bgcolor: displayBgColor // Use the determined background color
             }
-        })
+        });
     }
-    return key_title
+    return key_title;
 }
+// --- END OF MODIFIED dataPush function ---
 
 function handler(sender, gesture) {
     if (keyboard_sound) $keyboard.playInputClick()
     if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate)
     if ($app.env != $env.keyboard) return $ui.warning("请在键盘内运行")
     if (sender.info.action) return edit(sender.info.action, gesture)
-    gpt(sender.title, gesture)
+    gpt(sender.title, gesture) // Pass current button title to gpt
 }
 
 async function edit(action, gesture) {
@@ -254,28 +347,18 @@ async function edit(action, gesture) {
     }
 }
 
-async function gpt(role, gesture) {
+async function gpt(role, gesture) { // 'role' here is the button's current title
     if (generating) return $ui.warning("正在生成中");
 
-    if (role === "开喷") {
-        if (keyboard_sound) $keyboard.playInputClick();
-        if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate);
-
-        if (gesture === "tap") {
-            fetchTextAndSend();
-        } else if (gesture === "long_press") {
-            if (trollTimer) {
-                clearInterval(trollTimer);
-                trollTimer = null;
-            }
-            trollTimer = setInterval(() => {
-                fetchTextAndSend();
-            }, 1000); 
-            $ui.toast("长按连续开喷中，再次点击按钮停止");
-        }
+    // This check might be less relevant now since "开喷" action is directly handled by fetchTextAndSend
+    // and gpt() will be called with role "吐槽" if that button is tapped.
+    // However, keeping it doesn't harm if sprayButtonMode is also checked.
+    if (role === "开喷" && sprayButtonMode === "开喷") {
+        // This situation (gpt called with "开喷" title when in "开喷" mode)
+        // shouldn't happen with the revised tapped logic, as fetchTextAndSend is called directly.
+        // If it ever does, returning might be safe.
         return;
     }
-
 
     let user_content = await get_content(0);
     if (!user_content && !multi_turn) return $ui.warning("未找到提示");
@@ -288,7 +371,7 @@ async function gpt(role, gesture) {
 
         if (!user_content.match(/⚙️ 系统:[^🔚]+/)) {
             $ui.warning("未找到对话");
-            $keyboard.insert(`\n⚙️ 系统:\n${role_data[role][0] || "-"}🔚\n\n👨‍💻 用户:\n`);
+            $keyboard.insert(`\n⚙️ 系统:\n${role_data[role] ? role_data[role][0] || "-" : "-"}🔚\n\n👨‍💻 用户:\n`); // Use role_data[role] if role exists
             generating = false;
             return;
         }
@@ -308,8 +391,10 @@ async function gpt(role, gesture) {
             return;
         }
 
-        let system_content = user_content.match(/⚙️ 系统:\n([^🔚]+)/)[1];
-        if (system_content != "-") messages = [{ "role": "system", "content": system_content }].concat(messages);
+        let system_content_match = user_content.match(/⚙️ 系统:\n([^🔚]+)/);
+        if (system_content_match && system_content_match[1] != "-") {
+             messages = [{ "role": "system", "content": system_content_match[1] }].concat(messages);
+        }
     }
 
     if (!multi_turn) {
@@ -319,10 +404,13 @@ async function gpt(role, gesture) {
         }
 
         if (user_gesture[gesture] && !$keyboard.selectedText) delete_content(user_content.length);
+        
+        // Use role_data for the given role (button title)
+        if (role_data[role] && role_data[role][0]) {
+            messages.push({ "role": "system", "content": role_data[role][0] });
+        }
 
-        if (role_data[role][0]) messages.push({ "role": "system", "content": role_data[role][0] });
-
-        let preset_prompt = role_data[role][1];
+        let preset_prompt = role_data[role] ? role_data[role][1] : "";
         if (preset_prompt && !preset_prompt.match(/{USER_CONTENT}/)) user_content = preset_prompt + "\n" + user_content;
         if (preset_prompt && preset_prompt.match(/{USER_CONTENT}/)) user_content = preset_prompt.replace(/{USER_CONTENT}/g, user_content);
 
@@ -407,23 +495,28 @@ async function fetchTextAndSend() {
         handler: async function(resp) {
             if (resp.error) {
                 $ui.error("获取文本失败: " + resp.error.message);
+                // Restore footer symbol if error, similar to gpt function's error handling
+                if (timer) timer.invalidate();
+                set_bubble();
+                generating = false; // Assuming fetchTextAndSend might also set generating
+                generating_icon = 0;
                 return;
             }
-            var text = resp.data; 
-            $keyboard.insert(text); 
-            $keyboard.send(); 
+            var text = resp.data;
+            $keyboard.insert(text);
+            // Consider if $keyboard.send() is always desired here or should be conditional
+            // For now, keeping original behavior.
+            $keyboard.send(); // Original script had this, but it might be too aggressive.
+                               // Usually, user types and then presses send.
+                               // For "开喷", perhaps it's intended.
 
-            if (heartbeat != -1) {
-                $device.taptic(heartbeat); 
-                $("footer").symbol = "ellipsis.bubble.fill"; 
-                await $wait(0.2); 
-                $device.taptic(heartbeat); 
-                $("footer").symbol = "ellipsis.bubble"; 
-            } else {
-                $("footer").symbol = "ellipsis.bubble.fill";
-                await $wait(0.2);
-                $("footer").symbol = "ellipsis.bubble";
+            // Visual feedback similar to gpt() completion, but simpler as it's not a timer loop
+            if (heartbeat != -1) { // Quick feedback
+                $device.taptic(heartbeat);
             }
+            $("footer").symbol = "paperplane.fill"; // Indicate sent/done
+            await $wait(0.5); // Show feedback briefly
+            set_bubble(); // Restore normal footer symbol
         }
     });
 }
