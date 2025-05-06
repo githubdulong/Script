@@ -14,7 +14,7 @@ ChatGPT键盘 修改自@Neurogram
 
 */
 const api_key = " " //  填写 key
-const openai_proxy_url = "https://api.nio.gs"; // 可选的第三方代理地址，留空或注释掉以禁用代理
+const openai_proxy_url = " "; // 可选的第三方代理地址，留空或注释掉以禁用代理
 const model = "gpt-4"
 const user_gesture = { // Generated results: 0: auto-wrap 1: overwrite selected/all prompts  
     tap: 1,
@@ -42,7 +42,7 @@ const role_data = { // "Role Name": ["System Content", "Prompts Template"]
     "润色": ["", "用相同语言对内容进行润色或优化。"],
     "译为英文": ["将所给内容翻译成美式英语。", ""],
     "扩展": ["", "你是一名高级网络工程师兼自动化脚本专家，精通 Surge、JSBox、JavaScript 和 API 调用，且具有极强的逻辑分析与优化能力。请从专业技术视角出发，基于以下内容，进行详细推演、拓展、优化或修复建议，以利于高效实现目标功能：\n\n{USER_CONTENT}"],
-    "开喷": ["", "使用相同语言启动强烈的怼人模式，进行尖锐的反击讽刺与谩骂。"],
+    "开喷": ["", "使用相同语言启动强烈的怼人模式，进行尖锐的反击讽刺与谩骂。"], //重命名将废弃狂暴接口，调用GPT斯文接口
     "译为日文": ["将所给内容翻译成日语。", ""]
 }
 const edit_tool = {
@@ -403,7 +403,7 @@ function set_bubble() {
 
 async function fetchTextAndSend() {
     $http.get({
-        url: "https://yyapi.a1aa.cn/api.php?level=max",
+        url: "https://yyapi.a1aa.cn/api.php?level=max", //开喷接口
         handler: async function(resp) {
             if (resp.error) {
                 $ui.error("获取文本失败: " + resp.error.message);
