@@ -251,7 +251,7 @@ const view = {
                             if (isMainAssistantButton) {
                                 const availableAIs = Object.keys(ai_configs);
                                 $ui.menu({
-                                    items: availableAIs.map(aiName => `${aiName}${aiName === current_ai_service_name ? " (当前)" : ""}`),
+                                    items: availableAIs.map(aiName => `${aiName}${aiName === current_ai_service_name ? " \u23CE" : ""}`),
                                     handler: function(title, idx) {
                                         const selectedAiName = availableAIs[idx];
                                         if (selectedAiName !== current_ai_service_name) {
