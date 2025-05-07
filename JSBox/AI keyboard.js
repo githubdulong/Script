@@ -31,8 +31,8 @@ const ai_configs = {
         api_endpoint_template: "{proxy_url}/v1/chat/completions",
         type: "openai_compatible"
     },
-    "Deepseek": {
-        api_keys: ["YOUR_DEEPSEEK_API_KEY_1"], //Deepseek
+    "DeepSeek": {
+        api_keys: ["YOUR_DEEPSEEK_API_KEY_1"], //DeepSeek
         proxy_urls: ["https://api.deepseek.com"],
         models: ["deepseek-chat", "deepseek-coder"],
         api_endpoint_template: "{proxy_url}/v1/chat/completions",
