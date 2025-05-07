@@ -1,6 +1,6 @@
 /*
 
-ChatGPT键盘 修改自@Neurogram
+AI键盘 修改自@Neurogram
 	•	支持编辑工具
 	•	支持附加或覆盖生成结果的提示
 	•	支持自定义角色
@@ -13,9 +13,9 @@ ChatGPT键盘 修改自@Neurogram
 教程：点击这里查看手册 https://neurogram.notion.site/ChatGPT-Keyboard-af8f7c74bc5c47989259393c953b8017
 
 */
-const api_key = " " //  填写 key
-const openai_proxy_url = " "; // 可选的第三方代理地址，留空或注释掉以禁用代理
-const model = "gpt-4"
+const api_key = "sk-3aij4Txxxxxx" //  填写 key
+const openai_proxy_url = "https://api.milltea.com"; // 可选的代理地址，留空或注释掉以禁用代理
+const model = "grok-3-fast-beta" //模型
 const user_gesture = { // Generated results: 0: auto-wrap 1: overwrite selected/all prompts
     tap: 1,
     long_press: 0
@@ -78,7 +78,7 @@ const tripleTapInterval = 500
 
 const view = {
     props: {
-        title: "ChatGPT",
+        title: "AI keyboard",
         navBarHidden: $app.env == $env.keyboard,
         pageSheet: $app.env == $env.keyboard,
     },
@@ -187,7 +187,7 @@ const view = {
                 props: {
                     id: "footer",
                     height: 20,
-                    title: " JSBox'ChatGPT 键盘",
+                    title: " JSBox'Ai 键盘",
                     titleColor: $color("#AAAAAA"),
                     bgcolor: $color("clear"),
                     symbol: multi_turn ? "bubble.left.and.bubble.right" : "bubble.left",
