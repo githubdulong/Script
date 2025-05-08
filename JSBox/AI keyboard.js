@@ -82,11 +82,11 @@ const role_data = {
 };
 
 const translateTargets = {
-    "en": { name: "英文", prompt: "Translate the following text to English (American English preferably, if not specified otherwise)." },
+    "en": { name: "英语", prompt: "Translate the following text to English (American English preferably, if not specified otherwise)." },
     "zh-Hans": { name: "中文", prompt: "将以下文本翻译成中文（简体）。" },
     "ja": { name: "日语", prompt: "将以下文本翻译成日语。" },
     "th": { name: "泰语", prompt: "将以下文本翻译成泰语。" },
-    "ru": { name: "俄语", prompt: "将以下文本翻译成俄语。" }
+    "hxw": { name: "火星文", prompt: "将以下文本转换成火星文风格，请使用网络上流行的、非主流的、有趣的字符或表达方式。" }
 };
 const PREF_TRANSLATE_TARGET_KEY = "current_translate_target_key_v4";
 let currentSelectedTranslateTargetKey = $cache.get(PREF_TRANSLATE_TARGET_KEY) || "zh-Hans";
