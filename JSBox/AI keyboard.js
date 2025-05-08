@@ -9,6 +9,7 @@ AI键盘 修改自@Neurogram
 	•	支持显示提示的长度
 	•	支持显示使用的 Token 提醒
 	•	支持按压“助手”切换 Ai 模型
+	•	支持按压“翻译文本”切换目标语言
 	•	支持连点三次切换“开喷、吐槽”模式，开喷模式支持单击或按压开启单发或连发模式
 
 教程：点击这里查看手册 https://neurogram.notion.site/ChatGPT-Keyboard-af8f7c74bc5c47989259393c953b8017
@@ -16,17 +17,18 @@ AI键盘 修改自@Neurogram
 */
 
 // --- AI 选填配置区 ---
+
 const ai_configs = {
     "Grok": {
-        api_keys: ["sk-3aij4Txxoo", "YOUR_GROK_API_KEY_2"], //Grok
+        api_keys: ["YOUR_GROK_API_KEY_1", "YOUR_GROK_API_KEY_2"], //Grok
         proxy_urls: ["https://api.milltea.com"], //代理地址
         models: ["grok-3-fast-beta", "mixtral-8x7b-32768"], //模型
         api_endpoint_template: "{proxy_url}/v1/chat/completions",
         type: "openai_compatible"
     },
     "ChatGPT": {
-        api_keys: ["sk-k9KMxxoo",  "YOUR_CHATGPT_API_KEY_2"], //ChatGPT
-        proxy_urls: ["https://api.openai.com﻿", "YOUR_CHATGPT_PROXY_URL"],
+        api_keys: ["YOUR_CHATGPT_API_KEY_1",  "YOUR_CHATGPT_API_KEY_2"], //ChatGPT
+        proxy_urls: ["https://api.openai.com", "YOUR_CHATGPT_PROXY_URL"],
         models: ["gpt-4o", "gpt-3.5-turbo"],
         api_endpoint_template: "{proxy_url}/v1/chat/completions",
         type: "openai_compatible"
@@ -46,7 +48,9 @@ const ai_configs = {
         type: "gemini"
     }
 };
+
 // --- UI 布局配置区 ---
+
 const user_gesture = {
     tap: 1,
     long_press: 0
@@ -55,27 +59,38 @@ const usage_toast = true // 显示使用量
 const keyboard_sound = true // 是否开启键盘声音
 const keyboard_vibrate = 0 // -1: 无振动, 0~2: 振动强度
 const edit_tool_columns = 5 // 编辑工具默认列数
-const chatgpt_role_columns = 3 // ChatGPT 角色默认列数
+const chatgpt_role_columns = 3 // Ai角色默认列数
 const keyboard_spacing = 6 // 按键间隔
 const keyboard_height = 41 // 按键高度
 const keyboard_total_height = 265 //键盘总高度 0为系统默认
-$keyboard.barHidden = true //是否隐藏JSBox 键盘底部工具栏
+$keyboard.barHidden = true //是否隐藏JSBox键盘底部工具栏
 const heartbeat = 1 // -1:  无回复等待反馈, 0~2: 心跳强度
 const heartbeat_interval = 1.2 //  心跳间隔（秒）
 
-// --- 其他配置，不懂勿动 ---
+// --- 其他配置 不懂勿动 ---
 
 const role_data = {
     "助手": ["", "你是一个热心且乐于助人的Ai助手，提供帮助和建议。", ""],
     "续写": ["", "用相同语言继续创作或完成内容。"],
-    "译为中文": ["将所给内容翻译成中文。", ""],
+    "翻译文本": ["将所给内容翻译成指定语言。", ""],
     "总结": ["", "用相同语言总结内容，提炼出关键信息。"],
     "润色": ["", "用相同语言对内容进行润色或优化。"],
-    "译为英文": ["将所给内容翻译成美式英语。", ""],
+    "百度搜索": ["", ""],
     "扩展": ["", "你是一名高级网络工程师兼自动化脚本专家，精通 Surge、JSBox、JavaScript 和 API 调用，且具有极强的逻辑分析与优化能力。请从专业技术视角出发，基于以下内容，进行详细推演、拓展、优化或修复建议，以利于高效实现目标功能：\n\n{USER_CONTENT}"],
     "吐槽": ["", "使用相同语言启动强烈的怼人模式，进行尖锐的反击讽刺与吐槽。"],
-    "译为日文": ["将所给内容翻译成日语。", ""]
-}
+    "谷歌搜索": ["", ""]
+};
+
+const translateTargets = {
+    "en": { name: "英文", prompt: "Translate the following text to English (American English preferably, if not specified otherwise)." },
+    "zh-Hans": { name: "中文", prompt: "将以下文本翻译成中文（简体）。" },
+    "ja": { name: "日语", prompt: "将以下文本翻译成日语。" },
+    "th": { name: "泰语", prompt: "将以下文本翻译成泰语。" },
+    "ru": { name: "俄语", prompt: "将以下文本翻译成俄语。" }
+};
+const PREF_TRANSLATE_TARGET_KEY = "current_translate_target_key_v4";
+let currentSelectedTranslateTargetKey = $cache.get(PREF_TRANSLATE_TARGET_KEY) || "zh-Hans";
+
 const edit_tool = {
     "Start": "arrow.left.to.line",
     "Left": "arrow.left",
@@ -102,7 +117,6 @@ Object.keys(ai_configs).forEach(serviceName => {
         current_config_indices[serviceName] = { key_idx: 0, proxy_idx: 0, model_idx: 0 };
     }
 });
-
 
 function getCurrentAiConfig() {
     const service_config = ai_configs[current_ai_service_name];
@@ -160,9 +174,23 @@ const tripleTapInterval = 500
 
 const firstRoleName = Object.keys(role_data)[0];
 
-
 function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+async function get_content_for_new_buttons() {
+    let inputText = await get_content(0); 
+    let trimmedInputText = (inputText || "").trim();
+
+    if (trimmedInputText) {
+        return trimmedInputText;
+    }
+
+    let clipboardText = ($clipboard.text || "").trim();
+    if (clipboardText) {
+        return clipboardText;
+    }
+    return "";
 }
 
 const view = {
@@ -190,18 +218,19 @@ const view = {
                     },
                     layout: $layout.fill,
                     events: {
-                        tapped: function (sender, indexPath, data) {
+                        tapped: async function (sender, indexPath, data) {
                             if (trollTimer) {
                                 clearInterval(trollTimer);
                                 trollTimer = null;
                             }
 
                             const originalButtonTitle = sender.title;
+                            const buttonOriginalKey = sender.info.originalKey;
+
 
                             if (originalButtonTitle === "开喷" || originalButtonTitle === "吐槽") {
                                 const currentTime = Date.now();
                                 let isTripleTapSuccess = false;
-
                                 if (currentTime - lastSprayButtonTapTime < tripleTapInterval) {
                                     sprayButtonTapCount++;
                                     if (sprayButtonTapCount === 3) {
@@ -219,7 +248,6 @@ const view = {
                                     sprayButtonTapCount = 1;
                                 }
                                 lastSprayButtonTapTime = currentTime;
-
                                 if (!isTripleTapSuccess) {
                                     $delay(tripleTapInterval + 100, () => {
                                         if (Date.now() - lastSprayButtonTapTime >= tripleTapInterval && sprayButtonTapCount > 0 && sprayButtonTapCount < 3) {
@@ -227,7 +255,6 @@ const view = {
                                         }
                                     });
                                 }
-
                                 if (originalButtonTitle === "开喷") {
                                     if (keyboard_sound) $keyboard.playInputClick();
                                     if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate);
@@ -235,7 +262,16 @@ const view = {
                                 } else if (originalButtonTitle === "吐槽") {
                                     handler(sender, "tap");
                                 }
-                            } else {
+                            } else if (buttonOriginalKey === "百度搜索") {
+                                if (keyboard_sound) $keyboard.playInputClick();
+                                if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate);
+                                await performSearch("baidu");
+                            } else if (buttonOriginalKey === "谷歌搜索") {
+                                if (keyboard_sound) $keyboard.playInputClick();
+                                if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate);
+                                await performSearch("google");
+                            }
+                             else {
                                 sprayButtonTapCount = 0;
                                 handler(sender, "tap");
                             }
@@ -246,6 +282,7 @@ const view = {
                                 trollTimer = null;
                             }
                             const buttonTitle = info.sender.title;
+                            const buttonOriginalKey = info.sender.info.originalKey;
                             const isMainAssistantButton = (buttonTitle === firstRoleName && !info.sender.info.action);
 
                             if (isMainAssistantButton) {
@@ -269,6 +306,24 @@ const view = {
                                 return;
                             }
 
+                            if (buttonOriginalKey === "翻译文本") {
+                                const menuItems = Object.keys(translateTargets).map(key => {
+                                    return translateTargets[key].name + (key === currentSelectedTranslateTargetKey ? " \u23CE" : "");
+                                });
+                                $ui.menu({
+                                    items: menuItems,
+                                    handler: function(selectedName, idx) {
+                                        const selectedKey = Object.keys(translateTargets)[idx];
+                                        if (selectedKey !== currentSelectedTranslateTargetKey) {
+                                            currentSelectedTranslateTargetKey = selectedKey;
+                                            $cache.set(PREF_TRANSLATE_TARGET_KEY, currentSelectedTranslateTargetKey);
+                                            $ui.toast(`翻译目标已设为: ${translateTargets[selectedKey].name}`);
+                                        }
+                                    }
+                                });
+                                return;
+                            }
+                            
                             if (buttonTitle === "开喷" && sprayButtonMode === "开喷") {
                                 if (keyboard_sound) $keyboard.playInputClick();
                                 if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate);
@@ -385,8 +440,6 @@ function dataPush(data) {
                 } else {
                     displayBgColor = $color("#FFFFFF", "#6B6B6B");
                 }
-            } else if (configName === "开喷") {
-                displayBgColor = $color("#FFF0F0", "#806B6B");
             }
         }
 
@@ -394,7 +447,7 @@ function dataPush(data) {
             button: {
                 title: displayTitle,
                 symbol: i < edit_tool_amount ? edit_tool[configName] : "",
-                info: { action: i < edit_tool_amount ? configName : "" },
+                info: { action: i < edit_tool_amount ? configName : "" , originalKey: configName },
                 bgcolor: displayBgColor
             }
         });
@@ -407,7 +460,30 @@ function handler(sender, gesture) {
     if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate)
     if ($app.env != $env.keyboard) return $ui.warning("请在键盘内运行")
     if (sender.info.action) return edit(sender.info.action, gesture)
-    gpt(sender.title, gesture)
+    gpt(sender.info.originalKey || sender.title, gesture)
+}
+
+async function performSearch(engine) {
+    if (generating) return $ui.warning("请等待当前任务完成");
+    let query = await get_content_for_new_buttons(); 
+
+    if (!query || query.trim() === "") {
+        return $ui.warning("请输入或粘贴搜索内容");
+    }
+    generating = true;
+    let searchUrl = "";
+    const encodedQuery = encodeURIComponent(query);
+
+    if (engine === "baidu") {
+        searchUrl = `https://www.baidu.com/s?wd=${encodedQuery}`;
+    } else if (engine === "google") {
+        searchUrl = `https://www.google.com/search?q=${encodedQuery}`;
+    } else {
+        generating = false;
+        return $ui.error("未知的搜索引擎");
+    }
+    $app.openURL(searchUrl);
+    $delay(0.5, () => generating = false);
 }
 
 async function edit(action, gesture) {
@@ -440,12 +516,46 @@ async function edit(action, gesture) {
 async function gpt(role, gesture) {
     if (generating) return $ui.warning("正在生成中");
 
-    if (role === "开喷" && sprayButtonMode === "开喷") {
+    if (role === "吐槽" && sprayButtonMode === "开喷") {
         return;
     }
+    
+    let user_content;
+    // --- BEGIN MODIFICATION FOR TRANSLATION REPLACE ---
+    let translation_source_info = {
+        from_selection: false,
+        original_all_text_length_to_delete: 0,
+        is_translation_from_input_field: false 
+    };
 
-    let user_content = await get_content(0);
-    if (!user_content && !multi_turn) return $ui.warning("未找到提示");
+    if (role === "翻译文本") {
+        const raw_selected_text = $keyboard.selectedText; 
+        const raw_all_text = await $keyboard.getAllText(); 
+
+        user_content = await get_content_for_new_buttons(); 
+
+        if (raw_selected_text && raw_selected_text.trim() === user_content) {
+            translation_source_info.from_selection = true;
+            translation_source_info.is_translation_from_input_field = true;
+        } else if (!raw_selected_text && raw_all_text && raw_all_text.trim() === user_content) {
+            translation_source_info.original_all_text_length_to_delete = raw_all_text.length;
+            translation_source_info.is_translation_from_input_field = true;
+        }
+    } else {
+        user_content = await get_content(0); 
+    }
+    // --- END MODIFICATION FOR TRANSLATION REPLACE ---
+    
+    if (!user_content && !multi_turn && role !== "翻译文本") {
+         const nonTranslateRolesRequireContent = ["助手", "续写", "总结", "润色", "扩展", "吐槽"];
+         if (nonTranslateRolesRequireContent.includes(role)) {
+            return $ui.warning("未找到提示");
+         }
+    }
+    if (role === "翻译文本" && (!user_content || user_content.trim() === "")) {
+        return $ui.warning("请输入或粘贴需要翻译的内容");
+    }
+
     generating = true;
 
     let messages = [];
@@ -456,10 +566,8 @@ async function gpt(role, gesture) {
 
     if (multi_turn) {
         let currentFullText = user_content.trim();
-
         const sysPromptRegexText = `^\\s*${escapeRegExp(systemMarker)}([^${escapeRegExp(endMarker)}]*)(${escapeRegExp(endMarker)})?`;
         const sysPromptRegex = new RegExp(sysPromptRegexText, "m");
-
         const sysMatch = currentFullText.match(sysPromptRegex);
         let systemContentProvided = false;
 
@@ -494,7 +602,6 @@ async function gpt(role, gesture) {
             currentUserNewInput = "";
         }
 
-
         if (!systemContentProvided && messages.length === 0 && currentUserNewInput) {
             messages.push({ role: "user", content: currentUserNewInput });
             $keyboard.delete();
@@ -505,31 +612,42 @@ async function gpt(role, gesture) {
 
         const lastMsg = messages.length > 0 ? messages[messages.length - 1] : null;
         const hasUserMessageWithContent = messages.some(m => m.role === "user" && m.content && m.content.trim() !== "");
+        
+        const needsWarningCheck = !hasUserMessageWithContent || (lastMsg && lastMsg.role !== "user") || (lastMsg && !lastMsg.content);
+        const isAllowedEmptyInputCaseInMultiTurn = messages.length === 0 && systemContentProvided && !currentUserNewInput;
 
-        if (!hasUserMessageWithContent || (lastMsg && lastMsg.role !== "user") || (lastMsg && !lastMsg.content)) {
-            if (messages.length === 0 && systemContentProvided && !currentUserNewInput) {
-                // 允许用户在系统提示后输入
+        if (needsWarningCheck && !isAllowedEmptyInputCaseInMultiTurn) {
+            $ui.warning("请输入对话内容");
+            generating = false;
+            return;
+        }
+    } else { 
+        if (role === "翻译文本") {
+            const targetLangConfig = translateTargets[currentSelectedTranslateTargetKey];
+            if (targetLangConfig) {
+                messages.push({ "role": "system", "content": targetLangConfig.prompt });
             } else {
-                $ui.warning("请输入对话内容");
-                generating = false;
-                return;
+                messages.push({ "role": "system", "content": "Translate the text."});
             }
-        }
-    } else {
+            messages.push({ "role": "user", "content": user_content });
+        } else { 
+            if (!user_gesture[gesture]) { 
+                $keyboard.moveCursor(1);
+                $keyboard.insert("\n");
+            }
+            if (user_gesture[gesture] && !$keyboard.selectedText) { 
+                 delete_content(user_content.length); 
+            }
 
-        if (!user_gesture[gesture]) {
-            $keyboard.moveCursor(1);
-            $keyboard.insert("\n");
+            if (role_data[role] && role_data[role][0]) {
+                messages.push({ "role": "system", "content": role_data[role][0] });
+            }
+            let preset_prompt = role_data[role] ? role_data[role][1] : "";
+            
+            if (preset_prompt && !preset_prompt.match(/{USER_CONTENT}/)) user_content = preset_prompt + "\n" + user_content;
+            if (preset_prompt && preset_prompt.match(/{USER_CONTENT}/)) user_content = preset_prompt.replace(/{USER_CONTENT}/g, user_content);
+            messages.push({ "role": "user", "content": user_content });
         }
-        if (user_gesture[gesture] && !$keyboard.selectedText) delete_content(user_content.length);
-
-        if (role_data[role] && role_data[role][0]) {
-            messages.push({ "role": "system", "content": role_data[role][0] });
-        }
-        let preset_prompt = role_data[role] ? role_data[role][1] : "";
-        if (preset_prompt && !preset_prompt.match(/{USER_CONTENT}/)) user_content = preset_prompt + "\n" + user_content;
-        if (preset_prompt && preset_prompt.match(/{USER_CONTENT}/)) user_content = preset_prompt.replace(/{USER_CONTENT}/g, user_content);
-        messages.push({ "role": "user", "content": user_content });
     }
 
     if (messages.length === 0 || (messages.length === 1 && messages[0].role === 'system' && (!messages[0].content || messages[0].content.trim()==='-'))) {
@@ -670,13 +788,25 @@ async function gpt(role, gesture) {
         return;
     }
 
+    
     if (!multi_turn) {
-        $keyboard.insert(response_text);
-    } else {
-
+        if (role === "翻译文本") {
+            if (translation_source_info.is_translation_from_input_field) {
+                if (translation_source_info.from_selection) {
+                    $keyboard.delete(); 
+                } else if (translation_source_info.original_all_text_length_to_delete > 0) {
+                    await delete_content(translation_source_info.original_all_text_length_to_delete);
+                }
+            }
+            $keyboard.insert(response_text);
+        } else { 
+            $keyboard.insert(response_text);
+        }
+    } else { 
         const textToInsert = `\n${assistantMarker}${response_text.trim()}${endMarker}\n\n${userMarker}`;
         $keyboard.insert(textToInsert);
     }
+    
 }
 
 async function get_content(length) {
@@ -707,7 +837,7 @@ function updateFooterTitle() {
 
 async function fetchTextAndSend() {
     $http.get({
-        url: "https://yyapi.a1aa.cn/api.php?level=max", //开喷接口
+        url: "https://yyapi.a1aa.cn/api.php?level=max",//开喷接口
         handler: async function(resp) {
             if (resp.error) {
                 $ui.error("获取文本失败: " + resp.error.message);
@@ -739,6 +869,20 @@ function initializeKeyboard() {
         $delay(0, () => {
             $ui.controller.view = $ui.create(view);
             $ui.controller.view.layout(view.layout);
+             const tucaoButtonIdentifierInInit = "吐槽"; 
+             const allButtonKeysForInit = Object.keys(edit_tool).concat(Object.keys(role_data));
+             const tucaoInitIndex = allButtonKeysForInit.indexOf(tucaoButtonIdentifierInInit);
+             if (tucaoInitIndex !== -1 && $("matrix")) {
+                 const matrixView = $("matrix");
+                 const buttonCellView = matrixView.cell($indexPath(0, tucaoInitIndex));
+                 if (buttonCellView) {
+                     const btnToUpdate = buttonCellView.get("button");
+                     if (btnToUpdate) {
+                         btnToUpdate.title = sprayButtonMode;
+                         btnToUpdate.bgcolor = (sprayButtonMode === "开喷") ? $color("#FFF0F0", "#806B6B") : $color("#FFFFFF", "#6B6B6B");
+                     }
+                 }
+             }
         });
     } else {
         $ui.render(view);
