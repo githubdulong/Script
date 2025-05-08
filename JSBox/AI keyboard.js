@@ -10,7 +10,7 @@ AI键盘 修改自@Neurogram
 	•	支持显示使用的 Token 提醒
 	•	支持按压“助手”切换 Ai 模型
 	•	支持按压“翻译文本”切换目标语言
-	•	支持连点三次切换“开喷、吐槽”模式，开喷模式支持单击或按压开启单发或连发模式
+	•	支持连点三次切换“开喷、吐槽”模式，开喷模式支持单击或按压开启单发或连发模式（判断连按间隔0.3s）
 
 教程：点击这里查看手册 https://neurogram.notion.site/ChatGPT-Keyboard-af8f7c74bc5c47989259393c953b8017
 
@@ -62,7 +62,7 @@ const edit_tool_columns = 5 // 编辑工具默认列数
 const chatgpt_role_columns = 3 // Ai角色默认列数
 const keyboard_spacing = 6 // 按键间隔
 const keyboard_height = 41 // 按键高度
-const keyboard_total_height = 265 //键盘总高度 0为系统默认
+const keyboard_total_height = 260 //键盘总高度 0为系统默认
 $keyboard.barHidden = true //是否隐藏JSBox键盘底部工具栏
 const heartbeat = 1 // -1:  无回复等待反馈, 0~2: 心跳强度
 const heartbeat_interval = 1.2 //  心跳间隔（秒）
@@ -170,7 +170,10 @@ const spray_mode_cache_key = "chatgpt_keyboard_spray_mode_v1";
 let sprayButtonMode = $cache.get(spray_mode_cache_key) || "吐槽";
 
 let lastSprayButtonTapTime = 0
-const tripleTapInterval = 500
+const tripleTapInterval = 500 
+let sprayActionTimeoutId = null; 
+const sprayActionDelay = 300;   
+
 
 const firstRoleName = Object.keys(role_data)[0];
 
@@ -224,55 +227,75 @@ const view = {
                                 trollTimer = null;
                             }
 
-                            const originalButtonTitle = sender.title;
                             const buttonOriginalKey = sender.info.originalKey;
 
-
-                            if (originalButtonTitle === "开喷" || originalButtonTitle === "吐槽") {
+                            if (buttonOriginalKey === "吐槽") { 
                                 const currentTime = Date.now();
-                                let isTripleTapSuccess = false;
+
+                                if (sprayActionTimeoutId) {
+                                    clearTimeout(sprayActionTimeoutId);
+                                    sprayActionTimeoutId = null;
+                                }
+
                                 if (currentTime - lastSprayButtonTapTime < tripleTapInterval) {
                                     sprayButtonTapCount++;
-                                    if (sprayButtonTapCount === 3) {
-                                        isTripleTapSuccess = true;
-                                        sprayButtonMode = (sprayButtonMode === "开喷") ? "吐槽" : "开喷";
-                                        sender.title = sprayButtonMode;
-                                        sender.bgcolor = (sprayButtonMode === "开喷") ? $color("#FFF0F0", "#806B6B") : $color("#FFFFFF", "#6B6B6B");
-                                        $ui.toast(`已切换至“${sprayButtonMode}”模式`);
-                                        $cache.set(spray_mode_cache_key, sprayButtonMode);
-                                        sprayButtonTapCount = 0;
-                                        lastSprayButtonTapTime = 0;
-                                        return;
-                                    }
                                 } else {
                                     sprayButtonTapCount = 1;
                                 }
                                 lastSprayButtonTapTime = currentTime;
-                                if (!isTripleTapSuccess) {
-                                    $delay(tripleTapInterval + 100, () => {
-                                        if (Date.now() - lastSprayButtonTapTime >= tripleTapInterval && sprayButtonTapCount > 0 && sprayButtonTapCount < 3) {
-                                            sprayButtonTapCount = 0;
-                                        }
-                                    });
-                                }
-                                if (originalButtonTitle === "开喷") {
+
+                                if (sprayButtonTapCount >= 3) { 
+                                    sprayButtonMode = (sprayButtonMode === "开喷") ? "吐槽" : "开喷";
+                                    sender.title = sprayButtonMode; 
+                                    sender.bgcolor = (sprayButtonMode === "开喷") ? $color("#FFF0F0", "#806B6B") : $color("#FFFFFF", "#6B6B6B");
+                                    
+                                    $ui.toast(`已切换至“${sprayButtonMode}”模式`);
+                                    $cache.set(spray_mode_cache_key, sprayButtonMode);
+
+                                    sprayButtonTapCount = 0; 
+                                    lastSprayButtonTapTime = 0; 
+
                                     if (keyboard_sound) $keyboard.playInputClick();
                                     if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate);
-                                    fetchTextAndSend();
-                                } else if (originalButtonTitle === "吐槽") {
-                                    handler(sender, "tap");
+                                    return; 
+                                }
+
+                                if (sprayButtonTapCount === 1) {
+                                    const modeWhenClicked = sprayButtonMode; 
+                                    sprayActionTimeoutId = setTimeout(() => {
+                                        if (sprayButtonMode === modeWhenClicked && sprayButtonTapCount === 1) {
+                                            if (modeWhenClicked === "开喷") {
+                                                if (keyboard_sound) $keyboard.playInputClick();
+                                                if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate);
+                                                fetchTextAndSend(); 
+                                            } else { 
+                                                if (keyboard_sound) $keyboard.playInputClick();
+                                                if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate);
+                                                handler(sender, "tap"); 
+                                            }
+                                            sprayButtonTapCount = 0; 
+                                            lastSprayButtonTapTime = 0;
+                                        }
+                                        sprayActionTimeoutId = null; 
+                                    }, sprayActionDelay);
                                 }
                             } else if (buttonOriginalKey === "百度搜索") {
+                                sprayButtonTapCount = 0; lastSprayButtonTapTime = 0; if (sprayActionTimeoutId) { clearTimeout(sprayActionTimeoutId); sprayActionTimeoutId = null; }
                                 if (keyboard_sound) $keyboard.playInputClick();
                                 if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate);
                                 await performSearch("baidu");
                             } else if (buttonOriginalKey === "谷歌搜索") {
+                                sprayButtonTapCount = 0; lastSprayButtonTapTime = 0; if (sprayActionTimeoutId) { clearTimeout(sprayActionTimeoutId); sprayActionTimeoutId = null; }
                                 if (keyboard_sound) $keyboard.playInputClick();
                                 if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate);
                                 await performSearch("google");
-                            }
-                             else {
+                            } else { 
                                 sprayButtonTapCount = 0;
+                                lastSprayButtonTapTime = 0;
+                                if (sprayActionTimeoutId) {
+                                    clearTimeout(sprayActionTimeoutId);
+                                    sprayActionTimeoutId = null;
+                                }
                                 handler(sender, "tap");
                             }
                         },
@@ -281,9 +304,15 @@ const view = {
                                 clearInterval(trollTimer);
                                 trollTimer = null;
                             }
-                            const buttonTitle = info.sender.title;
+                            if (sprayActionTimeoutId) {
+                                clearTimeout(sprayActionTimeoutId);
+                                sprayActionTimeoutId = null;
+                            }
+                            sprayButtonTapCount = 0;
+                            lastSprayButtonTapTime = 0;
+                            
                             const buttonOriginalKey = info.sender.info.originalKey;
-                            const isMainAssistantButton = (buttonTitle === firstRoleName && !info.sender.info.action);
+                            const isMainAssistantButton = (buttonOriginalKey === firstRoleName && !info.sender.info.action); 
 
                             if (isMainAssistantButton) {
                                 const availableAIs = Object.keys(ai_configs);
@@ -324,7 +353,7 @@ const view = {
                                 return;
                             }
                             
-                            if (buttonTitle === "开喷" && sprayButtonMode === "开喷") {
+                            if (buttonOriginalKey === "吐槽" && sprayButtonMode === "开喷") {
                                 if (keyboard_sound) $keyboard.playInputClick();
                                 if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate);
                                 if (trollTimer) {
@@ -357,10 +386,10 @@ const view = {
                 },
                 events: {
                     tapped: async (sender) => {
-                        if (trollTimer) {
-                            clearInterval(trollTimer);
-                            trollTimer = null;
-                        }
+                        if (trollTimer) { clearInterval(trollTimer); trollTimer = null; }
+                        if (sprayActionTimeoutId) { clearTimeout(sprayActionTimeoutId); sprayActionTimeoutId = null; }
+                        sprayButtonTapCount = 0; lastSprayButtonTapTime = 0;
+                        
                         const popover = $ui.popover({
                             sourceView: sender,
                             sourceRect: sender.bounds,
@@ -393,10 +422,10 @@ const view = {
                         })
                     },
                     longPressed: function (info) {
-                        if (trollTimer) {
-                            clearInterval(trollTimer);
-                            trollTimer = null;
-                        }
+                        if (trollTimer) { clearInterval(trollTimer); trollTimer = null; }
+                        if (sprayActionTimeoutId) { clearTimeout(sprayActionTimeoutId); sprayActionTimeoutId = null; }
+                        sprayButtonTapCount = 0; lastSprayButtonTapTime = 0;
+
                         multi_turn = multi_turn ? false : true
                         set_bubble()
                         $ui.toast("对话模式" + (multi_turn ? " 开" : " 关"))
@@ -433,11 +462,11 @@ function dataPush(data) {
         if (i < edit_tool_amount) {
             displayTitle = "";
         } else {
-            if (configName === "吐槽") {
-                displayTitle = sprayButtonMode;
+            if (configName === "吐槽") { 
+                displayTitle = sprayButtonMode; 
                 if (sprayButtonMode === "开喷") {
                     displayBgColor = $color("#FFF0F0", "#806B6B");
-                } else {
+                } else { 
                     displayBgColor = $color("#FFFFFF", "#6B6B6B");
                 }
             }
@@ -459,8 +488,8 @@ function handler(sender, gesture) {
     if (keyboard_sound) $keyboard.playInputClick()
     if (keyboard_vibrate != -1) $device.taptic(keyboard_vibrate)
     if ($app.env != $env.keyboard) return $ui.warning("请在键盘内运行")
-    if (sender.info.action) return edit(sender.info.action, gesture)
-    gpt(sender.info.originalKey || sender.title, gesture)
+    if (sender.info.action) return edit(sender.info.action, gesture) 
+    gpt(sender.info.originalKey || sender.title, gesture) 
 }
 
 async function performSearch(engine) {
@@ -513,15 +542,15 @@ async function edit(action, gesture) {
     }
 }
 
-async function gpt(role, gesture) {
+async function gpt(role, gesture) { 
     if (generating) return $ui.warning("正在生成中");
-
-    if (role === "吐槽" && sprayButtonMode === "开喷") {
-        return;
+    
+    if (role === "吐槽" && sprayButtonMode === "开喷") { 
+        return; 
     }
     
     let user_content;
-    // --- BEGIN MODIFICATION FOR TRANSLATION REPLACE ---
+    
     let translation_source_info = {
         from_selection: false,
         original_all_text_length_to_delete: 0,
@@ -544,7 +573,7 @@ async function gpt(role, gesture) {
     } else {
         user_content = await get_content(0); 
     }
-    // --- END MODIFICATION FOR TRANSLATION REPLACE ---
+    
     
     if (!user_content && !multi_turn && role !== "翻译文本") {
          const nonTranslateRolesRequireContent = ["助手", "续写", "总结", "润色", "扩展", "吐槽"];
@@ -841,24 +870,22 @@ async function fetchTextAndSend() {
         handler: async function(resp) {
             if (resp.error) {
                 $ui.error("获取文本失败: " + resp.error.message);
-                if (timer) timer.invalidate();
-                set_bubble();
-                generating = false;
-                generating_icon = 0;
+                if (timer) timer.invalidate(); 
+                set_bubble(); 
                 return;
             }
             var text = resp.data;
             $keyboard.insert(text);
             $keyboard.send();
-            if (heartbeat != -1) {
+            if (heartbeat != -1) { 
                 $device.taptic(heartbeat);
             }
             const footer = $("footer");
-            if (footer) {
+            if (footer) { 
                 footer.symbol = "paperplane.fill";
-                await $wait(0.5);
+                await $wait(0.5); 
             }
-            set_bubble();
+            set_bubble(); 
         }
     });
 }
