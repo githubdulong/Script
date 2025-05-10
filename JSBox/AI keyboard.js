@@ -8,10 +8,10 @@ AI键盘 修改自@Neurogram
 	•	支持多轮对话
 	•	支持显示提示的长度
 	•	支持显示使用的 Token 提醒
-	•	支持按压“助手”切换 Ai 模型
-	•	支持按压“翻译文本”切换目标语言
-	•	支持长按任意普通健代替 Ai 回复加发送（对话模式除外）	
-	•	支持连点三次切换“开喷、吐槽”模式，开喷模式支持单击或按压开启单发或连发模式（判断连按间隔0.3s）
+	•	支持按压"助手"切换 Ai 模型
+	•	支持按压"翻译文本"切换目标语言
+	•	支持长按任意普通健代替 Ai 回复加发送（对话模式除外）
+	•	支持连点三次切换"开喷、吐槽"模式，开喷模式支持单击或按压开启单发或连发模式（判断连按间隔0.3s）
 
 教程：点击这里查看手册 https://neurogram.notion.site/ChatGPT-Keyboard-af8f7c74bc5c47989259393c953b8017
 
@@ -21,21 +21,21 @@ AI键盘 修改自@Neurogram
 
 const ai_configs = {
     "Grok": {
-        api_keys: ["YOUR_GROK_API_KEY_1", "YOUR_GROK_API_KEY_2"], //Grok
-        proxy_urls: ["https://api.milltea.com"], //代理地址
-        models: ["grok-3-fast-beta", "mixtral-8x7b-32768"], //模型
+        api_keys: ["YOUR_GROK_API_KEY_1", "YOUR_GROK_API_KEY_2"],// Grok Token
+        proxy_urls: ["https://api.milltea.com"],// 代理地址
+        models: ["grok-3-fast-beta", "mixtral-8x7b-32768"],// 模型
         api_endpoint_template: "{proxy_url}/v1/chat/completions",
         type: "openai_compatible"
     },
     "ChatGPT": {
-        api_keys: ["YOUR_CHATGPT_API_KEY_1",  "YOUR_CHATGPT_API_KEY_2"], //ChatGPT
+        api_keys: ["YOUR_CHATGPT_API_KEY_1",  "YOUR_CHATGPT_API_KEY_2"],// ChatGPT
         proxy_urls: ["https://api.openai.com", "YOUR_CHATGPT_PROXY_URL"],
         models: ["gpt-4o", "gpt-3.5-turbo"],
         api_endpoint_template: "{proxy_url}/v1/chat/completions",
         type: "openai_compatible"
     },
     "DeepSeek": {
-        api_keys: ["YOUR_DEEPSEEK_API_KEY_1"], //DeepSeek
+        api_keys: ["YOUR_DEEPSEEK_API_KEY_1"],// DeepSeek
         proxy_urls: ["https://api.deepseek.com"],
         models: ["deepseek-chat", "deepseek-coder"],
         api_endpoint_template: "{proxy_url}/v1/chat/completions",
@@ -52,23 +52,65 @@ const ai_configs = {
 
 // --- UI 布局配置区 ---
 
+const usage_toast = true // 是否开启使用量显示
+const keyboard_sound = true // 是否开启键盘声音
+const keyboard_vibrate = 0 // -1:无振动, 0~2: 振动强度
+const edit_tool_columns = 5 // 编辑工具默认列数
+const chatgpt_role_columns = 3 // Ai角色默认列数
+$keyboard.barHidden = true // 是否隐藏JSBox键盘底部工具栏
+const heartbeat = 1 // -1: 无回复等待反馈, 0~2: 心跳强度
+const heartbeat_interval = 1.2 // 心跳间隔（秒）
+
+// --- 其他配置 不懂勿动 ---
+
+function getAdaptiveLayoutParams() {
+    const screenWidthPt = $device.info.screen.width;
+    const minScreenWidth = 320; 
+    const maxScreenWidth = 450; 
+
+    function interpolateValue(currentWidth, minWidth, maxWidth, minValue, maxValue) {
+        if (currentWidth <= minWidth) return minValue;
+        if (currentWidth >= maxWidth) return maxValue;
+        const ratio = (currentWidth - minWidth) / (maxWidth - minWidth);
+        return minValue + ratio * (maxValue - minValue);
+    }
+
+    let spacing = interpolateValue(screenWidthPt, minScreenWidth, maxScreenWidth, 4, 7);
+    let buttonFontSize = interpolateValue(screenWidthPt, minScreenWidth, maxScreenWidth, 12, 16);
+    let footerFontSize = interpolateValue(screenWidthPt, minScreenWidth, maxScreenWidth, 9, 12);
+    let footerHeight = interpolateValue(screenWidthPt, minScreenWidth, maxScreenWidth, 18, 24);
+    
+    let totalHeight = interpolateValue(screenWidthPt, minScreenWidth, maxScreenWidth, 220, 295);
+
+    spacing = Math.round(spacing);
+    buttonFontSize = Math.round(buttonFontSize);
+    footerFontSize = Math.round(footerFontSize);
+    footerHeight = Math.round(footerHeight);
+    totalHeight = Math.round(totalHeight); 
+
+    
+    const numKeyRows = 5; 
+    
+    let keyHeight = (totalHeight - footerHeight - (numKeyRows + 1) * spacing) / numKeyRows;
+    keyHeight = Math.round(keyHeight);
+
+    return {
+        spacing: spacing,
+        keyHeight: keyHeight,
+        totalHeight: totalHeight,
+        buttonFontSize: buttonFontSize,
+        footerFontSize: footerFontSize,
+        footerHeight: footerHeight
+    };
+}
+
+
+const adaptiveParams = getAdaptiveLayoutParams();
+
 const user_gesture = {
     tap: 1,
     long_press: 0
 }
-const usage_toast = true // 显示使用量
-const keyboard_sound = true // 是否开启键盘声音
-const keyboard_vibrate = 0 // -1: 无振动, 0~2: 振动强度
-const edit_tool_columns = 5 // 编辑工具默认列数
-const chatgpt_role_columns = 3 // Ai角色默认列数
-const keyboard_spacing = 6 // 按键间隔
-const keyboard_height = 41 // 按键高度
-const keyboard_total_height = 260 //键盘总高度 0为系统默认
-$keyboard.barHidden = true //是否隐藏JSBox键盘底部工具栏
-const heartbeat = 1 // -1:  无回复等待反馈, 0~2: 心跳强度
-const heartbeat_interval = 1.2 //  心跳间隔（秒）
-
-// --- 其他配置 不懂勿动 ---
 
 const role_data = {
     "助手": ["", "你是一个热心且乐于助人的Ai助手，提供帮助和建议。", ""],
@@ -206,7 +248,7 @@ const view = {
     views: [{
         type: "matrix",
         props: {
-            spacing: keyboard_spacing,
+            spacing: adaptiveParams.spacing,
             bgcolor: $color("clear"),
             data: dataPush(Object.keys(edit_tool).concat(Object.keys(role_data))),
             template: {
@@ -218,7 +260,7 @@ const view = {
                         radius: 10,
                         titleColor: $color("black", "white"),
                         tintColor: $color("black", "white"),
-                        font: $font(14)
+                        font: $font(adaptiveParams.buttonFontSize)
                     },
                     layout: $layout.fill,
                     events: {
@@ -250,7 +292,7 @@ const view = {
                                     sender.title = sprayButtonMode; 
                                     sender.bgcolor = (sprayButtonMode === "开喷") ? $color("#FFF0F0", "#806B6B") : $color("#FFFFFF", "#6B6B6B");
                                     
-                                    $ui.toast(`已切换至“${sprayButtonMode}”模式`);
+                                    $ui.toast(`已切换至"${sprayButtonMode}"模式`);
                                     $cache.set(spray_mode_cache_key, sprayButtonMode);
 
                                     sprayButtonTapCount = 0; 
@@ -376,14 +418,14 @@ const view = {
                 type: "button",
                 props: {
                     id: "footer",
-                    height: 20,
+                    height: adaptiveParams.footerHeight,
                     title: `JSBox'Ai (${current_ai_service_name})`,
                     titleColor: $color("#AAAAAA"),
                     bgcolor: $color("clear"),
                     symbol: multi_turn ? "bubble.left.and.bubble.right" : "bubble.left",
                     tintColor: $color("#AAAAAA"),
                     align: $align.center,
-                    font: $font(10)
+                    font: $font(adaptiveParams.footerFontSize)
                 },
                 events: {
                     tapped: async (sender) => {
@@ -438,17 +480,24 @@ const view = {
         layout: $layout.fill,
         events: {
             itemSize: function (sender, indexPath) {
-                let keyboard_columns = indexPath.item < edit_tool_amount ? edit_tool_columns : chatgpt_role_columns
-                return $size(($device.info.screen.width - (keyboard_columns + 1) * keyboard_spacing) / keyboard_columns, keyboard_height);
+                let keyboard_columns = indexPath.item < edit_tool_amount ? edit_tool_columns : chatgpt_role_columns;
+                return $size(
+                    ($device.info.screen.width - (keyboard_columns + 1) * adaptiveParams.spacing) / keyboard_columns,
+                    adaptiveParams.keyHeight
+                );
             }
         }
     }],
     layout: (make, view) => {
         make.width.equalTo(view.super)
-        if (keyboard_total_height){
-            make.height.equalTo(keyboard_total_height)
+        if (adaptiveParams.totalHeight && adaptiveParams.totalHeight > 0){
+            make.height.equalTo(adaptiveParams.totalHeight)
         } else {
-            make.height.equalTo(view.super)
+            if ($app.env === $env.keyboard && $keyboard.height > 0) {
+                make.height.equalTo($keyboard.height)
+            } else {
+                 make.height.equalTo(view.super)
+            }
         }
     }
 }
@@ -892,25 +941,40 @@ async function fetchTextAndSend() {
 }
 
 function initializeKeyboard() {
+    if (adaptiveParams.totalHeight && adaptiveParams.totalHeight > 0 && $app.env === $env.keyboard) {
+        $keyboard.height = adaptiveParams.totalHeight;
+    }
+
     if ($app.env === $env.keyboard) {
-        $ui.render({ props: { navBarHidden: true } });
-        $delay(0, () => {
-            $ui.controller.view = $ui.create(view);
-            $ui.controller.view.layout(view.layout);
-             const tucaoButtonIdentifierInInit = "吐槽"; 
-             const allButtonKeysForInit = Object.keys(edit_tool).concat(Object.keys(role_data));
-             const tucaoInitIndex = allButtonKeysForInit.indexOf(tucaoButtonIdentifierInInit);
-             if (tucaoInitIndex !== -1 && $("matrix")) {
-                 const matrixView = $("matrix");
-                 const buttonCellView = matrixView.cell($indexPath(0, tucaoInitIndex));
-                 if (buttonCellView) {
-                     const btnToUpdate = buttonCellView.get("button");
-                     if (btnToUpdate) {
-                         btnToUpdate.title = sprayButtonMode;
-                         btnToUpdate.bgcolor = (sprayButtonMode === "开喷") ? $color("#FFF0F0", "#806B6B") : $color("#FFFFFF", "#6B6B6B");
+        $ui.render({ props: { navBarHidden: true } }); 
+        $delay(0, () => { 
+            const mainView = $ui.create(view);
+            $ui.controller.view = mainView; 
+            mainView.layout(view.layout); 
+            
+            const tucaoButtonIdentifierInInit = "吐槽"; 
+            const allButtonKeysForInit = Object.keys(edit_tool).concat(Object.keys(role_data));
+            const tucaoInitIndex = allButtonKeysForInit.indexOf(tucaoButtonIdentifierInInit);
+
+            if (tucaoInitIndex !== -1) {
+                let matrixView;
+                if (mainView.views && mainView.views[0] && mainView.views[0].type === "matrix") { 
+                    matrixView = mainView.views[0];
+                } else {
+                    matrixView = mainView.get("matrix"); 
+                }
+                
+                if (matrixView) {
+                     const buttonCellView = matrixView.cell($indexPath(0, tucaoInitIndex));
+                     if (buttonCellView) {
+                         const btnToUpdate = buttonCellView.get("button");
+                         if (btnToUpdate) {
+                             btnToUpdate.title = sprayButtonMode;
+                             btnToUpdate.bgcolor = (sprayButtonMode === "开喷") ? $color("#FFF0F0", "#806B6B") : $color("#FFFFFF", "#6B6B6B");
+                         }
                      }
-                 }
-             }
+                }
+            }
         });
     } else {
         $ui.render(view);
