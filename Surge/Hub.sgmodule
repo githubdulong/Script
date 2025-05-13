@@ -1,16 +1,16 @@
 #!name=解析转换
 #!desc=快速添加通用链接为Surge格式,依赖Script.hub
 #!category=Third Party Module
-#!arguments=SURGE_SUFFIX:Surge,STASH_SUFFIX:Stash,LOON_SUFFIX:Loon,DOMAIN_HOST:kelee.one,DOMAIN_REGEX:kelee\.one
-#!arguments-desc=[参数设置]\n▪︎ SURGE_SUFFIX: 自定义为Surge转换链接的后戳参数\n▪︎ STASH_SUFFIX: 自定义为Stash转换链接的后戳参数\n▪︎ LOON_SUFFIX: 自定义为Loon转换链接的后戳参数\n▪︎ DOMAIN_HOST: MITM的私有域名（多个用","分隔）\n▪︎ DOMAIN_REGEX: 正则匹配的私有域名（多个用"|"分隔）\n\n[模块说明]\n⓵ 模块依赖于https://script.hub环境运行,需提前配置\n⓶ 模块限Surge使用,Loon或Stash需自行修改格式使用\n⓷ "SUFFIX"参数按 UA填写,"DOMAIN"参数按域名填写
+#!arguments=SURGE_SUFFIX:Surge,STASH_SUFFIX:Stash,LOON_SUFFIX:Loon,DOMAIN_HOST:kelee.one,DOMAIN_REGEX:kelee\.one,JQ_ENABLED:true
+#!arguments-desc=[参数设置]\n▪︎ SURGE_SUFFIX: 自定义为Surge转换链接的后戳参数\n▪︎ STASH_SUFFIX: 自定义为Stash转换链接的后戳参数\n▪︎ LOON_SUFFIX: 自定义为Loon转换链接的后戳参数\n▪︎ DOMAIN_HOST: MITM的私有域名（多个用","分隔）\n▪︎ DOMAIN_REGEX: 正则匹配的私有域名（多个用"|"分隔）\n▪︎ JQ_ENABLED: 是否支持jq语法，(true启用/false关闭）\n\n[模块说明]\n⓵ 模块依赖于https://script.hub环境运行,需提前配置\n⓶ 模块限Surge使用,Loon或Stash需自行修改格式使用\n⓷ "SUFFIX"参数按 UA填写,"DOMAIN"参数按域名填写
 
 [URL Rewrite]
 # Surge 转换
-^https:\/\/((?:[a-zA-Z0-9.-]*(?:git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*|{{{DOMAIN_REGEX}}}))\/(.*)\/(.*\.(?:js|conf|snippet|plugin|list|yaml)).*({{{SURGE_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2/$3/_end_/$3.sgmodule?type=surge-module&target=surge-module&del=true
+^https:\/\/((?:[a-zA-Z0-9.-]*(?:git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*|{{{DOMAIN_REGEX}}}))\/(.*)\/(.*\.(?:js|conf|snippet|plugin|list|yaml)).*({{{SURGE_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2/$3/_end_/$3.sgmodule?type=surge-module&target=surge-module&del=true&jqEnabled={{{JQ_ENABLED}}}
 # Stash 转换
-^https:\/\/((?:[a-zA-Z0-9.-]*(?:git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*|{{{DOMAIN_REGEX}}}))\/(.*)\/(.*\.(?:js|conf|snippet|plugin|list|yaml)).*({{{STASH_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2/$3/_end_/$3.sgmodule?type=qx-rewrite&target=stash-stoverride&del=true
+^https:\/\/((?:[a-zA-Z0-9.-]*(?:git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*|{{{DOMAIN_REGEX}}}))\/(.*)\/(.*\.(?:js|conf|snippet|plugin|list|yaml)).*({{{STASH_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2/$3/_end_/$3.sgmodule?type=qx-rewrite&target=stash-stoverride&del=true&jqEnabled={{{JQ_ENABLED}}}
 # Loon 转换
-^https:\/\/((?:[a-zA-Z0-9.-]*(?:git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*|{{{DOMAIN_REGEX}}}))\/(.*)\/(.*\.(?:js|conf|snippet|plugin|list|yaml)).*({{{LOON_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2/$3/_end_/$3.sgmodule?type=loon-plugin&target=loon-plugin&del=true
+^https:\/\/((?:[a-zA-Z0-9.-]*(?:git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*|{{{DOMAIN_REGEX}}}))\/(.*)\/(.*\.(?:js|conf|snippet|plugin|list|yaml)).*({{{LOON_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2/$3/_end_/$3.sgmodule?type=loon-plugin&target=loon-plugin&del=true&jqEnabled={{{JQ_ENABLED}}}
 
 [MITM]
 hostname = %APPEND% raw.githubusercontent.com, gist.github.com, gist.githubusercontent.com, gitlab.com, gitee.com, gitcode.net, github.*, {{{DOMAIN_HOST}}}
