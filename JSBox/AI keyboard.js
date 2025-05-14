@@ -42,7 +42,7 @@ const ai_configs = {
         type: "openai_compatible"
     },
     "Gemini": {
-        api_keys: ["YOUR_GEMINI_API_KEY_1"], //Gemini
+        api_keys: ["YOUR_GEMINI_API_KEY_1"],// Gemini
         proxy_urls: ["https://generativelanguage.googleapis.com"],
         models: ["gemini-1.5-pro-latest", "gemini-pro"],
         api_endpoint_template: "{proxy_url}/v1beta/models/{model}:generateContent?key={api_key}",
@@ -66,7 +66,7 @@ const heartbeat_interval = 1.2 // 心跳间隔（秒）
 function getAdaptiveLayoutParams() {
     const screenWidthPt = $device.info.screen.width;
     const minScreenWidth = 320; 
-    const maxScreenWidth = 450; 
+    const maxScreenWidth = 450;
 
     function interpolateValue(currentWidth, minWidth, maxWidth, minValue, maxValue) {
         if (currentWidth <= minWidth) return minValue;
@@ -75,8 +75,10 @@ function getAdaptiveLayoutParams() {
         return minValue + ratio * (maxValue - minValue);
     }
 
-    let spacing = interpolateValue(screenWidthPt, minScreenWidth, maxScreenWidth, 4, 7);
-    let buttonFontSize = interpolateValue(screenWidthPt, minScreenWidth, maxScreenWidth, 12, 16);
+    let spacing = interpolateValue(screenWidthPt, minScreenWidth, maxScreenWidth, 4, 7); 
+    
+    let buttonFontSize = interpolateValue(screenWidthPt, minScreenWidth, maxScreenWidth, 12, 15); 
+    
     let footerFontSize = interpolateValue(screenWidthPt, minScreenWidth, maxScreenWidth, 9, 12);
     let footerHeight = interpolateValue(screenWidthPt, minScreenWidth, maxScreenWidth, 18, 24);
     
@@ -88,22 +90,24 @@ function getAdaptiveLayoutParams() {
     footerHeight = Math.round(footerHeight);
     totalHeight = Math.round(totalHeight); 
 
-    
     const numKeyRows = 5; 
     
     let keyHeight = (totalHeight - footerHeight - (numKeyRows + 1) * spacing) / numKeyRows;
     keyHeight = Math.round(keyHeight);
 
+    if (keyHeight <= 0) { 
+        keyHeight = Math.max(buttonFontSize + 10, 35); 
+    }
+
     return {
         spacing: spacing,
         keyHeight: keyHeight,
         totalHeight: totalHeight,
-        buttonFontSize: buttonFontSize,
+        buttonFontSize: buttonFontSize, 
         footerFontSize: footerFontSize,
         footerHeight: footerHeight
     };
 }
-
 
 const adaptiveParams = getAdaptiveLayoutParams();
 
@@ -481,11 +485,15 @@ const view = {
         events: {
             itemSize: function (sender, indexPath) {
                 let keyboard_columns = indexPath.item < edit_tool_amount ? edit_tool_columns : chatgpt_role_columns;
-                return $size(
-                    ($device.info.screen.width - (keyboard_columns + 1) * adaptiveParams.spacing) / keyboard_columns,
-                    adaptiveParams.keyHeight
-                );
+                let item_width;
+                if (keyboard_columns === chatgpt_role_columns) { 
+                    item_width = Math.floor(($device.info.screen.width - (keyboard_columns + 1) * adaptiveParams.spacing - 1) / keyboard_columns); 
+                } else { 
+                    item_width = ($device.info.screen.width - (keyboard_columns + 1) * adaptiveParams.spacing) / keyboard_columns;
+                }
+                return $size(item_width, adaptiveParams.keyHeight);
             }
+            
         }
     }],
     layout: (make, view) => {
