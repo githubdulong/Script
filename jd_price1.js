@@ -1,63 +1,29 @@
 /**
  * 京东购物助手，京推推转链+比价图表
- * 
- * 更新内容：
- * 2015-05-16 23:30
- * 更新接口
  *
- * 2025-05-01 14:53
+ * * 2025-05-17 07:50
+ * 优化代码，删除沉淀部分
+ * * 2015-05-16 23:30
+ * 更新接口
+ * * 2025-05-01 14:53
  * 优化代码逻辑
- * 
- * 2025-04-24 15:19
+ * * 2025-04-24 15:19
  * 比价图表适配暗黑模式，UI细节处理
- * 
- * 2025-04-22 12:11
+ * * 2025-04-22 12:11
  * 增加京推推商品返利转链
  * 增加比价折线图表格显示
  * 比价代码@苍井灰灰
- * 
- * Surge模块设置参数，详见模块注释内容
+ * * Surge模块设置参数，详见模块注释内容
  * 模块链接：https://raw.githubusercontent.com/githubdulong/Script/master/Surge/JD_Helper.sgmodule
  */
 
 const path1 = "/product/graphext/";
 const path2 = "/baoliao/center/menu";
 const manmanbuy_key = "manmanbuy_val";
-const url = $request.url;
+const requestUrl = $request.url; // Renamed global 'url' to avoid conflict
 const $ = new Env("京东助手");
 
 const getMMdata = async (id) => {
-  const $http = (op, t = 4) => {
-    const { promise, resolve, reject } = Promise.withResolvers();
-    const HTTPError = (e, req, res) =>
-      Object.assign(new Error(e), {
-        name: "HTTPError",
-        request: req,
-        response: res,
-      });
-
-    const handleRes = ({ bodyBytes, ...res }) => {
-      res.status ??= res.statusCode;
-      res.json = () => JSON.parse(res.body);
-      if (res.headers?.["binary-mode"] && bodyBytes) res.body = new Uint8Array(bodyBytes);
-
-      res.error || res.status < 200 || res.status > 307
-        ? reject(HTTPError(res.error, op, res))
-        : resolve(res);
-    };
-
-    const timer = setTimeout(
-      () => reject(HTTPError("timeout", op)),
-      op.$timeout ?? t * 1000
-    );
-    this.$httpClient?.[op.method || "get"](op, (error, resp, body) => {
-      handleRes({ error, ...resp, body });
-    });
-    this.$task?.fetch({ url: op, ...op }).then(handleRes, handleRes);
-
-    return promise.finally(() => clearTimeout(timer));
-  };
-
   const getmmCK = () => {
     const ck = $.getdata("慢慢买CK");
     if (ck) return ck;
@@ -94,16 +60,18 @@ const getMMdata = async (id) => {
     return { ...opt, body: buildBody(cb) };
   };
 
-  const apiCall = (url, buildBody) =>
-    $http(reqOpts({ url, buildBody })).then((resp) => {
-      const body = resp.json();
-      const { code, msg } = body;
-      if (code && code !== 2000 && code !== 6001) throw new Error(`${url} ${msg}`);
-      return body;
-    });
+  const apiCall = async (url, buildBody) => {
+    const options = reqOpts({ url, buildBody });
+    options._timeout = 4000; 
+    const respBody = await httpRequest(options);
+    if (!respBody || (typeof respBody.code !== 'undefined' && respBody.code !== 2000 && respBody.code !== 6001)) {
+      throw new Error(`${url} ${respBody?.msg || '请求失败或响应格式不正确'}`);
+    }
+    return respBody;
+  };
 
   const {
-    result: { spbh, url },
+    result: { spbh, url: itemUrl }, 
   } = await apiCall(
     "https://apapia-history-weblogic.manmanbuy.com/basic/getItemBasicInfo",
     (set) =>
@@ -122,7 +90,7 @@ const getMMdata = async (id) => {
       set({
         methodName: "getHistoryTrend2021",
         spbh,
-        url,
+        url: itemUrl,
       })
   );
 
@@ -145,7 +113,6 @@ const getMMdata = async (id) => {
   };
 };
 
-// 获取模块或插件传入参数
 let args =
   typeof $argument === "string"
     ? $argument
@@ -156,11 +123,10 @@ let args =
       : "";
 $.log(`读取参数: ${args}`);
 const argObj = Object.fromEntries(
-  args.split("&").map((item) => item.split("=").map(decodeURIComponent))
+  args.split("&").filter(item => item.includes("=")).map((item) => item.split("=").map(decodeURIComponent))
 );
-const isEmpty = (val) => !val || val === "null";
+const isEmpty = (val) => val === undefined || val === null || val === "" || val === "null";
 
-// 参数优先级：模块参数 > BoxJs 本地存储
 $.jd_unionId = !isEmpty(argObj["jd_union_id"])
   ? argObj["jd_union_id"]
   : $.getdata("jd_unionId") || "";
@@ -173,83 +139,61 @@ $.jtt_appid = !isEmpty(argObj["jtt_appid"])
 $.jtt_appkey = !isEmpty(argObj["jtt_appkey"])
   ? argObj["jtt_appkey"]
   : $.getdata("jtt_appkey") || "";
-$.disableNotice = argObj["disable_notice"] === "false" ? false : true;
+$.disableNotice = argObj["disable_notice"] !== "true";
 const defaultThemeTime = "7-19";
 $.themeTime = !isEmpty(argObj["theme_time"])
   ? argObj["theme_time"]
   : $.getdata("theme_time") || defaultThemeTime;
 
-async function fetchWithRetry(url, options, maxRetries = 3) {
-  for (let i = 0; i < maxRetries; i++) {
-    try {
-      return await $.get({ url, timeout: 30000, ...options });
-    } catch (error) {
-      $.log(`请求失败，第 ${i + 1} 次重试: ${error}`);
-      if (i === maxRetries - 1) throw error;
-      await new Promise((res) => setTimeout(res, 2000));
-    }
-  }
-}
-
-if (url.includes(path2)) {
+if (requestUrl.includes(path2)) {
   const reqbody = $request.body;
   $.setdata(reqbody, manmanbuy_key);
   $.msg($.name, "获取ck成功🎉", reqbody);
 }
 
-if (url.includes(path1)) {
-  intCryptoJS();
-  $.manmanbuy = getck();
-  let url = $request.url;
-  $.appType = url.includes("lite-in.m.jd.com") ? "jdtj" : "jd";
+if (requestUrl.includes(path1)) {
+  intCryptoJS(); 
+  $.manmanbuy = getck(); 
+  let currentReqUrl = $request.url;
+  $.appType = currentReqUrl.includes("lite-in.m.jd.com") ? "jdtj" : "jd";
 
   (async () => {
-    const match = url.match(/product\/graphext\/(\d+)\.html/);
+    const match = currentReqUrl.match(/product\/graphext\/(\d+)\.html/);
     if (!match) {
       $done({});
       return;
     }
 
-    const shareUrl = `https://item.jd.com/${match[1]}.html`;
-    const id = match[1];
+    const productId = match[1];
     try {
-      if ($.disableNotice && $.jd_unionId && $.jtt_appid && $.jtt_appkey) {
-        $.sku = match[1];
+      if (!$.disableNotice && $.jd_unionId && $.jtt_appid && $.jtt_appkey) {
+        $.sku = productId;
         await jingfenJingTuiTui();
         await notice();
-      } else if (!$.disableNotice) {
-        $.log("已禁用京推推返利和通知，仅显示比价图表");
+      } else if ($.disableNotice) {
+         $.log("京推推返利和通知已禁用，仅显示比价图表");
       }
-
-      const basicRes = await getItemBasicInfo_v1(shareUrl); // V1
-      const basic = checkRes(basicRes, '获取 spbh');
-
-      const shareRes = await share(basic.spbh, basic.url);
-      const shareLink = checkRes(shareRes, '分享商品');
-
-      const trendId = shareLink.split('?')[1] || '';
-      const trendRes = await trendData(trendId);
-      const trend = checkRes(trendRes, '获取价格趋势');
-
-      const { ListPriceDetail, msg } = await getMMdata(id);
-      if (!ListPriceDetail) throw msg;
+      
+      const { ListPriceDetail, msg: mmMsg } = await getMMdata(productId);
+      if (!ListPriceDetail) {
+          throw new Error(mmMsg || '从慢慢买获取价格详情失败');
+      }
       const exclude = new Set(["常购价格", "历史最高价"]);
       const list = ListPriceDetail.filter((i) => !exclude.has(i.Name));
 
       const html = buildPriceTableHTML(list);
       const newBody = $response.body.replace(
         /<body[^>]*>/,
-        (match) => `${match}\n${html}`
+        (bodyMatch) => `${bodyMatch}\n${html}`
       );
       $done({ body: newBody });
     } catch (err) {
-      console.warn(err.message || err);
+      $.logErr(err.message || $.toStr(err));
       $done({});
     }
   })();
 }
 
-/** 京推推转链 */
 async function jingfenJingTuiTui() {
   $.log("转链开始");
   return new Promise((resolve) => {
@@ -262,7 +206,7 @@ async function jingfenJingTuiTui() {
     $.get(options, (err, resp, data) => {
       if (err) {
         $.log("京推推 universal 请求失败：" + $.toStr(err));
-        $.logErr("转链过程中的错误: " + err);
+        $.logErr("转链过程中的错误: " + $.toStr(err));
       } else {
         try {
           data = JSON.parse(data);
@@ -296,7 +240,6 @@ async function jingfenJingTuiTui() {
   });
 }
 
-/** 发送通知 */
 async function notice() {
   $.log("发送通知");
   $.title = $.skuName || "商品信息";
@@ -305,7 +248,6 @@ async function notice() {
   if (/u\.jd\.com/.test($.shortUrl)) {
     $.desc += `预计返利: ¥${(($.price * $.commissionShare) / 100).toFixed(2)}  ${$.commissionShare}%`;
 
-    // 根据平台生成跳转链接
     if ($.appType === "jdtj") {
       $.jumpUrl = `openjdlite://virtual?params=${encodeURIComponent('{"category":"jump","des":"m","url":"' + $.shortUrl + '"}')}`;
     } else {
@@ -320,17 +262,8 @@ async function notice() {
   $.msg($.title, $.subt, $.desc, $.opts);
 }
 
-function checkRes(res, desc = "") {
-  if (res.code !== 2000 || (!res.result && !res.data)) {
-    $.log("温馨提示: " + res.msg);
-    throw new Error(`慢慢买提示您：${res.msg || `${desc}失败`}`);
-  }
-  return res.result || res.data;
-}
-
 function buildPriceTableHTML(priceList) {
   if (!Array.isArray(priceList) || priceList.length === 0) {
-    console.warn("priceList is empty or invalid, returning empty table");
     return `<div class="price-container">
                   <table class="price-table">
                     <thead><tr><th>类型</th><th>日期</th><th>价格</th><th>差价</th></tr></thead>
@@ -381,23 +314,18 @@ function buildPriceTableHTML(priceList) {
 body, table {
     font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-
-/* 主题变量 */
 :root {
     --background-color: #FEFEFE;
     --text-color: #333;
     --border-color: #EEE;
     --shadow-color: rgba(0,0,0,0.05);
 }
-
-/* 暗黑模式变量 */
 [data-theme="dark"] {
     --background-color: #1a1a1a;
     --text-color: #f0f0f0;
     --border-color: #444;
     --shadow-color: rgba(0,0,0,0.2);
 }
-
 .price-container {
     max-width: 800px;
     margin: 0 auto;
@@ -411,7 +339,6 @@ body, table {
     box-shadow: none;
     transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
-
 .price-table {
     width: 100%;
     border-collapse: collapse;
@@ -419,11 +346,9 @@ body, table {
     border-radius: 8px;
     overflow: hidden;
 }
-
 .price-table thead tr {
     background: linear-gradient(to right, #ff6666, #e61a23);
 }
-
 .price-table th {
     background: none;
     color: #fff;
@@ -432,18 +357,15 @@ body, table {
     font-weight: bold;
     border: none;
 }
-
 .price-table td {
     padding: 12px;
     border-bottom: 1px solid var(--border-color);
     color: var(--text-color);
     transition: color 0.3s ease;
 }
-
 .price-diff.up {
     color: #C91623;
 }
-
 .price-diff.down {
     color: #00aa00;
 }
@@ -458,8 +380,6 @@ const setTimeBasedTheme = () => {
     document.documentElement.setAttribute('data-theme', isDarkTime ? 'dark' : 'light');
     console.log('Theme set to:', document.documentElement.getAttribute('data-theme'));
 };
-
-// 图表初始化函数
 const initializeChart = () => {
     const canvas = document.getElementById('priceChart');
     if (!canvas) {
@@ -471,19 +391,13 @@ const initializeChart = () => {
         console.error('Canvas context not found for priceChart');
         return;
     }
-
     if (window.priceChartInstance) {
         window.priceChartInstance.destroy();
     }
-
     const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
     console.log('isDarkMode:', isDarkMode);
-
-    // 获取 CSS 变量 --text-color
     const themeTextColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
     console.log('themeTextColor from CSS:', themeTextColor);
-
-    // 图表配置
     window.priceChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
@@ -557,13 +471,9 @@ const initializeChart = () => {
         }
     });
 };
-
-// 初始化主题和图表
 document.addEventListener('DOMContentLoaded', () => {
     setTimeBasedTheme();
     initializeChart();
-
-    // 动态监听主题变化
     const observer = new MutationObserver(() => {
         const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
         const newThemeTextColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
@@ -585,111 +495,6 @@ document.addEventListener('DOMContentLoaded', () => {
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>`;
 }
 
-function get_options(extraParams = {}, url) {
-  const sourceParams = $.manmanbuy;
-  const SECRET_KEY = "3E41D1331F5DDAFCD0A38FE2D52FF66F";
-  const baseParams = {
-    t: "",
-    jsoncallback: "?",
-    c_individ: "",
-    c_appver: "",
-    c_ostype: "",
-    c_osver: "",
-    c_devid: "",
-    c_mmbDevId: "",
-    c_systemDevId: "",
-    c_fixDevId: "",
-    c_devmodel: "",
-    c_brand: "",
-    c_operator: "",
-    c_engine: "",
-    c_session: "",
-    c_ddToken: "",
-    c_ctrl: "",
-    c_win: "",
-    c_dp: "",
-    c_safearea: "",
-    c_firstchannel: "",
-    c_firstquerendate: "",
-    c_fristversion: "",
-    c_channel: "",
-    c_uuid: "",
-    c_ssid: "",
-    c_did: "",
-    c_theme: "",
-    c_jpush: "",
-    c_mmbncid: "",
-    sm_deviceid: "",
-  };
-
-  const mergedParams = {
-    ...baseParams,
-    ...Object.fromEntries(
-      Object.entries(sourceParams).filter(([key]) => key in baseParams)
-    ),
-    t: Date.now().toString(),
-    ...extraParams,
-  };
-
-  const requestBody = { ...mergedParams };
-  requestBody.token = md5(
-    encodeURIComponent(SECRET_KEY + jsonToCustomString(requestBody) + SECRET_KEY)
-  ).toUpperCase();
-
-  return {
-    url,
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-      "User-Agent":
-        "Mozilla/5.0 (iPhone; CPU iPhone OS 15_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios",
-    },
-    body: jsonToQueryString(requestBody),
-  };
-}
-
-async function SiteCommand_parse(searchKey) {
-  const url = "https://apapia-common.manmanbuy.com/SiteCommand/parse";
-  const payload = { methodName: "commonMethod", searchKey };
-  const opt = get_options(payload, url);
-  return await httpRequest(opt);
-}
-
-// spbh jf_url V1
-async function getItemBasicInfo_v1(link) {
-  const url = "https://apapia-history-weblogic.manmanbuy.com/basic/getItemBasicInfo";
-  const payload = { methodName: "getHistoryInfoJava", searchKey: link };
-  const opt = get_options(payload, url);
-  return await httpRequest(opt);
-}
-
-// spbh jf_url V2
-async function getItemBasicInfo(stteId, link) {
-  const url = "https://apapia-history-weblogic.manmanbuy.com/basic/v2/getItemBasicInfo";
-  const payload = { methodName: "getHistoryInfoJava", searchKey: link, stteId };
-  const opt = get_options(payload, url);
-  return await httpRequest(opt);
-}
-
-async function share(spbh, jf_url) {
-  const url = "https://apapia-history-weblogic.manmanbuy.com/app/share";
-  const payload = { methodName: "trendJava", spbh, url: jf_url };
-  const opt = get_options(payload, url);
-  return await httpRequest(opt);
-}
-
-async function trendData(body) {
-  const opt = {
-    url: "https://apapia-history-weblogic.manmanbuy.com/h5/share/trendData",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-      "User-Agent":
-        "Mozilla/5.0 (iPhone; CPU iPhone OS 15_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios",
-    },
-    body,
-  };
-  return await httpRequest(opt);
-}
-
 function getck() {
   const ck = $.getdata(manmanbuy_key);
   if (!ck) {
@@ -701,48 +506,53 @@ function getck() {
     $.msg($.name, "数据异常", "请联系脚本作者检查ck格式");
     return null;
   }
-  $.log("慢慢买CK：", Params.c_mmbDevId);
+  $.log("慢慢买CK (c_mmbDevId)：", Params.c_mmbDevId);
   return Params;
 }
 
 async function httpRequest(options) {
   try {
     options = options.url ? options : { url: options };
-    const _method = options?._method || ("body" in options ? "post" : "get");
-    const _respType = options?._respType || "body";
-    const _timeout = options?._timeout || 240000;
-    const _http = [
-      new Promise((_, reject) =>
-        setTimeout(() => reject(`⛔️ 请求超时: ${options["url"]}`), _timeout)
-      ),
-      new Promise((resolve, reject) => {
-        $[_method.toLowerCase()](options, (error, response, data) => {
-          error && $.log($.toStr(error));
-          if (_respType !== "all") {
-            resolve($.toObj(response?.[_respType], response?.[_respType]));
-          } else {
-            resolve(response);
-          }
-        });
-      }),
-    ];
-    return await Promise.race(_http);
-  } catch (err) {
-    $.logErr(err);
-  }
-}
+    const method = options?.method?.toLowerCase() || ("body" in options ? "post" : "get");
+    const respType = options?._respType || "body";
+    const timeout = options?._timeout || 240000;
 
-function getParam(queryStr, paramName) {
-  const params = new URLSearchParams(queryStr);
-  return params.get(paramName);
+    return await new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+          const err = new Error(`⛔️ 请求超时: ${options.url}`);
+          $.logErr(err.message);
+          reject(err);
+      }, timeout);
+      
+      $[method](options, (error, response, data) => {
+        clearTimeout(timer);
+        if (error) {
+          $.logErr(`HttpRequest Error for ${options.url}: ${$.toStr(error)}`);
+          reject(error);
+        } else {
+          if (respType === "all") {
+            resolve(response);
+          } else {
+            resolve($.toObj(data, data)); 
+          }
+        }
+      });
+    });
+  } catch (err) {
+    $.logErr(`httpRequest Exception: ${$.toStr(err)}`);
+    return Promise.reject(err);
+  }
 }
 
 function parseQueryString(queryString) {
   const jsonObject = {};
+  if (!queryString) return jsonObject;
   const pairs = queryString.split("&");
   pairs.forEach((pair) => {
-    const [key, value] = pair.split("=");
-    jsonObject[decodeURIComponent(key)] = decodeURIComponent(value || "");
+    const parts = pair.split("=", 2); // Limit split to 2 parts
+    if (parts.length >= 1 && parts[0] !== "") {
+        jsonObject[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1] || "");
+    }
   });
   return jsonObject;
 }
@@ -757,7 +567,7 @@ function jsonToCustomString(jsonObject) {
   return Object.keys(jsonObject)
     .filter((key) => jsonObject[key] !== "" && key.toLowerCase() !== "token")
     .sort()
-    .map((key) => `${key.toUpperCase()}${jsonObject[key].toUpperCase()}`)
+    .map((key) => `${key.toUpperCase()}${String(jsonObject[key]).toUpperCase()}`)
     .join("");
 }
 
