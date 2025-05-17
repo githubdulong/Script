@@ -1,5 +1,5 @@
 /*
- * 脚本名称：京东比价 折线图
+ * 脚本名称：京东比价 
  * 使用说明：进入APP商品详情页面触发。
  * 支持版本：App V15.0.80（自行测试）
  * 脚本作者：小白脸
@@ -214,7 +214,7 @@ const Table = (result) => {
     });
   };
 
-  const { ListPriceDetail } = result.priceRemark;
+  const { ListPriceDetail } = result;
   return priceHistoryTable({
     groupName: "历史比价",
     atts: getJdData(ListPriceDetail),
@@ -307,9 +307,9 @@ const JdLine = (data) => {
         const eventInfo = document.getElementById('event-info');
 
         const {
-            trendData: { info, currentPrice },
+            trendData: { jiagequshiyh, currentPrice },
         } = ${JSON.stringify(data)};
-        const DATA = info.reverse().slice(1);
+        const DATA = jiagequshiyh.reverse().slice(1);
         const uniquePrices = [...new Set(DATA.map(item => Math.floor(item.actualPrice)))].sort((a, b) => a - b);
 
         // 生成数据
@@ -547,8 +547,7 @@ myChart.on('legendselectchanged', ({ name }) => {
 };
 
 
-
-const getMMdata = (id) => {
+const getMMdata = async (id) => {
   const getmmCK = () => {
     const ck = $prs.get("慢慢买CK");
     if (ck) return ck;
@@ -589,11 +588,12 @@ const getMMdata = (id) => {
     $http(reqOpts({ url, buildBody }))
       .then((resp) => {
 				const body = resp.json();
-        if (!url.endsWith("trendData") && body.code !== 2000) throw new Error(`${url}：${body.msg}`);
+        const { code, msg } = body;
+        if (code && code !== 2000 && code !== 6001) throw new Error(`${url} ${msg}`);
         return body;
       });
 
-  return  apiCall(
+  const { result: { spbh, url } }  =  await apiCall(
             "https://apapia-history-weblogic.manmanbuy.com/basic/getItemBasicInfo",
         (set) =>
           set({
@@ -601,24 +601,35 @@ const getMMdata = (id) => {
             searchKey: `https://item.jd.com/${id}.html`,
           })
       )
-    .then(({ result: { spbh, url } }) =>
-      apiCall(
-        "https://apapia-history-weblogic.manmanbuy.com/app/share",
+  
+  const { result: { trend: jiagequshiyh }, msg } = await apiCall(
+        "https://apapia-history-weblogic.manmanbuy.com/history/v2/getHistoryTrend",
         (set) =>
           set({
-            methodName: "trendJava",
+            methodName: "getHistoryTrend2021",
             spbh,
             url,
           })
       )
-    )
-    .then(({ data }) =>
-      apiCall(
-        "https://apapia-history-weblogic.manmanbuy.com/h5/share/trendData",
-        () => data.split("?")[1]
+  
+  if (!jiagequshiyh) return { msg };
+
+  
+  const { remark: { ListPriceDetail } } = await apiCall(
+        "https://apapia-history-weblogic.manmanbuy.com/history/priceRemark",
+        (set) =>
+          set({
+            methodName: "priceRemarkJava",
+            jiagequshiyh,
+          })
       )
-    )
+    
+    return {
+      ListPriceDetail,
+      jiagequshiyh,
+    }
 };
+
 
 const Render = {
   inject(html) {
@@ -635,8 +646,9 @@ const Render = {
 const main = async () => {
   try {
     const ID = $request.url.match(/\d+/);
-    const { msg, code, result } = await getMMdata(ID);
-    if (code !== 2000) {
+    const { msg, ...result } = await getMMdata(ID);
+    
+    if (msg) {
       Render.inject(`<h2>${msg}</h2>`).done();
       return;
     }
@@ -646,7 +658,6 @@ const main = async () => {
 
     Render
     .inject(Table(result))
-    .inject(JdLine(result))
     .inject(`<script>isDark=${isDark}</script>`)
     .done();
   } catch (e) {
