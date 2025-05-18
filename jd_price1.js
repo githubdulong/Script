@@ -1,6 +1,8 @@
 /**
  * 京东购物助手，京推推转链+比价图表
  *
+ * * 2025-05-18 10:08
+ * 修复 bug
  * * 2025-05-17 07:50
  * 优化代码，删除沉淀部分
  * * 2015-05-16 23:30
@@ -20,14 +22,14 @@
 const path1 = "/product/graphext/";
 const path2 = "/baoliao/center/menu";
 const manmanbuy_key = "manmanbuy_val";
-const requestUrl = $request.url; // Renamed global 'url' to avoid conflict
+const requestUrl = $request.url;
 const $ = new Env("京东助手");
 
 const getMMdata = async (id) => {
   const getmmCK = () => {
-    const ck = $.getdata("慢慢买CK");
-    if (ck) return ck;
-    throw new Error("未获取 ck，请先打开【慢慢买】APP→我的，获取 ck");
+    if ($.manmanbuy && typeof $.manmanbuy.c_mmbDevId !== 'undefined' && $.manmanbuy.c_mmbDevId !== null && String($.manmanbuy.c_mmbDevId).trim() !== "") {
+      return $.manmanbuy.c_mmbDevId;
+    }    
   };
 
   const reqOpts = ({ url, buildBody, ...op }) => {
@@ -62,7 +64,7 @@ const getMMdata = async (id) => {
 
   const apiCall = async (url, buildBody) => {
     const options = reqOpts({ url, buildBody });
-    options._timeout = 4000; 
+    options._timeout = 4000;
     const respBody = await httpRequest(options);
     if (!respBody || (typeof respBody.code !== 'undefined' && respBody.code !== 2000 && respBody.code !== 6001)) {
       throw new Error(`${url} ${respBody?.msg || '请求失败或响应格式不正确'}`);
@@ -71,7 +73,7 @@ const getMMdata = async (id) => {
   };
 
   const {
-    result: { spbh, url: itemUrl }, 
+    result: { spbh, url: itemUrl },
   } = await apiCall(
     "https://apapia-history-weblogic.manmanbuy.com/basic/getItemBasicInfo",
     (set) =>
@@ -148,7 +150,7 @@ $.themeTime = !isEmpty(argObj["theme_time"])
 if (requestUrl.includes(path2)) {
   const reqbody = $request.body;
   $.setdata(reqbody, manmanbuy_key);
-  $.msg($.name, "获取ck成功🎉", reqbody);
+  $.msg($.name, "获取CK成功 🎉", reqbody);
 }
 
 if (requestUrl.includes(path1)) {
@@ -498,12 +500,12 @@ document.addEventListener('DOMContentLoaded', () => {
 function getck() {
   const ck = $.getdata(manmanbuy_key);
   if (!ck) {
-    $.msg($.name, "请先打开【慢慢买】APP", "请确保已成功获取ck");
+    $.msg($.name, "请先打开【慢慢买】APP获取CK ⚠️");
     return null;
   }
   const Params = parseQueryString(ck);
   if (!Params?.c_mmbDevId) {
-    $.msg($.name, "数据异常", "请联系脚本作者检查ck格式");
+    $.msg($.name, "数据异常 请联系脚本作者检查CK格式 ⚠️");
     return null;
   }
   $.log("慢慢买CK (c_mmbDevId)：", Params.c_mmbDevId);
@@ -549,7 +551,7 @@ function parseQueryString(queryString) {
   if (!queryString) return jsonObject;
   const pairs = queryString.split("&");
   pairs.forEach((pair) => {
-    const parts = pair.split("=", 2); // Limit split to 2 parts
+    const parts = pair.split("=", 2); 
     if (parts.length >= 1 && parts[0] !== "") {
         jsonObject[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1] || "");
     }
