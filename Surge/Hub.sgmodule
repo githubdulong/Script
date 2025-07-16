@@ -6,11 +6,11 @@
 
 [URL Rewrite]
 # Surge 转换
-^https:\/\/((?:[a-zA-Z0-9.-]*(?:git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*|{{{DOMAIN_REGEX}}}))\/(.*)\/(.*\.(?:js|conf|snippet|plugin|list|yaml)).*({{{SURGE_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2/$3/_end_/$3.sgmodule?type=surge-module&target=surge-module&del=true&jqEnabled={{{JQ_ENABLED}}}
+^https:\/\/((?:[a-zA-Z0-9.-]*(?:git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*|{{{DOMAIN_REGEX}}}))\/(.*)\/(.*\.(?:js|conf|snippet|plugin|list|yaml|lpx)).*({{{SURGE_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2/$3/_end_/$3.sgmodule?type=surge-module&target=surge-module&del=true&jqEnabled={{{JQ_ENABLED}}}
 # Stash 转换
-^https:\/\/((?:[a-zA-Z0-9.-]*(?:git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*|{{{DOMAIN_REGEX}}}))\/(.*)\/(.*\.(?:js|conf|snippet|plugin|list|yaml)).*({{{STASH_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2/$3/_end_/$3.sgmodule?type=qx-rewrite&target=stash-stoverride&del=true&jqEnabled={{{JQ_ENABLED}}}
+^https:\/\/((?:[a-zA-Z0-9.-]*(?:git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*|{{{DOMAIN_REGEX}}}))\/(.*)\/(.*\.(?:js|conf|snippet|plugin|list|yaml|lpx)).*({{{STASH_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2/$3/_end_/$3.sgmodule?type=qx-rewrite&target=stash-stoverride&del=true&jqEnabled={{{JQ_ENABLED}}}
 # Loon 转换
-^https:\/\/((?:[a-zA-Z0-9.-]*(?:git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*|{{{DOMAIN_REGEX}}}))\/(.*)\/(.*\.(?:js|conf|snippet|plugin|list|yaml)).*({{{LOON_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2/$3/_end_/$3.sgmodule?type=loon-plugin&target=loon-plugin&del=true&jqEnabled={{{JQ_ENABLED}}}
+^https:\/\/((?:[a-zA-Z0-9.-]*(?:git|github|gitlab|gitee|gitcode)[a-zA-Z0-9.-]*|{{{DOMAIN_REGEX}}}))\/(.*)\/(.*\.(?:js|conf|snippet|plugin|list|yaml|lpx)).*({{{LOON_SUFFIX}}})$ http://script.hub/file/_start_/https://$1/$2/$3/_end_/$3.sgmodule?type=loon-plugin&target=loon-plugin&del=true&jqEnabled={{{JQ_ENABLED}}}
 
 [MITM]
 hostname = %APPEND% raw.githubusercontent.com, gist.github.com, gist.githubusercontent.com, gitlab.com, gitee.com, gitcode.net, github.*, {{{DOMAIN_HOST}}}
