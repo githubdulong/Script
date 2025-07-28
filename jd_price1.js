@@ -1,6 +1,8 @@
 /**
  * 京东购物助手，京推推转链+比价图表
  *
+ * * 2025-07-28 15:38
+ * 修复比价，参考灰灰代码
  * * 2025-05-29 16:55
  * 新增点击"价格趋势"标题，跳转至慢慢买app比价
  * * 2025-05-17 07:50
@@ -25,95 +27,95 @@ const manmanbuy_key = "manmanbuy_val";
 const requestUrl = $request.url;
 const $ = new Env("京东助手");
 
-const getMMdata = async (id) => {
-  const getmmCK = () => {
-    if ($.manmanbuy && typeof $.manmanbuy.c_mmbDevId !== 'undefined' && $.manmanbuy.c_mmbDevId !== null && String($.manmanbuy.c_mmbDevId).trim() !== "") {
-      return $.manmanbuy.c_mmbDevId;
-    }    
-  };
-
-  const reqOpts = ({ url, buildBody, ...op }) => {
-    const opt = {
-      method: "post",
-      url,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-        "User-Agent":
-          "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios",
-      },
-      ...op,
-    };
-    const cb = (args) => {
-      const reqBody = {
-        t: Date.now().toString(),
-        c_appver: "4.8.3.1",
-        c_mmbDevId: getmmCK(),
-        ...args,
-      };
-      reqBody.token = md5(
-        encodeURIComponent(
-          "3E41D1331F5DDAFCD0A38FE2D52FF66F" +
-            jsonToCustomString(reqBody) +
-            "3E41D1331F5DDAFCD0A38FE2D52FF66F"
-        )
-      ).toUpperCase();
-      return jsonToQueryString(reqBody);
-    };
-    return { ...opt, body: buildBody(cb) };
-  };
-
-  const apiCall = async (url, buildBody) => {
-    const options = reqOpts({ url, buildBody });
-    options._timeout = 4000;
-    const respBody = await httpRequest(options);
-    if (!respBody || (typeof respBody.code !== 'undefined' && respBody.code !== 2000 && respBody.code !== 6001)) {
-      throw new Error(`${url} ${respBody?.msg || '请求失败或响应格式不正确'}`);
+function checkRes(res, desc = '') {
+    if (!res || (typeof res.code !== 'undefined' && res.code !== 2000 && res.code !== 6001)) {
+        $.log('慢慢买请求异常：' + $.toStr(res));
+        throw new Error(`慢慢买提示您：${res.msg || `${desc}失败`}`);
     }
-    return respBody;
-  };
+    return res;
+}
 
-  const {
-    result: { spbh, url: itemUrl },
-  } = await apiCall(
-    "https://apapia-history-weblogic.manmanbuy.com/basic/getItemBasicInfo",
-    (set) =>
-      set({
+async function mmbRequest(Params, url) {
+    if (!$.manmanbuy) {
+        $.manmanbuy = getck();
+    }
+    const SECRET_KEY = '3E41D1331F5DDAFCD0A38FE2D52FF66F';
+    const requestBody = {
+        ...$.manmanbuy,
+        ...Params,
+        t: Date.now().toString(),
+        c_appver: "4.8.3.1" 
+    };
+    delete requestBody.token; 
+    
+    requestBody.token = md5(encodeURIComponent(SECRET_KEY + jsonToCustomString(requestBody) + SECRET_KEY)).toUpperCase();
+    const payloadStr = jsonToQueryString(requestBody);
+
+    const opt = {
+        url,
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 - mmbWebBrowse - ios"
+        },
+        body: payloadStr,
+        _timeout: 5000 
+    };
+    return await httpRequest(opt);
+}
+
+async function get_spbh(link) {
+    const url = 'https://apapia-history-weblogic.manmanbuy.com/basic/getItemBasicInfo';
+    const payload = {
         methodName: "getHistoryInfoJava",
-        searchKey: `https://item.jd.com/${id}.html`,
-      })
-  );
+        searchKey: link
+    };
+    return await mmbRequest(payload, url);
+}
 
-  const {
-    result: { trend: jiagequshiyh },
-    msg,
-  } = await apiCall(
-    "https://apapia-history-weblogic.manmanbuy.com/history/v2/getHistoryTrend",
-    (set) =>
-      set({
+async function get_jiagequshi(link, spbh) {
+    const url = "https://apapia-history-weblogic.manmanbuy.com/history/v2/getHistoryTrend";
+    const payload = {
         methodName: "getHistoryTrend2021",
-        spbh,
-        url: itemUrl,
-      })
-  );
+        url: link,
+        spbh: spbh
+    };
+    return await mmbRequest(payload, url);
+}
 
-  if (!jiagequshiyh) return { msg, spbh };
-
-  const {
-    remark: { ListPriceDetail },
-  } = await apiCall(
-    "https://apapia-history-weblogic.manmanbuy.com/history/priceRemark",
-    (set) =>
-      set({
+async function get_priceRemark(jiagequshiyh) {
+    const url = "https://apapia-history-weblogic.manmanbuy.com/history/priceRemark";
+    const payload = {
         methodName: "priceRemarkJava",
-        jiagequshiyh,
-      })
-  );
+        jiagequshiyh: jiagequshiyh
+    };
+    return await mmbRequest(payload, url);
+}
 
-  return {
-    ListPriceDetail,
-    jiagequshiyh,
-    spbh,
-  };
+
+const getMMdata = async (id) => {
+    const JD_Url = `https://item.jd.com/${id}.html`;
+
+    const basicInfo = checkRes(await get_spbh(JD_Url), '获取商品编号');
+    const spbh = basicInfo?.result?.spbh;
+    const itemUrl = basicInfo?.result?.url;
+    if (!spbh || !itemUrl) throw new Error("未能获取到慢慢买商品编号(spbh)");
+
+    const historyTrend = checkRes(await get_jiagequshi(itemUrl, spbh), '获取价格趋势');
+    const jiagequshiyh = historyTrend?.result?.trend;
+    if (!jiagequshiyh) {
+        $.log("警告：未能获取到价格趋势图(jiagequshiyh)，但仍将尝试获取价格列表。");
+    }
+
+    const priceRemark = checkRes(await get_priceRemark(jiagequshiyh), '获取价格详情');
+    const ListPriceDetail = priceRemark?.remark?.ListPriceDetail;
+    if (!ListPriceDetail) throw new Error("未能获取到详细价格列表");
+
+    return {
+        ListPriceDetail,
+        jiagequshiyh,
+        spbh,
+    };
 };
 
 let args =
@@ -130,23 +132,13 @@ const argObj = Object.fromEntries(
 );
 const isEmpty = (val) => val === undefined || val === null || val === "" || val === "null";
 
-$.jd_unionId = !isEmpty(argObj["jd_union_id"])
-  ? argObj["jd_union_id"]
-  : $.getdata("jd_unionId") || "";
-$.jd_positionId = !isEmpty(argObj["jd_position_id"])
-  ? argObj["jd_position_id"]
-  : $.getdata("jd_positionId") || "";
-$.jtt_appid = !isEmpty(argObj["jtt_appid"])
-  ? argObj["jtt_appid"]
-  : $.getdata("jtt_appid") || "";
-$.jtt_appkey = !isEmpty(argObj["jtt_appkey"])
-  ? argObj["jtt_appkey"]
-  : $.getdata("jtt_appkey") || "";
-$.disableNotice = argObj["disable_notice"] !== "true";
+$.jd_unionId = !isEmpty(argObj["jd_union_id"]) ? argObj["jd_union_id"] : $.getdata("jd_unionId") || "";
+$.jd_positionId = !isEmpty(argObj["jd_position_id"]) ? argObj["jd_position_id"] : $.getdata("jd_positionId") || "";
+$.jtt_appid = !isEmpty(argObj["jtt_appid"]) ? argObj["jtt_appid"] : $.getdata("jtt_appid") || "";
+$.jtt_appkey = !isEmpty(argObj["jtt_appkey"]) ? argObj["jtt_appkey"] : $.getdata("jtt_appkey") || "";
+$.disableNotice = argObj["disable_notice"] === "false";
 const defaultThemeTime = "7-19";
-$.themeTime = !isEmpty(argObj["theme_time"])
-  ? argObj["theme_time"]
-  : $.getdata("theme_time") || defaultThemeTime;
+$.themeTime = !isEmpty(argObj["theme_time"]) ? argObj["theme_time"] : $.getdata("theme_time") || defaultThemeTime;
 
 if (requestUrl.includes(path2)) {
   const reqbody = $request.body;
@@ -178,6 +170,7 @@ if (requestUrl.includes(path1)) {
       }
       
       const { ListPriceDetail, msg: mmMsg, spbh } = await getMMdata(productId);
+
       if (!ListPriceDetail && !spbh) {
           throw new Error(mmMsg || '从慢慢买获取价格详情或商品编号失败');
       }
@@ -196,7 +189,9 @@ if (requestUrl.includes(path1)) {
       $done({ body: newBody });
     } catch (err) {
       $.logErr(err.message || $.toStr(err));
-      $done({});
+       const errorHtml = `<div style="padding: 20px; text-align: center; color: red; font-size: 16px;"><strong>比价失败：</strong>${err.message || '未知错误'}</div>`;
+       const newBody = $response.body.replace(/<body[^>]*>/, bodyMatch => bodyMatch + errorHtml);
+       $done({ body: newBody });
     }
   })();
 }
@@ -213,7 +208,6 @@ async function jingfenJingTuiTui() {
     $.get(options, (err, resp, data) => {
       if (err) {
         $.log("京推推 universal 请求失败：" + $.toStr(err));
-        $.logErr("转链过程中的错误: " + $.toStr(err));
       } else {
         try {
           data = JSON.parse(data);
@@ -221,12 +215,7 @@ async function jingfenJingTuiTui() {
             const linkData = data?.result?.link_date?.[0] || {};
             const { chain_link, goods_info } = linkData;
             if (goods_info) {
-              const {
-                skuName = chain_link,
-                imageInfo,
-                commissionInfo,
-                priceInfo,
-              } = goods_info;
+              const { skuName, imageInfo, commissionInfo, priceInfo } = goods_info;
               $.commissionShare = commissionInfo.commissionShare;
               $.commission = commissionInfo.couponCommission;
               $.price = priceInfo.lowestPrice;
@@ -254,7 +243,6 @@ async function notice() {
   $.desc = $.desc || "";
   if (/u\.jd\.com/.test($.shortUrl)) {
     $.desc += `预计返利: ¥${(($.price * $.commissionShare) / 100).toFixed(2)}  ${$.commissionShare}%`;
-
     if ($.appType === "jdtj") {
       $.jumpUrl = `openjdlite://virtual?params=${encodeURIComponent('{"category":"jump","des":"m","url":"' + $.shortUrl + '"}')}`;
     } else {
@@ -263,43 +251,26 @@ async function notice() {
     $.opts["$open"] = $.jumpUrl;
   } else {
     $.desc += "\n预计返利: 暂无";
-    $.log("无佣金商品");
   }
   if ($.skuImg) $.opts["$media"] = $.skuImg;
   $.msg($.title, $.subt, $.desc, $.opts);
 }
 
 function buildPriceTableHTML(priceList, productId, spbh) {
-  const rows = (priceList || [])
-    .map((item) => {
+  const rows = (priceList || []).map(item => {
       let { Name: name, Date: date, Price: price = "", Difference: diff = "" } = item;
-      date =
-        name === "当前到手价"
-          ? typeof $.time === "function"
-            ? $.time("yyyy-MM-dd")
-            : new Date().toISOString().split("T")[0]
-          : date || "-";
+      date = name === "当前到手价" ? (typeof $.time === "function" ? $.time("yyyy-MM-dd") : new Date().toISOString().split("T")[0]) : date || "-";
       let diffClass = diff.startsWith("↑") ? "up" : diff.startsWith("↓") ? "down" : "";
       return `<tr><td>${name}</td><td>${date}</td><td>${price}</td><td class="price-diff ${diffClass}">${diff}</td></tr>`;
-    })
-    .join("");
+    }).join("");
 
-  const chartData = (priceList || [])
-    .filter((i) => i.Price && !isNaN(parseFloat(String(i.Price).replace(/[¥\s]/g, ""))))
-    .map((i) => ({
-      date:
-        i.Name === "当前到手价"
-          ? typeof $.time === "function"
-            ? $.time("yyyy-MM-dd")
-            : new Date().toISOString().split("T")[0]
-          : i.Date || "-",
+  const chartData = (priceList || []).filter(i => i.Price && !isNaN(parseFloat(String(i.Price).replace(/[¥\s]/g, "")))).map(i => ({
+      date: i.Name === "当前到手价" ? (typeof $.time === "function" ? $.time("yyyy-MM-dd") : new Date().toISOString().split("T")[0]) : i.Date || "-",
       price: parseFloat(String(i.Price).replace(/[¥\s]/g, "")),
-    }))
-    .sort((a, b) => new Date(a.date) - new Date(b.date));
+    })).sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  const labels = chartData.map((i) => i.date);
-  const prices = chartData.map((i) => i.price);
-
+  const labels = chartData.map(i => i.date);
+  const prices = chartData.map(i => i.price);
   const sProductId = JSON.stringify(productId);
 
   return `
@@ -311,185 +282,70 @@ function buildPriceTableHTML(priceList, productId, spbh) {
   <canvas id="priceChart" height="100"></canvas>
 </div>
 <style>
-body, table {
-    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-:root {
-    --background-color: #FEFEFE;
-    --text-color: #333;
-    --border-color: #EEE;
-    --shadow-color: rgba(0,0,0,0.05);
-}
-[data-theme="dark"] {
-    --background-color: #1a1a1a;
-    --text-color: #f0f0f0;
-    --border-color: #444;
-    --shadow-color: rgba(0,0,0,0.2);
-}
-.price-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 10px;
-    font-size: 13px;
-    font-weight: bold;
-    background: var(--background-color);
-    color: var(--text-color);
-    border-radius: 0;
-    overflow: hidden;
-    box-shadow: none;
-    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-}
-.price-table {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    border-radius: 8px;
-    overflow: hidden;
-}
-.price-table thead tr {
-    background: linear-gradient(to right, #ff6666, #e61a23);
-}
-.price-table th {
-    background: none;
-    color: #fff;
-    padding: 12px;
-    text-align: left;
-    font-weight: bold;
-    border: none;
-}
-.price-table td {
-    padding: 12px;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--text-color);
-    transition: color 0.3s ease;
-}
-.price-diff.up {
-    color: #C91623;
-}
-.price-diff.down {
-    color: #00aa00;
-}
+body, table { font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+:root { --background-color: #FEFEFE; --text-color: #333; --border-color: #EEE; --shadow-color: rgba(0,0,0,0.05); }
+[data-theme="dark"] { --background-color: #1a1a1a; --text-color: #f0f0f0; --border-color: #444; --shadow-color: rgba(0,0,0,0.2); }
+.price-container { max-width: 800px; margin: 0 auto; padding: 10px; font-size: 13px; font-weight: bold; background: var(--background-color); color: var(--text-color); border-radius: 0; overflow: hidden; box-shadow: none; transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; }
+.price-table { width: 100%; border-collapse: collapse; border-spacing: 0; border-radius: 8px; overflow: hidden; }
+.price-table thead tr { background: linear-gradient(to right, #ff6666, #e61a23); }
+.price-table th { background: none; color: #fff; padding: 12px; text-align: left; font-weight: bold; border: none; }
+.price-table td { padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-color); transition: color 0.3s ease; }
+.price-diff.up { color: #C91623; }
+.price-diff.down { color: #00aa00; }
 </style>
 <script>
 const setTimeBasedTheme = () => {
     const themeTime = "${$.themeTime}".split("-");
-    let start = parseInt(themeTime[0]) || 7;
-    let end = parseInt(themeTime[1]) || 19;
+    let start = parseInt(themeTime[0]) || 7, end = parseInt(themeTime[1]) || 19;
     const currentHour = new Date().getHours();
     const isDarkTime = currentHour < start || currentHour >= end;
     document.documentElement.setAttribute('data-theme', isDarkTime ? 'dark' : 'light');
-    console.log('Theme set to:', document.documentElement.getAttribute('data-theme'));
 };
-
 const initializeChart = () => {
-    const canvas = document.getElementById('priceChart');
-    if (!canvas) {
-        console.error('Canvas element not found for priceChart');
-        return;
-    }
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-        console.error('Canvas context not found for priceChart');
-        return;
-    }
-    if (window.priceChartInstance) {
-        window.priceChartInstance.destroy();
-    }
-
-    const currentJdProductId = ${sProductId};
-    
+    const canvas = document.getElementById('priceChart'); if (!canvas) return;
+    const ctx = canvas.getContext('2d'); if (!ctx) return;
+    if (window.priceChartInstance) { window.priceChartInstance.destroy(); }
     const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
     const themeTextColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
-    
     window.priceChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: ${JSON.stringify(labels)},
             datasets: [{
-                label: '价格趋势',
-                data: ${JSON.stringify(prices)},
-                borderColor: '#e61a23',
-                backgroundColor: 'rgba(230,26,35,0.1)',
-                fill: true,
-                tension: 0.3,
-                pointRadius: 5,
-                pointHoverRadius: 6
+                label: '价格趋势', data: ${JSON.stringify(prices)},
+                borderColor: '#e61a23', backgroundColor: 'rgba(230,26,35,0.1)',
+                fill: true, tension: 0.3, pointRadius: 5, pointHoverRadius: 6
             }]
         },
         options: {
             responsive: true,
             plugins: {
                 legend: {
-                    display: true,
-                    labels: {
-                        boxWidth: 12,
-                        font: { size: 12 },
-                        color: themeTextColor
-                    },
-                    onClick: function(e, legendItem, legend) {
+                    display: true, labels: { boxWidth: 12, font: { size: 12 }, color: themeTextColor },
+                    onClick: (e, legendItem) => {
                         if (legendItem.text === '价格趋势') {
-                            const jdProductUrl = \`https://item.jd.com/\${currentJdProductId}.html\`;
-                            if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-                                navigator.clipboard.writeText(jdProductUrl)
-                                    .then(() => {
-                                        console.log('京东商品链接已复制: ' + jdProductUrl);
-                                        window.location.href = 'manmanbuy://';
-                                    })
-                                    .catch(err => {
-                                        console.error('复制京东商品链接失败: ', err);
-                                        window.location.href = 'manmanbuy://'; // Attempt to open anyway
-                                    });
+                            const jdProductUrl = \`https://item.jd.com/\${${sProductId}}.html\`;
+                            if (navigator.clipboard) {
+                                navigator.clipboard.writeText(jdProductUrl).finally(() => window.location.href = 'manmanbuy://');
                             } else {
-                                console.warn('Clipboard API (writeText) 不可用。尝试直接打开慢慢买App。');
                                 window.location.href = 'manmanbuy://';
                             }
-                        } else {
-                            Chart.defaults.plugins.legend.onClick.call(this, e, legendItem, legend);
                         }
                     }
                 },
-                tooltip: {
-                    backgroundColor: isDarkMode ? '#444' : '#fff',
-                    titleColor: themeTextColor,
-                    bodyColor: themeTextColor,
-                    callbacks: {
-                        label: ctx => '¥' + ctx.raw
-                    }
-                }
+                tooltip: { backgroundColor: isDarkMode ? '#444' : '#fff', titleColor: themeTextColor, bodyColor: themeTextColor, callbacks: { label: ctx => '¥' + ctx.raw } }
             },
             scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: '日期（1年）',
-                        align: 'start',
-                        color: themeTextColor,
-                        font: { size: 12 }
-                    },
-                    ticks: {
-                        autoSkip: false,
-                        color: themeTextColor,
-                        font: { size: 12 }
-                    },
-                    grid: {
-                        color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
-                    }
+                x: { 
+                    title: { display: true, text: '日期（1年）', align: 'start', color: themeTextColor, font: { size: 12 } }, 
+                    ticks: { autoSkip: false, color: themeTextColor, font: { size: 12 } },
+                    grid: { color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)' } 
                 },
-                y: {
-                    title: {
-                        display: true,
-                        text: '价格（元）',
-                        color: themeTextColor,
-                        font: { size: 12 }
-                    },
-                    ticks: {
-                        color: themeTextColor,
-                        font: { size: 12 }
-                    },
-                    grid: {
-                        color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
-                    },
-                    beginAtZero: false
+                y: { 
+                    title: { display: true, text: '价格（元）', color: themeTextColor, font: { size: 12 } }, 
+                    ticks: { color: themeTextColor, font: { size: 12 } }, 
+                    grid: { color: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)' }, 
+                    beginAtZero: false 
                 }
             }
         }
@@ -499,9 +355,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeBasedTheme();
     initializeChart();
     const observer = new MutationObserver(() => {
-        const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
-        const newThemeTextColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
         if (window.priceChartInstance) {
+            const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+            const newThemeTextColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
             window.priceChartInstance.options.plugins.legend.labels.color = newThemeTextColor;
             window.priceChartInstance.options.scales.x.title.color = newThemeTextColor;
             window.priceChartInstance.options.scales.x.ticks.color = newThemeTextColor;
@@ -510,7 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.priceChartInstance.options.plugins.tooltip.titleColor = newThemeTextColor;
             window.priceChartInstance.options.plugins.tooltip.bodyColor = newThemeTextColor;
             window.priceChartInstance.options.plugins.tooltip.backgroundColor = isDarkMode ? '#444' : '#fff';
-            window.priceChartInstance.update();
+            window.priceChartInstance.update('none');
         }
     });
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
@@ -521,49 +377,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function getck() {
   const ck = $.getdata(manmanbuy_key);
-  if (!ck) {
-    $.msg($.name, "请先打开【慢慢买】APP获取CK ⚠️");
-    return null;
-  }
+  if (!ck) throw new Error("请先打开【慢慢买】APP获取CK");
   const Params = parseQueryString(ck);
-  if (!Params?.c_mmbDevId) {
-    $.msg($.name, "数据异常 请联系脚本作者检查CK格式 ⚠️");
-    return null;
-  }
-  $.log("慢慢买CK (c_mmbDevId)：", Params.c_mmbDevId);
+  if (!Params?.c_mmbDevId) throw new Error("CK格式不正确，请重新获取");
   return Params;
 }
 
 async function httpRequest(options) {
   try {
-    options = options.url ? options : { url: options };
-    const method = options?.method?.toLowerCase() || ("body" in options ? "post" : "get");
-    const respType = options?._respType || "body";
-    const timeout = options?._timeout || 240000;
-
     return await new Promise((resolve, reject) => {
-      const timer = setTimeout(() => {
-          const err = new Error(`⛔️ 请求超时: ${options.url}`);
-          $.logErr(err.message);
-          reject(err);
-      }, timeout);
-      
-      $[method](options, (error, response, data) => {
+      const timer = setTimeout(() => reject(new Error(`⛔️ 请求超时: ${options.url}`)), options._timeout || 10000);
+      $[options.method.toLowerCase()](options, (error, response, data) => {
         clearTimeout(timer);
-        if (error) {
-          $.logErr(`HttpRequest Error for ${options.url}: ${$.toStr(error)}`);
-          reject(error);
-        } else {
-          if (respType === "all") {
-            resolve(response);
-          } else {
-            resolve($.toObj(data, data)); 
-          }
-        }
+        if (error) reject(error);
+        else resolve($.toObj(data, data));
       });
     });
   } catch (err) {
-    $.logErr(`httpRequest Exception: ${$.toStr(err)}`);
     return Promise.reject(err);
   }
 }
@@ -582,17 +412,11 @@ function parseQueryString(queryString) {
 }
 
 function jsonToQueryString(jsonObject) {
-  return Object.keys(jsonObject)
-    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(jsonObject[key])}`)
-    .join("&");
+  return Object.keys(jsonObject).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(jsonObject[key])}`).join("&");
 }
 
 function jsonToCustomString(jsonObject) {
-  return Object.keys(jsonObject)
-    .filter((key) => jsonObject[key] !== "" && key.toLowerCase() !== "token")
-    .sort()
-    .map((key) => `${key.toUpperCase()}${String(jsonObject[key]).toUpperCase()}`)
-    .join("");
+  return Object.keys(jsonObject).filter((key) => jsonObject[key] != null && jsonObject[key] !== "" && key.toLowerCase() !== "token").sort().map((key) => `${key.toUpperCase()}${String(jsonObject[key]).toUpperCase()}`).join("");
 }
 
 
