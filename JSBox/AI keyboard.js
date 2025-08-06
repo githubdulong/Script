@@ -484,12 +484,13 @@ const view = {
         layout: $layout.fill,
         events: {
             itemSize: function (sender, indexPath) {
+                const availableWidth = sender.frame.width > 0 ? sender.frame.width : $device.info.screen.width;
                 let keyboard_columns = indexPath.item < edit_tool_amount ? edit_tool_columns : chatgpt_role_columns;
                 let item_width;
                 if (keyboard_columns === chatgpt_role_columns) { 
-                    item_width = Math.floor(($device.info.screen.width - (keyboard_columns + 1) * adaptiveParams.spacing - 1) / keyboard_columns); 
+                    item_width = Math.floor((availableWidth - (keyboard_columns + 1) * adaptiveParams.spacing - 1) / keyboard_columns); 
                 } else { 
-                    item_width = ($device.info.screen.width - (keyboard_columns + 1) * adaptiveParams.spacing) / keyboard_columns;
+                    item_width = (availableWidth - (keyboard_columns + 1) * adaptiveParams.spacing) / keyboard_columns;
                 }
                 return $size(item_width, adaptiveParams.keyHeight);
             }
@@ -990,3 +991,4 @@ function initializeKeyboard() {
 }
 
 initializeKeyboard();
+
