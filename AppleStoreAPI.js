@@ -129,6 +129,10 @@ const formatSize = (size, unit = "B") => {
       : Math.round(bytes).toString();
   return `${formattedSize} ${units[unitIndex]}`;
 };
+
+//今天的日期
+const today = new Date().toISOString().split("T")[0];
+
 // 共享状态·全局配置
 const sharedState = {
   GUID: "AppleMac",
@@ -283,6 +287,7 @@ const VersionService = class extends ThirdPartyService {
         .map(({ external_identifier, bundle_version }) => [
           external_identifier,
           bundle_version,
+          today,
         ])
     );
   }
@@ -298,6 +303,7 @@ const VersionService = class extends ThirdPartyService {
       body.data.map(({ external_identifier, bundle_version }) => [
         external_identifier,
         bundle_version,
+        today,
       ])
     );
   }
@@ -547,68 +553,20 @@ const StoreService = class {
 
   /**
    * 批量查询应用版本号
-   * @param {string} direction - 查询方向，'next' 表示查询更旧的版本，'prev' 表示查询更新的版本
    * @param {number} salableAdamId - 要查询的应用ID
-   * @param {number} startVersionId - 查询的起点版本ID 默认为
-   * @param {number} count - 要查询的数量，默认-1返回全部
+   * @param {number} startVersionId - 查询的版本ID 默认为最新版本ID
    * @returns {Promise<Array<Object>>} - 版本信息列表
    */
-  static async getVersions({
-    direction,
-    count = -1,
-    salableAdamId,
-    startVersionId,
-  }) {
+  static async getVersions({ salableAdamId, startVersionId }) {
     // 初始化 从缓存中获取应用版本列表 如果缓存中不存在则从请求获取
-    const { cachedVersionsAll, versionList } = await this.getAppVersionCache(
+    const { versionList } = await this.getAppVersionCache(
       salableAdamId,
       startVersionId
     );
 
-    //不分页
-    if (count === -1)
-      return {
-        data: versionList.entries().toArray(),
-        total: versionList.size,
-      };
-
-    //分页
-    let index = versionList.keys().toArray().indexOf(startVersionId);
-    if (index === -1) index = 0;
-    if (direction === "prev") index -= count;
-    if (index < 0) index = 0;
-
-    $.http.useReq(req => Object.assign(req, { timeout: 11 }));
-    const page = versionList.entries().drop(index).take(count).toArray();
-
-    const tasks = page.map(([extVersionId, cachebuildVersion]) => async () => {
-      try {
-        if (versionList.get(extVersionId))
-          return [extVersionId, cachebuildVersion];
-        const { buildVersion } = await StoreService.getAppInfo(
-          salableAdamId,
-          extVersionId
-        );
-        versionList.set(extVersionId, buildVersion);
-        return [extVersionId, buildVersion];
-      } catch ({ message }) {
-        throw [extVersionId, message];
-      }
-    });
-
-    const { fulfilled, rejected } = await $.taskProcessor.runTasks({
-      tasks,
-      ...sharedState.CONCURRENCY_CONFIG,
-    });
-    cachedVersionsAll.put(salableAdamId, versionList.entries().toArray());
-    $.cache.set(
-      sharedState.VERSION_KEY,
-      JSON.stringify(cachedVersionsAll.toArray())
-    );
-
     return {
-      data: [...fulfilled, ...rejected],
-      total: versionList.size,
+      data: versionList,
+      total: versionList.length,
     };
   }
 
@@ -627,8 +585,13 @@ const StoreService = class {
       JSON.parse($.cache.get(sharedState.VERSION_KEY) ?? "[]")
     );
 
-    //如果缓存中不存在该应用的版本列表，则从请求获取 官方，三方接口数据
-    if (!cachedVersionsAll.has(salableAdamId)) {
+    console.log(cachedVersionsAll.get(salableAdamId));
+
+    //如果缓存中不存在该应用的版本列表 或者缓存事件过期，则从请求获取 官方，三方接口数据
+    if (
+      !cachedVersionsAll.has(salableAdamId) ||
+      !cachedVersionsAll.get(salableAdamId)[0].includes(today)
+    ) {
       const [processedVersions, legacyVersions] = await Promise.all([
         this.#processVersionIdList(salableAdamId, startVersionId),
         VersionService.concurrentGetVersionList(salableAdamId).catch(
@@ -658,7 +621,7 @@ const StoreService = class {
 
     return {
       cachedVersionsAll,
-      versionList: new Map(cachedVersionsAll.get(salableAdamId)),
+      versionList: cachedVersionsAll.get(salableAdamId),
     };
   }
 
@@ -676,7 +639,7 @@ const StoreService = class {
       return [[externalVersionId, displayVersion]];
     }
 
-    return externalVersionIdList.reverse().map(id => [id, "????"]);
+    return externalVersionIdList.reverse().map(id => [id, "????", today]);
   }
 
   /**
@@ -937,8 +900,6 @@ const main = async () => {
               id: "应用ID (必需)",
             },
             query: {
-              direction: "查询方向 (可选，默认'next'，可选值：'next'|'prev')",
-              count: "返回数量 (可选，默认-1，返回全部，分页范围1-20)",
               appVerId: "起始版本ID (可选，不传则从最新版本开始)",
             },
           },
@@ -1032,15 +993,12 @@ const main = async () => {
     // 官方获取应用历史版本信息接口
     app.get("/apps/:id/versions", async (req, res, next) => {
       const { id } = req.params;
-      const { direction = "next", count = -1, appVerId } = req.query;
+      const { appVerId } = req.query;
 
       validate(!isNaN(id), "无效的应用 ID");
-      validate(!isNaN(count) && count >= -1 && count <= 20, "分页数量只能1-20");
 
       await isTaskProcessor;
       const versions = await StoreService.getVersions({
-        direction,
-        count: parseInt(count),
         salableAdamId: parseInt(id),
         startVersionId: appVerId ? parseInt(appVerId) : undefined,
       });
@@ -1048,8 +1006,6 @@ const main = async () => {
       const data = {
         appId: id,
         ...versions,
-        direction,
-        count: parseInt(count),
         appVerId,
       };
       res.json(createResponse(true, data));
