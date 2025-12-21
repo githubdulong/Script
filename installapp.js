@@ -1,6 +1,6 @@
-const { name,displayVersion,id,bundleId } = Object.fromEntries(new URL(decodeURIComponent(decodeURIComponent($request.url))).searchParams);
+const { name,displayVersion,bundleId,fileName } = Object.fromEntries(new URL(decodeURIComponent(decodeURIComponent($request.url))).searchParams);
 
-const url = `http://localhost:8000/${name}@${displayVersion}@${id}.ipa`;
+const url = `http://localhost:8000/${fileName}`;
 
 
 const body = `<?xml version="1.0" encoding="UTF-8"?>
@@ -43,4 +43,9 @@ const body = `<?xml version="1.0" encoding="UTF-8"?>
 </dict>
 </plist>`
 
-$done({response: {body}})
+
+if (this.$task) {
+	$done({body})
+} else {
+	$done({response: {body}})
+}

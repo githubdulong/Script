@@ -82,7 +82,7 @@ class LRUCache {
   }
 
   toArray() {
-    return this.#cache.entries().toArray();
+    return [...this.#cache.entries()];
   }
 }
 // 自定义错误类
@@ -585,8 +585,6 @@ const StoreService = class {
       JSON.parse($.cache.get(sharedState.VERSION_KEY) ?? "[]")
     );
 
-    console.log(cachedVersionsAll.get(salableAdamId));
-
     //如果缓存中不存在该应用的版本列表 或者缓存事件过期，则从请求获取 官方，三方接口数据
     if (
       !cachedVersionsAll.has(salableAdamId) ||
@@ -752,7 +750,7 @@ const StoreService = class {
       accountInfo: { appleId },
     } = await this.getValidatedAuth();
 
-    Object.assign(appInfo, { appleId });
+    Object.assign(metadata, { appleId });
 
     // 调试信息输出;
     //$.log("应用名称:", name);
@@ -819,17 +817,12 @@ const validate = (condition, message) => {
 // 主函数
 const main = async () => {
   try {
-    //预加载 TaskProcessor
-    const isTaskProcessor = $.import(
-      ({ fn: TaskProcessor }) => ({
-        name: "taskProcessor",
-        fn: new TaskProcessor(),
-      }),
-      "https://raw.githubusercontent.com/xiaobailian67/Surge/refs/heads/main/TaskProcessor.js"
-    );
-
     await $.imports(
-      ["* as plist", "https://esm.sh/plist"],
+      //["* as plist", "https://esm.sh/plist"],
+      [
+        "* as plist",
+        "https://raw.githubusercontent.com/xiaobailian67/Surge/refs/heads/main/plist-complete.js",
+      ],
       [
         "express",
         "https://raw.githubusercontent.com/xiaobailian67/Surge/refs/heads/main/SimpleExpressBeta.js",
@@ -997,7 +990,6 @@ const main = async () => {
 
       validate(!isNaN(id), "无效的应用 ID");
 
-      await isTaskProcessor;
       const versions = await StoreService.getVersions({
         salableAdamId: parseInt(id),
         startVersionId: appVerId ? parseInt(appVerId) : undefined,
@@ -1077,7 +1069,13 @@ const main = async () => {
     });
 
     const response = await app.run();
-    $done({ response });
+
+    if ($.env("Qx")) {
+       $done({...response, status: `HTTP/1.1 ${response.status} OK`})
+     } else {
+       $done({ response });
+    }
+    
   } catch (error) {
     console.log(error.toString());
     console.log(error.stack);
@@ -1086,3 +1084,4 @@ const main = async () => {
 };
 
 main();
+
