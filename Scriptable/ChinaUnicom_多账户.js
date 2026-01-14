@@ -6,12 +6,13 @@
  * @author: 脑瓜
  * @feedback https://t.me/Scriptable_CN
  * telegram: @anker1209
- * version: 2.5.7
+ * version: 2.6.4
  * update: 2026/01/14
  * 原创UI，修改套用请注明来源
  * * 使用说明：
- * 1. 运行脚本，进入【账户设置】，手动粘贴三个账号的 Cookie，最多支持5个账户设置。
- * 2. 在桌面添加小组件，【Parameter/参数】一栏填写：
+ * 1. 运行脚本，进入【账户设置】手动填写，或点击【代理缓存】从 BoxJS 读取。
+ * 2. 最多支持5个账户，获取 Cookie 需要删除重装 App。
+ * 3. 在桌面添加小组件，【Parameter/参数】一栏填写：
  * - 填 1 或不填：显示账户 1
  * - 填 2：显示账户 2
  * - 填 3：显示账户 3
@@ -30,7 +31,7 @@ class Widget extends DmYY {
     this.Run();
   }
   
-  version = '2.5.7';
+  version = '2.6.4';
 
   cookie = '';
   gradient = false;
@@ -287,6 +288,11 @@ class Widget extends DmYY {
   };
 
   async getData() {
+
+    if (!this.cookie) {
+      return; 
+    }
+
     const url= 'https://m.client.10010.com/mobileserviceimportant/home/queryUserInfoSeven?version=iphone_c@8.0200&desmobiel=&showType=0';
 
     try {
@@ -780,7 +786,6 @@ class Widget extends DmYY {
       let rect_y = ctr.y - this.canvRadius * this.cosDeg(t) - this.canvWidth / 2;
       let rect_r = new Rect(rect_x, rect_y, this.canvWidth, this.canvWidth);
       
-      // 添加防越界保护和类型检查
       if (this.gradient && Array.isArray(fillColor)) {
           let idx = Math.floor(t);
           if (idx >= fillColor.length) idx = fillColor.length - 1;
@@ -1355,6 +1360,60 @@ class Widget extends DmYY {
     ];
   }
 
+  async handlerBoxJS() {
+    try {
+      const boxjsKey = '@YaYa_10010.cookie';
+      const url = `http://boxjs.com/query/data/${boxjsKey}`;
+      const req = new Request(url);
+      const userCookie = await req.loadJSON();
+      
+      if (!userCookie || !userCookie.val) {
+         const alert = new Alert();
+         alert.title = "读取失败";
+         alert.message = "未在 BoxJS 中找到相关数据，请检查 BoxJS 订阅及 Key 设置。";
+         alert.addAction("确定");
+         await alert.present();
+         return;
+      }
+
+      const cookieVal = userCookie.val;
+
+      const alert = new Alert();
+      alert.title = "BoxJS 读取成功";
+      alert.message = "请选择要将 Cookie 存入哪个账户？";
+
+      for (let i = 1; i <= 5; i++) {
+         const hasData = this.settings[`cookie${i}`];
+         const statusText = hasData ? " (覆盖)" : " (空)";
+         alert.addAction(`账户 ${i}${statusText}`);
+      }
+      alert.addCancelAction("取消");
+
+      const index = await alert.presentSheet();
+      if (index === -1) return;
+
+      const targetAccount = index + 1;
+      this.settings[`cookie${targetAccount}`] = cookieVal;
+      this.saveSettings();
+
+      const successAlert = new Alert();
+      successAlert.title = "保存成功";
+      successAlert.message = `BoxJS 数据已存入账户 ${targetAccount}，脚本将自动刷新。`;
+      successAlert.addAction("确定");
+      await successAlert.present();
+      
+      this.reopenScript();
+
+    } catch (e) {
+      console.log(e);
+      const alert = new Alert();
+      alert.title = "错误";
+      alert.message = "连接 BoxJS 失败，请确保 BoxJS 服务正常运行。";
+      alert.addAction("确定");
+      await alert.present();
+    }
+  }
+
   Run() {
     if (config.runsInApp) {
       
@@ -1406,6 +1465,14 @@ class Widget extends DmYY {
             type: 'input',
             onClick: () => {
               return this.renderAppView(accountMenus);
+            },
+          },
+          {
+            icon: { name: 'shippingbox', color: '#f7bb10' },
+            title: '代理缓存',
+            val: 'boxjs',
+            onClick: async () => {
+              await this.handlerBoxJS();
             },
           }
         ],
