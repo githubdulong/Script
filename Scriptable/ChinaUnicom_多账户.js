@@ -1,16 +1,12 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: red; icon-glyph: broadcast-tower;
-// share-sheet-inputs: file-url, url;
 /*
  * @author: 脑瓜
  * @feedback https://t.me/Scriptable_CN
  * telegram: @anker1209
- * version: 2.6.4
+ * version: 2.6.5
  * update: 2026/01/14
  * 原创UI，修改套用请注明来源
  * * 使用说明：
- * 1. 运行脚本，进入【账户设置】手动填写，或点击【代理缓存】从 BoxJS 读取。
+ * 1. 运行脚本，进入【账户设置】手动填写，或点击【代理缓存】从 BoxJS 读取后代理缓存到自定账户。
  * 2. 最多支持5个账户，获取 Cookie 需要删除重装 App。
  * 3. 在桌面添加小组件，【Parameter/参数】一栏填写：
  * - 填 1 或不填：显示账户 1
@@ -31,7 +27,7 @@ class Widget extends DmYY {
     this.Run();
   }
   
-  version = '2.6.4';
+  version = '2.6.5';
 
   cookie = '';
   gradient = false;
@@ -1062,6 +1058,70 @@ class Widget extends DmYY {
     return Math.floor(scaleFactor * 100) / 100;
   };
   
+  async checkAndUpdateScript() {
+    const remoteScriptUrl = "https://raw.githubusercontent.com/githubdulong/Script/master/Scriptable/ChinaUnicom_多账户.js";
+    const scriptName = Script.name() + '.js'
+    
+    console.log("正在检查更新...")
+    
+    try {
+      const request = new Request(remoteScriptUrl);
+      const newScriptContent = await request.loadString();
+      
+      let versionPattern = /version\s*=\s*['"]([^'"]+)['"]/;
+      let match = newScriptContent.match(versionPattern);
+      
+      if (!match) {
+        console.log("未在远程代码中找到版本号");
+        const alert = new Alert();
+        alert.title = "检查失败";
+        alert.message = "远程脚本格式可能不正确，未找到版本号。";
+        alert.addAction("确定");
+        await alert.present();
+        return;
+      }
+
+      const latestVersion = match[1];
+      const isUpdateAvailable = this.version !== latestVersion;
+
+      if (isUpdateAvailable) {
+        const alert = new Alert();
+        alert.title = "检测到新版本";
+        alert.message = `当前版本：${this.version}\n新版本：${latestVersion}\n是否更新？`;
+        alert.addAction("更新");
+        alert.addCancelAction("取消");
+
+        const response = await alert.presentAlert();
+        if (response === 0) {
+          const fm = FileManager[
+            module.filename.includes('Documents/iCloud~') ? 'iCloud' : 'local'
+          ]();
+          const scriptPath = fm.documentsDirectory() + `/${scriptName}`;
+          fm.writeString(scriptPath, newScriptContent);
+
+          const successAlert = new Alert();
+          successAlert.title = "更新成功";
+          successAlert.message = "脚本已更新，请关闭本脚本后重新打开!";
+          successAlert.addAction("确定");
+          await successAlert.present();
+          // this.reopenScript();
+        }
+      } else {
+        const noUpdateAlert = new Alert();
+        noUpdateAlert.title = "无需更新";
+        noUpdateAlert.message = "当前已是最新版本。";
+        noUpdateAlert.addAction("确定");
+        await noUpdateAlert.present();
+      }
+    } catch (e) {
+      console.error(e);
+      const alert = new Alert();
+      alert.title = "更新出错";
+      alert.message = "网络请求失败或地址错误：" + e.message;
+      alert.addAction("确定");
+      await alert.present();
+    }
+  };
 
   renderSmall = async (w) => {
     w.setPadding(this.smallPadding, this.smallPadding, this.smallPadding, this.smallPadding);
@@ -1451,13 +1511,28 @@ class Widget extends DmYY {
         title: '组件配置',
         menu: [
           {
+            url: 'https://raw.githubusercontent.com/anker1209/Scriptable/main/icon/update.png',
+            type: 'input',
+            title: '脚本更新',
+            name: 'update',
+            onClick: async () => {
+              await this.checkAndUpdateScript();
+            },
+          },
+          {
             icon: { name: 'lineweight', color: '#a0d911' }, 
             type: 'select',
             title: '账户预览',
             options: ['1', '2', '3', '4', '5'],
             val: 'previewAccount',
             desc: '仅在 App 内运行脚本时生效'
-          },
+          }
+        ],
+      });
+
+      this.registerAction({
+        title: '',
+        menu: [
           {
             name: 'accounts',
             url: 'https://raw.githubusercontent.com/anker1209/Scriptable/main/icon/enableName.png',
