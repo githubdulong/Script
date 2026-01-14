@@ -6,7 +6,7 @@
  * @author: 脑瓜
  * @feedback https://t.me/Scriptable_CN
  * telegram: @anker1209
- * version: 2.5.5
+ * version: 2.5.7
  * update: 2026/01/14
  * 原创UI，修改套用请注明来源
  * * 使用说明：
@@ -30,7 +30,7 @@ class Widget extends DmYY {
     this.Run();
   }
   
-  version = '2.5.5';
+  version = '2.5.7';
 
   cookie = '';
   gradient = false;
@@ -1320,49 +1320,37 @@ class Widget extends DmYY {
   getAccountMenu(index) {
     return [
       {
-        title: `======= 账户 ${index} 设置 =======`,
-        menu: []
-      },
-      {
         menu: [
           {
             url: 'https://raw.githubusercontent.com/anker1209/Scriptable/main/icon/enableName.png',
-            title: `账户${index} Cookie`,
+            title: `账户 ${index} Cookie`,
             type: 'input',
             val: `cookie${index}`,
             desc: '手动粘贴 Cookie'
-          }
-        ]
-      },
-      {
-        menu: [
+          },
           {
             url: 'https://raw.githubusercontent.com/anker1209/Scriptable/main/icon/widgetStyle.png',
             type: 'select',
-            title: `账户${index} 样式`,
+            title: `账户 ${index} 组件样式`,
             options: ['1', '2', '3', '4', '5', '6'],
             val: `widgetStyle${index}`,
             desc: '默认使用样式1'
-          }
-        ]
-      },
-      {
-        menu: [
+          },
           {
             url: 'https://raw.githubusercontent.com/anker1209/Scriptable/main/icon/flowIconColor.png',
             type: 'input',
-            title: `账户${index} 自定流量`,
+            title: `账户 ${index} 自定流量`,
             desc: 'GB (不填自动计算)',
             val: `flow${index}`,
           },
           {
             url: 'https://raw.githubusercontent.com/anker1209/Scriptable/main/icon/voiceIconColor.png',
             type: 'input',
-            title: `账户${index} 自定语音`,
+            title: `账户 ${index} 自定语音`,
             desc: '分钟 (不填自动计算)',
             val: `voice${index}`,
-          },
-        ],
+          }
+        ]
       }
     ];
   }
@@ -1374,6 +1362,31 @@ class Widget extends DmYY {
       for (let i = 1; i <= 5; i++) {
         accountMenus = accountMenus.concat(this.getAccountMenu(i));
       }
+      
+      if (accountMenus.length > 0) {
+        accountMenus[0].title = '账户设置';
+      }
+
+      accountMenus.push({
+        title: '重置账户',
+        menu: [{
+          url: 'https://raw.githubusercontent.com/anker1209/Scriptable/main/icon/clear.png',
+          title: '重置账户',
+          desc: '清空所有账户设置与缓存',
+          name: 'reset',
+          val: 'reset',
+          onClick: () => {
+            for (let i = 1; i <= 5; i++) {
+               delete this.settings[`cookie${i}`];
+               delete this.settings[`widgetStyle${i}`];
+               delete this.settings[`flow${i}`];
+               delete this.settings[`voice${i}`];
+            }
+            this.saveSettings();
+            this.reopenScript();
+          }
+        }]
+      });
 
       this.registerAction({
         title: '组件配置',
@@ -1386,12 +1399,6 @@ class Widget extends DmYY {
             val: 'previewAccount',
             desc: '仅在 App 内运行脚本时生效'
           },
-        ],
-      });
-      
-      this.registerAction({
-        title: '',
-        menu: [
           {
             name: 'accounts',
             url: 'https://raw.githubusercontent.com/anker1209/Scriptable/main/icon/enableName.png',
@@ -1401,7 +1408,7 @@ class Widget extends DmYY {
               return this.renderAppView(accountMenus);
             },
           }
-        ]
+        ],
       });
 
       this.registerAction({
