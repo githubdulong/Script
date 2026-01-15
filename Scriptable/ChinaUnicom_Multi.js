@@ -2,16 +2,17 @@
  * @author: 脑瓜
  * @feedback https://t.me/Scriptable_CN
  * telegram: @anker1209
- * version: 2.6.5
- * update: 2026/01/14
+ * version: 2.6.6
+ * update: 2026/01/15
  * 原创UI，修改套用请注明来源
  * * 使用说明：
- * 1. 运行脚本，进入【账户设置】手动填写，或点击【代理缓存】从 BoxJS 读取后代理缓存到自定账户。
- * 2. 最多支持5个账户，获取 Cookie 需要删除重装 App。
- * 3. 在桌面添加小组件，【Parameter/参数】一栏填写：
+ * 1. 获取 Cookie 脚本，点击首页流量获取。 https://raw.githubusercontent.com/dompling/Script/master/10010/index.js
+ * 2. 运行 ChinaUnicom_Multi 脚本，进入【账户设置】手动填写或点击【代理缓存】从持久化数据读取后代理缓存到指定账户。
+ * 3. 最多支持5个账户，获取多个 Cookie 需要删除重装 App。
+ * 4. 在桌面添加小组件，【Parameter/参数】一栏填写：
  * - 填 1 或不填：显示账户 1
  * - 填 2：显示账户 2
- * - 填 3：显示账户 3
+ * - 填 3：显示账户 3 …
 */
 
 if (typeof require === 'undefined') require = importModule;
@@ -27,7 +28,7 @@ class Widget extends DmYY {
     this.Run();
   }
   
-  version = '2.6.5';
+  version = '2.6.6';
 
   cookie = '';
   gradient = false;
@@ -298,7 +299,7 @@ class Widget extends DmYY {
       
       if (userInfo.code === 'Y') {
         const timeStr = `${this.arrUpdateTime[0]}-${this.arrUpdateTime[1]} ${this.arrUpdateTime[2]}:${this.arrUpdateTime[3]}`;
-        console.log(`\n🟢 账户[${this.currIndex}] 数据获取成功\n⏰ 数据时间: ${timeStr}`);
+        console.log(`\n 账户[${this.currIndex}] 数据获取成功\n 数据时间: ${timeStr}`);
         
         userInfo.data.dataList.forEach((item) => {
           if (item.type === 'fee') {
@@ -1059,7 +1060,7 @@ class Widget extends DmYY {
   };
   
   async checkAndUpdateScript() {
-    const remoteScriptUrl = "https://raw.githubusercontent.com/githubdulong/Script/master/Scriptable/ChinaUnicom_多账户.js";
+    const remoteScriptUrl = "https://raw.githubusercontent.com/githubdulong/Script/master/Scriptable/ChinaUnicom_Multi.js";
     const scriptName = Script.name() + '.js'
     
     console.log("正在检查更新...")
