@@ -2,8 +2,8 @@
  * @author: 脑瓜
  * @feedback https://t.me/Scriptable_CN
  * telegram: @anker1209
- * version: 2.6.6
- * update: 2026/01/15
+ * version: 2.6.10
+ * update: 2026/01/16
  * 原创UI，修改套用请注明来源
  * * 使用说明：
  * 1. 获取 Cookie 脚本，点击首页流量获取。 https://raw.githubusercontent.com/dompling/Script/master/10010/index.js
@@ -28,7 +28,7 @@ class Widget extends DmYY {
     this.Run();
   }
   
-  version = '2.6.6';
+  version = '2.6.10';
 
   cookie = '';
   gradient = false;
@@ -65,6 +65,15 @@ class Widget extends DmYY {
     this.format(this.date.getHours()),
     this.format(this.date.getMinutes()),
   ];
+
+  refreshUpdateTime(date) {
+    this.arrUpdateTime = [
+      this.format(date.getMonth() + 1),
+      this.format(date.getDate()),
+      this.format(date.getHours()),
+      this.format(date.getMinutes()),
+    ];
+  };
 
   fee = {
     title: '话费剩余',
@@ -284,56 +293,134 @@ class Widget extends DmYY {
         .join("; ");
   };
 
-  async getData() {
+  maskName(str) {
+    if (!str) return "未知";
+    if (str.length <= 1) return "*";
+    return "*" + str.substring(1);
+  };
 
+  maskMobile(str) {
+    if (!str) return "未知";
+    return str.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  };
+
+  async getData() {
     if (!this.cookie) {
+      console.log(`❌ 账户[${this.currIndex}] 未配置 Cookie`);
       return; 
     }
 
-    const url= 'https://m.client.10010.com/mobileserviceimportant/home/queryUserInfoSeven?version=iphone_c@8.0200&desmobiel=&showType=0';
+    const fm = FileManager.local();
+    const cacheDir = fm.joinPath(fm.documentsDirectory(), "ChinaUnicom_Cache");
+    const cachePath = fm.joinPath(cacheDir, `account_${this.currIndex}.json`);
+    
+    if (!fm.fileExists(cacheDir)) fm.createDirectory(cacheDir, true);
 
-    try {
-      const req = new Request(url);
-      req.headers = {'cookie': this.cookie};
-      const userInfo = await req.loadJSON();
+    let userInfo = null;
+    let useCache = false;
+    
+    let settingTime = 30;
+    if (this.settings.refreshAfterDate) {
+      settingTime = parseInt(this.settings.refreshAfterDate);
+    }
+
+    if (fm.fileExists(cachePath)) {
+      const modified = fm.modificationDate(cachePath);
+      const diff = (new Date() - modified) / (1000 * 60);
       
-      if (userInfo.code === 'Y') {
-        const timeStr = `${this.arrUpdateTime[0]}-${this.arrUpdateTime[1]} ${this.arrUpdateTime[2]}:${this.arrUpdateTime[3]}`;
-        console.log(`\n 账户[${this.currIndex}] 数据获取成功\n 数据时间: ${timeStr}`);
-        
-        userInfo.data.dataList.forEach((item) => {
-          if (item.type === 'fee') {
-            if (item.unit ==='万元') {
-              this.fee.number = item.number * 10000;
-            } else {
-              this.fee.number = item.number;
-              this.fee.unit = item.unit;
-            }
-            this.fee.title = item.remainTitle;
-          }
-          if (item.type === 'flow') {
-            this.flow.number = item.number;
-            this.flow.unit = item.unit;
-            this.flow.en = item.unit;
-            this.flow.percent = item.persent ? (100 - item.persent).toFixed(2) : this.customFlowLimit ? ((this.flow.number / this.customFlowLimit) * 100).toFixed(2) : 100;
-            this.flow.title = item.remainTitle.replace(/通用/g, "");
-          }
-          if (item.type === 'voice') {
-            this.voice.number = item.number;
-            this.voice.unit = item.unit;
-            this.voice.percent = item.persent ? (100 - item.persent).toFixed(2) : this.customVoiceLimit ? ((this.voice.number / this.customVoiceLimit) * 100).toFixed(2) : 100;
-            this.voice.title = item.remainTitle;
-          }
-          if (item.type === 'point') {
-            this.point.number = item.number;
-            this.point.title = item.remainTitle;
-          }
-        });
+      if (diff < settingTime) {
+        console.log(`\n🟠 联通数据：缓存 ${diff.toFixed(0)} 分钟前 (设置: ${settingTime}分)`);
+        console.log(`🟠 联通数据：读取缓存`);
+        try {
+          userInfo = JSON.parse(fm.readString(cachePath));
+          useCache = true;
+          this.refreshUpdateTime(modified); 
+        } catch (e) {
+          console.log(`⚠️ 缓存损坏，刷新数据`);
+        }
       } else {
-        throw `账户[${this.currIndex}] Cookie失效或服务器维护`;
+         console.log(`\n🔵 联通数据：缓存已过期 (${diff.toFixed(0)} > ${settingTime}分)`);
       }
-    } catch (e) {
-      console.log(`❌ 账户[${this.currIndex}] 获取失败：${e}`);
+    }
+
+    if (!useCache) {
+      const url= 'https://m.client.10010.com/mobileserviceimportant/home/queryUserInfoSeven?version=iphone_c@8.0200&desmobiel=&showType=0';
+      try {
+        const req = new Request(url);
+        req.headers = {'cookie': this.cookie};
+        const response = await req.loadJSON();
+        
+        if (response && response.code === 'Y') {
+          console.log(`🟢 联通数据：网络请求成功`);
+          userInfo = response;
+          if (fm.fileExists(cachePath)) fm.remove(cachePath);
+          fm.writeString(cachePath, JSON.stringify(userInfo));
+          this.refreshUpdateTime(new Date());
+        } else {
+          console.log(`❌ 联通数据：请求失败 (Code: ${response ? response.code : 'unknown'})`);
+          if (fm.fileExists(cachePath)) {
+            console.log(`🟠 联通数据：服务异常，读取旧缓存`);
+            userInfo = JSON.parse(fm.readString(cachePath));
+            this.refreshUpdateTime(fm.modificationDate(cachePath));
+          } else {
+            throw `账户[${this.currIndex}] Cookie失效或服务器维护`;
+          }
+        }
+      } catch (e) {
+        console.log(`❌ 联通数据：网络错误 ${e}`);
+        if (fm.fileExists(cachePath)) {
+          console.log(`🟠 联通数据：网络异常，读取旧缓存`);
+          userInfo = JSON.parse(fm.readString(cachePath));
+          this.refreshUpdateTime(fm.modificationDate(cachePath));
+        }
+      }
+    }
+
+    if (userInfo && userInfo.code === 'Y') {
+      try {
+        if (userInfo.data && userInfo.data.userInfo) {
+          const info = userInfo.data.userInfo;
+          const uName = this.maskName(info.userName);
+          const uMobile = this.maskMobile(info.userMobile);
+          console.log(`👤 用户${this.currIndex}信息: ${uName} | ${uMobile}`);
+        }
+        
+        let configured = [];
+        for(let i=1; i<=5; i++) {
+           if(this.settings[`cookie${i}`]) configured.push(i);
+        }
+        console.log(`📋 已配置账户: [${configured.join(',')}] (当前显示: ${this.currIndex})`);
+        
+      } catch (e) {}
+      
+      userInfo.data.dataList.forEach((item) => {
+        if (item.type === 'fee') {
+          if (item.unit ==='万元') {
+            this.fee.number = item.number * 10000;
+          } else {
+            this.fee.number = item.number;
+            this.fee.unit = item.unit;
+          }
+          this.fee.title = item.remainTitle;
+        }
+        if (item.type === 'flow') {
+          this.flow.number = item.number;
+          this.flow.unit = item.unit;
+          this.flow.en = item.unit;
+          this.flow.percent = item.persent ? (100 - item.persent).toFixed(2) : this.customFlowLimit ? ((this.flow.number / this.customFlowLimit) * 100).toFixed(2) : 100;
+          this.flow.title = item.remainTitle.replace(/通用/g, "");
+        }
+        if (item.type === 'voice') {
+          this.voice.number = item.number;
+          this.voice.unit = item.unit;
+          this.voice.percent = item.persent ? (100 - item.persent).toFixed(2) : this.customVoiceLimit ? ((this.voice.number / this.customVoiceLimit) * 100).toFixed(2) : 100;
+          this.voice.title = item.remainTitle;
+        }
+        if (item.type === 'point') {
+          this.point.number = item.number;
+          this.point.title = item.remainTitle;
+        }
+      });
     }
   };
 
