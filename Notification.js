@@ -1,7 +1,6 @@
 /* 更新内容：
- * 增加critical、volume参数设置
- * 增加关键词屏蔽参数，修改日志排版
- * 更新日期 2024.11.18 19:42
+ * 添加 tt| 参数，可以对保存的推送设置一个有效期，到期会自动删除。
+ * 更新日期 2026.05.28 22:11
  * 原作者 @Sliverkiss
  */
 
@@ -38,7 +37,9 @@ $.info(formatLog(arg, "参数信息"));
 
     const barkBody = `${(subtitle ?? '').trim()}\n${(body ?? '').trim()}`.trim();
 
-    const BARK_URL = `https://api.day.app/${arg.Bark_token}/${encodeURIComponent(title)}/${encodeURIComponent(barkBody)}?group=${arg.group || 'Surge'}&automaticallyCopy=${arg.automaticallyCopy || 1}&isArchive=${arg.isArchive || 1}&icon=${decodeURIComponent(arg.icon) || 'https://raw.githubusercontent.com/xream/scripts/main/scriptable/surge/surge-dark.png'}&sound=${arg.sound || 'shake'}&level=${arg.level || 'active'}&volume=${arg.volume || 5}`;
+    const ttl = arg.ttl || '';
+
+    const BARK_URL = `https://api.day.app/${arg.Bark_token}/${encodeURIComponent(title)}/${encodeURIComponent(barkBody)}?group=${arg.group || 'Surge'}&automaticallyCopy=${arg.automaticallyCopy || 1}&isArchive=${arg.isArchive || 1}&icon=${decodeURIComponent(arg.icon) || 'https://raw.githubusercontent.com/xream/scripts/main/scriptable/surge/surge-dark.png'}&sound=${arg.sound || 'shake'}&level=${arg.level || 'active'}&volume=${arg.volume || 5}${ttl ? `&ttl=${ttl}` : ''}`;
 
     await http({
         method: 'get',
