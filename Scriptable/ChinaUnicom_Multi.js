@@ -3,8 +3,13 @@
  * @feedback https://t.me/Scriptable_CN
  * telegram: @anker1209
  * version: 2.6.10
- * update: 2026/01/16
+ * update: 2026/09/15
  * 原创UI，修改套用请注明来源
+
+ * 更新内容:更新正则，获取 CK。增加正则用于拦截多账户切号掉 CK
+# > 联通 App 阻止切号Cookie过期
+URL-REGEX,^https?://loginhl\.10010\.com/mobileService/logout\.htm,REJECT
+联通组件 = type=http-request,pattern=https:\/\/m(?:xx)?\.client\.10010\.com\/(?:.*\/)?smartwisdomCommon(?:New)?(?:\?.*)?$,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,requires-body=true,max-size=0,script-update-interval=0
  * * 使用说明：
  * 1. 获取 Cookie 脚本，点击首页流量获取。 https://raw.githubusercontent.com/dompling/Script/master/10010/index.js
  * 2. 运行 ChinaUnicom_Multi 脚本，进入【账户设置】手动填写或点击【代理缓存】从持久化数据读取后代理缓存到指定账户。
@@ -1636,6 +1641,31 @@ class Widget extends DmYY {
             val: 'boxjs',
             onClick: async () => {
               await this.handlerBoxJS();
+            },
+          },
+          {
+            icon: { name: 'trash', color: '#ff4d4f' },
+            title: '清除缓存',
+            val: 'clearCache',
+            onClick: async () => {
+              const fm = FileManager.local();
+              const cacheDir = fm.joinPath(fm.documentsDirectory(), 'ChinaUnicom_Cache');
+              
+              if (fm.fileExists(cacheDir)) {
+                fm.remove(cacheDir);
+                const alert = new Alert();
+                alert.title = '清除成功';
+                alert.message = '所有账户缓存已清除，脚本将自动刷新。';
+                alert.addAction('确定');
+                await alert.present();
+                this.reopenScript();
+              } else {
+                const alert = new Alert();
+                alert.title = '提示';
+                alert.message = '缓存目录不存在，无需清除。';
+                alert.addAction('确定');
+                await alert.present();
+              }
             },
           }
         ],
