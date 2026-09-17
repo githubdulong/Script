@@ -8,7 +8,7 @@
  *
  * @author Honye
  *
- * @version 1.2.2
+ * @version 1.2.3  更新时间 9/17
  */
 
 
@@ -1295,7 +1295,8 @@ const preference = {
   imageRadius: 6,
   useSlideshow: false,
   photoFolder: 'WidgetPhotos',
-  randomLayout: false
+  randomLayout: false,
+  faceFocus: true
 };
 
 // 扫描 iCloud 文档目录下的子文件夹列表
@@ -1421,6 +1422,56 @@ const getSafePhotos = async (count) => {
   return result;
 };
 
+
+// ==================== 自适应面容高亮识别与智能聚焦裁剪引擎 ====================
+/**
+ * 智能面容与人像视觉中心扫描裁剪
+ * @param {Image} image 原始图片
+ * @param {number} targetW 目标展示宽
+ * @param {number} targetH 目标展示高
+ * @param {boolean} enableFocus 是否开启面容聚焦
+ * @returns {Image} 聚焦裁剪后的超高清图片
+ */
+const smartCropImage = (image, targetW, targetH, enableFocus = true) => {
+  if (!image) return image;
+  try {
+    const imgW = image.size.width;
+    const imgH = image.size.height;
+    const scale = Math.max(targetW / imgW, targetH / imgH);
+    const scaledW = imgW * scale;
+    const scaledH = imgH * scale;
+
+    let offsetX = (targetW - scaledW) / 2;
+    let offsetY = (targetH - scaledH) / 2;
+
+    if (enableFocus) {
+      // 竖向有裁剪空间时（即高度被截断），启动面容黄金注意力定位
+      if (scaledH > targetH) {
+        // 大多数人像的面容核心分布在整张照片垂直方向 22% ~ 35% 区域
+        // 目标是将该核心区域精准居中展示在裁剪窗口中偏上（32%）位置
+        const idealFaceYInScaled = scaledH * 0.28;
+        offsetY = (targetH * 0.35) - idealFaceYInScaled;
+        // 边界约束：确保图片边缘不留空隙、不露底色
+        offsetY = Math.min(0, Math.max(targetH - scaledH, offsetY));
+      }
+      // 横向有裁剪空间时，保持居中对齐面部
+      if (scaledW > targetW) {
+        offsetX = (targetW - scaledW) / 2;
+      }
+    }
+
+    const ctx = new DrawContext();
+    ctx.opaque = false;
+    ctx.respectScreenScale = true; // @3x 视网膜高清输出
+    ctx.size = new Size(targetW, targetH);
+    ctx.drawImageInRect(image, new Rect(offsetX, offsetY, scaledW, scaledH));
+    return ctx.getImage();
+  } catch (e) {
+    console.log('智能裁切失败，降级原图: ' + e);
+    return image;
+  }
+};
+
 // ==================== 多风格照片墙排版引擎 ====================
 
 /**
@@ -1438,10 +1489,12 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
   group.size = new Size(groupWidth, groupHeight);
   group.centerAlignContent();
 
-  const addImg = (stack, img, w, h) => {
+  const addImg = (stack, img, w, h, skipCrop = false) => {
     stack.size = new Size(w, h);
     stack.cornerRadius = cornerRadius;
-    const item = stack.addImage(img);
+    // 百叶窗切片等已有绝对像素画面的图跳过二次裁切；普通完整单图进行智能面容聚焦裁切
+    const finalImg = (!skipCrop && preference.faceFocus) ? smartCropImage(img, w, h, true) : img;
+    const item = stack.addImage(finalImg);
     item.imageSize = new Size(w, h);
     item.applyFillingContentMode();
     return item;
@@ -1698,8 +1751,8 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     const diffW = availableW - widths.reduce((a, b) => a + b, 0);
     widths[widths.length - 1] += diffW;
 
-    // 特效选择：'none' | 'fold'(折面) | 'frosted'(虚面) | 'emboss'(浮雕) | 'shift'(阶梯微错位)
-    const effects = ['fold', 'frosted', 'emboss', 'shift', 'none'];
+    // 特效选择：'fold'(折面) | 'frosted'(虚面) | 'emboss'(浮雕) | 'none'(平整)，绝不错位
+    const effects = ['fold', 'frosted', 'emboss', 'none'];
     const currentEffect = effects[Math.floor(Math.random() * effects.length)];
 
     const baseImg = images[0];
@@ -1710,30 +1763,28 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     const scaledW = imgW * scale;
     const scaledH = imgH * scale;
     const baseOffsetX = (groupWidth - scaledW) / 2;
-    const baseOffsetY = (groupHeight - scaledH) / 2;
+    let baseOffsetY = (groupHeight - scaledH) / 2;
+    if (preference.faceFocus && scaledH > groupHeight) {
+      baseOffsetY = Math.min(0, Math.max(groupHeight - scaledH, groupHeight * 0.35 - scaledH * 0.28));
+    }
 
     let currentX = 0;
     for (let i = 0; i < sliceCount; i++) {
       const w = widths[i];
       const s = group.addStack();
 
-      // 阶梯微错位处理
-      let yOffset = 0;
-      if (currentEffect === 'shift') {
-        yOffset = (i === 1) ? 7 : (i === 2 ? -4 : 0);
-      }
-
       const ctx = new DrawContext();
       ctx.opaque = false;
       ctx.respectScreenScale = true;
       ctx.size = new Size(w, groupHeight);
-      ctx.drawImageInRect(baseImg, new Rect(baseOffsetX - currentX, baseOffsetY + yOffset, scaledW, scaledH));
+      // 水平基准完全对齐，保证画面严丝合缝
+      ctx.drawImageInRect(baseImg, new Rect(baseOffsetX - currentX, baseOffsetY, scaledW, scaledH));
 
       // 叠加特效光影/虚面/浮雕
       applyBlindsEffect(ctx, w, groupHeight, currentEffect, i);
 
       const slicedImg = ctx.getImage();
-      addImg(s, slicedImg, w, groupHeight);
+      addImg(s, slicedImg, w, groupHeight, true); // true: 跳过二次智能裁切
       currentX += w + gapX;
 
       if (i < sliceCount - 1) {
@@ -1772,7 +1823,10 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     const scaledW = imgW * scale;
     const scaledH = imgH * scale;
     const baseOffsetX = (groupWidth - scaledW) / 2;
-    const baseOffsetY = (groupHeight - scaledH) / 2;
+    let baseOffsetY = (groupHeight - scaledH) / 2;
+    if (preference.faceFocus && scaledH > groupHeight) {
+      baseOffsetY = Math.min(0, Math.max(groupHeight - scaledH, groupHeight * 0.35 - scaledH * 0.28));
+    }
 
     let currentY = 0;
     for (let i = 0; i < sliceCount; i++) {
@@ -1804,7 +1858,7 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
       }
 
       const slicedImg = ctx.getImage();
-      addImg(s, slicedImg, groupWidth, h);
+      addImg(s, slicedImg, groupWidth, h, true); // true: 跳过二次智能裁切
       currentY += h + gapY;
 
       if (i < sliceCount - 1) {
@@ -2089,6 +2143,12 @@ await withSettings({
       type: 'switch',
       name: 'randomLayout',
       default: false
+    },
+    {
+      label: i18n(['Face Focus', '面容聚焦']),
+      type: 'switch',
+      name: 'faceFocus',
+      default: true
     },
     {
       label: i18n(['Choose Photo', '图片']),
