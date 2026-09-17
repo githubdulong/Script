@@ -5,10 +5,6 @@
 import requests, time, re, random
 from urllib.parse import quote
 
-# 禁用安全请求警告
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-
 headers = {
     'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 9; MI 6 MIUI/20.6.18)'
 }
@@ -30,7 +26,7 @@ def login(user, password):
         "redirect_uri": "https://s3-us-west-2.amazonaws.com/hm-registration/successsignin.html",
         "token": "access"
     }
-    r1 = requests.post(url1, data=data1, headers=headers, allow_redirects=False, verify=False)
+    r1 = requests.post(url1, data=data1, headers=headers, allow_redirects=False, timeout=10)
     try:
         location = r1.headers["Location"]
         code = get_code(location)
@@ -48,7 +44,7 @@ def login(user, password):
         "grant_type": "access_token",
         "third_name": "huami_phone",
     }
-    r2 = requests.post(url2, data=data2, headers=headers, verify=False).json()
+    r2 = requests.post(url2, data=data2, headers=headers, timeout=10).json()
     login_token = r2["token_info"]["login_token"]
     userid = r2["token_info"]["user_id"]
 
@@ -89,7 +85,7 @@ def main(user, passwd, step_range):
 
     data = f'userid={userid}&last_sync_data_time=1597306380&device_type=0&last_deviceid=DA932FFFFE8816E7&data_json={data_json}'
 
-    response = requests.post(url, data=data, headers=head, verify=False).json()
+    response = requests.post(url, data=data, headers=head, timeout=10).json()
 
     now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())  
     print(f"执行时间:{now}")
@@ -97,14 +93,14 @@ def main(user, passwd, step_range):
 # 获取时间戳
 def get_time():
     url = 'http://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp'
-    response = requests.get(url, headers=headers, verify=False).json()
+    response = requests.get(url, headers=headers, timeout=10).json()
     t = response['data']['t']
     return t
 
 # 获取app_token
 def get_app_token(login_token):
     url = f"https://account-cn.huami.com/v1/client/app_tokens?app_name=com.xiaomi.hm.health&dn=api-user.huami.com%2Capi-mifit.huami.com%2Capp-analytics.huami.com&login_token={login_token}"
-    response = requests.get(url, headers=headers, verify=False).json()
+    response = requests.get(url, headers=headers, timeout=10).json()
     app_token = response['token_info']['app_token']
     return app_token
 
