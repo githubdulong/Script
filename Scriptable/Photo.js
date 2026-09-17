@@ -1,9 +1,6 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-purple; icon-glyph: images;
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: deep-purple; icon-glyph: images;
 /**
  * 日历照片墙
  * 添加到桌面前需先在UI运行选择指定图片或在iCloud创建WidgetPhotos文件夹轮巡图片
@@ -1425,6 +1422,7 @@ const getSafePhotos = async (count) => {
 };
 
 // ==================== 多风格照片墙排版引擎 ====================
+
 /**
  * 渲染照片单元
  * @param {WidgetStack} container 
@@ -1505,7 +1503,7 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     }
   };
 
-  // 风格 1: 大焦点主图 + 双竖条画廊（主次分明，视觉冲击力强）
+  // 风格 1: 大焦点主图 + 双竖条画廊（主次分明）
   const renderStyle1 = () => {
     group.layoutHorizontally();
     const gapX = gap;
@@ -1538,7 +1536,7 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     }
   };
 
-  // 风格 2: 黄金四宫格 / 错落田字格（对角呼应）
+  // 风格 2: 黄金四宫格 / 错落田字格
   const renderStyle2 = () => {
     group.layoutHorizontally();
     const gapX = gap;
@@ -1554,7 +1552,6 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     const hRTop = Math.floor(availableH * ratio2);
     const hRBottom = availableH - hRTop;
 
-    // 左列
     const colL = group.addStack();
     colL.layoutVertically();
     colL.size = new Size(colW, groupHeight);
@@ -1566,7 +1563,6 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
 
     group.addSpacer(gapX);
 
-    // 右列
     const colR = group.addStack();
     colR.layoutVertically();
     colR.size = new Size(colW, groupHeight);
@@ -1617,7 +1613,7 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     }
   };
 
-  // 风格 4: 瀑布流双列三图（单长竖图 + 双横图，极简大气）
+  // 风格 4: 瀑布流双列三图（单长竖图 + 双横图）
   const renderStyle4 = () => {
     group.layoutHorizontally();
     const gapX = gap;
@@ -1655,13 +1651,87 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     }
   };
 
+    // 风格 5: 垂直百叶窗（基于整图透视物理切片，保证画面 100% 连贯不变形）
+  const renderStyle5 = () => {
+    group.layoutHorizontally();
+    const sliceCount = 3;
+    const gapX = gap;
+    const availableW = groupWidth - gapX * (sliceCount - 1);
+    const sliceW = Math.floor(availableW / sliceCount);
+
+    const baseImg = images[0];
+    const imgW = baseImg.size.width;
+    const imgH = baseImg.size.height;
+
+    // 按整体容器宽高比进行 Aspect Fill 缩放，保证原图不变形
+    const scale = Math.max(groupWidth / imgW, groupHeight / imgH);
+    const scaledW = imgW * scale;
+    const scaledH = imgH * scale;
+    const baseOffsetX = (groupWidth - scaledW) / 2;
+    const baseOffsetY = (groupHeight - scaledH) / 2;
+
+    for (let i = 0; i < sliceCount; i++) {
+      const s = group.addStack();
+      const xInCanvas = i * (sliceW + gapX);
+
+      // 利用 DrawContext 绘制绝对位置对应的局部画面
+      const ctx = new DrawContext();
+      ctx.opaque = false;
+      ctx.respectScreenScale = true; // 强制开启 @3x Retina 视网膜高清渲染
+      ctx.size = new Size(sliceW, groupHeight);
+      ctx.drawImageInRect(baseImg, new Rect(baseOffsetX - xInCanvas, baseOffsetY, scaledW, scaledH));
+      const slicedImg = ctx.getImage();
+
+      addImg(s, slicedImg, sliceW, groupHeight);
+      if (i < sliceCount - 1) {
+        group.addSpacer(gapX);
+      }
+    }
+  };
+
+  // 风格 6: 水平百叶窗（基于整图透视物理切片，保证画面 100% 连贯不变形）
+  const renderStyle6 = () => {
+    group.layoutVertically();
+    const sliceCount = 3;
+    const gapY = gap;
+    const availableH = groupHeight - gapY * (sliceCount - 1);
+    const sliceH = Math.floor(availableH / sliceCount);
+
+    const baseImg = images[0];
+    const imgW = baseImg.size.width;
+    const imgH = baseImg.size.height;
+
+    const scale = Math.max(groupWidth / imgW, groupHeight / imgH);
+    const scaledW = imgW * scale;
+    const scaledH = imgH * scale;
+    const baseOffsetX = (groupWidth - scaledW) / 2;
+    const baseOffsetY = (groupHeight - scaledH) / 2;
+
+    for (let i = 0; i < sliceCount; i++) {
+      const s = group.addStack();
+      const yInCanvas = i * (sliceH + gapY);
+
+      const ctx = new DrawContext();
+      ctx.opaque = false;
+      ctx.respectScreenScale = true; // 强制开启 @3x Retina 视网膜高清渲染
+      ctx.size = new Size(groupWidth, sliceH);
+      ctx.drawImageInRect(baseImg, new Rect(baseOffsetX, baseOffsetY - yInCanvas, scaledW, scaledH));
+      const slicedImg = ctx.getImage();
+
+      addImg(s, slicedImg, groupWidth, sliceH);
+      if (i < sliceCount - 1) {
+        group.addSpacer(gapY);
+      }
+    }
+  };
+
   // 未启用随机排版：100% 走经典原版风格
   if (!forceRandom) {
     return renderStyle0();
   }
 
-  // 开启随机排版：从 5 种高级排版风格中随机轮换抽取
-  const styleChoice = Math.floor(Math.random() * 5);
+  // 开启随机排版：从 7 种排版形态（含垂直与水平百叶窗）中随机抽取
+  const styleChoice = Math.floor(Math.random() * 7);
   switch (styleChoice) {
     case 0:
       renderStyle0();
@@ -1677,6 +1747,12 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
       break;
     case 4:
       renderStyle4();
+      break;
+    case 5:
+      renderStyle5();
+      break;
+    case 6:
+      renderStyle6();
       break;
     default:
       renderStyle0();
