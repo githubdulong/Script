@@ -1,6 +1,9 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-purple; icon-glyph: images;
+// Variables used by Scriptable.
+// These must be at the very top of the file. Do not edit.
+// icon-color: deep-purple; icon-glyph: images;
 /**
  * 日历照片墙
  * 添加到桌面前需先在UI运行选择指定图片或在iCloud创建WidgetPhotos文件夹轮巡图片
@@ -1424,13 +1427,16 @@ const getSafePhotos = async (count) => {
 
 
 // ==================== 自适应面容高亮识别与智能聚焦裁剪引擎 ====================
+// ==================== 自适应视觉重心阻尼与智能多维聚焦引擎 ====================
 /**
- * 智能面容与人像视觉中心扫描裁剪
+ * 高级智能视觉重心与长宽比自适应聚焦裁剪
+ * 彻底解决特写削下巴、远景抓天空、极端比例走样的痛点
+ *
  * @param {Image} image 原始图片
  * @param {number} targetW 目标展示宽
  * @param {number} targetH 目标展示高
- * @param {boolean} enableFocus 是否开启面容聚焦
- * @returns {Image} 聚焦裁剪后的超高清图片
+ * @param {boolean} enableFocus 是否开启智能聚焦
+ * @returns {Image} 完美对齐的超高清图片
  */
 const smartCropImage = (image, targetW, targetH, enableFocus = true) => {
   if (!image) return image;
@@ -1445,16 +1451,46 @@ const smartCropImage = (image, targetW, targetH, enableFocus = true) => {
     let offsetY = (targetH - scaledH) / 2;
 
     if (enableFocus) {
-      // 竖向有裁剪空间时（即高度被截断），启动面容黄金注意力定位
+      // 1. 竖向裁剪余量分析
       if (scaledH > targetH) {
-        // 大多数人像的面容核心分布在整张照片垂直方向 22% ~ 35% 区域
-        // 目标是将该核心区域精准居中展示在裁剪窗口中偏上（32%）位置
-        const idealFaceYInScaled = scaledH * 0.28;
-        offsetY = (targetH * 0.35) - idealFaceYInScaled;
-        // 边界约束：确保图片边缘不留空隙、不露底色
+        const excessH = scaledH - targetH; // 被裁切掉的多余高度
+        const imgAspect = imgW / imgH; // 原图宽高比（<0.75 为极窄长图，~1.0 为正方，>1.2 为宽横图）
+        const slotAspect = targetW / targetH; // 当前展示框的宽高比
+
+        // 2. 动态视觉重心锚点推算（取代过去固定死板的 0.28）
+        // - 横图/宽幅（imgAspect >= 1.2）：主体通常偏向画面中部偏下（0.38 ~ 0.42）
+        // - 标准半身（0.75 <= imgAspect < 1.2）：经典人像黄金分割位（0.32 ~ 0.35）
+        // - 狭长全身照（imgAspect < 0.75）：头顶通常在画面的更靠上位置（0.24 ~ 0.28）
+        let anchorRatio = 0.33;
+        if (imgAspect >= 1.25) {
+          anchorRatio = 0.40;
+        } else if (imgAspect <= 0.65) {
+          anchorRatio = 0.26;
+        } else {
+          anchorRatio = 0.26 + (imgAspect - 0.65) * (0.14 / 0.60);
+        }
+
+        // 3. 裁剪剧烈程度阻尼衰减（Damping）
+        // 如果当前是特写近景（裁剪余量占整图高度比例很小，说明几乎是原比例微裁），
+        // 或者展示框本身也是宽扁横框（slotAspect > 1.1），
+        // 此时若强制向上拉升会极易"切掉下巴和锁骨"！
+        // 引入阻尼因子：当裁剪余量占总高度比例较小时，让重心自然趋向正中央！
+        const cropSeverity = excessH / scaledH; // 0 (无裁剪) ~ 0.8 (极度深裁)
+        const dampingFactor = Math.min(1.0, Math.max(0.15, cropSeverity * 1.8));
+
+        // 计算理想偏移（中心加权阻尼）
+        const naturalCenterY = (targetH - scaledH) / 2;
+        const targetAnchorY = targetH * (slotAspect < 0.8 ? 0.36 : 0.42); // 目标视口中的面部最佳停留高度
+        const idealOffsetY = targetAnchorY - (scaledH * anchorRatio);
+
+        // 混合阻尼：在自然居中与黄金锚点之间做柔和插值过渡
+        offsetY = naturalCenterY * (1 - dampingFactor) + idealOffsetY * dampingFactor;
+
+        // 4. 物理防露底硬性约束
         offsetY = Math.min(0, Math.max(targetH - scaledH, offsetY));
       }
-      // 横向有裁剪空间时，保持居中对齐面部
+
+      // 横向有裁剪空间时，保持居中对齐
       if (scaledW > targetW) {
         offsetX = (targetW - scaledW) / 2;
       }
@@ -1470,6 +1506,71 @@ const smartCropImage = (image, targetW, targetH, enableFocus = true) => {
     console.log('智能裁切失败，降级原图: ' + e);
     return image;
   }
+};
+
+
+// ==================== 智能画幅与槽位最佳几何匹配引擎 ====================
+/**
+ * 自动根据图片与卡槽的长宽比进行最优化分配
+ * 保证横屏大片自动进入横向/方框展示位，长竖自拍自动进入纵向长条，彻底根除横图被切成牙签细条的尴尬
+ */
+const matchImagesToSlots = (images, slotSizes) => {
+  if (!images || images.length <= 1 || !slotSizes || slotSizes.length <= 1) {
+    return images;
+  }
+  const n = Math.min(images.length, slotSizes.length);
+  const imgAspects = images.slice(0, n).map(img => {
+    if (!img || !img.size || !img.size.height) return 1.0;
+    return img.size.width / img.size.height;
+  });
+  const slotAspects = slotSizes.slice(0, n).map(s => {
+    if (!s || !s.height) return 1.0;
+    return s.width / s.height;
+  });
+
+  // 生成 0..n-1 的全排列
+  const permute = (arr) => {
+    if (arr.length <= 1) return [arr];
+    const res = [];
+    for (let i = 0; i < arr.length; i++) {
+      const rest = [...arr.slice(0, i), ...arr.slice(i + 1)];
+      for (const p of permute(rest)) {
+        res.push([arr[i], ...p]);
+      }
+    }
+    return res;
+  };
+
+  const perms = permute(Array.from({ length: n }, (_, i) => i));
+  let bestPerm = perms[0];
+  let minCost = Infinity;
+
+  for (const perm of perms) {
+    let cost = 0;
+    for (let slotIdx = 0; slotIdx < n; slotIdx++) {
+      const imgIdx = perm[slotIdx];
+      const ia = imgAspects[imgIdx];
+      const sa = slotAspects[slotIdx];
+      let diff = Math.abs(ia - sa);
+      // 如果横图塞进极窄竖框，或细长竖图塞进极扁横框，施加重惩罚
+      if ((ia > 1.1 && sa < 0.65) || (ia < 0.65 && sa > 1.1)) {
+        diff *= 3.5;
+      }
+      cost += diff;
+    }
+    if (cost < minCost) {
+      minCost = cost;
+      bestPerm = perm;
+    }
+  }
+
+  // 按最优匹配重排图片返回
+  const matched = bestPerm.map(i => images[i]);
+  // 补全多余未参与匹配的图片
+  for (let i = n; i < images.length; i++) {
+    matched.push(images[i]);
+  }
+  return matched;
 };
 
 // ==================== 多风格照片墙排版引擎 ====================
@@ -1500,7 +1601,7 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     return item;
   };
 
-  // 风格 0: 经典排版（双竖条 + 上下双框，支持列随机）
+  // 风格 0: 经典排版（双竖条 + 上下双框，支持列随机，已集成智能画幅匹配）
   const renderStyle0 = () => {
     group.layoutHorizontally();
     const gapX = gap;
@@ -1515,6 +1616,16 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     if (forceRandom && Math.random() > 0.5) hTopRatio = 100 / 221;
     const hTop = Math.floor(availableH * hTopRatio);
     const hBottom = Math.max(1, availableH - hTop);
+
+    // 智能画幅分配：Slot 0,1 为竖窄框，Slot 2,3 为横/方框
+    // 自动将横屏大片（如落日人物照）分到 Slot 2/3，长身竖拍自拍照分到 Slot 0/1！
+    const slotSlots = [
+      { width: w1, height: groupHeight },
+      { width: w2, height: groupHeight },
+      { width: w3, height: hTop },
+      { width: w3, height: hBottom }
+    ];
+    const orderedImages = matchImagesToSlots(images, slotSlots);
 
     let pattern = 0;
     if (forceRandom) pattern = Math.floor(Math.random() * 3);
@@ -1536,27 +1647,27 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     };
 
     if (pattern === 1) {
-      drawDouble(images[2], images[3], w3);
+      drawDouble(orderedImages[2], orderedImages[3], w3);
       group.addSpacer(gapX);
-      drawSingle(images[0], w1);
+      drawSingle(orderedImages[0], w1);
       group.addSpacer(gapX);
-      drawSingle(images[1], w2);
+      drawSingle(orderedImages[1], w2);
     } else if (pattern === 2) {
-      drawSingle(images[0], w1);
+      drawSingle(orderedImages[0], w1);
       group.addSpacer(gapX);
-      drawDouble(images[2], images[3], w3);
+      drawDouble(orderedImages[2], orderedImages[3], w3);
       group.addSpacer(gapX);
-      drawSingle(images[1], w2);
+      drawSingle(orderedImages[1], w2);
     } else {
-      drawSingle(images[0], w1);
+      drawSingle(orderedImages[0], w1);
       group.addSpacer(gapX);
-      drawSingle(images[1], w2);
+      drawSingle(orderedImages[1], w2);
       group.addSpacer(gapX);
-      drawDouble(images[2], images[3], w3);
+      drawDouble(orderedImages[2], orderedImages[3], w3);
     }
   };
 
-  // 风格 1: 大焦点主图 + 双竖条画廊（主次分明）
+  // 风格 1: 大焦点主图 + 双竖条画廊（主次分明，已集成智能画幅匹配）
   const renderStyle1 = () => {
     group.layoutHorizontally();
     const gapX = gap;
@@ -1564,6 +1675,13 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     const mainW = Math.floor(availableW * 0.52);
     const subW = Math.floor((availableW - mainW) / 2);
     const isMainLeft = Math.random() > 0.5;
+
+    const slotSlots = [
+      { width: mainW, height: groupHeight },
+      { width: subW, height: groupHeight },
+      { width: subW, height: groupHeight }
+    ];
+    const orderedImages = matchImagesToSlots(images, slotSlots);
 
     const drawMain = (img) => {
       const s = group.addStack();
@@ -1575,17 +1693,17 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     };
 
     if (isMainLeft) {
-      drawMain(images[0]);
+      drawMain(orderedImages[0]);
       group.addSpacer(gapX);
-      drawSub(images[1]);
+      drawSub(orderedImages[1]);
       group.addSpacer(gapX);
-      drawSub(images[2]);
+      drawSub(orderedImages[2]);
     } else {
-      drawSub(images[1]);
+      drawSub(orderedImages[1]);
       group.addSpacer(gapX);
-      drawSub(images[2]);
+      drawSub(orderedImages[2]);
       group.addSpacer(gapX);
-      drawMain(images[0]);
+      drawMain(orderedImages[0]);
     }
   };
 
@@ -1666,7 +1784,7 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     }
   };
 
-  // 风格 4: 瀑布流双列三图（单长竖图 + 双横图）
+  // 风格 4: 瀑布流双列三图（单长竖图 + 双横图，已集成智能画幅匹配）
   const renderStyle4 = () => {
     group.layoutHorizontally();
     const gapX = gap;
@@ -1676,6 +1794,15 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     const halfH = Math.floor((groupHeight - gapY) / 2);
     const otherH = groupHeight - gapY - halfH;
     const isLeftSingle = Math.random() > 0.5;
+
+    const singleW = isLeftSingle ? leftW : rightW;
+    const doubleW = isLeftSingle ? rightW : leftW;
+    const slotSlots = [
+      { width: singleW, height: groupHeight }, // 长竖
+      { width: doubleW, height: halfH },      // 上横
+      { width: doubleW, height: otherH }      // 下横
+    ];
+    const orderedImages = matchImagesToSlots(images, slotSlots);
 
     const drawSingle = (img, w) => {
       const s = group.addStack();
@@ -1694,13 +1821,13 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     };
 
     if (isLeftSingle) {
-      drawSingle(images[0], leftW);
+      drawSingle(orderedImages[0], leftW);
       group.addSpacer(gapX);
-      drawDouble(images[1], images[2], rightW);
+      drawDouble(orderedImages[1], orderedImages[2], rightW);
     } else {
-      drawDouble(images[1], images[2], rightW);
+      drawDouble(orderedImages[1], orderedImages[2], rightW);
       group.addSpacer(gapX);
-      drawSingle(images[0], leftW);
+      drawSingle(orderedImages[0], leftW);
     }
   };
 
