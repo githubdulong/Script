@@ -1651,51 +1651,118 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     }
   };
 
-    // 风格 5: 垂直百叶窗（基于整图透视物理切片，保证画面 100% 连贯不变形）
+    // 特效渲染辅助：为切片赋予折面立体阴影、虚面磨砂或浮雕高光
+  const applyBlindsEffect = (ctx, w, h, effectType, index) => {
+    if (effectType === 'fold') {
+      // 折面立面光影（模拟百叶窗折角 15°立体屏风感）
+      // 在单侧绘制细腻柔和的微阴影
+      const shadowW = Math.min(16, Math.floor(w * 0.28));
+      const steps = 8;
+      for (let s = 0; s < steps; s++) {
+        const alpha = 0.28 * (1 - s / steps);
+        ctx.setFillColor(new Color('#000000', alpha));
+        // 交替向左折或向右折
+        const xPos = (index % 2 === 0) ? (w - shadowW + s * (shadowW / steps)) : (s * (shadowW / steps));
+        ctx.fill(new Rect(xPos, 0, shadowW / steps + 1, h));
+      }
+    } else if (effectType === 'frosted' && index === 1) {
+      // 虚面磨砂（挑选一根副条加上柔和的朦胧磨砂雾化质感）
+      ctx.setFillColor(new Color('#ffffff', 0.38));
+      ctx.fill(new Rect(0, 0, w, h));
+    } else if (effectType === 'emboss') {
+      // 浮雕微立体（边缘高光与投影）
+      ctx.setFillColor(new Color('#ffffff', 0.25));
+      ctx.fill(new Rect(0, 0, 2, h)); // 左侧柔白微高光
+      ctx.setFillColor(new Color('#000000', 0.20));
+      ctx.fill(new Rect(w - 2, 0, 2, h)); // 右侧微柔阴影
+    }
+  };
+
+  // 风格 5: 垂直百叶窗（支持粗细混搭、折面立体、虚面磨砂、浮雕高光）
   const renderStyle5 = () => {
     group.layoutHorizontally();
-    const sliceCount = 3;
     const gapX = gap;
+
+    const rhythms = [
+      [0.50, 0.25, 0.25],
+      [0.22, 0.56, 0.22],
+      [0.20, 0.32, 0.48],
+      [0.48, 0.32, 0.20],
+      [1/3, 1/3, 1/3]
+    ];
+    const selectedRhythm = rhythms[Math.floor(Math.random() * rhythms.length)];
+    const sliceCount = selectedRhythm.length;
     const availableW = groupWidth - gapX * (sliceCount - 1);
-    const sliceW = Math.floor(availableW / sliceCount);
+
+    const widths = selectedRhythm.map(r => Math.floor(availableW * r));
+    const diffW = availableW - widths.reduce((a, b) => a + b, 0);
+    widths[widths.length - 1] += diffW;
+
+    // 特效选择：'none' | 'fold'(折面) | 'frosted'(虚面) | 'emboss'(浮雕) | 'shift'(阶梯微错位)
+    const effects = ['fold', 'frosted', 'emboss', 'shift', 'none'];
+    const currentEffect = effects[Math.floor(Math.random() * effects.length)];
 
     const baseImg = images[0];
     const imgW = baseImg.size.width;
     const imgH = baseImg.size.height;
 
-    // 按整体容器宽高比进行 Aspect Fill 缩放，保证原图不变形
     const scale = Math.max(groupWidth / imgW, groupHeight / imgH);
     const scaledW = imgW * scale;
     const scaledH = imgH * scale;
     const baseOffsetX = (groupWidth - scaledW) / 2;
     const baseOffsetY = (groupHeight - scaledH) / 2;
 
+    let currentX = 0;
     for (let i = 0; i < sliceCount; i++) {
+      const w = widths[i];
       const s = group.addStack();
-      const xInCanvas = i * (sliceW + gapX);
 
-      // 利用 DrawContext 绘制绝对位置对应的局部画面
+      // 阶梯微错位处理
+      let yOffset = 0;
+      if (currentEffect === 'shift') {
+        yOffset = (i === 1) ? 7 : (i === 2 ? -4 : 0);
+      }
+
       const ctx = new DrawContext();
       ctx.opaque = false;
-      ctx.respectScreenScale = true; // 强制开启 @3x Retina 视网膜高清渲染
-      ctx.size = new Size(sliceW, groupHeight);
-      ctx.drawImageInRect(baseImg, new Rect(baseOffsetX - xInCanvas, baseOffsetY, scaledW, scaledH));
-      const slicedImg = ctx.getImage();
+      ctx.respectScreenScale = true;
+      ctx.size = new Size(w, groupHeight);
+      ctx.drawImageInRect(baseImg, new Rect(baseOffsetX - currentX, baseOffsetY + yOffset, scaledW, scaledH));
 
-      addImg(s, slicedImg, sliceW, groupHeight);
+      // 叠加特效光影/虚面/浮雕
+      applyBlindsEffect(ctx, w, groupHeight, currentEffect, i);
+
+      const slicedImg = ctx.getImage();
+      addImg(s, slicedImg, w, groupHeight);
+      currentX += w + gapX;
+
       if (i < sliceCount - 1) {
         group.addSpacer(gapX);
       }
     }
   };
 
-  // 风格 6: 水平百叶窗（基于整图透视物理切片，保证画面 100% 连贯不变形）
+  // 风格 6: 水平百叶窗（支持粗细混搭、折面横条阴影、浮雕立体、虚面磨砂）
   const renderStyle6 = () => {
     group.layoutVertically();
-    const sliceCount = 3;
     const gapY = gap;
+
+    const rhythms = [
+      [0.52, 0.24, 0.24],
+      [0.22, 0.56, 0.22],
+      [0.24, 0.24, 0.52],
+      [1/3, 1/3, 1/3]
+    ];
+    const selectedRhythm = rhythms[Math.floor(Math.random() * rhythms.length)];
+    const sliceCount = selectedRhythm.length;
     const availableH = groupHeight - gapY * (sliceCount - 1);
-    const sliceH = Math.floor(availableH / sliceCount);
+
+    const heights = selectedRhythm.map(r => Math.floor(availableH * r));
+    const diffH = availableH - heights.reduce((a, b) => a + b, 0);
+    heights[heights.length - 1] += diffH;
+
+    const effects = ['fold', 'frosted', 'emboss', 'none'];
+    const currentEffect = effects[Math.floor(Math.random() * effects.length)];
 
     const baseImg = images[0];
     const imgW = baseImg.size.width;
@@ -1707,18 +1774,39 @@ const renderPhotoGroup = (container, images, groupWidth, groupHeight, cornerRadi
     const baseOffsetX = (groupWidth - scaledW) / 2;
     const baseOffsetY = (groupHeight - scaledH) / 2;
 
+    let currentY = 0;
     for (let i = 0; i < sliceCount; i++) {
+      const h = heights[i];
       const s = group.addStack();
-      const yInCanvas = i * (sliceH + gapY);
 
       const ctx = new DrawContext();
       ctx.opaque = false;
-      ctx.respectScreenScale = true; // 强制开启 @3x Retina 视网膜高清渲染
-      ctx.size = new Size(groupWidth, sliceH);
-      ctx.drawImageInRect(baseImg, new Rect(baseOffsetX, baseOffsetY - yInCanvas, scaledW, scaledH));
-      const slicedImg = ctx.getImage();
+      ctx.respectScreenScale = true;
+      ctx.size = new Size(groupWidth, h);
+      ctx.drawImageInRect(baseImg, new Rect(baseOffsetX, baseOffsetY - currentY, scaledW, scaledH));
 
-      addImg(s, slicedImg, groupWidth, sliceH);
+      // 水平特效
+      if (currentEffect === 'fold') {
+        const shadowH = Math.min(12, Math.floor(h * 0.3));
+        for (let step = 0; step < 6; step++) {
+          const alpha = 0.26 * (1 - step / 6);
+          ctx.setFillColor(new Color('#000000', alpha));
+          ctx.fill(new Rect(0, h - shadowH + step * (shadowH / 6), groupWidth, shadowH / 6 + 1));
+        }
+      } else if (currentEffect === 'frosted' && i === 1) {
+        ctx.setFillColor(new Color('#ffffff', 0.35));
+        ctx.fill(new Rect(0, 0, groupWidth, h));
+      } else if (currentEffect === 'emboss') {
+        ctx.setFillColor(new Color('#ffffff', 0.22));
+        ctx.fill(new Rect(0, 0, groupWidth, 2));
+        ctx.setFillColor(new Color('#000000', 0.18));
+        ctx.fill(new Rect(0, h - 2, groupWidth, 2));
+      }
+
+      const slicedImg = ctx.getImage();
+      addImg(s, slicedImg, groupWidth, h);
+      currentY += h + gapY;
+
       if (i < sliceCount - 1) {
         group.addSpacer(gapY);
       }
