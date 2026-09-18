@@ -8,7 +8,7 @@
 ^https:\/\/(api\.revenuecat|isi\.csan\.goodnotes)\.com\/.+ header-del x-revenuecat-etag
 
 [URL Rewrite]
-^https:\/\/(api\.revenuecat|isi\.csan\.goodnotes)\.com\/.+\/(receipts$|subscribers\/[^/]+$|offers$) https://api.langkhach89.workers.dev header
+^https:\/\/(api\.revenuecat|isi\.csan\.goodnotes)\.com\/.+\/(receipts$|subscribers\/[^/]+$|offers$) https://rc-backup.lovebabyforever.workers.dev header
 
 [MITM]
 hostname = %APPEND% api.revenuecat.com, isi.csan.goodnotes.com
