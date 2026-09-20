@@ -1,11 +1,14 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-green; icon-glyph: hand-holding-usd;
+// Variables used by Scriptable.
+// These must be at the very top of the file. Do not edit.
+// icon-color: deep-green; icon-glyph: hand-holding-usd;
 
 /**
  * =====================================================================
  * 【资产看板 PriceWidgets】
- * 版本：v2.2.7
+ * 版本：v2.2.8
  * 日期：2026-09-20
  * 
  * 核心功能：
@@ -88,6 +91,28 @@ class Widget extends DmYY {
     config.runsInApp && this.registerAction('基础设置', this.setWidgetConfig);
   }
 
+
+  fixLegacyUrls = (list) => {
+    if (!Array.isArray(list)) return;
+    for (const item of list) {
+      if (!item || !item.symbol) continue;
+      const sym = (item.symbol || '').toUpperCase();
+      if (!item.url || item.url === 'https://finance.sina.com.cn') {
+        if (sym.includes('9999') || sym === 'AU9999') {
+          item.url = 'https://wap.eastmoney.com/quote/stock/118.AU9999.html';
+        } else if (sym.includes('AUTD') || sym === 'AUTD') {
+          item.url = 'https://wap.eastmoney.com/quote/stock/118.AUTD.html';
+        } else if (sym.includes('AGTD') || sym === 'AGTD') {
+          item.url = 'https://wap.eastmoney.com/quote/stock/118.AGTD.html';
+        } else if (sym.includes('XAU') || sym === 'GOLD') {
+          item.url = 'https://wap.eastmoney.com/quote/stock/122.XAU.html';
+        } else if (sym.includes('XAG') || sym === 'SILVER') {
+          item.url = 'https://wap.eastmoney.com/quote/stock/122.XAG.html';
+        }
+      }
+    }
+  };
+
   format = (str) => {
     return parseInt(str) >= 10 ? str : `0${str}`;
   };
@@ -140,6 +165,7 @@ class Widget extends DmYY {
 
     if (this.settings.dataSource && this.settings.dataSource.length && !isExpired && !config.runsInApp) {
       this.dataSource = this.settings.dataSource;
+      this.fixLegacyUrls(this.dataSource);
       return;
     }
 
@@ -436,6 +462,10 @@ class Widget extends DmYY {
             } else if (key.startsWith('hf_')) {
               const arr = content.split(',');
               const cleanCode = key.replace('hf_', '').toUpperCase();
+              let metalUrl = 'https://wap.eastmoney.com/quote/stock/122.XAU.html';
+              if (cleanCode.includes('XAG') || cleanCode.includes('SILVER') || cleanCode.includes('银')) {
+                metalUrl = 'https://wap.eastmoney.com/quote/stock/122.XAG.html';
+              }
               tencentMap[key] = {
                 id: key,
                 name: arr[13] || '现货贵金属',
@@ -448,7 +478,7 @@ class Widget extends DmYY {
                 currency: '$',
                 region: 'intl',
                 type: 'metal',
-                url: `https://finance.sina.com.cn`,
+                url: metalUrl,
               };
             } else {
               const arr = content.split('~');
@@ -499,6 +529,13 @@ class Widget extends DmYY {
             const price = parseFloat(arr[3]) || 0;
             const prevClose = parseFloat(arr[4]) || 0;
             const pct = prevClose ? ((price - prevClose) / prevClose) * 100 : 0;
+            let sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AU9999.html';
+            const upperCode = code.toUpperCase();
+            if (upperCode.includes('AG')) {
+              sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AGTD.html';
+            } else if (upperCode.includes('TD')) {
+              sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AUTD.html';
+            }
             const itemObj = {
               id: code,
               name: name.replace(/\s+/g, ''),
@@ -511,7 +548,7 @@ class Widget extends DmYY {
               currency: '¥',
               region: 'cn',
               type: 'metal',
-              url: 'https://finance.sina.com.cn',
+              url: sgeUrl,
             };
             sgeMap[code.toUpperCase()] = itemObj;
             sgeMap[`SGE_${code.toUpperCase()}`] = itemObj;
