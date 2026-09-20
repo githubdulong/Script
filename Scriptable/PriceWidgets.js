@@ -1,14 +1,11 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-green; icon-glyph: hand-holding-usd;
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: deep-green; icon-glyph: hand-holding-usd;
 
 /**
  * =====================================================================
  * 【资产看板 PriceWidgets】
- * 版本：v2.2.3
+ * 版本：v2.2.7
  * 日期：2026-09-20
  * 
  * 核心功能：
@@ -138,8 +135,8 @@ class Widget extends DmYY {
   init = async () => {
     const now = Date.now();
     const lastTime = this.settings.lastUpdatedTime || 0;
-    const refreshMinutes = parseInt(this.settings.refreshAfterDate) || 5;
-    const isExpired = now - lastTime > refreshMinutes * 60 * 1000;
+    const dataCacheMinutes = parseInt(this.settings.refreshAfterDate) || 30;
+    const isExpired = now - lastTime > dataCacheMinutes * 60 * 1000;
 
     if (this.settings.dataSource && this.settings.dataSource.length && !isExpired && !config.runsInApp) {
       this.dataSource = this.settings.dataSource;
@@ -1000,6 +997,9 @@ class Widget extends DmYY {
     await this.getWidgetBackgroundImage(widget);
     if (this.widgetFamily === 'medium') await this.renderMedium(widget);
     if (this.widgetFamily === 'large') await this.renderLarge(widget);
+
+    delete this.settings.refreshAfterDate;
+
     return widget;
   }
 }
