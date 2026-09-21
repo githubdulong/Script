@@ -6,7 +6,7 @@
  * 日期：2026-09-21
  * 
  * 核心功能：
- * 1. 【全品类资产覆盖】
+ *     【全品类资产覆盖】
  *    - 加密货币：BTC, ETH, SOL 等主流代币
  *    - 美股外盘：AAPL, TSLA, NVDA 等知名上市公司
  *    - 中国A股：600519(茅台), 000001, sh000001(上证指数) 等
@@ -30,8 +30,8 @@ class Widget extends DmYY {
         '关注种类',
         async () => {
           return this.setAlertInput(
-            '关注种类 (分类填入)',
-            '按资产类别分栏填入代码(逗号隔开)，不关注的类别留空：',
+            '关注种类',
+            '按资产类别分栏填入代码(逗号隔开)',
             {
               cryptoSymbols: '虚拟币 (如: BTC, ETH, SOL)',
               usStockSymbols: '美股 (如: AAPL, TSLA, NVDA)',
@@ -66,7 +66,7 @@ class Widget extends DmYY {
         async () => {
           return this.setAlertInput(
             '随机展示',
-            '开启后每次刷新在已关注资产中真正随机轮播（小/中/大号组件均生效）：\n• 小号：随机展示 1 个资产\n• 中号：随机抽取 3 个资产\n• 大号：随机抽取 6 个资产\n输入 1 开启，0 关闭',
+            '开启后每次刷新在已关注资产中随机轮播\n输入 1 开启，0 关闭',
             {
               randomDisplay: '0',
             }
@@ -82,7 +82,7 @@ class Widget extends DmYY {
             await this.init();
           }
           const alert = new Alert();
-          alert.title = '📋 资产看板运行日志';
+          alert.title = '资产看板运行日志';
           alert.message = this.lastReportText || '暂无日志记录';
           alert.addAction('拷贝报告');
           alert.addCancelAction('关闭');
@@ -152,32 +152,32 @@ class Widget extends DmYY {
 
   printDiagnosticReport = () => {
     const d = this.logDetails || {};
-    const divider = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+    const divider = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
     const lines = [
       '',
       divider,
-      '📊【资产看板 PriceWidgets 运行诊断日志】',
+      '【资产看板 PriceWidgets 运行诊断日志】',
       divider,
-      `📱 运行环境: ${d.runMode || (config.runsInWidget ? '桌面小组件 (Widget)' : 'Scriptable App 内部')}`,
-      `⚙️ 刷新间隔: 设置为 ${d.dataCacheMinutes || 30} 分钟 (refreshAfterDate)`,
-      `🕒 历史数据: 上次成功更新于 ${d.lastUpdatedStr || '无'} (距今 ${d.elapsedMinutes || '0'} 分钟)`,
-      `📦 读取策略: ${d.dataSourceType || '未知'}`,
-      `📈 呈现资产: 成功装载 ${d.finalCount || 0} 个监控标的`,
-      `⏱ 总耗时: ${d.totalDuration || 0} ms`,
+      `运行环境: ${d.runMode || (config.runsInWidget ? '桌面小组件 (Widget)' : 'Scriptable App 内部')}`,
+      `刷新间隔: 设置为 ${d.dataCacheMinutes || 30} 分钟 (refreshAfterDate)`,
+      `历史数据: 上次成功更新于 ${d.lastUpdatedStr || '无'} (距今 ${d.elapsedMinutes || '0'} 分钟)`,
+      `读取策略: ${d.dataSourceType || '未知'}`,
+      `呈现资产: 成功装载 ${d.finalCount || 0} 个监控标的`,
+      `总耗时: ${d.totalDuration || 0} ms`,
     ];
 
     if (d.networkTasks && d.networkTasks.length > 0) {
-      lines.push('─────────────────────────────────────');
-      lines.push('🌐 网络并发请求明细:');
+      lines.push('────────────────────────────────────');
+      lines.push('网络并发请求明细:');
       d.networkTasks.forEach((t) => {
         lines.push(`   • [${t.name}] 耗时 ${t.cost}ms ➔ ${t.status}`);
       });
       if (d.networkTotalTime > 0) {
-        lines.push(`   ⚡️ 并发总网络耗时: ${d.networkTotalTime} ms (并行执行耗时由最慢单项决定)`);
+        lines.push(`   并发总网络耗时: ${d.networkTotalTime} ms (并行执行耗时由最慢单项决定)`);
       }
     }
 
-    lines.push('─────────────────────────────────────');
+    lines.push('────────────────────────────────────');
     if (d.errors && d.errors.length > 0) {
       lines.push('⚠️ 异常与报错提示:');
       d.errors.forEach((err) => {
@@ -268,7 +268,7 @@ class Widget extends DmYY {
     }
   };
 
-  // 雪球官方 Logo（高清透明底色，用于未收录股票的优雅官方保底）
+  // 雪球官方 Logo（用于未收录股票）
   xueqiuLogoBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFNjIyMEU4ODQzNzIxMUUyQTQxRUMzRTA5MkEzOEYzQSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFNjIyMEU4OTQzNzIxMUUyQTQxRUMzRTA5MkEzOEYzQSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkU2MjIwRTg2NDM3MjExRTJBNDFFQzNFMDkyQTM4RjNBIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkU2MjIwRTg3NDM3MjExRTJBNDFFQzNFMDkyQTM4RjNBIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+LePrjgAACD1JREFUeNrMW2ts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';
 
   getXueqiuLogo = () => {
@@ -333,7 +333,7 @@ class Widget extends DmYY {
     return false;
   };
 
-  // 全自动图标规整管道：
+  // 图标规则：
   // 1. 自动扫描去除任何图源周围自带的多余透明留白（Bounding Box）
   // 2. 严格按最长边等比缩放并居中投影至 targetSize (28x28)，保证所有品牌 Logo 大小绝对规整统一
   // 3. 暗黑模式下，自动识别纯黑/极深色剪影（如 Apple Logo），无损反转为纯净银白 #FFFFFF，浅色模式保持深黑
@@ -427,8 +427,7 @@ class Widget extends DmYY {
     }
   };
 
-  // 本地文件缓存加载（网络请求成功存入本地沙盒，下次秒读，不包含任何擅自删缓存的逻辑）
-    // 归一化图标加载（带磁盘文件缓存：首次处理后存盘，以后直接秒读，彻底避免每次重复启动 WebView 导致卡顿与超时）
+  // 本地文件缓存加载，图标加载
   getNormalizedItemIcon = async (market, targetSize = 28) => {
     try {
       if (!this.FILE_MGR.fileExists(this.cacheImage)) {
@@ -581,7 +580,7 @@ class Widget extends DmYY {
         if (cached) return cached;
       }
 
-      // (3) 未被 CMC 收入的股票（如中国重汽 000951 等）：100% 自动优雅采用雪球官方高清透明 Logo
+      // (3) 未被 CMC 收入的股票采用雪球官方高清透明 Logo
       const xqLogo = this.getXueqiuLogo();
       if (xqLogo) return xqLogo;
     }
@@ -694,7 +693,7 @@ class Widget extends DmYY {
       let orderedItems = [];
 
       if (hasCategorySettings) {
-        // 【分栏设置优先】：100% 严格按用户填入的项目抓取，用户留空的分类绝对不加！绝不产生未填写资产！
+        // 分栏设置优先
         for (const item of c_crypto) {
           cryptoKeys.push(item);
           orderedItems.push({ key: item, type: 'crypto' });
@@ -760,8 +759,7 @@ class Widget extends DmYY {
           orderedItems.push({ key: item, type: 'oil' });
         }
       } else {
-        // 【兼容模式 / 仅有 btcType 模式】：纯粹解析用户在 btcType 中填入的内容
-        // 若用户完全未作任何设置（全新状态），仅兜底原版纯粹的 'BTC,ETH,BNB'，绝无任何股票/乱加项！
+        // 若用户完全未作任何设置（全新状态），仅兜底原版纯粹的 'BTC,ETH,BNB'
         const rawList = (params || s.btcType || 'BTC,ETH,BNB')
           .split(',')
           .map((s) => s.trim())
@@ -844,7 +842,7 @@ class Widget extends DmYY {
         }
       }
 
-      // 并发网络请求：使用 Promise.allSettled 同时拉取油价、金银、股票与币圈数据，彻底消除串行排队延迟！
+      // 并发网络请求：使用 Promise.allSettled 同时拉取油价、金银、股票与币圈数据，消除串行排队延迟！
       const oilMap = {};
       const sgeMap = {};
       const tencentMap = {};
@@ -1133,7 +1131,7 @@ class Widget extends DmYY {
         );
       }
 
-      // 并行等待所有任务完成（最慢仅耗时一个最长接口，绝不累加）
+      // 并行等待所有任务完成
       if (tasks.length) {
         const netStart = Date.now();
         await Promise.allSettled(tasks);
@@ -1142,7 +1140,6 @@ class Widget extends DmYY {
         }
       }
 
-      // 5. 按照用户的配置顺序精确拼装列表
       const list = [];
       const seenIds = new Set();
 
@@ -1285,7 +1282,6 @@ class Widget extends DmYY {
       const safeKey = String(idOrSym).replace(/[^a-zA-Z0-9_\-\.]/g, '_');
       const bgFilePath = this.FILE_MGR.joinPath(this.cacheImage, `bg_${safeKey}.png`);
 
-      // 关键优化：小号水印背景直接读取磁盘缓存，彻底避免每次重复启动 WebView 导致卡顿与超时！
       if (this.FILE_MGR.fileExists(bgFilePath)) {
         return Image.fromFile(bgFilePath);
       }
