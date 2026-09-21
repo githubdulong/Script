@@ -2,7 +2,7 @@
 /**
  * =====================================================================
  * 【资产看板 PriceWidgets】
- * 版本：v2.5.8
+ * 版本：v2.6.1
  * 日期：2026-09-21
  * 
  * 核心功能：
@@ -74,6 +74,25 @@ class Widget extends DmYY {
         },
         { name: 'shuffle', color: '#38bdf8' }
       );
+    config.runsInApp &&
+      this.registerAction(
+        '运行日志',
+        async () => {
+          if (!this.lastReportText) {
+            await this.init();
+          }
+          const alert = new Alert();
+          alert.title = '📋 资产看板运行日志';
+          alert.message = this.lastReportText || '暂无日志记录';
+          alert.addAction('拷贝报告');
+          alert.addCancelAction('关闭');
+          const idx = await alert.presentAlert();
+          if (idx === 0 && this.lastReportText) {
+            Pasteboard.copy(this.lastReportText);
+          }
+        },
+        { name: 'doc.text.magnifyingglass', color: '#10B981' }
+      );
     config.runsInApp && this.registerAction('基础设置', this.setWidgetConfig);
   }
 
@@ -122,18 +141,112 @@ class Widget extends DmYY {
     青海: 'qinghai', 宁夏: 'ningxia', 新疆: 'xinjiang',
   };
 
+  formatTime = (timestamp) => {
+    if (!timestamp) return '无历史记录';
+    const d = new Date(Number(timestamp));
+    const pad = (n) => (n < 10 ? `0${n}` : n);
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  };
+
+  log = (msg, type = 'INFO') => {};
+
+  printDiagnosticReport = () => {
+    const d = this.logDetails || {};
+    const divider = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+    const lines = [
+      '',
+      divider,
+      '📊【资产看板 PriceWidgets 运行诊断日志】',
+      divider,
+      `📱 运行环境: ${d.runMode || (config.runsInWidget ? '桌面小组件 (Widget)' : 'Scriptable App 内部')}`,
+      `⚙️ 刷新间隔: 设置为 ${d.dataCacheMinutes || 30} 分钟 (refreshAfterDate)`,
+      `🕒 历史数据: 上次成功更新于 ${d.lastUpdatedStr || '无'} (距今 ${d.elapsedMinutes || '0'} 分钟)`,
+      `📦 读取策略: ${d.dataSourceType || '未知'}`,
+      `📈 呈现资产: 成功装载 ${d.finalCount || 0} 个监控标的`,
+      `⏱ 总耗时: ${d.totalDuration || 0} ms`,
+    ];
+
+    if (d.networkTasks && d.networkTasks.length > 0) {
+      lines.push('─────────────────────────────────────');
+      lines.push('🌐 网络并发请求明细:');
+      d.networkTasks.forEach((t) => {
+        lines.push(`   • [${t.name}] 耗时 ${t.cost}ms ➔ ${t.status}`);
+      });
+      if (d.networkTotalTime > 0) {
+        lines.push(`   ⚡️ 并发总网络耗时: ${d.networkTotalTime} ms (并行执行耗时由最慢单项决定)`);
+      }
+    }
+
+    lines.push('─────────────────────────────────────');
+    if (d.errors && d.errors.length > 0) {
+      lines.push('⚠️ 异常与报错提示:');
+      d.errors.forEach((err) => {
+        lines.push(`   ❌ ${err}`);
+      });
+    } else {
+      lines.push('✅ 运行状态: 完美执行，全链路无任何报错');
+    }
+    lines.push(divider);
+    lines.push('');
+
+    const fullReport = lines.join('\n');
+    this.lastReportText = fullReport;
+    console.log(fullReport);
+  };
+
   init = async () => {
-    const now = Date.now();
+    const startTime = Date.now();
     const lastTime = this.settings.lastUpdatedTime || 0;
     const dataCacheMinutes = parseInt(this.settings.refreshAfterDate) || 30;
-    const isExpired = now - lastTime > dataCacheMinutes * 60 * 1000;
+    const timeDiffMs = lastTime ? Date.now() - lastTime : 0;
+    const elapsedMinutes = lastTime ? (timeDiffMs / (60 * 1000)).toFixed(1) : '初次运行';
+    const isExpired = !lastTime || timeDiffMs > dataCacheMinutes * 60 * 1000;
+    const runMode = config.runsInWidget ? '桌面小组件 (WidgetKit)' : 'Scriptable App 内部运行';
 
+    this.logDetails = {
+      runMode,
+      dataCacheMinutes,
+      lastUpdatedStr: this.formatTime(lastTime),
+      elapsedMinutes,
+      isExpired,
+      dataSourceType: '',
+      networkTotalTime: 0,
+      networkTasks: [],
+      errors: [],
+      finalCount: 0,
+      totalDuration: 0,
+    };
+
+    // 桌面小组件且缓存未过期时，直接读取本地缓存秒开
     if (this.settings.dataSource && this.settings.dataSource.length && !isExpired && !config.runsInApp) {
       this.dataSource = this.settings.dataSource;
+      this.logDetails.dataSourceType = `读取本地有效缓存数据 (距更新 ${elapsedMinutes} 分钟前，跳过网络秒开)`;
+      this.logDetails.finalCount = this.dataSource.length;
+      this.logDetails.totalDuration = Date.now() - startTime;
+      this.printDiagnosticReport();
       return;
     }
 
-    await this.cacheData();
+    try {
+      await this.cacheData();
+    } catch (e) {
+      const errMsg = `cacheData 异常: ${e.message || e}`;
+      if (this.logDetails) this.logDetails.errors.push(errMsg);
+    }
+
+    // 核心保底机制：若因网络波动/超时未获取到最新数据，坚决使用旧缓存展示，杜绝小组件超时红字
+    if ((!this.dataSource || !this.dataSource.length) && this.settings.dataSource && this.settings.dataSource.length) {
+      this.dataSource = this.settings.dataSource;
+      this.logDetails.dataSourceType = `⚠️ 网络请求无有效数据，自动回退读取上次本地有效缓存 (${this.logDetails.lastUpdatedStr})`;
+    } else if (this.dataSource && this.dataSource.length) {
+      if (!this.logDetails.dataSourceType) {
+        this.logDetails.dataSourceType = '网络并发拉取最新实时数据';
+      }
+    }
+
+    this.logDetails.finalCount = this.dataSource ? this.dataSource.length : 0;
+    this.logDetails.totalDuration = Date.now() - startTime;
+    this.printDiagnosticReport();
   };
 
   getTrendColor = (market, isBackground = false) => {
@@ -315,6 +428,35 @@ class Widget extends DmYY {
   };
 
   // 本地文件缓存加载（网络请求成功存入本地沙盒，下次秒读，不包含任何擅自删缓存的逻辑）
+    // 归一化图标加载（带磁盘文件缓存：首次处理后存盘，以后直接秒读，彻底避免每次重复启动 WebView 导致卡顿与超时）
+  getNormalizedItemIcon = async (market, targetSize = 28) => {
+    try {
+      if (!this.FILE_MGR.fileExists(this.cacheImage)) {
+        this.FILE_MGR.createDirectory(this.cacheImage, true);
+      }
+      const sym = (market.symbol || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+      const type = market.type || 'stock';
+      const isDark = this.isDarkModeActive();
+      const safeKey = `norm_${type}_${sym}_${targetSize}_${isDark ? 'dark' : 'light'}`;
+      const filePath = this.FILE_MGR.joinPath(this.cacheImage, `${safeKey}.png`);
+
+      if (this.FILE_MGR.fileExists(filePath)) {
+        return Image.fromFile(filePath);
+      }
+
+      const rawImg = await this.getItemImage(market);
+      if (!rawImg) return null;
+      const normalized = await this.processAndNormalizeIcon(rawImg, targetSize);
+      if (normalized) {
+        this.FILE_MGR.writeImage(filePath, normalized);
+        return normalized;
+      }
+      return rawImg;
+    } catch (e) {
+      return await this.getItemImage(market);
+    }
+  };
+
   loadIconWithCache = async (cacheKey, iconUrl) => {
     try {
       if (!this.FILE_MGR.fileExists(this.cacheImage)) {
@@ -327,7 +469,7 @@ class Widget extends DmYY {
       }
       if (!iconUrl) return null;
       const req = new Request(iconUrl);
-      req.timeoutInterval = 6;
+      req.timeoutInterval = 4;
       const img = await req.loadImage();
       if (img) {
         this.FILE_MGR.writeImage(filePath, img);
@@ -461,7 +603,9 @@ class Widget extends DmYY {
     if (oilKey) {
       try {
         const url = `https://apis.tianapi.com/oilprice/index?key=${oilKey}&prov=${encodeURIComponent(cleanProv)}`;
-        const res = await this.$request.get(url, 'JSON');
+        const req = new Request(url);
+        req.timeoutInterval = 4;
+        const res = await req.loadJSON();
         if (res && res.code === 200 && res.result) {
           p0 = res.result.p0 || '';
           p89 = res.result.p89 || '';
@@ -475,7 +619,10 @@ class Widget extends DmYY {
     try {
       const pinyin = this.provincePinyinMap[cleanProv] || 'guangdong';
       const webUrl = `http://m.qiyoujiage.com/${pinyin}.shtml`;
-      const webRes = await this.$request.get(webUrl, 'STRING');
+      const req = new Request(webUrl);
+      req.timeoutInterval = 4;
+      req.headers = { 'User-Agent': 'Mozilla/5.0' };
+      const webRes = await req.loadString();
       if (webRes) {
         const match92 = webRes.match(/92号汽油<\/dt>\s*<dd>([\d\.]+)/);
         const match95 = webRes.match(/95号汽油<\/dt>\s*<dd>([\d\.]+)/);
@@ -697,224 +844,301 @@ class Widget extends DmYY {
         }
       }
 
-      // 1. 请求国内油价
+      // 并发网络请求：使用 Promise.allSettled 同时拉取油价、金银、股票与币圈数据，彻底消除串行排队延迟！
       const oilMap = {};
+      const sgeMap = {};
+      const tencentMap = {};
+      const cryptoMap = {};
+      const tasks = [];
+
+      // 1. 国内油价任务 (超时 4s)
       const shouldFetchOil = oilKeys.length > 0 || isOilFiltered;
       if (shouldFetchOil) {
-        try {
-          const finalKey = (s.oilKey || '').trim();
-          const finalProv = (s.oilProvince || '广东').trim();
-          const oilRes = await this.fetchOilData(finalProv, finalKey);
+        tasks.push(
+          (async () => {
+            const t0 = Date.now();
+            try {
+              const finalKey = (s.oilKey || '').trim();
+              const finalProv = (s.oilProvince || '广东').trim();
+              const oilRes = await this.fetchOilData(finalProv, finalKey);
 
-          const makeOilItem = (subCode, subName, priceStr) => {
-            const priceVal = parseFloat(priceStr) || 0;
-            const amt = oilRes.changeAmount || 0;
-            const pct = priceVal > 0 ? (amt / priceVal) * 100 : 0;
-            const changeStr = amt !== 0 ? (amt > 0 ? `+${amt.toFixed(2)}` : `${amt.toFixed(2)}`) : '0.00';
-            const nextPrice = priceVal > 0 && amt !== 0 ? (priceVal + amt).toFixed(2) : priceVal.toFixed(2);
+              const makeOilItem = (subCode, subName, priceStr) => {
+                const priceVal = parseFloat(priceStr) || 0;
+                const amt = oilRes.changeAmount || 0;
+                const pct = priceVal > 0 ? (amt / priceVal) * 100 : 0;
+                const changeStr = amt !== 0 ? (amt > 0 ? `+${amt.toFixed(2)}` : `${amt.toFixed(2)}`) : '0.00';
+                const nextPrice = priceVal > 0 && amt !== 0 ? (priceVal + amt).toFixed(2) : priceVal.toFixed(2);
 
-            return {
-              id: `oil_${subCode}`,
-              name: `${finalProv}${subName}`,
-              symbol: `${subCode}#`,
-              current_price: this.formatPrice(priceStr, 2, 2),
-              high_24h: nextPrice,
-              low_24h: priceVal.toFixed(2),
-              adjust_date: oilRes.adjustDate,
-              price_change_percentage_24h: pct,
-              expected_change_amount: changeStr,
-              last_updated: '',
-              currency: '¥',
-              region: 'cn',
-              type: 'oil',
-              url: `http://m.qiyoujiage.com/${this.provincePinyinMap[finalProv] || 'guangdong'}.shtml`,
-            };
-          };
-
-          if (oilRes.p92) oilMap['92'] = makeOilItem('92', '92号汽油', oilRes.p92);
-          if (oilRes.p95) oilMap['95'] = makeOilItem('95', '95号汽油', oilRes.p95);
-          if (oilRes.p98) oilMap['98'] = makeOilItem('98', '98号汽油', oilRes.p98);
-          if (oilRes.p0) oilMap['0'] = makeOilItem('0', '0号柴油', oilRes.p0);
-        } catch (e) {
-          console.log(e);
-        }
-      }
-
-      // 2. 请求国内金银（SGE 上海黄金交易所）
-      const sgeMap = {};
-      if (sgeKeys.length) {
-        try {
-          const reqUrl = `http://hq.sinajs.cn/list=${sgeKeys.join(',')}`;
-          const sgeReq = new Request(reqUrl);
-          sgeReq.headers = { 'Referer': 'https://finance.sina.com.cn' };
-          const sgeRes = await sgeReq.loadString();
-          const lines = sgeRes.split(';').map((s) => s.trim()).filter(Boolean);
-          for (const line of lines) {
-            const [k, v] = line.split('=');
-            if (!v) continue;
-            const content = v.replace(/^"/, '').replace(/"$/, '');
-            if (!content) continue;
-            const arr = content.split(',');
-            const code = arr[0] || '';
-            const name = arr[1] || arr[2] || '贵金属';
-            let price = parseFloat(arr[3]) || 0;
-            let prevClose = parseFloat(arr[4]) || 0;
-            if (!price) price = parseFloat(arr[5]) || parseFloat(arr[9]) || 0;
-            if (!prevClose) prevClose = parseFloat(arr[9]) || parseFloat(arr[5]) || price;
-            const pct = prevClose ? ((price - prevClose) / prevClose) * 100 : 0;
-
-            let sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AU9999.html';
-            const upperCode = code.toUpperCase();
-            if (upperCode.includes('AG9999') || upperCode.includes('AG99')) {
-              sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AGTD.html';
-            } else if (upperCode.includes('AG')) {
-              sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AGTD.html';
-            } else if (upperCode.includes('TD')) {
-              sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AUTD.html';
-            }
-            const itemObj = {
-              id: code,
-              name: name.replace(/\s+/g, ''),
-              symbol: code.toUpperCase(),
-              current_price: this.formatPrice(price),
-              high_24h: this.formatPrice(arr[5] || price),
-              low_24h: this.formatPrice(arr[6] || price),
-              price_change_percentage_24h: pct,
-              last_updated: '',
-              currency: '¥',
-              region: 'cn',
-              type: 'metal',
-              url: sgeUrl,
-            };
-            sgeMap[code.toUpperCase()] = itemObj;
-            sgeMap[`SGE_${code.toUpperCase()}`] = itemObj;
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      }
-
-      // 3. 请求腾讯财经（A股、港股、美股、基金、国际外盘金银）
-      const tencentMap = {};
-      if (tencentKeys.length) {
-        try {
-          const tencentUrl = `http://qt.gtimg.cn/utf8/q=${tencentKeys.join(',')}`;
-          const tencentRes = await this.$request.get(tencentUrl, 'STRING');
-          const lines = tencentRes.split(';').map((s) => s.trim()).filter(Boolean);
-          for (const line of lines) {
-            const [k, v] = line.split('=');
-            if (!v) continue;
-            const key = k.replace('v_', '');
-            const content = v.replace(/^"/, '').replace(/"$/, '');
-            if (key.startsWith('s_jj')) {
-              const arr = content.split('~');
-              const code = (arr[0] || key.replace('s_jj', '')).toUpperCase();
-              tencentMap[code] = {
-                id: code,
-                name: arr[1] || '基金',
-                symbol: code,
-                current_price: this.formatPrice(arr[3], 4, 4),
-                high_24h: this.formatPrice(arr[4], 4, 4),
-                low_24h: '-',
-                price_change_percentage_24h: parseFloat(arr[5]) || 0,
-                last_updated: arr[2] || '',
-                currency: '¥',
-                region: 'cn',
-                type: 'fund',
-                url: `https://fund.eastmoney.com/${code}.html`,
+                return {
+                  id: `oil_${subCode}`,
+                  name: `${finalProv}${subName}`,
+                  symbol: `${subCode}#`,
+                  current_price: this.formatPrice(priceStr, 2, 2),
+                  high_24h: nextPrice,
+                  low_24h: priceVal.toFixed(2),
+                  adjust_date: oilRes.adjustDate,
+                  price_change_percentage_24h: pct,
+                  expected_change_amount: changeStr,
+                  last_updated: '',
+                  currency: '¥',
+                  region: 'cn',
+                  type: 'oil',
+                  url: `http://m.qiyoujiage.com/${this.provincePinyinMap[finalProv] || 'guangdong'}.shtml`,
+                };
               };
-              tencentMap[`s_jj${code}`] = tencentMap[code];
-            } else if (key.startsWith('hf_')) {
-              const arr = content.split(',');
-              const cleanCode = key.replace('hf_', '').toUpperCase();
-              let metalUrl = 'https://wap.eastmoney.com/quote/stock/122.XAU.html';
-              if (cleanCode.includes('XAG') || cleanCode.includes('SILVER') || cleanCode.includes('银')) {
-                metalUrl = 'https://wap.eastmoney.com/quote/stock/122.XAG.html';
+
+              let gotP = [];
+              if (oilRes.p92) { oilMap['92'] = makeOilItem('92', '92号汽油', oilRes.p92); gotP.push(`92: ${oilRes.p92}`); }
+              if (oilRes.p95) { oilMap['95'] = makeOilItem('95', '95号汽油', oilRes.p95); gotP.push(`95: ${oilRes.p95}`); }
+              if (oilRes.p98) { oilMap['98'] = makeOilItem('98', '98号汽油', oilRes.p98); gotP.push(`98: ${oilRes.p98}`); }
+              if (oilRes.p0) { oilMap['0'] = makeOilItem('0', '0号柴油', oilRes.p0); gotP.push(`0号: ${oilRes.p0}`); }
+
+              const cost = Date.now() - t0;
+              const statusStr = gotP.length ? `成功 (${gotP.join(', ')} | ${oilRes.adjustDate})` : '未解析到价格';
+              if (this.logDetails) this.logDetails.networkTasks.push({ name: '国内油价', cost, status: statusStr });
+            } catch (e) {
+              const cost = Date.now() - t0;
+              const errStr = `油价获取失败: ${e.message || e}`;
+              if (this.logDetails) {
+                this.logDetails.networkTasks.push({ name: '国内油价', cost, status: `❌ ${errStr}` });
+                this.logDetails.errors.push(errStr);
               }
-              tencentMap[key] = {
-                id: key,
-                name: arr[13] || '现货贵金属',
-                symbol: cleanCode,
-                current_price: this.formatPrice(arr[0]),
-                high_24h: this.formatPrice(arr[4]),
-                low_24h: this.formatPrice(arr[5]),
-                price_change_percentage_24h: parseFloat(arr[1]) || 0,
-                last_updated: arr[6] || '',
-                currency: '$',
-                region: 'intl',
-                type: 'metal',
-                url: metalUrl,
-              };
-            } else {
-              const arr = content.split('~');
-              const lowerKey = key.toLowerCase();
-              const isCN = lowerKey.startsWith('sh') || lowerKey.startsWith('sz') || lowerKey.startsWith('bj');
-              const isHK = lowerKey.startsWith('hk');
-              const codeOnly = arr[2] || key;
-              const displaySymbol = codeOnly.replace(/^US/i, '').replace(/\..*$/, '').toUpperCase();
-              const stockItem = {
-                id: key,
-                name: arr[1] || key,
-                symbol: displaySymbol,
-                current_price: this.formatPrice(arr[3]),
-                high_24h: this.formatPrice(arr[33] || arr[4]),
-                low_24h: this.formatPrice(arr[34] || arr[5]),
-                price_change_percentage_24h: parseFloat(arr[32]) || 0,
-                last_updated: arr[30] || '',
-                currency: isCN ? '¥' : isHK ? 'HK$' : '$',
-                region: (isCN || isHK) ? 'cn' : 'intl',
-                type: 'stock',
-                url: `https://gu.qq.com/${key}`,
-              };
-              tencentMap[key] = stockItem;
-              tencentMap[lowerKey] = stockItem;
-              tencentMap[key.toUpperCase()] = stockItem;
-              tencentMap[codeOnly] = stockItem;
             }
-          }
-        } catch (e) {
-          console.log(e);
-        }
+          })()
+        );
       }
 
-      // 4. 请求加密货币：【彻底保证 symbol 100% 严格大写】
-      const cryptoMap = {};
+      // 2. 国内金银任务 (新浪 SGE，超时 4s)
+      if (sgeKeys.length) {
+        tasks.push(
+          (async () => {
+            const t0 = Date.now();
+            try {
+              const reqUrl = `http://hq.sinajs.cn/list=${sgeKeys.join(',')}`;
+              const sgeReq = new Request(reqUrl);
+              sgeReq.timeoutInterval = 4;
+              sgeReq.headers = { 'Referer': 'https://finance.sina.com.cn' };
+              const sgeRes = await sgeReq.loadString();
+              const lines = sgeRes.split(';').map((s) => s.trim()).filter(Boolean);
+              let parsedCount = 0;
+              for (const line of lines) {
+                const [k, v] = line.split('=');
+                if (!v) continue;
+                const content = v.replace(/^"/, '').replace(/"$/, '');
+                if (!content) continue;
+                const arr = content.split(',');
+                const code = arr[0] || '';
+                const name = arr[1] || arr[2] || '贵金属';
+                let price = parseFloat(arr[3]) || 0;
+                let prevClose = parseFloat(arr[4]) || 0;
+                if (!price) price = parseFloat(arr[5]) || parseFloat(arr[9]) || 0;
+                if (!prevClose) prevClose = parseFloat(arr[9]) || parseFloat(arr[5]) || price;
+                const pct = prevClose ? ((price - prevClose) / prevClose) * 100 : 0;
+
+                let sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AU9999.html';
+                const upperCode = code.toUpperCase();
+                if (upperCode.includes('AG9999') || upperCode.includes('AG99')) {
+                  sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AGTD.html';
+                } else if (upperCode.includes('AG')) {
+                  sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AGTD.html';
+                } else if (upperCode.includes('TD')) {
+                  sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AUTD.html';
+                }
+                const itemObj = {
+                  id: code,
+                  name: name.replace(/\s+/g, ''),
+                  symbol: code.toUpperCase(),
+                  current_price: this.formatPrice(price),
+                  high_24h: this.formatPrice(arr[5] || price),
+                  low_24h: this.formatPrice(arr[6] || price),
+                  price_change_percentage_24h: pct,
+                  last_updated: '',
+                  currency: '¥',
+                  region: 'cn',
+                  type: 'metal',
+                  url: sgeUrl,
+                };
+                sgeMap[code.toUpperCase()] = itemObj;
+                sgeMap[`SGE_${code.toUpperCase()}`] = itemObj;
+                parsedCount++;
+              }
+              const cost = Date.now() - t0;
+              if (this.logDetails) this.logDetails.networkTasks.push({ name: '新浪贵金属(SGE)', cost, status: `成功解析 ${parsedCount} 个品种` });
+            } catch (e) {
+              const cost = Date.now() - t0;
+              const errStr = `贵金属请求失败: ${e.message || e}`;
+              if (this.logDetails) {
+                this.logDetails.networkTasks.push({ name: '新浪贵金属(SGE)', cost, status: `❌ ${errStr}` });
+                this.logDetails.errors.push(errStr);
+              }
+            }
+          })()
+        );
+      }
+
+      // 3. 腾讯财经任务 (A股/港股/美股/基金/现货金银，超时 4s)
+      if (tencentKeys.length) {
+        tasks.push(
+          (async () => {
+            const t0 = Date.now();
+            try {
+              const tencentUrl = `http://qt.gtimg.cn/utf8/q=${tencentKeys.join(',')}`;
+              const req = new Request(tencentUrl);
+              req.timeoutInterval = 4;
+              const tencentRes = await req.loadString();
+              const lines = tencentRes.split(';').map((s) => s.trim()).filter(Boolean);
+              let parsedCount = 0;
+              for (const line of lines) {
+                const [k, v] = line.split('=');
+                if (!v) continue;
+                const key = k.replace('v_', '');
+                const content = v.replace(/^"/, '').replace(/"$/, '');
+                if (key.startsWith('s_jj')) {
+                  const arr = content.split('~');
+                  const code = (arr[0] || key.replace('s_jj', '')).toUpperCase();
+                  tencentMap[code] = {
+                    id: code,
+                    name: arr[1] || '基金',
+                    symbol: code,
+                    current_price: this.formatPrice(arr[3], 4, 4),
+                    high_24h: this.formatPrice(arr[4], 4, 4),
+                    low_24h: '-',
+                    price_change_percentage_24h: parseFloat(arr[5]) || 0,
+                    last_updated: arr[2] || '',
+                    currency: '¥',
+                    region: 'cn',
+                    type: 'fund',
+                    url: `https://fund.eastmoney.com/${code}.html`,
+                  };
+                  tencentMap[`s_jj${code}`] = tencentMap[code];
+                  parsedCount++;
+                } else if (key.startsWith('hf_')) {
+                  const arr = content.split(',');
+                  const cleanCode = key.replace('hf_', '').toUpperCase();
+                  let metalUrl = 'https://wap.eastmoney.com/quote/stock/122.XAU.html';
+                  if (cleanCode.includes('XAG') || cleanCode.includes('SILVER') || cleanCode.includes('银')) {
+                    metalUrl = 'https://wap.eastmoney.com/quote/stock/122.XAG.html';
+                  }
+                  tencentMap[key] = {
+                    id: key,
+                    name: arr[13] || '现货贵金属',
+                    symbol: cleanCode,
+                    current_price: this.formatPrice(arr[0]),
+                    high_24h: this.formatPrice(arr[4]),
+                    low_24h: this.formatPrice(arr[5]),
+                    price_change_percentage_24h: parseFloat(arr[1]) || 0,
+                    last_updated: arr[6] || '',
+                    currency: '$',
+                    region: 'intl',
+                    type: 'metal',
+                    url: metalUrl,
+                  };
+                  parsedCount++;
+                } else {
+                  const arr = content.split('~');
+                  const lowerKey = key.toLowerCase();
+                  const isCN = lowerKey.startsWith('sh') || lowerKey.startsWith('sz') || lowerKey.startsWith('bj');
+                  const isHK = lowerKey.startsWith('hk');
+                  const codeOnly = arr[2] || key;
+                  const displaySymbol = codeOnly.replace(/^US/i, '').replace(/\..*$/, '').toUpperCase();
+                  const stockItem = {
+                    id: key,
+                    name: arr[1] || key,
+                    symbol: displaySymbol,
+                    current_price: this.formatPrice(arr[3]),
+                    high_24h: this.formatPrice(arr[33] || arr[4]),
+                    low_24h: this.formatPrice(arr[34] || arr[5]),
+                    price_change_percentage_24h: parseFloat(arr[32]) || 0,
+                    last_updated: arr[30] || '',
+                    currency: isCN ? '¥' : isHK ? 'HK$' : '$',
+                    region: (isCN || isHK) ? 'cn' : 'intl',
+                    type: 'stock',
+                    url: `https://gu.qq.com/${key}`,
+                  };
+                  tencentMap[key] = stockItem;
+                  tencentMap[lowerKey] = stockItem;
+                  tencentMap[key.toUpperCase()] = stockItem;
+                  tencentMap[codeOnly] = stockItem;
+                  parsedCount++;
+                }
+              }
+              const cost = Date.now() - t0;
+              if (this.logDetails) this.logDetails.networkTasks.push({ name: '腾讯财经(股票/基金)', cost, status: `成功解析 ${parsedCount} 个标的` });
+            } catch (e) {
+              const cost = Date.now() - t0;
+              const errStr = `腾讯财经请求失败: ${e.message || e}`;
+              if (this.logDetails) {
+                this.logDetails.networkTasks.push({ name: '腾讯财经(股票/基金)', cost, status: `❌ ${errStr}` });
+                this.logDetails.errors.push(errStr);
+              }
+            }
+          })()
+        );
+      }
+
+      // 4. 加密货币任务 (CoinGecko，超时 5s，带安全容错)
       if (cryptoKeys.length) {
-        try {
-          const ids = await this.transforBtcType(cryptoKeys.join(','));
-          let response = await this.$request.get(
-            `${this.endpoint}/coins/markets?vs_currency=usd&ids=${ids}`,
-            'STRING'
-          );
-          response = JSON.parse(response);
-          if (!Array.isArray(response) || !response.length) {
-            response = await this.getAllJson();
-          }
-          if (Array.isArray(response)) {
-            response.forEach((it) => {
-              const sym = (it.symbol || '').toUpperCase();
-              const cryptoItem = {
-                id: it.id,
-                name: it.name,
-                image: it.image,
-                symbol: sym,
-                current_price: this.formatPrice(it.current_price),
-                high_24h: this.formatPrice(it.high_24h),
-                low_24h: this.formatPrice(it.low_24h),
-                price_change_percentage_24h: it.price_change_percentage_24h || 0,
-                last_updated: it.last_updated,
-                currency: '$',
-                region: 'intl',
-                type: 'crypto',
-                url: `https://www.coingecko.com/zh/${encodeURIComponent('数字货币')}/${it.id}`,
-              };
-              cryptoMap[sym] = cryptoItem;
-              cryptoMap[it.id] = cryptoItem;
-              cryptoMap[(it.symbol || '').toLowerCase()] = cryptoItem;
-            });
-          }
-        } catch (e) {
-          console.log(e);
+        tasks.push(
+          (async () => {
+            const t0 = Date.now();
+            try {
+              const ids = await this.transforBtcType(cryptoKeys.join(','));
+              let response;
+              try {
+                const req = new Request(`${this.endpoint}/coins/markets?vs_currency=usd&ids=${ids}`);
+                req.timeoutInterval = 5;
+                response = await req.loadJSON();
+              } catch (err) {
+                response = null;
+              }
+              if (!Array.isArray(response) || !response.length) {
+                response = await this.getAllJson();
+              }
+              let parsedCount = 0;
+              if (Array.isArray(response)) {
+                response.forEach((it) => {
+                  const sym = (it.symbol || '').toUpperCase();
+                  const cryptoItem = {
+                    id: it.id,
+                    name: it.name,
+                    image: it.image,
+                    symbol: sym,
+                    current_price: this.formatPrice(it.current_price),
+                    high_24h: this.formatPrice(it.high_24h),
+                    low_24h: this.formatPrice(it.low_24h),
+                    price_change_percentage_24h: it.price_change_percentage_24h || 0,
+                    last_updated: it.last_updated,
+                    currency: '$',
+                    region: 'intl',
+                    type: 'crypto',
+                    url: `https://www.coingecko.com/zh/${encodeURIComponent('数字货币')}/${it.id}`,
+                  };
+                  cryptoMap[sym] = cryptoItem;
+                  cryptoMap[it.id] = cryptoItem;
+                  cryptoMap[(it.symbol || '').toLowerCase()] = cryptoItem;
+                  parsedCount++;
+                });
+              }
+              const cost = Date.now() - t0;
+              if (this.logDetails) this.logDetails.networkTasks.push({ name: 'CoinGecko虚拟币', cost, status: `成功解析 ${parsedCount} 个币种` });
+            } catch (e) {
+              const cost = Date.now() - t0;
+              const errStr = `虚拟币请求失败: ${e.message || e}`;
+              if (this.logDetails) {
+                this.logDetails.networkTasks.push({ name: 'CoinGecko虚拟币', cost, status: `❌ ${errStr}` });
+                this.logDetails.errors.push(errStr);
+              }
+            }
+          })()
+        );
+      }
+
+      // 并行等待所有任务完成（最慢仅耗时一个最长接口，绝不累加）
+      if (tasks.length) {
+        const netStart = Date.now();
+        await Promise.allSettled(tasks);
+        if (this.logDetails) {
+          this.logDetails.networkTotalTime = Date.now() - netStart;
         }
       }
 
@@ -941,7 +1165,7 @@ class Widget extends DmYY {
           match = tencentMap[it.qKey] || tencentMap[key];
         } else {
           match = tencentMap[key] || tencentMap[key.toLowerCase()] || tencentMap[key.toUpperCase()] ||
-                  sgeMap[key] || sgeMap[key.toUpperCase()] || cryptoMap[key.toUpperCase()];
+            sgeMap[key] || sgeMap[key.toUpperCase()] || cryptoMap[key.toUpperCase()];
         }
 
         if (match && !seenIds.has(match.id)) {
@@ -951,11 +1175,16 @@ class Widget extends DmYY {
       }
 
       const finalDataSource = list;
-      this.dataSource = finalDataSource;
-      this.settings.dataSource = finalDataSource;
-      this.settings.lastUpdatedTime = Date.now();
-      this.saveSettings(false);
-      return finalDataSource;
+      if (finalDataSource && finalDataSource.length > 0) {
+        this.dataSource = finalDataSource;
+        this.settings.dataSource = finalDataSource;
+        this.settings.lastUpdatedTime = Date.now();
+        this.saveSettings(false);
+      } else if (this.settings.dataSource && this.settings.dataSource.length) {
+        // 容错兜底：若本次所有接口均异常，保留旧数据展示，不覆盖
+        this.dataSource = this.settings.dataSource;
+      }
+      return this.dataSource;
     } catch (e) {
       console.log(e);
       return this.dataSource || [];
@@ -1018,9 +1247,9 @@ class Widget extends DmYY {
     }
 
     try {
-      const response = await this.$request.get(
-        `${this.endpoint}/coins/markets?vs_currency=usd&ids=`
-      );
+      const req = new Request(`${this.endpoint}/coins/markets?vs_currency=usd&ids=`);
+      req.timeoutInterval = 4;
+      const response = await req.loadJSON();
       if (Array.isArray(response) && response.length) {
         const data = Data.fromString(JSON.stringify(response));
         this.FILE_MGR.write(filename, data);
@@ -1047,35 +1276,56 @@ class Widget extends DmYY {
     return w;
   }
 
-  getSmallBg = async (url) => {
-    const webview = new WebView();
-    let js = `const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        const canvasSize = 250;
-        canvas.width = canvasSize;
-        canvas.height = canvasSize;
-        ctx.globalAlpha = 0.3;
+  getSmallBg = async (rawImg, idOrSym = 'default') => {
+    try {
+      if (!rawImg) return null;
+      if (!this.FILE_MGR.fileExists(this.cacheImage)) {
+        this.FILE_MGR.createDirectory(this.cacheImage, true);
+      }
+      const safeKey = String(idOrSym).replace(/[^a-zA-Z0-9_\-\.]/g, '_');
+      const bgFilePath = this.FILE_MGR.joinPath(this.cacheImage, `bg_${safeKey}.png`);
 
-        // 精确复刻原版水印：drawSize=canvasSize, offset=-canvasSize/2+50=-75
-        const drawSize = canvasSize;
-        const offset = -canvasSize / 2 + 50;
-        ctx.drawImage(
-          img,
-          offset,
-          offset,
-          drawSize,
-          drawSize
-        );
-        const uri = canvas.toDataURL();
-        completion(uri);
-      };
-      img.src = 'data:image/png;base64,${Data.fromPNG(url).toBase64String()}';`;
-    let image = await webview.evaluateJavaScript(js, true);
-    image = image.replace(/^data\:image\/\w+;base64,/, '');
-    return Image.fromData(Data.fromBase64String(image));
+      // 关键优化：小号水印背景直接读取磁盘缓存，彻底避免每次重复启动 WebView 导致卡顿与超时！
+      if (this.FILE_MGR.fileExists(bgFilePath)) {
+        return Image.fromFile(bgFilePath);
+      }
+
+      const webview = new WebView();
+      let js = `const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          const canvasSize = 250;
+          canvas.width = canvasSize;
+          canvas.height = canvasSize;
+          ctx.globalAlpha = 0.3;
+
+          // 精确复刻原版水印：drawSize=canvasSize, offset=-canvasSize/2+50=-75
+          const drawSize = canvasSize;
+          const offset = -canvasSize / 2 + 50;
+          ctx.drawImage(
+            img,
+            offset,
+            offset,
+            drawSize,
+            drawSize
+          );
+          const uri = canvas.toDataURL();
+          completion(uri);
+        };
+        img.src = 'data:image/png;base64,${Data.fromPNG(rawImg).toBase64String()}';`;
+      let image = await webview.evaluateJavaScript(js, true);
+      image = image.replace(/^data\:image\/\w+;base64,/, '');
+      const finalImg = Image.fromData(Data.fromBase64String(image));
+      if (finalImg) {
+        this.FILE_MGR.writeImage(bgFilePath, finalImg);
+        return finalImg;
+      }
+      return rawImg;
+    } catch (e) {
+      return rawImg;
+    }
   };
 
   shuffle = (array) => {
@@ -1108,8 +1358,8 @@ class Widget extends DmYY {
     const market = list[0] || {};
     widget.url = market.url || 'https://www.coingecko.com/zh';
 
-    const image = await this.getItemImage(market);
-    const backgroundImg = await this.getSmallBg(image);
+    const rawImage = await this.getItemImage(market);
+    const backgroundImg = await this.getSmallBg(rawImage, market.id || market.symbol);
     widget.backgroundColor = this.backGroundColor;
     widget.backgroundImage = backgroundImg;
     widget.setPadding(12, 12, 12, 12);
@@ -1182,8 +1432,7 @@ class Widget extends DmYY {
   rowCell = async (rowStack, market) => {
     rowStack.url = market.url || 'https://www.coingecko.com/zh';
     rowStack.layoutHorizontally();
-    const rawImage = await this.getItemImage(market);
-    const image = await this.processAndNormalizeIcon(rawImage, 28);
+    const image = await this.getNormalizedItemIcon(market, 28);
     const iconImage = rowStack.addImage(image);
     iconImage.imageSize = new Size(28, 28);
 
