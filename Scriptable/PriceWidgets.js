@@ -1,14 +1,11 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-green; icon-glyph: hand-holding-usd;
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: deep-green; icon-glyph: hand-holding-usd;
 
 /**
  * =====================================================================
  * 【资产看板 PriceWidgets】
- * 版本：v2.2.8
+ * 版本：v2.5.7
  * 日期：2026-09-20
  * 
  * 核心功能：
@@ -36,10 +33,15 @@ class Widget extends DmYY {
         '关注种类',
         async () => {
           return this.setAlertInput(
-            '关注种类',
-            '支持各类资产代码(英文逗号隔开)：\n• 虚拟币：BTC, ETH, SOL\n• 美股：AAPL, TSLA, NVDA\n• A股：600519(茅台), 000001, sh000001(上证)\n• 国内金银：AU9999, AUTD, AGTD\n• 国际金银：XAU, XAG\n• 基金：001186, 161725\n• 国内油价：92, 95, 98, 0 (或 92#, 95#, 98#, 0#柴油)',
+            '关注种类 (分类填入)',
+            '按资产类别分栏填入代码(逗号隔开)，不关注的类别留空：',
             {
-              btcType: 'BTC,AAPL,600519,AU9999,95',
+              cryptoSymbols: '虚拟币 (如: BTC, ETH, SOL)',
+              usStockSymbols: '美股 (如: AAPL, TSLA, NVDA)',
+              cnStockSymbols: 'A股/港股 (如: 600519, 000951, 00700)',
+              metalSymbols: '贵金属 (如: AU9999, AG9999, XAU, XAG)',
+              fundSymbols: '公募基金 (如: 001186, 161725)',
+              oilSymbols: '国内油价 (如: 92, 95, 98, 0)',
             }
           );
         },
@@ -60,27 +62,14 @@ class Widget extends DmYY {
         },
         { name: 'fuelpump.circle', color: '#f97316' }
       );
-    config.runsInApp &&
-      this.registerAction(
-        '展示范围',
-        async () => {
-          return this.setAlertInput(
-            '展示范围',
-            '选择小组件展示的资产范围(支持多个,逗号隔开)：\nall: 全部 (默认)\ncn: 仅国内 (A股/国内金银/基金/油价)\nintl: 仅国际 (虚拟币/美股/港股/伦敦金银)\ncrypto: 仅虚拟币\nstock: 仅股票与指数\nfund: 仅基金\nmetal: 仅贵金属\noil: 仅国内油价\n例：oil 或 cn,oil',
-            {
-              filterType: 'all',
-            }
-          );
-        },
-        { name: 'line.horizontal.3.decrease.circle', color: '#a855f7' }
-      );
+
     config.runsInApp &&
       this.registerAction(
         '随机展示',
         async () => {
           return this.setAlertInput(
             '随机展示',
-            '开启后每次刷新在【展示范围】资产中真正随机轮播（小/中/大号组件均生效）：\n• 小号：随机展示 1 个资产\n• 中号：随机抽取 3 个资产\n• 大号：随机抽取 6 个资产\n输入 1 开启，0 关闭',
+            '开启后每次刷新在已关注资产中真正随机轮播（小/中/大号组件均生效）：\n• 小号：随机展示 1 个资产\n• 中号：随机抽取 3 个资产\n• 大号：随机抽取 6 个资产\n输入 1 开启，0 关闭',
             {
               randomDisplay: '0',
             }
@@ -90,28 +79,6 @@ class Widget extends DmYY {
       );
     config.runsInApp && this.registerAction('基础设置', this.setWidgetConfig);
   }
-
-
-  fixLegacyUrls = (list) => {
-    if (!Array.isArray(list)) return;
-    for (const item of list) {
-      if (!item || !item.symbol) continue;
-      const sym = (item.symbol || '').toUpperCase();
-      if (!item.url || item.url === 'https://finance.sina.com.cn') {
-        if (sym.includes('9999') || sym === 'AU9999') {
-          item.url = 'https://wap.eastmoney.com/quote/stock/118.AU9999.html';
-        } else if (sym.includes('AUTD') || sym === 'AUTD') {
-          item.url = 'https://wap.eastmoney.com/quote/stock/118.AUTD.html';
-        } else if (sym.includes('AGTD') || sym === 'AGTD') {
-          item.url = 'https://wap.eastmoney.com/quote/stock/118.AGTD.html';
-        } else if (sym.includes('XAU') || sym === 'GOLD') {
-          item.url = 'https://wap.eastmoney.com/quote/stock/122.XAU.html';
-        } else if (sym.includes('XAG') || sym === 'SILVER') {
-          item.url = 'https://wap.eastmoney.com/quote/stock/122.XAG.html';
-        }
-      }
-    }
-  };
 
   format = (str) => {
     return parseInt(str) >= 10 ? str : `0${str}`;
@@ -127,8 +94,9 @@ class Widget extends DmYY {
       });
     }
     if (val >= 1000) {
+      const isInteger = (val % 1 === 0);
       return val.toLocaleString('en-US', {
-        minimumFractionDigits: 2,
+        minimumFractionDigits: isInteger ? 0 : 2,
         maximumFractionDigits: 2,
       });
     }
@@ -165,11 +133,10 @@ class Widget extends DmYY {
 
     if (this.settings.dataSource && this.settings.dataSource.length && !isExpired && !config.runsInApp) {
       this.dataSource = this.settings.dataSource;
-      this.fixLegacyUrls(this.dataSource);
       return;
     }
 
-    await this.cacheData(this.settings.btcType || 'BTC,AAPL,600519,AU9999,95');
+    await this.cacheData();
   };
 
   getTrendColor = (market, isBackground = false) => {
@@ -191,20 +158,207 @@ class Widget extends DmYY {
     }
   };
 
-  createBadgeImage = (symbolName, bgColorHex) => {
+  // 雪球官方 Logo（高清透明底色，用于未收录股票的优雅官方保底）
+  xueqiuLogoBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFNjIyMEU4ODQzNzIxMUUyQTQxRUMzRTA5MkEzOEYzQSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFNjIyMEU4OTQzNzIxMUUyQTQxRUMzRTA5MkEzOEYzQSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkU2MjIwRTg2NDM3MjExRTJBNDFFQzNFMDkyQTM4RjNBIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkU2MjIwRTg3NDM3MjExRTJBNDFFQzNFMDkyQTM4RjNBIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+LePrjgAACD1JREFUeNrMW2tsFUUUnl5AsBbKMz54akAQJEAAG1BEpaJUYgIWA4iCiKA8QmIM8gMTfEQhyg9RYxRBWgyKRY0vUBDFFqotLw2KKRR5iIClPC6lFJCC53i/C7fLzpnZ3btXTvIlNzu7c2fOnnPmO2dm09SIfBWyNCH0JfQhdCN0ILTD9XRCQ8JJQpRwiFBG2E7YRigi/Bnm4NJCUsDVhEcJQwj9CfUD9MXK+JawDAo5f7kroDdhFaF5CIrdSVhMeIdQcbkqYB3h1pDd6hThbcLLhL8vJwVcRTihUiccN54nzCec9dNBJMkDqiFUp1ABmYR5hBJCFz8d1FPdhnl9pheCWxdE6NMJbecR4fsY+jhAKCfsQtQ/AuVl/Dcm73ItYRxhL2Grlwe9RGderhYQHk64dpgwnFCYcO0pQgMMKAIz5Si+hlBK+NWhNOd4rif0JNxByCbcaDk+Vt77iD/TCLXJjAHc+eeEO13aTsIiCl3MszneSm0AM78ZS+p4QlPLZ5YTxgiK9qQAJiwrDJG9GkooCtHfGxMmE2ZaKmI1YSjhTJAgeAXhU4tljaP/SsKAEBVQRZhL6ARXNBGiu+ES9YIogNfauzwsgWwpt4Uc+SsJEwn3Eg4a7h1BeM2vAqYikHmRDAt3SZasAussNdw3hTDKawzgyLsFyYofOY6YUJwCRfAYCwg5BvdhZe2wsQD2mXzD5DcYmFc8cPZLgQJ4FRqGGCQF0CVu8cBNAdMJWUJnJVijRxuUkIlBZaVACRzpczE2nWRhFRFdgAf9h5DJMYPrgbw9HmQ+METaKCLyhhQoog1ct6Wm/TDc+4jOAmYIkz8PFngo4VoBLKHWYAmrLehxMmQfArduiWwBC3e1ANbaHsH33wDFdJORFmvuMcLtXrm6T+GawVhN21FCewTGOhbwhDB5XnufFf7wQ8IjBktg9vaZBzprkj4JfMDNko9pnmtGmOR0gTTCY8KfzRU6jMtSmJ+kBE505gSceANE9A0gahxof3K4bgXSZJ1MwpwvuMBAwlrBdNt6KHSwJSwS3OEcoTPSYa9SH0E316VtIWGCw+J2Iwa5CZO14rgFDBf+dKHHKk8+BlIrsM8nfdUuYlaWq2kf6vLi8oT+Hkh0gSHCjXk+g9BsoT3X5+RHCPf843Hs2XEFtEGG5Sa/B4jac8Ap3KQd/td28rzCPGi4r8Dl2mZUnNykO6FVxEBXvwkQrM6iMKGTTh4mP9Jw33rCLE3bV9o8iGJfBDU+nfwQMGLvMKTPpsnnW0y+GInQSU17ofBs14ih5rYpCVUcKYmRJv8eWKbN5I8L9/wstHWOYG3WDXBfQAUMFNoOCKb5rqpbfHWTHzH5qOE+rlzX6NwwIqyTe1SwfbibCPdp2rhYuUvT9pJFIaYEK1fUYhznwAfcpHUEubsuc/IrTEKWKX3Znf3ylMt1prXPGPpmBniP5eQT+b9r3UJSgN8trnj21124Z4mG4r4ep6ga2YjUOupxTFWa6xmsgIaCL/qdvJT67oR1uGWUHQ2Tz/YxeSW5ckTQTmMfk2fe0NcwkGnKvVYvBb2tPt/8hTetswxJAc18TN5U/npFudfuGin9nsJZWMexADGphc7NWQH7NY3tld3usW3tj9f1mZq2LlCCjsltCzD5NMzFdSnmCW7XNKYjDZbEtvrLjO5xwRevE54tDMhF2giFnt0RIVlg6WFgeTz5/oYBMJcfbyiUpPmI4LbSW2grYwX85oPJpSu7HSCbKhGLdKiiY4hsdEtEybX0HIGtmfYAbeqENklTrgp2ymywxCgj4PtlQnDqpaumCPKRiu3P254L+AvU201uEIKnSZiMddW0ca1ibzzKfy10MlbD2qTCxGjl/VDEx0LbbFiTV5GeWakSlrkC4cZx6tJS9peae5f7nDzLW8JznB4vssgQneRngqmCFEnIq8uFdX6q49oMUFNntDftF0pSjjTYVCMYY9nfRKXfg+DssCi2/FzcGXoaTM1NmIVxKbvCMaDB4ApcdChVwSUTL6OrcE8tTHupgfmVCQyQN3ledCqgMQKRjgLnKe8HJvxIR6S8TQ1KGIOVxk14G2+Kpo2LI1yUrVQOqluFdFQKKDkpUEA5LCtqcAddpXiQctkGd8SayosMrO72eHNQY53pVGJZ3JcCRWQhwco0WMKohCDeSsW2x1tr7ufaYadEV3YmO7xv/pzwhy0R6dNToIASi8pP4m4Rj+kLYfIKfl9Rl4NfekaIO11vyO6YBg9ThjN4SZJ+WLMlS+Bdoc2GMZcib6k1KUDBTDYZiiIroPmaFCihP5TQxOfzNXDdMreKkI6bTzJ0ygHxe4PJJUvi9X+/meEMHd2XCh68Df2mRaDaYkg4kiXroQSvxdo8LIvKqwJYpit5fy8eeTmXWIzfYco6KMH2m4TvwAiVXwVwwHhIxY67m8pOY2FmswwBK6gUKXkvMNFthquAh6UVOrgfQc8kzCJfAKN8VcU+kwsivCJ1cFFooUEJa1Vsk8VYRfbyzVB9xISJHifBVrEG5viLim2J6bI+3qPg7wNuAaPLxuRr4WKTHW+Uqz2fqLrng3jTheuPp20G5+ejKVYAn8Bu5POtnoGFRJFkMYG5knCNin36Isl85Tjnh5whB+nvZpcsNekKiFda+MGeKrVyAhZxLlkd+v1qjHdq+iKFrkqhAjJgLer/VoBC4WMeWCO7xKkUKGCjSvJneX4+m3NKNXjAAvxuq8L5bPYoMr/9yew0jE9nmRMMwGAHKbvDUJKVFSMP4FXgYPIHG/7n822hEC5zdQaaAJmYZDVydT7OslvFvi3chAzueJiD+1eAAQAr79K3PHeQswAAAABJRU5ErkJggg==';
+
+  getXueqiuLogo = () => {
+    try {
+      return Image.fromData(Data.fromBase64String(this.xueqiuLogoBase64));
+    } catch (e) {
+      return null;
+    }
+  };
+
+  // 股票/指数 -> STK
+  // 虚拟币   -> CRY
+  // 黄金     -> GLD
+  // 白银     -> SLV
+  // 油价     -> OIL
+  // 基金     -> FND
+  getCategoryTag = (market) => {
+    const type = market.type || 'stock';
+    const sym = (market.symbol || '').toUpperCase();
+    const name = market.name || '';
+
+    if (type === 'oil') return 'OIL';
+    if (type === 'fund') return 'FND';
+    if (type === 'crypto') return 'CRY';
+    if (type === 'metal') {
+      const isSilver = sym.includes('AG') || sym.includes('SILVER') || name.includes('银');
+      return isSilver ? 'SLV' : 'GLD';
+    }
+    if (type === 'stock') return 'STK';
+    return 'STK';
+  };
+
+  // 获取分类徽章的主题颜色
+  getCategoryTagColor = (tag) => {
+    switch (tag) {
+      case 'STK':
+        return { bg: new Color('#EF4444', 0.12), text: new Color('#DC2626', 0.88) };
+      case 'CRY':
+        return { bg: new Color('#F59E0B', 0.12), text: new Color('#D97706', 0.88) };
+      case 'GLD':
+        return { bg: new Color('#EAB308', 0.15), text: new Color('#CA8A04', 0.90) };
+      case 'SLV':
+        return { bg: new Color('#64748B', 0.14), text: new Color('#475569', 0.90) };
+      case 'OIL':
+        return { bg: new Color('#EA580C', 0.12), text: new Color('#C2410C', 0.88) };
+      case 'FND':
+        return { bg: new Color('#3B82F6', 0.12), text: new Color('#2563EB', 0.88) };
+      default:
+        return { bg: new Color('#0284C7', 0.12), text: new Color('#0284C7', 0.88) };
+    }
+  };
+
+  // 判断是否处于深色/暗黑模式
+  isDarkModeActive = () => {
+    try {
+      if (typeof Device !== 'undefined' && Device.isUsingDarkAppearance()) return true;
+      if (typeof Color !== 'undefined' && Color.dynamic) {
+        const testColor = Color.dynamic(new Color('#FFFFFF'), new Color('#000000'));
+        if (testColor.hex && testColor.hex.toLowerCase() === '000000') return true;
+      }
+    } catch (e) {}
+    return false;
+  };
+
+  // 全自动图标规整管道：
+  // 1. 自动扫描去除任何图源周围自带的多余透明留白（Bounding Box）
+  // 2. 严格按最长边等比缩放并居中投影至 targetSize (28x28)，保证所有品牌 Logo 大小绝对规整统一
+  // 3. 暗黑模式下，自动识别纯黑/极深色剪影（如 Apple Logo），无损反转为纯净银白 #FFFFFF，浅色模式保持深黑
+  processAndNormalizeIcon = async (img, targetSize = 28) => {
+    try {
+      if (!img) return img;
+      const isDark = this.isDarkModeActive();
+      const webview = new WebView();
+      const js = `const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          const w = img.width;
+          const h = img.height;
+          canvas.width = w;
+          canvas.height = h;
+          ctx.drawImage(img, 0, 0);
+          const imgData = ctx.getImageData(0, 0, w, h);
+          const d = imgData.data;
+
+          let minX = w, maxX = 0, minY = h, maxY = 0;
+          let hasVisible = false;
+          let darkCount = 0;
+          let visibleCount = 0;
+
+          // 1. 扫描可见像素，精确获取真实图形物理边界与深色占比
+          for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+              const idx = (y * w + x) * 4;
+              const a = d[idx + 3];
+              if (a > 15) {
+                hasVisible = true;
+                visibleCount++;
+                if (x < minX) minX = x;
+                if (x > maxX) maxX = x;
+                if (y < minY) minY = y;
+                if (y > maxY) maxY = y;
+                const lum = 0.299 * d[idx] + 0.587 * d[idx + 1] + 0.114 * d[idx + 2];
+                if (lum < 80) darkCount++;
+              }
+            }
+          }
+
+          if (!hasVisible) {
+            minX = 0; maxX = w - 1; minY = 0; maxY = h - 1;
+          }
+
+          const cropW = maxX - minX + 1;
+          const cropH = maxY - minY + 1;
+          const target = ${targetSize} * 3; // 3x 高清视网膜渲染 (84x84)
+          const outCanvas = document.createElement('canvas');
+          outCanvas.width = target;
+          outCanvas.height = target;
+          const outCtx = outCanvas.getContext('2d');
+
+          // 2. 严格按有效图案最长边等比缩放并完全居中
+          const scale = Math.min(target / cropW, target / cropH);
+          const drawW = cropW * scale;
+          const drawH = cropH * scale;
+          const offsetX = (target - drawW) / 2;
+          const offsetY = (target - drawH) / 2;
+
+          outCtx.drawImage(img, minX, minY, cropW, cropH, offsetX, offsetY, drawW, drawH);
+
+          // 3. 暗黑模式下纯黑/深色剪影反白（深色像素占比 > 60% 时自动转白）
+          if (${isDark} && visibleCount > 0 && (darkCount / visibleCount) > 0.6) {
+            const finalData = outCtx.getImageData(0, 0, target, target);
+            const fd = finalData.data;
+            for (let i = 0; i < fd.length; i += 4) {
+              if (fd[i + 3] > 15) {
+                const lum = 0.299 * fd[i] + 0.587 * fd[i + 1] + 0.114 * fd[i + 2];
+                if (lum < 80) {
+                  fd[i] = 255;
+                  fd[i + 1] = 255;
+                  fd[i + 2] = 255;
+                }
+              }
+            }
+            outCtx.putImageData(finalData, 0, 0);
+          }
+
+          completion(outCanvas.toDataURL());
+        };
+        img.src = 'data:image/png;base64,' + '${Data.fromPNG(img).toBase64String()}';`;
+      let res = await webview.evaluateJavaScript(js, true);
+      res = res.replace(/^data:image\/[a-zA-Z0-9]+;base64,/, '');
+      return Image.fromData(Data.fromBase64String(res));
+    } catch (e) {
+      return img;
+    }
+  };
+
+  // 本地文件缓存加载（网络请求成功存入本地沙盒，下次秒读，不包含任何擅自删缓存的逻辑）
+  loadIconWithCache = async (cacheKey, iconUrl) => {
+    try {
+      if (!this.FILE_MGR.fileExists(this.cacheImage)) {
+        this.FILE_MGR.createDirectory(this.cacheImage, true);
+      }
+      const safeKey = cacheKey.replace(/[^a-zA-Z0-9_\-\.]/g, '_');
+      const filePath = this.FILE_MGR.joinPath(this.cacheImage, `${safeKey}.png`);
+      if (this.FILE_MGR.fileExists(filePath)) {
+        return Image.fromFile(filePath);
+      }
+      if (!iconUrl) return null;
+      const req = new Request(iconUrl);
+      req.timeoutInterval = 6;
+      const img = await req.loadImage();
+      if (img) {
+        this.FILE_MGR.writeImage(filePath, img);
+        return img;
+      }
+    } catch (e) {}
+    return null;
+  };
+
+  createBadgeImage = (symbolName, tintColorHex, targetSize = 250) => {
     const ctx = new DrawContext();
-    ctx.size = new Size(250, 250);
+    ctx.size = new Size(targetSize, targetSize);
     ctx.opaque = false;
     ctx.respectScreenScale = false;
-    ctx.setFillColor(new Color(bgColorHex, 1));
-    ctx.fillEllipse(new Rect(0, 0, 250, 250));
     try {
       const sym = SFSymbol.named(symbolName);
       if (sym) {
-        sym.applyFont(Font.boldSystemFont(150));
+        sym.applyFont(Font.systemFont(targetSize * 0.85));
         const icon = sym.image;
-        ctx.tintColor = Color.white();
-        ctx.drawImageInRect(icon, new Rect(35, 35, 180, 180));
+        ctx.tintColor = new Color(tintColorHex, 1);
+        const origW = icon.size.width;
+        const origH = icon.size.height;
+        const scale = Math.min(targetSize / origW, targetSize / origH);
+        const drawW = origW * scale;
+        const drawH = origH * scale;
+        const x = (targetSize - drawW) / 2;
+        const y = (targetSize - drawH) / 2;
+        ctx.drawImageInRect(icon, new Rect(x, y, drawW, drawH));
         return ctx.getImage();
       }
     } catch (e) {}
@@ -212,51 +366,93 @@ class Widget extends DmYY {
   };
 
   getItemImage = async (market) => {
-    if (market.type === 'oil') {
-      const sym = (market.symbol || '').toUpperCase();
-      if (sym.includes('98')) {
-        return this.createBadgeImage('fuelpump.fill', '#7C3AED');
-      }
-      if (sym.includes('95')) {
-        return this.createBadgeImage('fuelpump.fill', '#2563EB');
-      }
-      if (sym.includes('92')) {
-        return this.createBadgeImage('fuelpump.fill', '#059669');
-      }
-      return this.createBadgeImage('drop.fill', '#475569');
-    }
-    if (market.image && typeof market.image === 'string' && market.image.startsWith('http')) {
-      return this.renderImage(market.image);
-    }
     const sym = (market.symbol || '').toUpperCase();
-    if (sym === 'AAPL') {
-      return this.createBadgeImage('applelogo', '#334155');
+    const cleanSym = sym.replace(/[^A-Z0-9]/g, '');
+    const type = market.type;
+
+    // 1. 加密货币：CoinGecko 原生纯透明图片（BTC, ETH, SOL 等）
+    if (market.image && typeof market.image === 'string' && market.image.startsWith('http')) {
+      const cached = await this.loadIconWithCache(`crypto_${cleanSym}`, market.image);
+      if (cached) return cached;
     }
-    if (sym === 'TSLA') {
-      return this.createBadgeImage('bolt.car.fill', '#475569');
+
+    // 2. 全国油价：壳牌（Shell 经典彩色贝壳）官方标准 64x64 纯透明 Logo
+    if (type === 'oil') {
+      const cached = await this.loadIconWithCache(
+        'oil_shell_official',
+        'https://companiesmarketcap.com/img/company-logos/64/SHEL.png'
+      );
+      if (cached) return cached;
+      return this.createBadgeImage('fuelpump.fill', '#EA580C');
     }
-    if (sym === 'NVDA') {
-      return this.createBadgeImage('cpu.fill', '#059669');
-    }
-    if (sym === 'MSFT') {
-      return this.createBadgeImage('square.grid.2x2.fill', '#0284C7');
-    }
-    if (sym === 'GOOG' || sym === 'GOOGL') {
-      return this.createBadgeImage('globe.americas.fill', '#EA580C');
-    }
-    if (market.type === 'stock') {
-      const isUS = (market.id || '').startsWith('us') || market.currency === '$';
-      const isHK = (market.id || '').startsWith('hk') || market.currency === 'HK$';
-      const color = isUS ? '#475569' : isHK ? '#6366F1' : '#DC2626';
-      return this.createBadgeImage('chart.line.uptrend.xyaxis', color);
-    }
-    if (market.type === 'fund') {
-      return this.createBadgeImage('chart.pie.fill', '#3B82F6');
-    }
-    if (market.type === 'metal') {
-      const isSilver = sym.includes('XAG') || sym.includes('AG') || (market.name || '').includes('银');
+
+    // 3. 贵金属：Tether Gold 纯金币与 Kinesis Silver 纯银币（均为原生纯透明无底色）
+    if (type === 'metal') {
+      const isSilver = sym.includes('AG') || (market.name || '').includes('银');
+      const url = isSilver
+        ? 'https://coin-images.coingecko.com/coins/images/29789/large/kag-currency-ticker.png'
+        : 'https://coin-images.coingecko.com/coins/images/10481/large/Tether_Gold.png';
+      const cached = await this.loadIconWithCache(isSilver ? 'metal_silver_kag' : 'metal_gold_xaut', url);
+      if (cached) return cached;
       return this.createBadgeImage('sparkles', isSilver ? '#94A3B8' : '#D97706');
     }
+
+    // 4. 股票与指数：
+    if (type === 'stock') {
+      const idStr = String(market.id || '').trim();
+      const symStr = String(market.symbol || '').trim();
+      let stockUrl = '';
+      let stockKey = '';
+
+      // (1) 美股：所有美股品牌（AAPL, TSLA, NVDA, MSFT, META, GOOG, AMZN 等）直连官方 Logo
+      if (idStr.toLowerCase().startsWith('us') || market.currency === '$' || sym === 'AAPL' || sym === 'TSLA' || sym === 'NVDA' || sym === 'MSFT' || sym === 'META') {
+        let ticker = idStr.replace(/^us/i, '').replace(/\..*$/, '');
+        if (!ticker) ticker = symStr.replace(/\..*$/, '');
+        ticker = ticker.replace(/[^a-zA-Z]/g, '').toUpperCase();
+        if (ticker.length >= 1 && ticker.length <= 5) {
+          stockKey = `stock_us_${ticker}`;
+          stockUrl = `https://companiesmarketcap.com/img/company-logos/64/${ticker}.png`;
+        }
+      }
+
+      // (2) A 股与港股：所有知名品牌直连 CompaniesMarketCap 官方透明 Logo
+      if (!stockUrl) {
+        const numCode = idStr.replace(/^[a-zA-Z_]+/g, '') || symStr.replace(/^[a-zA-Z_]+/g, '');
+        if (/^\d{6}$/.test(numCode)) {
+          const suffix = numCode.startsWith('6') ? 'SS' : 'SZ';
+          stockKey = `stock_a_${numCode}`;
+          stockUrl = `https://companiesmarketcap.com/img/company-logos/64/${numCode}.${suffix}.png`;
+        } else if (/^\d{4,5}$/.test(numCode) || idStr.toLowerCase().startsWith('hk')) {
+          const hkNum = numCode.replace(/^0+/, '').padStart(4, '0');
+          if (hkNum === '0700') {
+            stockKey = 'stock_hk_0700_tcehy';
+            stockUrl = 'https://companiesmarketcap.com/img/company-logos/64/TCEHY.png';
+          } else if (hkNum === '9988') {
+            stockKey = 'stock_hk_9988_baba';
+            stockUrl = 'https://companiesmarketcap.com/img/company-logos/64/BABA.png';
+          } else {
+            stockKey = `stock_hk_${hkNum}`;
+            stockUrl = `https://companiesmarketcap.com/img/company-logos/64/${hkNum}.HK.png`;
+          }
+        }
+      }
+
+      if (stockUrl) {
+        const cached = await this.loadIconWithCache(stockKey, stockUrl);
+        if (cached) return cached;
+      }
+
+      // (3) 未被 CMC 收入的股票（如中国重汽 000951 等）：100% 自动优雅采用雪球官方高清透明 Logo
+      const xqLogo = this.getXueqiuLogo();
+      if (xqLogo) return xqLogo;
+    }
+
+    // 5. 公募基金：天天基金/理财纯透明图腾
+    if (type === 'fund') {
+      return this.createBadgeImage('chart.pie.fill', '#3B82F6');
+    }
+
+    // 6. 离线/保底：原生 SFSymbol 纯透明无底色
     return this.createBadgeImage('bitcoinsign.circle', '#F59E0B');
   };
 
@@ -288,23 +484,30 @@ class Widget extends DmYY {
         const match95 = webRes.match(/95号汽油<\/dt>\s*<dd>([\d\.]+)/);
         const match98 = webRes.match(/98号汽油<\/dt>\s*<dd>([\d\.]+)/);
         const match0 = webRes.match(/0号柴油<\/dt>\s*<dd>([\d\.]+)/);
-        const matchTip = webRes.match(/<div class="tishi">([\s\S]*?)<\/div>/);
 
         if (match92 && !p92) p92 = match92[1];
         if (match95 && !p95) p95 = match95[1];
         if (match98 && !p98) p98 = match98[1];
         if (match0 && !p0) p0 = match0[1];
 
-        if (matchTip) {
-          const rawText = matchTip[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
-          const dateMatch = rawText.match(/下次油价(\d+月\d+日(?:\d+时)?)/);
+        let rawTip = '';
+        const varMatch = webRes.match(/var\s+tishiContent\s*=\s*["']([^"']+)["']/);
+        if (varMatch) {
+          rawTip = varMatch[1];
+        } else {
+          const divMatch = webRes.match(/class=["']tishi["'][^>]*>([\s\S]*?)<\/div>/);
+          if (divMatch) rawTip = divMatch[1];
+        }
+
+        if (rawTip) {
+          const cleanText = rawTip.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+          const dateMatch = cleanText.match(/(\d+月\d+日(?:\d+时)?)/);
           if (dateMatch) adjustDate = dateMatch[1];
 
           let isUp = true;
-          const dirMatch = rawText.match(/预计(上调|下调|搁浅)/);
-          if (dirMatch && dirMatch[1] === '下调') isUp = false;
+          if (cleanText.includes('下调') || cleanText.includes('跌')) isUp = false;
 
-          const rangeMatch = rawText.match(/([\d\.]+)元\/升(?:-([\d\.]+)元\/升)?/);
+          const rangeMatch = cleanText.match(/([\d\.]+)元\/升(?:-([\d\.]+)元\/升)?/);
           if (rangeMatch) {
             const low = parseFloat(rangeMatch[1]) || 0;
             const high = rangeMatch[2] ? parseFloat(rangeMatch[2]) : low;
@@ -318,80 +521,192 @@ class Widget extends DmYY {
     return {
       prov: cleanProv,
       p0, p89, p92, p95, p98,
-      adjustDate: adjustDate ? `${adjustDate}调价` : '发改委定价',
+      adjustDate: adjustDate ? `${adjustDate}调价` : '待发改委公布',
       changeAmount,
     };
   };
 
   cacheData = async (params) => {
     try {
-      const rawList = (params || 'BTC,AAPL,600519,AU9999,95')
-        .split(',')
-        .map((s) => s.trim())
-        .filter(Boolean);
+      const s = this.settings || {};
+      const c_crypto = (s.cryptoSymbols || '').split(',').map((x) => x.trim()).filter(Boolean);
+      const c_us = (s.usStockSymbols || '').split(',').map((x) => x.trim()).filter(Boolean);
+      const c_cn = (s.cnStockSymbols || '').split(',').map((x) => x.trim()).filter(Boolean);
+      const c_metal = (s.metalSymbols || '').split(',').map((x) => x.trim()).filter(Boolean);
+      const c_fund = (s.fundSymbols || '').split(',').map((x) => x.trim()).filter(Boolean);
+      const c_oil = (s.oilSymbols || '').split(',').map((x) => x.trim()).filter(Boolean);
 
-      const isOilFiltered = (this.settings.filterType || '').toLowerCase().includes('oil');
+      const hasCategorySettings = (
+        c_crypto.length > 0 || c_us.length > 0 || c_cn.length > 0 ||
+        c_metal.length > 0 || c_fund.length > 0 || c_oil.length > 0
+      );
 
-      const cryptoSet = new Set([
-        'BTC', 'ETH', 'USDT', 'BNB', 'SOL', 'USDC', 'XRP', 'DOGE', 'TON', 'ADA',
-        'AVAX', 'TRX', 'LINK', 'DOT', 'MATIC', 'NEAR', 'APT', 'SUI', 'PEPE',
-        'SHIB', 'LTC', 'BCH', 'UNI', 'FIL', 'OKB', 'CRO', 'ATOM', 'XLM', 'XMR'
-      ]);
+      const isOilFiltered = c_oil.length > 0;
 
-      const tencentKeys = [];
       const cryptoKeys = [];
+      const tencentKeys = [];
       const sgeKeys = [];
       const oilKeys = [];
+      let orderedItems = [];
 
-      for (const item of rawList) {
-        const upper = item.toUpperCase();
-        const cleanCode = upper.replace(/[^A-Z0-9]/g, '');
-
-        if (/^(92|95|98|0|89)$/.test(cleanCode) ||
-            /^(92#|95#|98#|0#|89#|92号|95号|98号|0号|89号|0号柴油|柴油|汽油|OIL92|OIL95|OIL98|OIL0)$/i.test(item)) {
-          oilKeys.push(item);
-        } else if (/^(AU9999|AU99\.99|AUTD|AU\(T\+D\)|AGTD|AG\(T\+D\))$/i.test(item) ||
-            ['AU9999', 'AU99.99', 'AUTD', 'AGTD', '上海金', '国内黄金', '国内白银'].includes(upper)) {
-          if (cleanCode.includes('9999') || cleanCode.includes('999') || item.includes('国内黄金') || item.includes('上海金')) {
+      if (hasCategorySettings) {
+        // 【分栏设置优先】：100% 严格按用户填入的项目抓取，用户留空的分类绝对不加！绝不产生未填写资产！
+        for (const item of c_crypto) {
+          cryptoKeys.push(item);
+          orderedItems.push({ key: item, type: 'crypto' });
+        }
+        for (const item of c_us) {
+          const up = item.toUpperCase();
+          const qKey = up.startsWith('US') ? up : `us${up}`;
+          tencentKeys.push(qKey);
+          orderedItems.push({ key: qKey, origin: item, type: 'usStock' });
+        }
+        for (const item of c_cn) {
+          const up = item.toUpperCase();
+          const clean = up.replace(/[^A-Z0-9]/g, '');
+          let qKey = item;
+          if (/^(SH|SZ|HK|BJ)/.test(clean)) {
+            qKey = item;
+          } else if ((clean.length === 4 || clean.length === 5) && /^\d+$/.test(clean)) {
+            qKey = `hk${clean.padStart(5, '0')}`;
+          } else if (clean.length === 6 && /^\d+$/.test(clean)) {
+            if (/^(60|68|90|11)/.test(clean)) qKey = `sh${clean}`;
+            else if (/^(00|30|20|12)/.test(clean)) qKey = `sz${clean}`;
+            else if (/^(8|4)/.test(clean)) qKey = `bj${clean}`;
+            else qKey = `sh${clean}`;
+          }
+          tencentKeys.push(qKey);
+          orderedItems.push({ key: qKey, origin: item, type: 'cnStock' });
+        }
+        for (const item of c_metal) {
+          const up = item.toUpperCase();
+          const clean = up.replace(/[^A-Z0-9]/g, '');
+          if (clean.includes('AG9999') || clean.includes('AG99') || up.includes('白银9999')) {
+            sgeKeys.push('SGE_AG9999');
+            orderedItems.push({ key: 'SGE_AG9999', origin: item, type: 'metal' });
+          } else if (clean.includes('AU9999') || clean.includes('AU99') || clean.includes('9999') || up.includes('国内黄金') || up.includes('上海金')) {
             sgeKeys.push('SGE_AU9999');
-          } else if (cleanCode.includes('AG')) {
+            orderedItems.push({ key: 'SGE_AU9999', origin: item, type: 'metal' });
+          } else if (clean.includes('AGTD') || clean.includes('AG') || up.includes('白银延期') || up.includes('国内白银')) {
             sgeKeys.push('SGE_AGTD');
-          } else {
+            orderedItems.push({ key: 'SGE_AGTD', origin: item, type: 'metal' });
+          } else if (clean.includes('AUTD') || clean.includes('TD') || up.includes('黄金延期')) {
             sgeKeys.push('SGE_AUTD');
-          }
-        } else if (/^(SH|SZ|HK|US|HF_|GDS_)/i.test(item)) {
-          tencentKeys.push(item);
-        } else if (/^\d{6}$/.test(item)) {
-          if (/^(60|68|90|11)/.test(item)) {
-            tencentKeys.push(`sh${item}`);
-          } else if (/^(00|30|20|12)/.test(item)) {
-            tencentKeys.push(`sz${item}`);
-          } else if (/^(8|4)/.test(item)) {
-            tencentKeys.push(`bj${item}`);
+            orderedItems.push({ key: 'SGE_AUTD', origin: item, type: 'metal' });
+          } else if (clean === 'XAU' || clean === 'GOLD' || up.includes('现货黄金') || up.includes('伦敦金')) {
+            tencentKeys.push('hf_XAU');
+            orderedItems.push({ key: 'hf_XAU', origin: item, type: 'metal' });
+          } else if (clean === 'XAG' || clean === 'SILVER' || up.includes('现货白银') || up.includes('伦敦银')) {
+            tencentKeys.push('hf_XAG');
+            orderedItems.push({ key: 'hf_XAG', origin: item, type: 'metal' });
           } else {
-            tencentKeys.push(`s_jj${item}`);
+            sgeKeys.push(item);
+            orderedItems.push({ key: item, origin: item, type: 'metal' });
           }
-        } else if (['GOLD', 'XAU', '现货黄金', '伦敦金'].includes(upper)) {
-          tencentKeys.push('hf_XAU');
-        } else if (['SILVER', 'XAG', '现货白银', '伦敦银'].includes(upper)) {
-          tencentKeys.push('hf_XAG');
-        } else if (cryptoSet.has(upper)) {
-          cryptoKeys.push(item);
-        } else if (/^[A-Za-z]{1,5}$/.test(item)) {
-          tencentKeys.push(`us${upper}`);
-        } else {
-          cryptoKeys.push(item);
+        }
+        for (const item of c_fund) {
+          const clean = item.replace(/[^0-9]/g, '');
+          if (clean) {
+            tencentKeys.push(`s_jj${clean}`);
+            orderedItems.push({ key: clean, qKey: `s_jj${clean}`, origin: item, type: 'fund' });
+          }
+        }
+        for (const item of c_oil) {
+          oilKeys.push(item);
+          orderedItems.push({ key: item, type: 'oil' });
+        }
+      } else {
+        // 【兼容模式 / 仅有 btcType 模式】：纯粹解析用户在 btcType 中填入的内容
+        // 若用户完全未作任何设置（全新状态），仅兜底原版纯粹的 'BTC,ETH,BNB'，绝无任何股票/乱加项！
+        const rawList = (params || s.btcType || 'BTC,ETH,BNB')
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean);
+
+        const cryptoSet = new Set([
+          'BTC', 'ETH', 'USDT', 'BNB', 'SOL', 'USDC', 'XRP', 'DOGE', 'TON', 'ADA',
+          'AVAX', 'TRX', 'LINK', 'DOT', 'MATIC', 'NEAR', 'APT', 'SUI', 'PEPE',
+          'SHIB', 'LTC', 'BCH', 'UNI', 'FIL', 'OKB', 'CRO', 'ATOM', 'XLM', 'XMR'
+        ]);
+
+        for (const item of rawList) {
+          const upper = item.toUpperCase();
+          const cleanCode = upper.replace(/[^A-Z0-9]/g, '');
+
+          const isOil = /^(92|95|98|0|89)$/.test(cleanCode) ||
+            /^(92#|95#|98#|0#|89#|92号|95号|98号|0号|89号|0号柴油|柴油|汽油|OIL92|OIL95|OIL98|OIL0)$/i.test(item);
+
+          const isSgeMetal = /^(AU9999|AU99\.99|AUTD|AU\(T\+D\)|AGTD|AG\(T\+D\)|AG9999|AG99\.99)$/i.test(item) ||
+            cleanCode === 'AU9999' || cleanCode === 'AUTD' || cleanCode === 'AGTD' || cleanCode === 'AG9999' ||
+            ['上海金', '国内黄金', '国内白银', '白银9999', '沪金', '沪银'].includes(upper);
+
+          if (isOil) {
+            oilKeys.push(item);
+            orderedItems.push({ key: item, type: 'oil' });
+          } else if (isSgeMetal) {
+            if (cleanCode.includes('AG9999') || cleanCode.includes('AG99') || upper.includes('白银9999')) {
+              sgeKeys.push('SGE_AG9999');
+              orderedItems.push({ key: 'SGE_AG9999', origin: item, type: 'metal' });
+            } else if (cleanCode.includes('AU9999') || cleanCode.includes('AU99') || cleanCode.includes('9999') || upper.includes('国内黄金') || upper.includes('上海金')) {
+              sgeKeys.push('SGE_AU9999');
+              orderedItems.push({ key: 'SGE_AU9999', origin: item, type: 'metal' });
+            } else if (cleanCode.includes('AG')) {
+              sgeKeys.push('SGE_AGTD');
+              orderedItems.push({ key: 'SGE_AGTD', origin: item, type: 'metal' });
+            } else {
+              sgeKeys.push('SGE_AUTD');
+              orderedItems.push({ key: 'SGE_AUTD', origin: item, type: 'metal' });
+            }
+          } else if (/^(SH|SZ|HK|BJ)/i.test(item)) {
+            tencentKeys.push(item);
+            orderedItems.push({ key: item, type: 'tencent' });
+          } else if (/^(S_JJ)/i.test(item)) {
+            tencentKeys.push(item);
+            orderedItems.push({ key: item.replace(/^s_jj/i, ''), qKey: item, type: 'fund' });
+          } else if ((cleanCode.length === 4 || cleanCode.length === 5) && /^\d+$/.test(cleanCode)) {
+            const hkCode = `hk${cleanCode.padStart(5, '0')}`;
+            tencentKeys.push(hkCode);
+            orderedItems.push({ key: hkCode, origin: item, type: 'cnStock' });
+          } else if (/^\d{6}$/.test(item)) {
+            if (/^(60|68|90|11)/.test(item)) {
+              tencentKeys.push(`sh${item}`);
+              orderedItems.push({ key: `sh${item}`, origin: item, type: 'cnStock' });
+            } else if (/^(00|30|20|12)/.test(item)) {
+              tencentKeys.push(`sz${item}`);
+              orderedItems.push({ key: `sz${item}`, origin: item, type: 'cnStock' });
+            } else if (/^(8|4)/.test(item)) {
+              tencentKeys.push(`bj${item}`);
+              orderedItems.push({ key: `bj${item}`, origin: item, type: 'cnStock' });
+            } else {
+              tencentKeys.push(`s_jj${item}`);
+              orderedItems.push({ key: item, qKey: `s_jj${item}`, origin: item, type: 'fund' });
+            }
+          } else if (['GOLD', 'XAU', '现货黄金', '伦敦金'].includes(upper)) {
+            tencentKeys.push('hf_XAU');
+            orderedItems.push({ key: 'hf_XAU', origin: item, type: 'metal' });
+          } else if (['SILVER', 'XAG', '现货白银', '伦敦银'].includes(upper)) {
+            tencentKeys.push('hf_XAG');
+            orderedItems.push({ key: 'hf_XAG', origin: item, type: 'metal' });
+          } else if (cryptoSet.has(upper)) {
+            cryptoKeys.push(item);
+            orderedItems.push({ key: item, type: 'crypto' });
+          } else if (/^[A-Za-z]{1,5}$/.test(item)) {
+            tencentKeys.push(`us${upper}`);
+            orderedItems.push({ key: `us${upper}`, origin: item, type: 'usStock' });
+          } else {
+            cryptoKeys.push(item);
+            orderedItems.push({ key: item, type: 'crypto' });
+          }
         }
       }
 
+      // 1. 请求国内油价
       const oilMap = {};
       const shouldFetchOil = oilKeys.length > 0 || isOilFiltered;
-
       if (shouldFetchOil) {
         try {
-          const finalKey = (this.settings.oilKey || '').trim();
-          const finalProv = (this.settings.oilProvince || '广东').trim();
-
+          const finalKey = (s.oilKey || '').trim();
+          const finalProv = (s.oilProvince || '广东').trim();
           const oilRes = await this.fetchOilData(finalProv, finalKey);
 
           const makeOilItem = (subCode, subName, priceStr) => {
@@ -399,18 +714,15 @@ class Widget extends DmYY {
             const amt = oilRes.changeAmount || 0;
             const pct = priceVal > 0 ? (amt / priceVal) * 100 : 0;
             const changeStr = amt !== 0 ? (amt > 0 ? `+${amt.toFixed(2)}` : `${amt.toFixed(2)}`) : '0.00';
-
             const nextPrice = priceVal > 0 && amt !== 0 ? (priceVal + amt).toFixed(2) : priceVal.toFixed(2);
-            const highDisplay = nextPrice;
-            const lowDisplay = priceVal.toFixed(2);
 
             return {
               id: `oil_${subCode}`,
-              name: `${oilRes.prov}${subName}`,
+              name: `${finalProv}${subName}`,
               symbol: `${subCode}#`,
               current_price: this.formatPrice(priceStr, 2, 2),
-              high_24h: highDisplay,
-              low_24h: lowDisplay,
+              high_24h: nextPrice,
+              low_24h: priceVal.toFixed(2),
               adjust_date: oilRes.adjustDate,
               price_change_percentage_24h: pct,
               expected_change_amount: changeStr,
@@ -418,7 +730,7 @@ class Widget extends DmYY {
               currency: '¥',
               region: 'cn',
               type: 'oil',
-              url: `http://m.qiyoujiage.com/${this.provincePinyinMap[oilRes.prov] || 'guangdong'}.shtml`,
+              url: `http://m.qiyoujiage.com/${this.provincePinyinMap[finalProv] || 'guangdong'}.shtml`,
             };
           };
 
@@ -431,10 +743,65 @@ class Widget extends DmYY {
         }
       }
 
+      // 2. 请求国内金银（SGE 上海黄金交易所）
+      const sgeMap = {};
+      if (sgeKeys.length) {
+        try {
+          const reqUrl = `http://hq.sinajs.cn/list=${sgeKeys.join(',')}`;
+          const sgeReq = new Request(reqUrl);
+          sgeReq.headers = { 'Referer': 'https://finance.sina.com.cn' };
+          const sgeRes = await sgeReq.loadString();
+          const lines = sgeRes.split(';').map((s) => s.trim()).filter(Boolean);
+          for (const line of lines) {
+            const [k, v] = line.split('=');
+            if (!v) continue;
+            const content = v.replace(/^"/, '').replace(/"$/, '');
+            if (!content) continue;
+            const arr = content.split(',');
+            const code = arr[0] || '';
+            const name = arr[1] || arr[2] || '贵金属';
+            let price = parseFloat(arr[3]) || 0;
+            let prevClose = parseFloat(arr[4]) || 0;
+            if (!price) price = parseFloat(arr[5]) || parseFloat(arr[9]) || 0;
+            if (!prevClose) prevClose = parseFloat(arr[9]) || parseFloat(arr[5]) || price;
+            const pct = prevClose ? ((price - prevClose) / prevClose) * 100 : 0;
+
+            let sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AU9999.html';
+            const upperCode = code.toUpperCase();
+            if (upperCode.includes('AG9999') || upperCode.includes('AG99')) {
+              sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AGTD.html';
+            } else if (upperCode.includes('AG')) {
+              sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AGTD.html';
+            } else if (upperCode.includes('TD')) {
+              sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AUTD.html';
+            }
+            const itemObj = {
+              id: code,
+              name: name.replace(/\s+/g, ''),
+              symbol: code.toUpperCase(),
+              current_price: this.formatPrice(price),
+              high_24h: this.formatPrice(arr[5] || price),
+              low_24h: this.formatPrice(arr[6] || price),
+              price_change_percentage_24h: pct,
+              last_updated: '',
+              currency: '¥',
+              region: 'cn',
+              type: 'metal',
+              url: sgeUrl,
+            };
+            sgeMap[code.toUpperCase()] = itemObj;
+            sgeMap[`SGE_${code.toUpperCase()}`] = itemObj;
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+      // 3. 请求腾讯财经（A股、港股、美股、基金、国际外盘金银）
       const tencentMap = {};
       if (tencentKeys.length) {
         try {
-          const tencentUrl = `https://web.sqt.gtimg.cn/utf8/q=${tencentKeys.join(',')}`;
+          const tencentUrl = `http://qt.gtimg.cn/utf8/q=${tencentKeys.join(',')}`;
           const tencentRes = await this.$request.get(tencentUrl, 'STRING');
           const lines = tencentRes.split(';').map((s) => s.trim()).filter(Boolean);
           for (const line of lines) {
@@ -444,7 +811,7 @@ class Widget extends DmYY {
             const content = v.replace(/^"/, '').replace(/"$/, '');
             if (key.startsWith('s_jj')) {
               const arr = content.split('~');
-              const code = arr[0] || key.replace('s_jj', '');
+              const code = (arr[0] || key.replace('s_jj', '')).toUpperCase();
               tencentMap[code] = {
                 id: code,
                 name: arr[1] || '基金',
@@ -459,6 +826,7 @@ class Widget extends DmYY {
                 type: 'fund',
                 url: `https://fund.eastmoney.com/${code}.html`,
               };
+              tencentMap[`s_jj${code}`] = tencentMap[code];
             } else if (key.startsWith('hf_')) {
               const arr = content.split(',');
               const cleanCode = key.replace('hf_', '').toUpperCase();
@@ -486,7 +854,7 @@ class Widget extends DmYY {
               const isCN = lowerKey.startsWith('sh') || lowerKey.startsWith('sz') || lowerKey.startsWith('bj');
               const isHK = lowerKey.startsWith('hk');
               const codeOnly = arr[2] || key;
-              const displaySymbol = codeOnly.replace(/^US/i, '').toUpperCase();
+              const displaySymbol = codeOnly.replace(/^US/i, '').replace(/\..*$/, '').toUpperCase();
               const stockItem = {
                 id: key,
                 name: arr[1] || key,
@@ -494,15 +862,17 @@ class Widget extends DmYY {
                 current_price: this.formatPrice(arr[3]),
                 high_24h: this.formatPrice(arr[33] || arr[4]),
                 low_24h: this.formatPrice(arr[34] || arr[5]),
-                price_change_percentage_24h: parseFloat(arr[32] || arr[5]) || 0,
-                last_updated: '',
+                price_change_percentage_24h: parseFloat(arr[32]) || 0,
+                last_updated: arr[30] || '',
                 currency: isCN ? '¥' : isHK ? 'HK$' : '$',
-                region: isCN ? 'cn' : 'intl',
+                region: (isCN || isHK) ? 'cn' : 'intl',
                 type: 'stock',
                 url: `https://gu.qq.com/${key}`,
               };
               tencentMap[key] = stockItem;
-              if (codeOnly) tencentMap[codeOnly] = stockItem;
+              tencentMap[lowerKey] = stockItem;
+              tencentMap[key.toUpperCase()] = stockItem;
+              tencentMap[codeOnly] = stockItem;
             }
           }
         } catch (e) {
@@ -510,54 +880,7 @@ class Widget extends DmYY {
         }
       }
 
-      const sgeMap = {};
-      if (sgeKeys.length) {
-        try {
-          const reqUrl = `http://hq.sinajs.cn/list=${sgeKeys.join(',')}`;
-          const sgeReq = new Request(reqUrl);
-          sgeReq.headers = { 'Referer': 'https://finance.sina.com.cn' };
-          const sgeRes = await sgeReq.loadString();
-          const lines = sgeRes.split(';').map((s) => s.trim()).filter(Boolean);
-          for (const line of lines) {
-            const [k, v] = line.split('=');
-            if (!v) continue;
-            const content = v.replace(/^"/, '').replace(/"$/, '');
-            if (!content) continue;
-            const arr = content.split(',');
-            const code = arr[0] || '';
-            const name = arr[1] || arr[2] || '上海金';
-            const price = parseFloat(arr[3]) || 0;
-            const prevClose = parseFloat(arr[4]) || 0;
-            const pct = prevClose ? ((price - prevClose) / prevClose) * 100 : 0;
-            let sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AU9999.html';
-            const upperCode = code.toUpperCase();
-            if (upperCode.includes('AG')) {
-              sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AGTD.html';
-            } else if (upperCode.includes('TD')) {
-              sgeUrl = 'https://wap.eastmoney.com/quote/stock/118.AUTD.html';
-            }
-            const itemObj = {
-              id: code,
-              name: name.replace(/\s+/g, ''),
-              symbol: code,
-              current_price: this.formatPrice(price),
-              high_24h: this.formatPrice(arr[5]),
-              low_24h: this.formatPrice(arr[6]),
-              price_change_percentage_24h: pct,
-              last_updated: '',
-              currency: '¥',
-              region: 'cn',
-              type: 'metal',
-              url: sgeUrl,
-            };
-            sgeMap[code.toUpperCase()] = itemObj;
-            sgeMap[`SGE_${code.toUpperCase()}`] = itemObj;
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      }
-
+      // 4. 请求加密货币：【彻底保证 symbol 100% 严格大写】
       const cryptoMap = {};
       if (cryptoKeys.length) {
         try {
@@ -572,8 +895,8 @@ class Widget extends DmYY {
           }
           if (Array.isArray(response)) {
             response.forEach((it) => {
-              const sym = it.symbol.toUpperCase();
-              cryptoMap[sym] = {
+              const sym = (it.symbol || '').toUpperCase();
+              const cryptoItem = {
                 id: it.id,
                 name: it.name,
                 image: it.image,
@@ -586,9 +909,11 @@ class Widget extends DmYY {
                 currency: '$',
                 region: 'intl',
                 type: 'crypto',
-                url: `https://www.coingecko.com/zh/${encodeURIComponent('数字货币')}/${it.id}`,
+                url: `https://www.coingecko.com/en/coins/${it.id}`,
               };
-              cryptoMap[it.id.toUpperCase()] = cryptoMap[sym];
+              cryptoMap[sym] = cryptoItem;
+              cryptoMap[it.id] = cryptoItem;
+              cryptoMap[(it.symbol || '').toLowerCase()] = cryptoItem;
             });
           }
         } catch (e) {
@@ -596,84 +921,47 @@ class Widget extends DmYY {
         }
       }
 
+      // 5. 按照用户的配置顺序精确拼装列表
       const list = [];
-      for (const item of rawList) {
-        const upper = item.toUpperCase();
-        const clean = upper.replace(/[^A-Z0-9]/g, '');
+      const seenIds = new Set();
 
-        if (clean.includes('98') && oilMap['98']) {
-          list.push(oilMap['98']);
-          continue;
-        } else if (clean.includes('95') && oilMap['95']) {
-          list.push(oilMap['95']);
-          continue;
-        } else if (clean.includes('92') && oilMap['92']) {
-          list.push(oilMap['92']);
-          continue;
-        } else if ((clean === '0' || upper.includes('柴油')) && oilMap['0']) {
-          list.push(oilMap['0']);
-          continue;
+      for (const it of orderedItems) {
+        let match = null;
+        const key = it.key;
+        const up = (it.origin || key).toUpperCase();
+        const clean = up.replace(/[^A-Z0-9]/g, '');
+
+        if (it.type === 'oil') {
+          if (clean === '98' || key.includes('98')) match = oilMap['98'];
+          else if (clean === '95' || key.includes('95')) match = oilMap['95'];
+          else if (clean === '92' || key.includes('92')) match = oilMap['92'];
+          else if (clean === '0' || key.includes('0') || key.includes('柴油')) match = oilMap['0'];
+        } else if (it.type === 'crypto') {
+          match = cryptoMap[key.toUpperCase()] || cryptoMap[key.toLowerCase()] || cryptoMap[key];
+        } else if (it.type === 'metal') {
+          match = sgeMap[key] || sgeMap[key.toUpperCase()] || tencentMap[key];
+        } else if (it.type === 'fund') {
+          match = tencentMap[it.qKey] || tencentMap[key];
+        } else {
+          match = tencentMap[key] || tencentMap[key.toLowerCase()] || tencentMap[key.toUpperCase()] ||
+                  sgeMap[key] || sgeMap[key.toUpperCase()] || cryptoMap[key.toUpperCase()];
         }
 
-        if (clean.includes('9999') || clean.includes('999') || upper.includes('国内黄金') || upper.includes('上海金')) {
-          if (sgeMap['AU9999'] || sgeMap['SGE_AU9999']) {
-            list.push(sgeMap['AU9999'] || sgeMap['SGE_AU9999']);
-            continue;
-          }
-        } else if (clean.includes('AUTD') || clean.includes('黄金延期')) {
-          if (sgeMap['AUTD'] || sgeMap['SGE_AUTD']) {
-            list.push(sgeMap['AUTD'] || sgeMap['SGE_AUTD']);
-            continue;
-          }
-        } else if (clean.includes('AGTD') || clean.includes('白银延期') || upper.includes('国内白银')) {
-          if (sgeMap['AGTD'] || sgeMap['SGE_AGTD']) {
-            list.push(sgeMap['AGTD'] || sgeMap['SGE_AGTD']);
-            continue;
-          }
-        }
-
-        if (tencentMap[item]) {
-          list.push(tencentMap[item]);
-        } else if (tencentMap[`sh${item}`]) {
-          list.push(tencentMap[`sh${item}`]);
-        } else if (tencentMap[`sz${item}`]) {
-          list.push(tencentMap[`sz${item}`]);
-        } else if (tencentMap[`bj${item}`]) {
-          list.push(tencentMap[`bj${item}`]);
-        } else if (tencentMap[`us${upper}`]) {
-          list.push(tencentMap[`us${upper}`]);
-        } else if (tencentMap[`s_jj${item}`]) {
-          list.push(tencentMap[`s_jj${item}`]);
-        } else if (['GOLD', 'XAU', '现货黄金', '伦敦金'].includes(upper) && tencentMap['hf_XAU']) {
-          list.push(tencentMap['hf_XAU']);
-        } else if (['SILVER', 'XAG', '现货白银', '伦敦银'].includes(upper) && tencentMap['hf_XAG']) {
-          list.push(tencentMap['hf_XAG']);
-        } else if (cryptoMap[upper]) {
-          list.push(cryptoMap[upper]);
+        if (match && !seenIds.has(match.id)) {
+          seenIds.add(match.id);
+          list.push(match);
         }
       }
 
-      if (isOilFiltered) {
-        ['92', '95', '98', '0'].forEach((key) => {
-          if (oilMap[key] && !list.some((it) => it.id === `oil_${key}`)) {
-            list.push(oilMap[key]);
-          }
-        });
-      }
-
-      if (list.length) {
-        this.dataSource = list;
-        this.settings.dataSource = this.dataSource;
-        this.settings.lastUpdatedTime = Date.now();
-        this.saveSettings(false);
-      } else if (this.settings.dataSource && this.settings.dataSource.length) {
-        this.dataSource = this.settings.dataSource;
-      }
+      const finalDataSource = list;
+      this.dataSource = finalDataSource;
+      this.settings.dataSource = finalDataSource;
+      this.settings.lastUpdatedTime = Date.now();
+      this.saveSettings(false);
+      return finalDataSource;
     } catch (e) {
       console.log(e);
-      if (this.settings.dataSource && this.settings.dataSource.length) {
-        this.dataSource = this.settings.dataSource;
-      }
+      return this.dataSource || [];
     }
   };
 
@@ -769,21 +1057,25 @@ class Widget extends DmYY {
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.onload = () => {
-        const { width, height } = img
-        canvas.width = width
-        canvas.height = height
-        ctx.globalAlpha = 0.3
+        const canvasSize = 250;
+        canvas.width = canvasSize;
+        canvas.height = canvasSize;
+        ctx.globalAlpha = 0.3;
+
+        // 精确复刻原版水印：drawSize=canvasSize, offset=-canvasSize/2+50=-75
+        const drawSize = canvasSize;
+        const offset = -canvasSize / 2 + 50;
         ctx.drawImage(
           img,
-          -width / 2 + 50,
-          -height / 2 + 50,
-          width,
-          height
-        )
-        const uri = canvas.toDataURL()
+          offset,
+          offset,
+          drawSize,
+          drawSize
+        );
+        const uri = canvas.toDataURL();
         completion(uri);
       };
-      img.src = 'data:image/png;base64,${Data.fromPNG(url).toBase64String()}'`;
+      img.src = 'data:image/png;base64,${Data.fromPNG(url).toBase64String()}';`;
     let image = await webview.evaluateJavaScript(js, true);
     image = image.replace(/^data\:image\/\w+;base64,/, '');
     return Image.fromData(Data.fromBase64String(image));
@@ -799,35 +1091,16 @@ class Widget extends DmYY {
   };
 
   getFilteredDataSource = () => {
-    const rawFilter = (this.settings.filterType || 'all').trim();
-    let filtered = this.dataSource;
-    if (rawFilter && rawFilter.toLowerCase() !== 'all' && rawFilter !== '全部') {
-      const filters = rawFilter
-        .split(',')
-        .map((s) => s.trim().toLowerCase())
-        .filter(Boolean);
-
-      filtered = this.dataSource.filter((item) => {
-        const type = (item.type || '').toLowerCase();
-        const region = (item.region || '').toLowerCase();
-        return filters.some((f) => {
-          if (f === 'oil' || f === '油价') return type === 'oil';
-          if (f === 'cn' || f === '国内') return region === 'cn';
-          if (f === 'intl' || f === 'global' || f === '国际') return region === 'intl';
-          return type === f;
-        });
-      });
+    if (!this.dataSource || !this.dataSource.length) return [];
+    if (this.settings.randomDisplay === '1' && this.dataSource.length > 1) {
+      return this.shuffle(this.dataSource);
     }
-
-    if (this.settings.randomDisplay === '1' && filtered.length > 1) {
-      return this.shuffle(filtered);
-    }
-    return filtered;
+    return this.dataSource;
   };
 
   renderSmall = async (widget) => {
     const list = this.getFilteredDataSource();
-    if (!list.length) {
+    if (!list || !list.length) {
       widget.setPadding(16, 16, 16, 16);
       const tip = widget.addText('未找到对应资产\n请检查关注种类与范围');
       tip.font = Font.systemFont(12);
@@ -849,19 +1122,20 @@ class Widget extends DmYY {
     topHeader.centerAlignContent();
     topHeader.addSpacer();
 
-    const isCN = market.region === 'cn';
+    const categoryTag = this.getCategoryTag(market);
+    const tagStyle = this.getCategoryTagColor(categoryTag);
     const tagStack = topHeader.addStack();
-    tagStack.setPadding(1.5, 4, 1.5, 4);
+    tagStack.setPadding(1, 3.5, 1, 3.5);
     tagStack.cornerRadius = 3;
-    tagStack.backgroundColor = isCN ? new Color('#EF4444', 0.12) : new Color('#0284C7', 0.12);
-    const tagText = tagStack.addText(isCN ? 'CN' : 'INTL');
-    tagText.textColor = isCN ? new Color('#DC2626', 0.88) : new Color('#0284C7', 0.88);
+    tagStack.backgroundColor = tagStyle.bg;
+    const tagText = tagStack.addText(categoryTag);
+    tagText.textColor = tagStyle.text;
     tagText.font = Font.boldSystemFont(8);
 
     topHeader.addSpacer(5);
 
     const coin = topHeader.addText(market.symbol ? market.symbol.toUpperCase() : '');
-    coin.font = Font.heavySystemFont(22);
+    coin.font = Font.semiboldSystemFont(22);
     coin.textColor = this.widgetColor;
     coin.lineLimit = 1;
     coin.minimumScaleFactor = 0.5;
@@ -871,6 +1145,7 @@ class Widget extends DmYY {
     name.font = Font.systemFont(10);
     name.textColor = Color.gray();
     name.rightAlignText();
+    name.lineLimit = 1;
     widget.addSpacer();
 
     const changeVal = Number(market.price_change_percentage_24h) || 0;
@@ -881,13 +1156,14 @@ class Widget extends DmYY {
       : `${changeVal.toFixed(2)}%`;
 
     const trend = widget.addText(trendTextStr);
-    trend.font = Font.semiboldSystemFont(15);
+    trend.font = Font.mediumSystemFont(14);
     trend.textColor = this.getTrendColor(market, false);
-
     trend.rightAlignText();
+    trend.lineLimit = 1;
+
     const curSym = market.currency || '$';
     const price = widget.addText(`${curSym} ${market.current_price || '0'}`);
-    price.font = Font.boldSystemFont(28);
+    price.font = Font.semiboldSystemFont(24);
     price.textColor = this.widgetColor;
     price.rightAlignText();
     price.lineLimit = 1;
@@ -898,7 +1174,7 @@ class Widget extends DmYY {
         ? (market.adjust_date || '发改委定价')
         : `H: ${market.high_24h || '0'}, L: ${market.low_24h || '0'}`
     );
-    history.font = Font.systemFont(9);
+    history.font = Font.systemFont(9.5);
     history.textColor = Color.gray();
     history.rightAlignText();
     history.lineLimit = 1;
@@ -909,10 +1185,10 @@ class Widget extends DmYY {
   rowCell = async (rowStack, market) => {
     rowStack.url = market.url || 'https://www.coingecko.com';
     rowStack.layoutHorizontally();
-    const image = await this.getItemImage(market);
+    const rawImage = await this.getItemImage(market);
+    const image = await this.processAndNormalizeIcon(rawImage, 28);
     const iconImage = rowStack.addImage(image);
     iconImage.imageSize = new Size(28, 28);
-    iconImage.cornerRadius = 14;
 
     rowStack.addSpacer(10);
 
@@ -923,19 +1199,21 @@ class Widget extends DmYY {
     topCenterStack.layoutHorizontally();
     topCenterStack.centerAlignContent();
 
-    const titleText = topCenterStack.addText(market.symbol || '');
+    const titleText = topCenterStack.addText((market.symbol || '').toUpperCase());
     titleText.textColor = this.widgetColor;
-    titleText.font = this.provideFont('semibold', 16);
+    titleText.font = this.provideFont('semibold', 15);
+    titleText.lineLimit = 1;
 
     topCenterStack.addSpacer(6);
 
-    const isCN = market.region === 'cn';
+    const categoryTag = this.getCategoryTag(market);
+    const tagStyle = this.getCategoryTagColor(categoryTag);
     const tagStack = topCenterStack.addStack();
     tagStack.setPadding(1.5, 4, 1.5, 4);
     tagStack.cornerRadius = 3;
-    tagStack.backgroundColor = isCN ? new Color('#EF4444', 0.12) : new Color('#0284C7', 0.12);
-    const tagText = tagStack.addText(isCN ? 'CN' : 'INTL');
-    tagText.textColor = isCN ? new Color('#DC2626', 0.88) : new Color('#0284C7', 0.88);
+    tagStack.backgroundColor = tagStyle.bg;
+    const tagText = tagStack.addText(categoryTag);
+    tagText.textColor = tagStyle.text;
     tagText.font = Font.boldSystemFont(8);
 
     topCenterStack.addSpacer();
@@ -943,8 +1221,9 @@ class Widget extends DmYY {
     const curSym = market.currency || '$';
     const priceText = topCenterStack.addText(`${curSym} ${market.current_price || '0'}`);
     priceText.textColor = this.widgetColor;
-    priceText.font = this.provideFont('semibold', 15);
+    priceText.font = this.provideFont('medium', 14);
     priceText.rightAlignText();
+    priceText.lineLimit = 1;
 
     const bottomCenterStack = centerStack.addStack();
     bottomCenterStack.layoutHorizontally();
@@ -952,7 +1231,8 @@ class Widget extends DmYY {
     const isOil = market.type === 'oil';
     const subText = bottomCenterStack.addText(market.name || '');
     subText.textColor = Color.gray();
-    subText.font = this.provideFont('semibold', 10);
+    subText.font = this.provideFont('regular', 10);
+    subText.lineLimit = 1;
 
     bottomCenterStack.addSpacer();
 
@@ -962,8 +1242,9 @@ class Widget extends DmYY {
         : `H: ${market.high_24h || '0'}, L: ${market.low_24h || '0'}`
     );
     historyText.textColor = Color.gray();
-    historyText.font = this.provideFont('semibold', 10);
+    historyText.font = this.provideFont('regular', 10);
     historyText.rightAlignText();
+    historyText.lineLimit = 1;
 
     rowStack.addSpacer(8);
 
@@ -980,7 +1261,7 @@ class Widget extends DmYY {
 
     const rateText = rateStack.addText(btnText);
     rateText.textColor = new Color('#fff', 0.95);
-    rateText.font = this.provideFont('semibold', 13);
+    rateText.font = this.provideFont('medium', 13);
     rateText.minimumScaleFactor = 0.01;
     rateText.lineLimit = 1;
   };
@@ -1011,7 +1292,7 @@ class Widget extends DmYY {
     const containerStack = widget.addStack();
     containerStack.layoutVertically();
     const list = this.getFilteredDataSource();
-    if (!list.length) {
+    if (!list || !list.length) {
       const tip = containerStack.addText('未找到对应资产，请检查关注种类与范围');
       tip.font = Font.systemFont(12);
       tip.textColor = Color.gray();
@@ -1020,9 +1301,10 @@ class Widget extends DmYY {
     const maxLen = Math.min(list.length, 3);
     for (let index = 0; index < maxLen; index++) {
       const item = list[index];
+      if (!item) continue;
       const rowCellStack = containerStack.addStack();
       await this.rowCell(rowCellStack, item);
-      if (index !== maxLen - 1) containerStack.addSpacer();
+      if (index < maxLen - 1) containerStack.addSpacer();
     }
     return widget;
   };
@@ -1035,7 +1317,6 @@ class Widget extends DmYY {
     if (this.widgetFamily === 'medium') await this.renderMedium(widget);
     if (this.widgetFamily === 'large') await this.renderLarge(widget);
 
-    delete this.settings.refreshAfterDate;
 
     return widget;
   }
