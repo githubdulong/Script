@@ -1280,7 +1280,7 @@ class Widget extends DmYY {
         this.FILE_MGR.createDirectory(this.cacheImage, true);
       }
       const safeKey = String(idOrSym).replace(/[^a-zA-Z0-9_\-\.]/g, '_');
-      const bgFilePath = this.FILE_MGR.joinPath(this.cacheImage, `bg_${safeKey}.png`);
+      const bgFilePath = this.FILE_MGR.joinPath(this.cacheImage, `bg_v2_${safeKey}.png`);
 
       if (this.FILE_MGR.fileExists(bgFilePath)) {
         return Image.fromFile(bgFilePath);
@@ -1292,18 +1292,18 @@ class Widget extends DmYY {
         const img = new Image();
         img.crossOrigin = 'anonymous';
         img.onload = () => {
-          const canvasSize = 250;
+          const canvasSize = 300;
           canvas.width = canvasSize;
           canvas.height = canvasSize;
           ctx.globalAlpha = 0.3;
 
-          // 精确复刻原版水印：drawSize=canvasSize, offset=-canvasSize/2+50=-75
-          const drawSize = canvasSize;
-          const offset = -canvasSize / 2 + 50;
+          const drawSize = 275;
+          const offsetX = -58;
+          const offsetY = -78;
           ctx.drawImage(
             img,
-            offset,
-            offset,
+            offsetX,
+            offsetY,
             drawSize,
             drawSize
           );
@@ -1377,9 +1377,11 @@ class Widget extends DmYY {
 
     topHeader.addSpacer(5);
 
+    const smallTitleColor = Color.dynamic(new Color('#2C2C2E'), Color.white());
+
     const coin = topHeader.addText(market.symbol ? market.symbol.toUpperCase() : '');
-    coin.font = Font.semiboldSystemFont(22);
-    coin.textColor = this.widgetColor;
+    coin.font = Font.boldSystemFont(22);
+    coin.textColor = smallTitleColor;
     coin.lineLimit = 1;
     coin.minimumScaleFactor = 0.5;
 
@@ -1392,22 +1394,28 @@ class Widget extends DmYY {
     widget.addSpacer();
 
     const changeVal = Number(market.price_change_percentage_24h) || 0;
+    let trendSign = '';
+    if (changeVal > 0) {
+      trendSign = '+';
+    } else if (changeVal < 0) {
+      trendSign = '';
+    }
     const trendTextStr = isOil
       ? (market.expected_change_amount && market.expected_change_amount !== '0.00'
           ? `预计${market.expected_change_amount}`
           : '预计调价0.00')
-      : `${changeVal.toFixed(2)}%`;
+      : `${trendSign}${changeVal.toFixed(2)}%`;
 
     const trend = widget.addText(trendTextStr);
-    trend.font = Font.mediumSystemFont(14);
+    trend.font = Font.semiboldSystemFont(15);
     trend.textColor = this.getTrendColor(market, false);
     trend.rightAlignText();
     trend.lineLimit = 1;
 
     const curSym = market.currency || '$';
     const price = widget.addText(`${curSym} ${market.current_price || '0'}`);
-    price.font = Font.semiboldSystemFont(24);
-    price.textColor = this.widgetColor;
+    price.font = Font.boldSystemFont(24);
+    price.textColor = smallTitleColor;
     price.rightAlignText();
     price.lineLimit = 1;
     price.minimumScaleFactor = 0.1;
