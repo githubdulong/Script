@@ -1,12 +1,9 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: deep-green; icon-glyph: hand-holding-usd;
 
 /**
  * =====================================================================
  * 【资产看板 PriceWidgets】
- * 版本：v2.5.7
- * 日期：2026-09-20
+ * 版本：v2.5.8
+ * 日期：2026-09-21
  * 
  * 核心功能：
  * 1. 【全品类资产覆盖】
@@ -909,7 +906,7 @@ class Widget extends DmYY {
                 currency: '$',
                 region: 'intl',
                 type: 'crypto',
-                url: `https://www.coingecko.com/en/coins/${it.id}`,
+                url: `https://www.coingecko.com/zh/${encodeURIComponent('数字货币')}/${it.id}`,
               };
               cryptoMap[sym] = cryptoItem;
               cryptoMap[it.id] = cryptoItem;
@@ -1109,7 +1106,7 @@ class Widget extends DmYY {
     }
 
     const market = list[0] || {};
-    widget.url = market.url || 'https://www.coingecko.com';
+    widget.url = market.url || 'https://www.coingecko.com/zh';
 
     const image = await this.getItemImage(market);
     const backgroundImg = await this.getSmallBg(image);
@@ -1183,7 +1180,7 @@ class Widget extends DmYY {
   };
 
   rowCell = async (rowStack, market) => {
-    rowStack.url = market.url || 'https://www.coingecko.com';
+    rowStack.url = market.url || 'https://www.coingecko.com/zh';
     rowStack.layoutHorizontally();
     const rawImage = await this.getItemImage(market);
     const image = await this.processAndNormalizeIcon(rawImage, 28);
