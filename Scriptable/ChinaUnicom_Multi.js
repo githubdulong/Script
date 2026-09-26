@@ -6,9 +6,6 @@
  * update: 2026/09/15
  * 原创UI，修改套用请注明来源
 
- * 更新内容:更新正则，获取 CK。增加正则用于拦截多账户切号掉 CK
-# > 联通 App 阻止切号Cookie过期
-URL-REGEX,^https?://loginhl\.10010\.com/mobileService/logout\.htm,REJECT
 联通组件 = type=http-request,pattern=https:\/\/m(?:xx)?\.client\.10010\.com\/(?:.*\/)?smartwisdomCommon(?:New)?(?:\?.*)?$,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,requires-body=true,max-size=0,script-update-interval=0
  * * 使用说明：
  * 1. 获取 Cookie 脚本，点击首页流量获取。 https://raw.githubusercontent.com/dompling/Script/master/10010/index.js
@@ -368,6 +365,10 @@ class Widget extends DmYY {
             userInfo = JSON.parse(fm.readString(cachePath));
             this.refreshUpdateTime(fm.modificationDate(cachePath));
           } else {
+            let noti = new Notification();
+            noti.title = "中国联通";
+            noti.body = `账户[${this.currIndex}] Cookie 已失效或无数据，请重新获取并更新！`;
+            noti.schedule();
             throw `账户[${this.currIndex}] Cookie失效或服务器维护`;
           }
         }
@@ -377,6 +378,11 @@ class Widget extends DmYY {
           console.log(`🟠 联通数据：网络异常，读取旧缓存`);
           userInfo = JSON.parse(fm.readString(cachePath));
           this.refreshUpdateTime(fm.modificationDate(cachePath));
+        } else if (String(e).includes("Cookie失效")) {
+            let noti = new Notification();
+            noti.title = "中国联通";
+            noti.body = `账户[${this.currIndex}] Cookie 已失效或无数据，请重新获取并更新！`;
+            noti.schedule();
         }
       }
     }
