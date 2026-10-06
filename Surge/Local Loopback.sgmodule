@@ -1,5 +1,5 @@
 #!name=本地回环
-#!desc=将 10.7.0.1 流量回环至本机，支持 SideStore 自签与 JIT 调试工具免切 VPN。
+#!desc=10.7.0.1 本地回环，支持虚拟定位与自签免切 VPN
 [General]
 # 强制 VIF 启用 IPv6，满足 RemotePairing 的多播发现需求
 ipv6-vif = always
