@@ -1,8 +1,9 @@
 #!name=本地回环
 #!desc=10.7.0.1 本地回环，支持虚拟定位与自签免切 VPN
 [General]
-# 强制 VIF 启用 IPv6，满足 RemotePairing 的多播发现需求
-ipv6-vif = always
+# 仅当本地网络具有有效的 IPv6 网络时才使用 IPv6 设置 Surge VIF，满足 RemotePairing 的多播发现需求，并且避免字节跳动 HTTPDNS 冲突。
+
+ipv6-vif = auto
 tun-included-routes = %INSERT% 10.7.0.1/32
 
 [IP Rewrite]
