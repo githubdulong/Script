@@ -5,7 +5,7 @@
  * @author: 脑瓜
  * @feedback: https://t.me/Scriptable_CN
  * telegram: @anker1209
- * version: 2.3.5
+ * version: 2.3.6
  * update: 2026/10/14
  * 原创UI，修改套用请注明来源
  * 数据：直接按网上国网 Android App 3.2.3 协议登录查询（SM2/SM3/SM4 加密 + Turing 设备令牌），不经过任何第三方网关。
@@ -505,11 +505,31 @@ async function queryAccount(app, a) {
   
   let sumMoney = NaN, owe = 0;
   if (bal) {
-    const sm = num(bal.sumMoney), ab = num(bal.accountBalance), pb = num(bal.prepayBal);
-    if (String(bal.consType) === '1') sumMoney = Number.isFinite(sm) ? sm : pb;
-    else if (sm > 0) { sumMoney = -sm; owe = sm; }
-    else sumMoney = ab > 0 ? ab : pb > 0 ? pb : (Number.isFinite(sm) ? 0 : NaN);
-    if (num(bal.historyOwe) > 0) owe = num(bal.historyOwe);
+    const sm = num(bal.sumMoney);        // 账单金额 / 应缴金额
+    const ab = num(bal.accountBalance);  // 账户预存款可用余额
+    const pb = num(bal.prepayBal);       // 预付费余额
+    const ho = num(bal.historyOwe);      // 历史真实逾期欠费
+
+    if (String(bal.consType) === '1') {
+      // 预付费用户（智能电表）：优先取 sm，无则取 pb
+      sumMoney = Number.isFinite(sm) ? sm : (Number.isFinite(pb) ? pb : 0);
+      if (sumMoney < 0) owe = Math.abs(sumMoney);
+    } else {
+      // 后付费用户（抄表结算户）：
+      const validAb = Number.isFinite(ab) && ab > 0 ? ab : 0;
+      const validSm = Number.isFinite(sm) && sm > 0 ? sm : 0;
+
+      // 若有预存款，展示抵扣后的净结余；若无预存，展示本期账单金额
+      sumMoney = validAb > 0 ? (validAb - validSm) : validSm;
+
+      // 严格判定欠费：仅当国网明确标记逾期欠费(historyOwe > 0)时才认定为欠费
+      // 正常账期内的待缴账单绝不误判为欠费
+      if (Number.isFinite(ho) && ho > 0) {
+        owe = ho;
+        sumMoney = -ho;
+      }
+    }
+    if (Number.isFinite(ho) && ho > 0) owe = Math.max(owe, ho);
   }
 
   const isPostPaid = bal && String(bal.consType) !== '1';
@@ -551,7 +571,7 @@ class Widget extends DmYY {
     this.Run();
   };
 
-  version = '2.3.5';
+  version = '2.3.6';
 
   fm = FileManager.local();
   CACHE_FOLDER = Script.name();
