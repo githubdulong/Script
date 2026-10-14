@@ -312,7 +312,7 @@ function loginParams(account, password, code, codeKey) {
 }
 
 class SgApp {
-  constructor(ctx, user, pass) { this.ctx = ctx; this.user = user; this.pass = pass; this.policy = clean((ctx.env || {}).SGCC_POLICY) || 'DIRECT'; this.dev = null; this.sess = null; }
+  constructor(ctx, user, pass) { this.ctx = ctx; this.user = clean(user).replace(/^(\+?86)?\s*/, '').replace(/\D/g, ''); this.pass = clean(pass); this.policy = clean((ctx.env || {}).SGCC_POLICY) || 'DIRECT'; this.dev = null; this.sess = null; }
   sk(base) { return uk(base, this.user); }
   st(k, v) { try { if (v === undefined) return this.ctx.storage.getJSON(k); this.ctx.storage.setJSON(k, v); } catch (_) { return null; } return null; }
   device() {
@@ -403,12 +403,20 @@ class SgApp {
     }
     try { return await this.login(); }
     catch (e) {
-      if (e.code !== '4006') throw e;
-      if (!pendOk || Date.now() - pend.ts > 5 * 60000) {
-        const codeKey = await this.sendDeviceSms();
-        this.st(this.sk(K.sms), { user: this.user, codeKey, ts: Date.now(), used: sms });
+      const isSmsRequired = String(e.code) === '4006' || String(e.code).includes('4006') || /验证码|新设备|短信/i.test(e.message || '');
+      if (!isSmsRequired) throw e;
+      // 超过60秒允许重新触发下发短信验证码
+      if (!pendOk || Date.now() - pend.ts > 60 * 1000) {
+        try {
+          const codeKey = await this.sendDeviceSms();
+          this.st(this.sk(K.sms), { user: this.user, codeKey, ts: Date.now(), used: sms });
+          console.log(`[SGCC] 验证码已成功触发下发到手机号: ${this.user}`);
+        } catch (smsErr) {
+          console.error(`[SGCC] 下发验证码接口异常: ${smsErr.message || smsErr}`);
+          throw new SgError('sms_fail', `触发验证码失败：${smsErr.message || '国网短信网关繁忙，请稍后重试'}`);
+        }
       }
-      throw new SgError('4006', `国网要验证新设备：验证码已发到 ${this.user.slice(0, 3)}****${this.user.slice(-4)}，填到「短信验证码」（SGCC_SMS）里保存，再刷新小组件`);
+      throw new SgError('4006', `国网新设备验证：短信验证码已发至 ${this.user.slice(0, 3)}****${this.user.slice(-4)}，请在「账户设置」中填入并刷新`);
     }
   }
   async authed(path, payload) {
@@ -508,7 +516,7 @@ async function queryAccount(app, a) {
   };
 }
 
-  return { SgApp, queryAccount, SgError };
+  return { SgApp, queryAccount, SgError, K };
 })();
 
 
@@ -519,6 +527,8 @@ class Widget extends DmYY {
     this.en = 'wsgw_ng';
     this.index = 0;
     this.data = null;
+    this.fm = (this.settings && this.settings.useICloud === 'true') ? FileManager.iCloud() : FileManager.local();
+    this.cachePath = this.fm.joinPath(this.fm.documentsDirectory(), this.CACHE_FOLDER || Script.name());
     this.Run();
   };
 
@@ -526,7 +536,13 @@ class Widget extends DmYY {
 
   fm = FileManager.local();
   CACHE_FOLDER = Script.name();
-  cachePath = null;
+  cachePath = FileManager.local().joinPath(FileManager.local().documentsDirectory(), Script.name());
+
+  getCachePath() {
+    const isCloud = this.settings && this.settings.useICloud === 'true';
+    const fm = isCloud ? FileManager.iCloud() : FileManager.local();
+    return fm.joinPath(fm.documentsDirectory(), this.CACHE_FOLDER || Script.name());
+  }
 
   isOverdue = false;
   isPostPaid = false;
@@ -1339,9 +1355,13 @@ class Widget extends DmYY {
     let cacheKey = key;
     let localCache = this.loadStringCache(cacheKey);
     const lastCacheTime = this.getCacheModificationDate(cacheKey);
-    const timeInterval = Math.floor((this.getCurrentTimeStamp() - lastCacheTime) / 60);
+    const timeInterval = lastCacheTime > 0 ? Math.floor((this.getCurrentTimeStamp() - lastCacheTime) / 60) : 999999;
     
-    console.log(`${dataName}：读取缓存${timeInterval}分钟前，刷新 ${this.wsgw.interval}分钟`);
+    if (lastCacheTime > 0 && localCache) {
+      console.log(`${dataName}：读取缓存 ${timeInterval} 分钟前，刷新间隔 ${this.wsgw.interval} 分钟`);
+    } else {
+      console.log(`${dataName}：本地无缓存，准备在线获取最新数据...`);
+    }
 
     // 如果缓存有效，直接返回缓存
     if (timeInterval < this.wsgw.interval && localCache != null && localCache.length > 0) {
@@ -1490,7 +1510,8 @@ class Widget extends DmYY {
         throw new Error('获取到的脚本内容异常，请检查网络或更新链接');
       }
 
-      const versionMatch = newScriptContent.match(/version\s*[:=]\s*['"]([^'"]+)['"]/);
+      // 精准匹配组件版本号（优先匹配类属性 version = 'x.x.x'）
+      const versionMatch = newScriptContent.match(/version\s*=\s*['"]([0-9.]+)['"]/) || newScriptContent.match(/\*\s*version:\s*([0-9.]+)/);
       const remoteVersion = versionMatch ? versionMatch[1] : '';
 
       // 严格对比版本号 (语义化版本比对)
@@ -1653,7 +1674,9 @@ class Widget extends DmYY {
   };
 
   fetchSgccData = async () => {
-    const phone = (this.settings.phone || '').trim();
+    let phone = (this.settings.phone || '').trim();
+    // 自动清洗手机号，剔除 +86、空格、短横线
+    phone = phone.replace(/^(\+?86)?\s*/, '').replace(/\D/g, '');
     const password = (this.settings.password || '').trim();
     if (!phone || !password) {
       throw new Error('未配置账号：请点击小组件进入「账号配置」填写国网手机号和密码');
@@ -1739,9 +1762,13 @@ class Widget extends DmYY {
     const cacheKey = 'BillData.json';
     let localCache = this.loadStringCache(cacheKey);
     const lastCacheTime = this.getCacheModificationDate(cacheKey);
-    const timeInterval = Math.floor((this.getCurrentTimeStamp() - lastCacheTime) / 60);
+    const timeInterval = lastCacheTime > 0 ? Math.floor((this.getCurrentTimeStamp() - lastCacheTime) / 60) : 999999;
 
-    console.log(`${dataName}：读取缓存${timeInterval}分钟前，刷新 ${this.wsgw.interval}分钟`);
+    if (lastCacheTime > 0 && localCache) {
+      console.log(`${dataName}：读取缓存 ${timeInterval} 分钟前，刷新间隔 ${this.wsgw.interval} 分钟`);
+    } else {
+      console.log(`${dataName}：本地无缓存，准备在线获取最新数据...`);
+    }
 
     // 缓存有效时优先使用缓存
     if (timeInterval < this.wsgw.interval && localCache != null && localCache.length > 0) {
@@ -3081,6 +3108,90 @@ class Widget extends DmYY {
             }
           },
           {
+            url: 'https://raw.githubusercontent.com/anker1209/Scriptable/main/icon/login.png',
+            type: 'input',
+            title: '发送短信验证码',
+            desc: '填好上方手机号和密码后，点击向手机发送短信验证码',
+            val: 'send_sms',
+            onClick: async () => {
+              const phone = (this.settings.phone || '').trim().replace(/^(\+?86)?\s*/, '').replace(/\D/g, '');
+              const password = (this.settings.password || '').trim();
+              if (!phone || !password) {
+                const tipAlert = new Alert();
+                tipAlert.title = '提示';
+                tipAlert.message = '请先填写上方的「手机号」与「登录密码」，然后再点击发送验证码！';
+                tipAlert.addAction('知道了');
+                await tipAlert.presentAlert();
+                return;
+              }
+
+              const waitAlert = new Alert();
+              waitAlert.title = '正在请求国网发送短信...';
+              waitAlert.message = '请稍候片刻';
+
+              const self = this;
+              const ctx = {
+                env: { SGCC_SMS: '' },
+                storage: {
+                  getJSON: (k) => {
+                    try {
+                      const s = self.loadStringCache(`sgcc_${k}.json`);
+                      return s ? JSON.parse(s) : null;
+                    } catch (_) { return null; }
+                  },
+                  setJSON: (k, v) => {
+                    try {
+                      self.saveStringCache(`sgcc_${k}.json`, JSON.stringify(v));
+                    } catch (_) {}
+                  }
+                },
+                http: {
+                  post: async (url, req) => {
+                    const r = new Request(url);
+                    r.method = 'POST';
+                    const safeHeaders = {};
+                    const rawH = req.headers || {};
+                    for (const [hk, hv] of Object.entries(rawH)) {
+                      safeHeaders[hk] = hv == null ? '' : String(hv);
+                    }
+                    r.headers = safeHeaders;
+                    const bodyStr = typeof req.body === 'string' ? req.body : JSON.stringify(req.body || '');
+                    r.body = bodyStr;
+                    r.timeoutInterval = (req.timeout || 20000) / 1000;
+                    try {
+                      const text = await r.loadString();
+                      const status = r.response ? r.response.statusCode : 200;
+                      return {
+                        status,
+                        text: async () => text
+                      };
+                    } catch (netErr) {
+                      console.error('发送验证码网络异常: ' + (netErr.message || netErr));
+                      throw netErr;
+                    }
+                  }
+                }
+              };
+
+              try {
+                const app = new SgccProtocol.SgApp(ctx, phone, password);
+                const codeKey = await app.sendDeviceSms();
+                app.st(app.sk(SgccProtocol.K.sms), { user: app.user, codeKey, ts: Date.now(), used: '' });
+                const successAlert = new Alert();
+                successAlert.title = '短信验证码已发送';
+                successAlert.message = `验证码已成功发至手机号 ${phone.slice(0, 3)}****${phone.slice(-4)}，请查收后填入下方「新设备短信验证码」并刷新！`;
+                successAlert.addAction('确定');
+                await successAlert.presentAlert();
+              } catch (err) {
+                const errAlert = new Alert();
+                errAlert.title = '发送失败';
+                errAlert.message = `国网短信下发异常：${err.message || err}`;
+                errAlert.addAction('确定');
+                await errAlert.presentAlert();
+              }
+            }
+          },
+          {
             url: 'https://raw.githubusercontent.com/anker1209/Scriptable/main/icon/update.png',
             type: 'input',
             title: '新设备短信验证码',
@@ -3152,11 +3263,29 @@ class Widget extends DmYY {
             desc: '',
             val: 'reset',
             onClick: async () => {
-              const options = ['取消', '确认清除'];
-              const message = '所有在线请求的数据缓存将会被清空';
-              const index = await this.generateAlert(message, options);
-              if (index === 0) return;
-              this.fm.remove(this.cachePath);
+              const alert = new Alert();
+              alert.title = '清除缓存';
+              alert.message = '将清空账单数据与登录会话缓存，重新获取最新数据。确定清除吗？';
+              alert.addAction('确认清除');
+              alert.addCancelAction('取消');
+              const res = await alert.presentAlert();
+              if (res === 0) {
+                try {
+                  const targetPath = this.getCachePath();
+                  const targetFm = (this.settings && this.settings.useICloud === 'true') ? FileManager.iCloud() : FileManager.local();
+                  if (targetFm.fileExists(targetPath)) {
+                    targetFm.remove(targetPath);
+                  }
+                  const success = new Alert();
+                  success.title = '清除成功';
+                  success.message = '缓存已清空，请重新打开脚本或刷新数据！';
+                  success.addAction('确定');
+                  await success.presentAlert();
+                  this.reopenScript();
+                } catch (e) {
+                  console.error('清除缓存异常: ' + (e.message || e));
+                }
+              }
             },
           },
         ],
