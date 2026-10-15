@@ -5,8 +5,8 @@
  * @author: 脑瓜
  * @feedback: https://t.me/Scriptable_CN
  * telegram: @anker1209
- * version: 2.3.6
- * update: 2026/10/14
+ * version: 2.3.7
+ * update: 2026/10/16
  * 原创UI，修改套用请注明来源
  * 数据：直接按网上国网 Android App 3.2.3 协议登录查询（SM2/SM3/SM4 加密 + Turing 设备令牌），不经过任何第三方网关。
  * 协议与设备令牌算法移植自 stevenjoezhang/hass-state-grid（MIT License, Copyright (c) 2026 stevenjoezhang）。
@@ -571,7 +571,7 @@ class Widget extends DmYY {
     this.Run();
   };
 
-  version = '2.3.6';
+  version = '2.3.7';
 
   fm = FileManager.local();
   CACHE_FOLDER = Script.name();
@@ -1470,31 +1470,72 @@ class Widget extends DmYY {
   };
 
   loadStringCache(cacheKey) {
-    const cacheFile = this.fm.joinPath(this.cachePath, cacheKey);
-    const fileExists = this.fm.fileExists(cacheFile);
     let cacheString = '';
-    if (fileExists) {
-      cacheString = this.fm.readString(cacheFile);
+    try {
+      const cacheFile = this.fm.joinPath(this.cachePath, cacheKey);
+      if (this.fm.fileExists(cacheFile)) {
+        if (this.settings && this.settings.useICloud === 'true') {
+          try { this.fm.downloadFileFromiCloud(cacheFile); } catch (_) {}
+        }
+        cacheString = this.fm.readString(cacheFile);
+      }
+    } catch (_) {}
+
+    // 交叉备用读取：当前 fm 读不到时，尝试备用 local/iCloud 目录
+    if (!cacheString) {
+      try {
+        const altFm = (this.settings && this.settings.useICloud === 'true') ? FileManager.local() : FileManager.iCloud();
+        const altPath = altFm.joinPath(altFm.documentsDirectory(), this.CACHE_FOLDER || Script.name());
+        const altFile = altFm.joinPath(altPath, cacheKey);
+        if (altFm.fileExists(altFile)) {
+          cacheString = altFm.readString(altFile);
+        }
+      } catch (_) {}
     }
-    return cacheString;
+
+    // 核心账单数据 Keychain 最终兜底
+    if (!cacheString && cacheKey === 'BillData.json') {
+      try {
+        cacheString = secretGet('bill_data_cache', '');
+      } catch (_) {}
+    }
+    return cacheString || '';
   };
 
   saveStringCache(cacheKey, content) {
-    if (!this.fm.fileExists(this.cachePath)) {
-      this.fm.createDirectory(this.cachePath, true);
-    };
-    const cacheFile = this.fm.joinPath(this.cachePath, cacheKey);
-    this.fm.writeString(cacheFile, content);
+    try {
+      if (!this.fm.fileExists(this.cachePath)) {
+        this.fm.createDirectory(this.cachePath, true);
+      };
+      const cacheFile = this.fm.joinPath(this.cachePath, cacheKey);
+      this.fm.writeString(cacheFile, content);
+    } catch (e) {
+      console.error(`保存文件缓存异常: ${e.message || e}`);
+    }
+    // 同步到 Keychain，零网络依赖高可靠性备份
+    if (cacheKey === 'BillData.json' && content) {
+      try {
+        secretSet('bill_data_cache', content);
+      } catch (_) {}
+    }
   };
 
   getCacheModificationDate(cacheKey) {
-    const cacheFile = this.fm.joinPath(this.cachePath, cacheKey);
-    const fileExists = this.fm.fileExists(cacheFile);
-    if (fileExists) {
-      return this.fm.modificationDate(cacheFile).getTime() / 1000;
-    } else {
-      return 0;
-    }
+    try {
+      const cacheFile = this.fm.joinPath(this.cachePath, cacheKey);
+      if (this.fm.fileExists(cacheFile)) {
+        return this.fm.modificationDate(cacheFile).getTime() / 1000;
+      }
+    } catch (_) {}
+    try {
+      const altFm = (this.settings && this.settings.useICloud === 'true') ? FileManager.local() : FileManager.iCloud();
+      const altPath = altFm.joinPath(altFm.documentsDirectory(), this.CACHE_FOLDER || Script.name());
+      const altFile = altFm.joinPath(altPath, cacheKey);
+      if (altFm.fileExists(altFile)) {
+        return altFm.modificationDate(altFile).getTime() / 1000;
+      }
+    } catch (_) {}
+    return 0;
   };
 
   getCurrentTimeStamp() {
@@ -1802,15 +1843,42 @@ class Widget extends DmYY {
     const accts = s.accounts || [];
     if (!accts.length) throw new Error('国网账号未绑定任何户号');
 
+    // 提取上一期缓存作为单户失败补位底本
+    let oldData = [];
+    try {
+      const s = this.loadStringCache('BillData.json');
+      if (s) oldData = JSON.parse(s);
+    } catch (_) {}
+    if (!Array.isArray(oldData)) oldData = [];
+
     const out = [];
-    for (const a of accts.slice(0, 6)) {
+    for (let idx = 0; idx < Math.min(accts.length, 6); idx++) {
+      const a = accts[idx];
       try {
-        out.push(await SgccProtocol.queryAccount(app, a));
+        console.log(`正在获取户号 [${a.src || a.consNo}] 数据...`);
+        const item = await SgccProtocol.queryAccount(app, a);
+        out.push(item);
       } catch (e) {
-        if (!out.length && a === accts[accts.length - 1]) throw e;
+        console.error(`户号 [${a.src || a.consNo}] 获取失败: ${e.message || e}`);
+        // 单户失败隔离：从旧缓存中找到该户号数据补位，保持列表顺序与索引一致
+        const fallbackAcc = oldData.find(item => 
+          (item?.userInfo?.consNo_dst === a.src || item?.userInfo?.consNo === a.consNo)
+        ) || oldData[idx];
+        if (fallbackAcc && fallbackAcc.userInfo) {
+          console.log(`户号 [${a.src || a.consNo}] 已使用历史缓存数据补位`);
+          out.push(fallbackAcc);
+        } else {
+          console.warn(`户号 [${a.src || a.consNo}] 无可用历史缓存`);
+        }
       }
     }
-    if (!out.length) throw new Error('国网户号数据查询失败');
+    if (!out.length) {
+      if (oldData.length > 0) {
+        console.log('所有户号在线请求均失败，全量回退历史缓存');
+        return oldData;
+      }
+      throw new Error('国网户号数据查询失败');
+    }
     return out;
   };
 
@@ -1858,7 +1926,15 @@ class Widget extends DmYY {
             console.log(`${dataName}：在线请求失败，回退使用上一次缓存`);
           } catch (_) {}
         }
-        if (!this.data) {
+        if (!this.data || !this.data.length) {
+          try {
+            const kc = secretGet('bill_data_cache', '');
+            if (kc) this.data = JSON.parse(kc);
+          } catch (_) {}
+        }
+        if (this.data && Array.isArray(this.data) && this.data.length > 0) {
+          console.log(`${dataName}：已成功回退使用历史缓存展示，避免出现全屏错误卡片`);
+        } else {
           throw e;
         }
       }
@@ -2039,29 +2115,48 @@ class Widget extends DmYY {
   };
 
   updateIndex() {
-    const i = args.widgetParameter;
-    if (i == 0 || !i || i == null) {
-        this.name = this.settings.name;
-        this.smallStackColor = this.settings.smallStackColor || this.smallStackColor;
-        this.widgetStyle = this.settings.widgetStyle || this.widgetStyle;
-        this.endColor = this.settings.endColor || this.endColor;
-        return;
+    let i = args.widgetParameter;
+    if (i == null || i === '' || typeof i === 'undefined') {
+      // 在 App 内预览或未指定组件参数时，使用配置中的"默认预览用户"
+      const pUser = this.settings.previewUser || '用电户 1';
+      const m = String(pUser).match(/\d+/);
+      i = m ? parseInt(m[0], 10) - 1 : 0;
+    } else {
+      i = parseInt(i, 10);
     }
+    if (isNaN(i) || i < 0) i = 0;
 
-    if (!this.data[i]) throw new Error("户号不存在");
-
-    if (i == 1) {
-        this.name = this.settings.name_1;
-        this.smallStackColor = this.settings.smallStackColor_1 || this.smallStackColor;
-        this.widgetStyle = this.settings.widgetStyle_1 || this.widgetStyle;
-        this.endColor = this.settings.endColor_1 || this.endColor;
-    } else if (i == 2) {
-        this.name = this.settings.name_2;
-        this.smallStackColor = this.settings.smallStackColor_2 || this.smallStackColor;
-        this.widgetStyle = this.settings.widgetStyle_2 || this.widgetStyle;
-        this.endColor = this.settings.endColor_2 || this.endColor;
-    } 
+    // 防御性检查：若指定索引户号不存在，回退到有效账户，避免抛错崩溃
+    if (!this.data || !this.data[i]) {
+      if (this.data && this.data[0]) {
+        console.warn(`指定用电户 ${i + 1} 暂无数据，回退显示用电户 1`);
+        i = 0;
+      }
+    }
     this.index = i;
+
+    if (i === 0) {
+      this.name = this.settings.name;
+      this.smallStackColor = this.settings.smallStackColor || this.smallStackColor;
+      this.widgetStyle = this.settings.widgetStyle || this.widgetStyle;
+      this.endColor = this.settings.endColor || this.endColor;
+    } else if (i === 1) {
+      this.name = this.settings.name_1;
+      this.smallStackColor = this.settings.smallStackColor_1 || this.smallStackColor;
+      this.widgetStyle = this.settings.widgetStyle_1 || this.widgetStyle;
+      this.endColor = this.settings.endColor_1 || this.endColor;
+    } else if (i === 2) {
+      this.name = this.settings.name_2;
+      this.smallStackColor = this.settings.smallStackColor_2 || this.smallStackColor;
+      this.widgetStyle = this.settings.widgetStyle_2 || this.widgetStyle;
+      this.endColor = this.settings.endColor_2 || this.endColor;
+    } else {
+      const suffix = `_${i}`;
+      this.name = this.settings[`name${suffix}`] || '';
+      this.smallStackColor = this.settings[`smallStackColor${suffix}`] || this.smallStackColor;
+      this.widgetStyle = this.settings[`widgetStyle${suffix}`] || this.widgetStyle;
+      this.endColor = this.settings[`endColor${suffix}`] || this.endColor;
+    }
   };
 
   last = (data = [], index = 1) => {
@@ -2496,8 +2591,8 @@ class Widget extends DmYY {
     const widget = new ListWidget();
     await this.getWidgetBackgroundImage(widget);
     
-    // ⭐ 检查是否加载失败
-    if (this.balance === "ERROR") {
+    // ⭐ 检查是否加载失败（仅在既无数据又报错时才阻断渲染）
+    if (this.balance === "ERROR" && (!this.data || !this.data.length)) {
       return this.renderErrorWidget(widget, '网络请求超时');
     }
     
@@ -2988,6 +3083,14 @@ class Widget extends DmYY {
       {
         title: '',
         menu: [
+          {
+            url: 'https://raw.githubusercontent.com/anker1209/Scriptable/main/icon/user.png',
+            title: '选择默认预览用户',
+            type: 'select',
+            options: ['用电户 1', '用电户 2', '用电户 3', '用电户 4', '用电户 5'],
+            desc: '在 App 内预览或未指定组件参数时默认展示的账户',
+            val: 'previewUser',
+          },
           {
             url: 'https://raw.githubusercontent.com/anker1209/Scriptable/main/icon/enableName.png',
             title: '中组件开启户名显示',
