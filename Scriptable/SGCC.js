@@ -1,11 +1,8 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: teal; icon-glyph: project-diagram;
 /*
  * @author: 脑瓜
  * @feedback: https://t.me/Scriptable_CN
  * telegram: @anker1209
- * version: 2.3.7
+ * version: 2.3.9
  * update: 2026/10/16
  * 原创UI，修改套用请注明来源
  * 数据：直接按网上国网 Android App 3.2.3 协议登录查询（SM2/SM3/SM4 加密 + Turing 设备令牌），不经过任何第三方网关。
@@ -571,7 +568,7 @@ class Widget extends DmYY {
     this.Run();
   };
 
-  version = '2.3.7';
+  version = '2.3.9';
 
   fm = FileManager.local();
   CACHE_FOLDER = Script.name();
@@ -1591,12 +1588,67 @@ class Widget extends DmYY {
     this.fm.writeImage(cacheFile, img);
   };
 
+  isNewerVersion(v1, v2) {
+    if (!v1 || !v2) return false;
+    const p1 = String(v1).split('.').map(Number);
+    const p2 = String(v2).split('.').map(Number);
+    for (let i = 0; i < Math.max(p1.length, p2.length); i++) {
+      const num1 = p1[i] || 0;
+      const num2 = p2[i] || 0;
+      if (num1 > num2) return true;
+      if (num1 < num2) return false;
+    }
+    return false;
+  }
+
+  // 每日静默自动检查更新（不阻断主流程）
+  async autoCheckUpdate() {
+    try {
+      const now = Date.now();
+      const oneDayMs = 24 * 60 * 60 * 1000;
+      const lastCheck = Number(this.settings.lastUpdateCheckTime || 0);
+      if (now - lastCheck < oneDayMs) return;
+
+      const downloadUrl = "https://raw.githubusercontent.com/githubdulong/Script/master/Scriptable/SGCC.js";
+      const req = new Request(downloadUrl);
+      req.timeoutInterval = 8;
+      const newScriptContent = await req.loadString();
+      if (!newScriptContent || !newScriptContent.includes('Widget')) return;
+
+      const versionMatch = newScriptContent.match(/version\s*=\s*['"]([0-9.]+)['"]/) || newScriptContent.match(/\*\s*version:\s*([0-9.]+)/);
+      const remoteVersion = versionMatch ? versionMatch[1] : '';
+
+      this.settings.lastUpdateCheckTime = now;
+      this.saveSettings(false);
+
+      if (this.isNewerVersion(remoteVersion, this.version)) {
+        // 如果该版本已被用户选择"忽略此版"，则不发送通知
+        if (this.settings.ignoredVersion === remoteVersion) return;
+        // 如果该版本已经发送过通知，不再重复提醒
+        if (this.settings.notifiedVersion === remoteVersion) return;
+
+        const notification = new Notification();
+        notification.title = "国家电网组件更新提醒";
+        notification.body = `发现新版本 v${remoteVersion}（当前 v${this.version}），点击进入脚本更新。`;
+        try {
+          notification.openURL = URLScheme.forRunningScript();
+        } catch (_) {}
+        await notification.schedule();
+
+        this.settings.notifiedVersion = remoteVersion;
+        this.saveSettings(false);
+      }
+    } catch (_) {}
+  }
+
+  // 手动点击"脚本更新"
   async checkAndUpdateScript() {
     const downloadUrl = "https://raw.githubusercontent.com/githubdulong/Script/master/Scriptable/SGCC.js";
     const scriptName = Script.name() + '.js';
 
     try {
       const req = new Request(downloadUrl);
+      req.timeoutInterval = 12;
       const newScriptContent = await req.loadString();
 
       if (!newScriptContent || !newScriptContent.includes('Widget')) {
@@ -1607,34 +1659,29 @@ class Widget extends DmYY {
       const versionMatch = newScriptContent.match(/version\s*=\s*['"]([0-9.]+)['"]/) || newScriptContent.match(/\*\s*version:\s*([0-9.]+)/);
       const remoteVersion = versionMatch ? versionMatch[1] : '';
 
-      // 严格对比版本号 (语义化版本比对)
-      const isNewerVersion = (v1, v2) => {
-        if (!v1) return false;
-        const p1 = v1.split('.').map(Number);
-        const p2 = v2.split('.').map(Number);
-        for (let i = 0; i < Math.max(p1.length, p2.length); i++) {
-          const num1 = p1[i] || 0;
-          const num2 = p2[i] || 0;
-          if (num1 > num2) return true;
-          if (num1 < num2) return false;
-        }
-        return false;
-      };
+      this.settings.lastUpdateCheckTime = Date.now();
+      this.saveSettings(false);
 
-      if (isNewerVersion(remoteVersion, this.version)) {
+      if (this.isNewerVersion(remoteVersion, this.version)) {
         const alert = new Alert();
-        alert.title = "检测到新版本";
-        alert.message = `发现新版本：v${remoteVersion}（当前版本：v${this.version}），是否立即更新？`;
+        alert.title = `检测到新版本 v${remoteVersion}`;
+        alert.message = `当前版本：v${this.version}\n最新版本：v${remoteVersion}\n\n请选择操作：`;
         alert.addAction("立即更新");
+        alert.addAction("忽略此版");
         alert.addCancelAction("取消");
 
         const response = await alert.presentAlert();
         if (response === 0) {
+          // 立即更新
           const fm = FileManager[
             module.filename.includes('Documents/iCloud~') ? 'iCloud' : 'local'
           ]();
           const scriptPath = fm.documentsDirectory() + `/${scriptName}`;
           fm.writeString(scriptPath, newScriptContent);
+
+          delete this.settings.ignoredVersion;
+          delete this.settings.notifiedVersion;
+          this.saveSettings(false);
 
           const successAlert = new Alert();
           successAlert.title = "更新成功";
@@ -1642,8 +1689,24 @@ class Widget extends DmYY {
           successAlert.addAction("确定");
           await successAlert.present();
           this.reopenScript();
+        } else if (response === 1) {
+          // 忽略此版
+          this.settings.ignoredVersion = remoteVersion;
+          this.saveSettings(false);
+
+          const ignoreAlert = new Alert();
+          ignoreAlert.title = "已忽略此版本";
+          ignoreAlert.message = `已忽略 v${remoteVersion} 的日常更新提醒。若日后需要更新，仍可随时在此点击"脚本更新"。`;
+          ignoreAlert.addAction("确定");
+          await ignoreAlert.present();
         }
       } else {
+        // 当前无新版，如果之前忽略过旧版本，顺手清理
+        if (this.settings.ignoredVersion) {
+          delete this.settings.ignoredVersion;
+          delete this.settings.notifiedVersion;
+          this.saveSettings(false);
+        }
         const noUpdateAlert = new Alert();
         noUpdateAlert.title = "无需更新";
         noUpdateAlert.message = `当前已是最新版本 (v${this.version})。`;
@@ -2588,6 +2651,9 @@ class Widget extends DmYY {
 
   async render() {
     await this.init();
+    // 每日后台自动检查更新（静默不阻断小组件渲染）
+    this.autoCheckUpdate().catch(() => {});
+
     const widget = new ListWidget();
     await this.getWidgetBackgroundImage(widget);
     
@@ -3402,6 +3468,9 @@ class Widget extends DmYY {
 
   Run() {
     if (config.runsInApp) {
+      // 打开 App 配置页面时静默检查更新
+      this.autoCheckUpdate().catch(() => {});
+
       this.registerAction({
         title: '组件配置',
         menu: [
