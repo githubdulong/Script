@@ -2,7 +2,7 @@
  * @author: 脑瓜
  * @feedback: https://t.me/Scriptable_CN
  * telegram: @anker1209
- * version: 2.3.9
+ * version: 2.4.0
  * update: 2026/10/16
  * 原创UI，修改套用请注明来源
  * 数据：直接按网上国网 Android App 3.2.3 协议登录查询（SM2/SM3/SM4 加密 + Turing 设备令牌），不经过任何第三方网关。
@@ -568,7 +568,7 @@ class Widget extends DmYY {
     this.Run();
   };
 
-  version = '2.3.9';
+  version = '2.4.0';
 
   fm = FileManager.local();
   CACHE_FOLDER = Script.name();
@@ -997,6 +997,79 @@ class Widget extends DmYY {
     drawing.setFillColor(color);
     drawing.fillPath();
   };
+
+  fillProgress(drawing, x, y, width, height, progress, r, color) {
+    let p = Math.max(0, Math.min(progress, width));
+    if (p <= 0) return;
+
+    let path = new Path();
+    if (p < r) {
+      const dy = Math.sqrt(Math.max(0, r * r - (r - p) * (r - p)));
+      const yTop = y + r - dy;
+      const yBottom = y + height - r + dy;
+
+      path.move(new Point(x + p, yTop));
+      path.addLine(new Point(x + p, yBottom));
+
+      const angleStart = Math.PI - Math.acos((r - p) / r);
+      const angleEnd = Math.PI;
+      const steps = 8;
+      for (let i = 1; i <= steps; i++) {
+        const a = angleStart + (angleEnd - angleStart) * (i / steps);
+        path.addLine(new Point(x + r + r * Math.cos(a), y + (height - r) + r * Math.sin(a)));
+      }
+
+      path.addLine(new Point(x, y + r));
+
+      const topAngleStart = Math.PI;
+      const topAngleEnd = Math.PI + Math.acos((r - p) / r);
+      for (let i = 1; i <= steps; i++) {
+        const a = topAngleStart + (topAngleEnd - topAngleStart) * (i / steps);
+        path.addLine(new Point(x + r + r * Math.cos(a), y + r + r * Math.sin(a)));
+      }
+      path.closeSubpath();
+    } else {
+      path.move(new Point(x + r, y));
+
+      if (p <= width - r) {
+        path.addLine(new Point(x + p, y));
+        path.addLine(new Point(x + p, y + height));
+      } else {
+        const dx = p - (width - r);
+        const angleTop = -Math.PI / 2 + Math.asin(dx / r);
+        const angleBottom = Math.PI / 2 - Math.asin(dx / r);
+        const steps = 8;
+        for (let i = 0; i <= steps; i++) {
+          const a = -Math.PI / 2 + (angleTop - (-Math.PI / 2)) * (i / steps);
+          path.addLine(new Point(x + (width - r) + r * Math.cos(a), y + r + r * Math.sin(a)));
+        }
+        for (let i = 0; i <= steps; i++) {
+          const a = angleBottom + (Math.PI / 2 - angleBottom) * (i / steps);
+          path.addLine(new Point(x + (width - r) + r * Math.cos(a), y + (height - r) + r * Math.sin(a)));
+        }
+      }
+
+      path.addLine(new Point(x + r, y + height));
+
+      const steps = 8;
+      for (let i = 1; i <= steps; i++) {
+        const a = Math.PI / 2 + (Math.PI / 2) * (i / steps);
+        path.addLine(new Point(x + r + r * Math.cos(a), y + (height - r) + r * Math.sin(a)));
+      }
+
+      path.addLine(new Point(x, y + r));
+
+      for (let i = 1; i <= steps; i++) {
+        const a = Math.PI + (Math.PI / 2) * (i / steps);
+        path.addLine(new Point(x + r + r * Math.cos(a), y + r + r * Math.sin(a)));
+      }
+      path.closeSubpath();
+    }
+
+    drawing.addPath(path);
+    drawing.setFillColor(color);
+    drawing.fillPath();
+  };
   
   drawLine(drawing, x1, y1, x2, y2, color, width) {
     const path = new Path();
@@ -1095,7 +1168,7 @@ class Widget extends DmYY {
     const drawing = this.makeCanvas(width, height);
     this.drawLine(drawing, this.wsgw.step_2 / this.wsgw.step_3 * width, height, this.wsgw.step_2 / this.wsgw.step_3 * width, 0, new Color(this.smallStackColor, 0.3), 2);
     this.fillRect(drawing, 0, 0, width, height, 6, new Color(this.smallStackColor, 0.3));
-    this.fillRect(drawing, 0, 0, progress > width? width : progress, height, 6, new Color(this.smallStackColor, 1));
+    this.fillProgress(drawing, 0, 0, width, height, progress, 6, new Color(this.smallStackColor, 1));
     return drawing.getImage();
   };
 
