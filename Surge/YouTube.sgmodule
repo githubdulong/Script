@@ -1,13 +1,25 @@
-#!name=油管广告
-#!desc=YouTube去广告,优化Shorts播放
-#!system=ios
 
-[Rule]
-URL-REGEX,^https?:\/\/.+?\.googlevideo\.com\/.+&oda,REJECT-TINYGIF
+#!name=油管增强
+#!desc=油管增强，基于 Maasea's code（Apache-2.0）
+#!category=gholts
+#!arguments=block_upload:true,block_shorts:false,auto_hd:true,block_games:true,block_vertical_live:false,jump_ahead:true,block_store:true,block_ai:true
+#!arguments-desc=block_upload\n  └ 移除上传标签页\nblock_shorts\n  └ 移除 Shorts 标签页\nauto_hd\n  └ 优先选择较高的视频画质\nblock_games\n  └ 移除首页的 Playables 游戏内容\nblock_vertical_live\n  └ 移除首页的竖屏直播内容\njump_ahead\n  └ 启用 Jump Ahead（跳过片段）按钮\nblock_store\n  └ 移除创作者商店、商品卡片及浮层\nblock_ai\n  └ 移除 Ask、AI 摘要及相关控件
+#!requirement=SYSTEM = 'iOS'
 
 [Script]
-油管广告 = type=http-request,pattern="^https?:\/\/.+?\.googlevideo\.com\/.+ctier(?!(,|=SH))",requires-body=0,script-path=https://raw.githubusercontent.com/githubdulong/Script/master/youtube_ad.js
-油管广告 = type=http-response,pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(browse|next)\?,requires-body=1,binary-body-mode=1,max-size=2097152,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/youtube.js
+广告拦截 = type=http-request,pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/player\/ad_break(?:\?.*)?$,engine=jsc,script-path=https://raw.githubusercontent.com/gholts/surge/main/scripts/youtube/request.js
+响应处理 = type=http-response,pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:navigation\/resolve_url|browse|next|player|search|reel\/reel_watch_sequence|guide|account\/get_setting|get_watch)(?:\?.*)?$,requires-body=1,max-size=-1,binary-body-mode=1,engine=webview,script-path=https://raw.githubusercontent.com/gholts/surge/main/scripts/youtube/response.js,argument="{"blockUpload":{{{block_upload}}},"blockShorts":{{{block_shorts}}},"blockGames":{{{block_games}}},"blockVerticalLive":{{{block_vertical_live}}},"jumpAhead":{{{jump_ahead}}},"autoHd":{{{auto_hd}}},"blockStore":{{{block_store}}},"blockAi":{{{block_ai}}}}"
+密钥处理 = type=http-response,pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/(?:config|log_event)(?:\?.*)?$,requires-body=1,max-size=-1,binary-body-mode=1,engine=jsc,script-path=https://raw.githubusercontent.com/gholts/surge/main/scripts/youtube/key.js
+播放处理 = type=http-response,pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$,requires-body=1,max-size=-1,binary-body-mode=1,engine=webview,script-path=https://raw.githubusercontent.com/gholts/surge/main/scripts/youtube/ump.js,argument="{"blockGames":{{{block_games}}},"blockVerticalLive":{{{block_vertical_live}}},"jumpAhead":{{{jump_ahead}}},"autoHd":{{{auto_hd}}},"blockStore":{{{block_store}}},"blockAi":{{{block_ai}}}}"
+初始处理 = type=http-request,pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/initplayback(?:\?.*)?$,requires-body=1,max-size=-1,binary-body-mode=1,engine=jsc,script-path=https://raw.githubusercontent.com/gholts/surge/main/scripts/youtube/request.js
+画质优化 = type=http-request,pattern=^https?:\/\/[\w-]+\.googlevideo\.com\/videoplayback(?:\?.*)?$,requires-body=1,max-size=-1,binary-body-mode=1,engine=jsc,script-path=https://raw.githubusercontent.com/gholts/surge/main/scripts/youtube/request.js,argument="{"autoHd":{{{auto_hd}}}}" #!REQUIREMENT "'{{{auto_hd}}}' == 'true'"
+日志处理 = type=http-request,pattern=^https:\/\/youtubei\.googleapis\.com\/youtubei\/v1\/log_event(?:\?.*)?$,engine=jsc,script-path=https://raw.githubusercontent.com/gholts/surge/main/scripts/youtube/request.js
+
+[URL Rewrite]
+^https:\/\/www\.youtube\.com\/(pagead|pcs)\/ - reject
+^https:\/\/s\.youtube\.com\/api\/stats\/ads - reject
 
 [MITM]
-hostname = %APPEND% r*.googlevideo.com, youtubei.googleapis.com
+hostname = %APPEND% *.googlevideo.com, youtubei.googleapis.com, www.youtube.com, s.youtube.com
+
+
