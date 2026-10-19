@@ -1,6 +1,6 @@
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v2.1.1
+ * 版本号: v2.1.4
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  * 其他说明: UI 套用请说明来源，其他地区修改接口即可
@@ -10,7 +10,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '2.1.1';
+  version = '2.1.4';
 
   SCALE = 1;
   gasData = null;
@@ -487,9 +487,27 @@ class Widget extends DmYY {
    * 绘制科技感胶囊进度条（支持多色阶渐变与平滑单元插值）
    */
   getCardBgColor() {
-    return Color.dynamic(new Color('#F4F5F7'), new Color('#1C1C1E'));
+    const userDarkBg = ((this.settings && this.settings.darkBgColor) || '').trim().toUpperCase();
+    let darkCardHex = '#1C1C1E';
+    if (userDarkBg === '#1C1C1E' || userDarkBg === '1C1C1E' || userDarkBg === '#1E1E20' || userDarkBg === '#202022') {
+      darkCardHex = '#242426';
+    } else if (userDarkBg === '#2C2C2E' || userDarkBg === '2C2C2E') {
+      darkCardHex = '#343438';
+    }
+    return Color.dynamic(new Color('#F4F5F7'), new Color(darkCardHex));
   }
 
+
+  getProgressBarBgColor() {
+    const userDarkBg = ((this.settings && this.settings.darkBgColor) || '').trim().toUpperCase();
+    let darkHex = '#2C2C2E';
+    if (userDarkBg === '#1C1C1E' || userDarkBg === '1C1C1E' || userDarkBg === '#1E1E20' || userDarkBg === '#202022') {
+      darkHex = '#353538';
+    } else if (userDarkBg === '#2C2C2E' || userDarkBg === '2C2C2E') {
+      darkHex = '#3E3E42';
+    }
+    return Color.dynamic(new Color('#E5E7EB'), new Color(darkHex));
+  }
 
   /**
    * 进度条统一入口：精选 3 款，100% 满宽对齐
@@ -532,7 +550,7 @@ class Widget extends DmYY {
     bar.setPadding(0, 0, 0, 0);
 
     const corner = Math.max(2.5 * this.SCALE, Math.round(blockH * 0.22));
-    const bgCol = Color.dynamic(new Color('#E5E7EB'), new Color('#2C2C2E'));
+    const bgCol = this.getProgressBarBgColor();
     const activeHex = (colors && colors.start) || '#FF9500';
 
     const exact = Math.max(0, Math.min(totalSegments, ratio * totalSegments));
@@ -584,7 +602,7 @@ class Widget extends DmYY {
     const segWidth = (width - gap * (totalSegments - 1)) / totalSegments;
     const corner = height / 2;
 
-    const bgCol = Color.dynamic(new Color('#E5E7EB'), new Color('#2C2C2E'));
+    const bgCol = this.getProgressBarBgColor();
     const startHex = (colors && colors.start) || '#FF9500';
     const endHex = (colors && colors.end) || startHex;
 
@@ -617,7 +635,7 @@ class Widget extends DmYY {
     bar.centerAlignContent();
     bar.size = new Size(width, height);
     bar.cornerRadius = height / 2;
-    bar.backgroundColor = Color.dynamic(new Color('#E5E7EB'), new Color('#2C2C2E'));
+    bar.backgroundColor = this.getProgressBarBgColor();
     bar.setPadding(0, 0, 0, 0);
 
     const activeWidth = Math.max(height, Math.round(width * ratio));
@@ -641,7 +659,7 @@ class Widget extends DmYY {
     const segWidth = (width - gap * (totalSegments - 1)) / totalSegments;
     const corner = height / 2;
 
-    const bgCol = Color.dynamic(new Color('#E5E7EB'), new Color('#2C2C2E'));
+    const bgCol = this.getProgressBarBgColor();
 
     const startHex = (colors && colors.start) || '#FF9500';
     const endHex = (colors && colors.end) || startHex;
@@ -909,11 +927,14 @@ class Widget extends DmYY {
 
     const rTop = right.addStack();
     rTop.centerAlignContent();
+    const syncBox = rTop.addStack();
+    syncBox.size = new Size(13 * this.SCALE, 13 * this.SCALE);
+    syncBox.centerAlignContent();
     const syncSymbol = SFSymbol.named('arrow.triangle.2.circlepath');
-    const syncImg = rTop.addImage(syncSymbol.image);
-    syncImg.imageSize = new Size(10 * this.SCALE, 10 * this.SCALE);
+    const syncImg = syncBox.addImage(syncSymbol.image);
+    syncImg.imageSize = new Size(11 * this.SCALE, 11 * this.SCALE);
     syncImg.tintColor = subColor;
-    rTop.addSpacer(3);
+    rTop.addSpacer(4);
     const syncTime = rTop.addText(d._fetchTime ? `更新时间 ${d._fetchTime}` : '实时同步');
     syncTime.font = Font.systemFont(10 * this.SCALE);
     syncTime.textColor = subColor;
@@ -939,9 +960,12 @@ class Widget extends DmYY {
     const row = parent.addStack();
     row.centerAlignContent();
 
+    const iconBox = row.addStack();
+    iconBox.size = new Size(13 * this.SCALE, 13 * this.SCALE);
+    iconBox.centerAlignContent();
     const sym = SFSymbol.named(iconName);
-    const img = row.addImage(sym.image);
-    img.imageSize = new Size(13 * this.SCALE, 13 * this.SCALE);
+    const img = iconBox.addImage(sym.image);
+    img.imageSize = new Size(12 * this.SCALE, 12 * this.SCALE);
     img.tintColor = iconCol;
     row.addSpacer(4);
 
@@ -1000,9 +1024,17 @@ class Widget extends DmYY {
     tagBadge.cornerRadius = 6 * this.SCALE;
     tagBadge.setPadding(3 * this.SCALE, 8 * this.SCALE, 3 * this.SCALE, 8 * this.SCALE);
 
+    if (!this.isOffline) {
+      const syncSym = SFSymbol.named('arrow.triangle.2.circlepath');
+      const syncImg = tagBadge.addImage(syncSym.image);
+      syncImg.imageSize = new Size(10 * this.SCALE, 10 * this.SCALE);
+      syncImg.tintColor = subColor;
+      tagBadge.addSpacer(3 * this.SCALE);
+    }
+
     const tag = tagBadge.addText(this.isOffline ? '离线模式' : `更新时间 ${d._fetchTime || '刚刚'}`);
     tag.font = Font.semiboldSystemFont(10 * this.SCALE);
-    tag.textColor = this.isOffline ? themeColor : balanceColor;
+    tag.textColor = this.isOffline ? themeColor : subColor;
 
     body.addSpacer();
 
