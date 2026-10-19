@@ -1,6 +1,6 @@
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v1.9.8
+ * 版本号: v2.0.5
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  * 其他说明: UI 套用请说明来源，其他地区修改接口即可
@@ -10,7 +10,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '1.9.8';
+  version = '2.0.5';
 
   SCALE = 1;
   gasData = null;
@@ -100,6 +100,36 @@ class Widget extends DmYY {
       return match ? match.scale : 0.95;
     } catch (_) {
       return 0.95;
+    }
+  }
+
+  getWidgetSmallWidth() {
+    try {
+      const deviceSize = Device.screenSize();
+      const screenW = Math.round(Math.min(deviceSize.width, deviceSize.height));
+      const screenH = Math.round(Math.max(deviceSize.width, deviceSize.height));
+      const sizes = [
+        { w: 440, h: 956, smallW: 170 },
+        { w: 430, h: 932, smallW: 170 },
+        { w: 428, h: 926, smallW: 170 },
+        { w: 414, h: 896, smallW: 169 },
+        { w: 414, h: 736, smallW: 159 },
+        { w: 402, h: 874, smallW: 162 },
+        { w: 393, h: 852, smallW: 158 },
+        { w: 390, h: 844, smallW: 158 },
+        { w: 375, h: 812, smallW: 155 },
+        { w: 375, h: 667, smallW: 148 },
+        { w: 360, h: 780, smallW: 155 },
+      ];
+      const match = sizes.find(s => Math.abs(s.w - screenW) <= 3 && Math.abs(s.h - screenH) <= 3);
+      if (match) return match.smallW;
+
+      if (screenW >= 420) return 170;
+      if (screenW >= 398) return 162;
+      if (screenW >= 385) return 158;
+      return 155;
+    } catch (_) {
+      return 158;
     }
   }
 
@@ -455,16 +485,26 @@ class Widget extends DmYY {
    * 圆角方块阵 (square) - Cloudflare 同款矩阵圆角方块
    */
   addSquareBar(parent, width, height, totalSegments = 10, colors, ratio) {
+    let segWidth, blockH;
+    if (totalSegments <= 10) {
+      segWidth = width < 135 ? Math.round(10 * this.SCALE) : Math.round(11 * this.SCALE);
+      blockH = segWidth;
+    } else {
+      blockH = Math.round(height * 1.25);
+      segWidth = Math.floor((width - 3.5 * this.SCALE * (totalSegments - 1)) / totalSegments);
+    }
+
+    const totalSegsW = segWidth * totalSegments;
+    const gap = totalSegments > 1 ? Math.max(2, (width - totalSegsW) / (totalSegments - 1)) : 0;
+    const actualTotalW = totalSegsW + gap * (totalSegments - 1);
+
     const bar = parent.addStack();
     bar.layoutHorizontally();
     bar.centerAlignContent();
+    bar.size = new Size(actualTotalW, blockH);
+    bar.setPadding(0, 0, 0, 0);
 
-    const gap = 3.5 * this.SCALE;
-    const segWidth = (width - gap * (totalSegments - 1)) / totalSegments;
-    const blockH = Math.max(height * 1.3, Math.round(segWidth * 0.88));
-    bar.size = new Size(width, blockH);
-
-    const corner = Math.max(2.5 * this.SCALE, Math.round(segWidth * 0.22));
+    const corner = Math.max(2.5 * this.SCALE, Math.round(blockH * 0.22));
     const bgCol = Color.dynamic(new Color('#E5E7EB'), new Color('#252F40'));
     const activeHex = (colors && colors.start) || '#FF9500';
 
@@ -474,21 +514,27 @@ class Widget extends DmYY {
       const seg = bar.addStack();
       seg.size = new Size(segWidth, blockH);
       seg.cornerRadius = corner;
-      seg.backgroundColor = bgCol;
       seg.setPadding(0, 0, 0, 0);
 
       const segProgress = Math.max(0, Math.min(1.0, exact - i));
+
       if (segProgress >= 0.98) {
         seg.backgroundColor = new Color(activeHex);
       } else if (segProgress > 0.05) {
         seg.layoutHorizontally();
+        seg.centerAlignContent();
+        seg.backgroundColor = bgCol;
+
         const fillW = Math.max(1, Math.round(segWidth * segProgress));
         const fill = seg.addStack();
         fill.size = new Size(fillW, blockH);
         fill.cornerRadius = corner;
         fill.backgroundColor = new Color(activeHex);
         fill.setPadding(0, 0, 0, 0);
+
         seg.addSpacer();
+      } else {
+        seg.backgroundColor = bgCol;
       }
 
       if (i < totalSegments - 1) {
@@ -672,7 +718,11 @@ class Widget extends DmYY {
 
     const valRow = body.addStack();
     valRow.centerAlignContent();
-    const valText = valRow.addText(`¥ ${this.formatMoney(d.countMoney || d.newCountMoney || '0.00')}`);
+    const symText = valRow.addText('¥ ');
+    symText.font = Font.boldRoundedSystemFont(24 * this.SCALE);
+    symText.textColor = isOwe ? new Color('#EF4444') : balanceColor;
+
+    const valText = valRow.addText(this.formatMoney(d.countMoney || d.newCountMoney || '0.00'));
     valText.font = Font.boldRoundedSystemFont(27 * this.SCALE);
     valText.textColor = isOwe ? new Color('#EF4444') : balanceColor;
     valText.lineLimit = 1;
@@ -683,7 +733,9 @@ class Widget extends DmYY {
     const ratio = this.getBalanceRatio();
     const activeSegs = this.getCapsuleActiveCount(10);
     const barColors = this.getBarColors(ratio, isOwe);
-    this.addProgressBar(body, 130 * this.SCALE, 5.5 * this.SCALE, 10, barColors, ratio);
+    const smallW = this.getWidgetSmallWidth();
+    const contentW = (smallW - 2 * 14) * this.SCALE;
+    this.addProgressBar(body, contentW, 6.5 * this.SCALE, 10, barColors, ratio);
 
     body.addSpacer();
 
@@ -755,7 +807,7 @@ class Widget extends DmYY {
     const left = body.addStack();
     left.layoutVertically();
     left.backgroundColor = widgetBg;
-    left.setPadding(pY, pX, pY, 12 * this.SCALE);
+    left.setPadding(pY, 14 * this.SCALE, pY, 14 * this.SCALE);
     left.size = new Size(172 * this.SCALE, 0);
 
     const lHeader = left.addStack();
@@ -781,7 +833,11 @@ class Widget extends DmYY {
 
     const valRow = left.addStack();
     valRow.centerAlignContent();
-    const valText = valRow.addText(`¥ ${this.formatMoney(d.countMoney || d.newCountMoney || '0.00')}`);
+    const symText = valRow.addText('¥ ');
+    symText.font = Font.boldRoundedSystemFont(25 * this.SCALE);
+    symText.textColor = isOwe ? new Color('#EF4444') : balanceColor;
+
+    const valText = valRow.addText(this.formatMoney(d.countMoney || d.newCountMoney || '0.00'));
     valText.font = Font.boldRoundedSystemFont(28 * this.SCALE);
     valText.textColor = isOwe ? new Color('#EF4444') : balanceColor;
     valText.lineLimit = 1;
@@ -792,7 +848,7 @@ class Widget extends DmYY {
     const ratio = this.getBalanceRatio();
     const activeSegs = this.getCapsuleActiveCount(10);
     const barColors = this.getBarColors(ratio, isOwe);
-    this.addProgressBar(left, 148 * this.SCALE, 7 * this.SCALE, 10, barColors, ratio);
+    this.addProgressBar(left, 144 * this.SCALE, 11 * this.SCALE, 10, barColors, ratio);
 
     left.addSpacer();
 
@@ -929,7 +985,11 @@ class Widget extends DmYY {
 
     const cValRow = card.addStack();
     cValRow.centerAlignContent();
-    const val = cValRow.addText(`¥ ${this.formatMoney(d.countMoney || d.newCountMoney || '0.00')}`);
+    const cSym = cValRow.addText('¥ ');
+    cSym.font = Font.boldRoundedSystemFont(30 * this.SCALE);
+    cSym.textColor = isOwe ? new Color('#EF4444') : balanceColor;
+
+    const val = cValRow.addText(this.formatMoney(d.countMoney || d.newCountMoney || '0.00'));
     val.font = Font.boldRoundedSystemFont(33 * this.SCALE);
     val.textColor = isOwe ? new Color('#EF4444') : balanceColor;
 
