@@ -1,15 +1,16 @@
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v1.8.7
+ * 版本号: v1.8.9
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
+ * 其他说明: UI 套用请说明来源，其他地区修改接口即可
  */
 
 if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '1.8.7';
+  version = '1.8.9';
 
   SCALE = 1;
   gasData = null;
@@ -431,6 +432,41 @@ class Widget extends DmYY {
     return Color.dynamic(new Color('#F4F5F7'), new Color('#1A2333'));
   }
 
+
+  addCapsuleBar(parent, width, height, totalSegments = 10, activeSegments = 7, colors) {
+    const bar = parent.addStack();
+    bar.layoutHorizontally();
+    bar.centerAlignContent();
+    bar.size = new Size(width, height);
+
+    const gap = 3.5 * this.SCALE;
+    const segWidth = (width - gap * (totalSegments - 1)) / totalSegments;
+    const corner = height / 2;
+
+    const bgCol = Color.dynamic(new Color('#E5E7EB'), new Color('#252F40'));
+    const startHex = (colors && colors.start) || '#FF9500';
+    const endHex = (colors && colors.end) || startHex;
+
+    for (let i = 0; i < totalSegments; i++) {
+      const seg = bar.addStack();
+      seg.size = new Size(segWidth, height);
+      seg.cornerRadius = corner;
+      seg.setPadding(0, 0, 0, 0);
+
+      if (i < activeSegments) {
+        const factor = activeSegments > 1 ? (i / (activeSegments - 1)) : 0;
+        seg.backgroundColor = this.interpolateColor(startHex, endHex, factor);
+      } else {
+        seg.backgroundColor = bgCol;
+      }
+
+      if (i < totalSegments - 1) {
+        bar.addSpacer(gap);
+      }
+    }
+    return bar;
+  }
+
   drawCapsuleBar(width, height, totalSegments = 10, activeSegments = 7, colors) {
     const dc = new DrawContext();
     dc.size = new Size(width, height);
@@ -556,8 +592,7 @@ class Widget extends DmYY {
     const ratio = this.getBalanceRatio();
     const activeSegs = this.getCapsuleActiveCount(10);
     const barColors = this.getBarColors(ratio, isOwe);
-    const capsuleImg = body.addImage(this.drawCapsuleBar(130 * this.SCALE, 5.5 * this.SCALE, 10, activeSegs, barColors));
-    capsuleImg.imageSize = new Size(130 * this.SCALE, 5.5 * this.SCALE);
+    this.addCapsuleBar(body, 130 * this.SCALE, 5.5 * this.SCALE, 10, activeSegs, barColors);
 
     body.addSpacer();
 
@@ -666,8 +701,7 @@ class Widget extends DmYY {
     const ratio = this.getBalanceRatio();
     const activeSegs = this.getCapsuleActiveCount(10);
     const barColors = this.getBarColors(ratio, isOwe);
-    const capsuleImg = left.addImage(this.drawCapsuleBar(148 * this.SCALE, 7 * this.SCALE, 10, activeSegs, barColors));
-    capsuleImg.imageSize = new Size(148 * this.SCALE, 7 * this.SCALE);
+    this.addCapsuleBar(left, 148 * this.SCALE, 7 * this.SCALE, 10, activeSegs, barColors);
 
     left.addSpacer();
 
@@ -815,8 +849,7 @@ class Widget extends DmYY {
     const ratio = this.getBalanceRatio();
     const activeSegs = this.getCapsuleActiveCount(14);
     const barColors = this.getBarColors(ratio, isOwe);
-    const capsule = card.addImage(this.drawCapsuleBar(barW, 8 * this.SCALE, 14, activeSegs, barColors));
-    capsule.imageSize = new Size(barW, 8 * this.SCALE);
+    this.addCapsuleBar(card, barW, 8 * this.SCALE, 14, activeSegs, barColors);
 
     body.addSpacer();
 
