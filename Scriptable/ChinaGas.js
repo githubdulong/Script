@@ -1,6 +1,6 @@
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v1.8.9
+ * 版本号: v1.9.8
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  * 其他说明: UI 套用请说明来源，其他地区修改接口即可
@@ -10,7 +10,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '1.8.9';
+  version = '1.9.8';
 
   SCALE = 1;
   gasData = null;
@@ -72,7 +72,8 @@ class Widget extends DmYY {
     this.settings.interval = this.settings.interval || '360';
     this.settings.balanceLimit = this.settings.balanceLimit || '500';
     if (this.settings.useGradientBar === undefined) {
-      this.settings.useGradientBar = 'true';
+      this.settings.progressStyle = 'square';
+                this.settings.useGradientBar = 'true';
     }
 
     this.SCALE = this.getWidgetScaleFactor();
@@ -433,6 +434,73 @@ class Widget extends DmYY {
   }
 
 
+  /**
+   * 进度条统一入口：精选 3 款，100% 满宽对齐
+   */
+  addProgressBar(parent, width, height, totalSegments = 10, colors, ratio) {
+    const style = this.settings.progressStyle || 'square';
+    const validRatio = Math.max(0, Math.min(1.0, ratio !== undefined ? ratio : this.getBalanceRatio()));
+
+    if (style === 'capsule') {
+      const activeSegs = this.getCapsuleActiveCount(totalSegments);
+      return this.addCapsuleBar(parent, width, height, totalSegments, activeSegs, colors);
+    } else if (style === 'smooth') {
+      return this.addSmoothBar(parent, width, height, colors, validRatio);
+    } else {
+      return this.addSquareBar(parent, width, height, totalSegments, colors, validRatio);
+    }
+  }
+
+  /**
+   * 圆角方块阵 (square) - Cloudflare 同款矩阵圆角方块
+   */
+  addSquareBar(parent, width, height, totalSegments = 10, colors, ratio) {
+    const bar = parent.addStack();
+    bar.layoutHorizontally();
+    bar.centerAlignContent();
+
+    const gap = 3.5 * this.SCALE;
+    const segWidth = (width - gap * (totalSegments - 1)) / totalSegments;
+    const blockH = Math.max(height * 1.3, Math.round(segWidth * 0.88));
+    bar.size = new Size(width, blockH);
+
+    const corner = Math.max(2.5 * this.SCALE, Math.round(segWidth * 0.22));
+    const bgCol = Color.dynamic(new Color('#E5E7EB'), new Color('#252F40'));
+    const activeHex = (colors && colors.start) || '#FF9500';
+
+    const exact = Math.max(0, Math.min(totalSegments, ratio * totalSegments));
+
+    for (let i = 0; i < totalSegments; i++) {
+      const seg = bar.addStack();
+      seg.size = new Size(segWidth, blockH);
+      seg.cornerRadius = corner;
+      seg.backgroundColor = bgCol;
+      seg.setPadding(0, 0, 0, 0);
+
+      const segProgress = Math.max(0, Math.min(1.0, exact - i));
+      if (segProgress >= 0.98) {
+        seg.backgroundColor = new Color(activeHex);
+      } else if (segProgress > 0.05) {
+        seg.layoutHorizontally();
+        const fillW = Math.max(1, Math.round(segWidth * segProgress));
+        const fill = seg.addStack();
+        fill.size = new Size(fillW, blockH);
+        fill.cornerRadius = corner;
+        fill.backgroundColor = new Color(activeHex);
+        fill.setPadding(0, 0, 0, 0);
+        seg.addSpacer();
+      }
+
+      if (i < totalSegments - 1) {
+        bar.addSpacer(gap);
+      }
+    }
+    return bar;
+  }
+
+  /**
+   * 经典微胶囊 (capsule)
+   */
   addCapsuleBar(parent, width, height, totalSegments = 10, activeSegments = 7, colors) {
     const bar = parent.addStack();
     bar.layoutHorizontally();
@@ -464,6 +532,29 @@ class Widget extends DmYY {
         bar.addSpacer(gap);
       }
     }
+    return bar;
+  }
+
+  /**
+   * 一体无缝条 (smooth)
+   */
+  addSmoothBar(parent, width, height, colors, ratio) {
+    const bar = parent.addStack();
+    bar.layoutHorizontally();
+    bar.centerAlignContent();
+    bar.size = new Size(width, height);
+    bar.cornerRadius = height / 2;
+    bar.backgroundColor = Color.dynamic(new Color('#E5E7EB'), new Color('#252F40'));
+    bar.setPadding(0, 0, 0, 0);
+
+    const activeWidth = Math.max(height, Math.round(width * ratio));
+    const activeSeg = bar.addStack();
+    activeSeg.size = new Size(activeWidth, height);
+    activeSeg.cornerRadius = height / 2;
+    activeSeg.backgroundColor = new Color((colors && colors.start) || '#FF9500');
+    activeSeg.setPadding(0, 0, 0, 0);
+
+    bar.addSpacer();
     return bar;
   }
 
@@ -592,7 +683,7 @@ class Widget extends DmYY {
     const ratio = this.getBalanceRatio();
     const activeSegs = this.getCapsuleActiveCount(10);
     const barColors = this.getBarColors(ratio, isOwe);
-    this.addCapsuleBar(body, 130 * this.SCALE, 5.5 * this.SCALE, 10, activeSegs, barColors);
+    this.addProgressBar(body, 130 * this.SCALE, 5.5 * this.SCALE, 10, barColors, ratio);
 
     body.addSpacer();
 
@@ -701,7 +792,7 @@ class Widget extends DmYY {
     const ratio = this.getBalanceRatio();
     const activeSegs = this.getCapsuleActiveCount(10);
     const barColors = this.getBarColors(ratio, isOwe);
-    this.addCapsuleBar(left, 148 * this.SCALE, 7 * this.SCALE, 10, activeSegs, barColors);
+    this.addProgressBar(left, 148 * this.SCALE, 7 * this.SCALE, 10, barColors, ratio);
 
     left.addSpacer();
 
@@ -849,7 +940,7 @@ class Widget extends DmYY {
     const ratio = this.getBalanceRatio();
     const activeSegs = this.getCapsuleActiveCount(14);
     const barColors = this.getBarColors(ratio, isOwe);
-    this.addCapsuleBar(card, barW, 8 * this.SCALE, 14, activeSegs, barColors);
+    this.addProgressBar(card, barW, 8 * this.SCALE, 14, barColors, ratio);
 
     body.addSpacer();
 
@@ -1158,10 +1249,46 @@ class Widget extends DmYY {
   };
 
   setShowConfig = async () => {
+    const styleMap = {
+      square: '圆角方块阵',
+      capsule: '经典微胶囊',
+      smooth: '一体无缝条',
+    };
+    const curKey = this.settings.progressStyle || 'square';
+    const curLabel = styleMap[curKey] || '圆角方块阵';
+
     return this.renderAppView([
       {
         title: '显示设置',
         menu: [
+          {
+            icon: { name: 'chart.bar.fill', color: '#3B82F6' },
+            title: '进度条视觉款式',
+            desc: `当前: ${curLabel}`,
+            val: 'progressStyleItem',
+            name: 'progressStyleItem',
+            onClick: async () => {
+              const alert = new Alert();
+              alert.title = '选择进度条视觉款式';
+              alert.message = '请选择小组件在桌面展示的进度条风格：';
+              const styles = [
+                { key: 'square', label: '圆角方块阵' },
+                { key: 'capsule', label: '经典微胶囊' },
+                { key: 'smooth', label: '一体无缝条' },
+              ];
+              styles.forEach(item => {
+                const checked = (this.settings.progressStyle || 'square') === item.key ? '  ✓' : '';
+                alert.addAction(item.label + checked);
+              });
+              alert.addCancelAction('取消');
+              const res = await alert.presentSheet();
+              if (res >= 0 && res < styles.length) {
+                this.settings.progressStyle = styles[res].key;
+                this.saveSettings(false);
+                this.reopenScript();
+              }
+            }
+          },
           {
             icon: { name: 'slider.horizontal.3', color: '#FF9500' },
             type: 'switch',
