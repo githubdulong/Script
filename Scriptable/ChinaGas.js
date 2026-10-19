@@ -1,6 +1,6 @@
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v2.0.5
+ * 版本号: v2.1.1
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  * 其他说明: UI 套用请说明来源，其他地区修改接口即可
@@ -10,7 +10,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '2.0.5';
+  version = '2.1.1';
 
   SCALE = 1;
   gasData = null;
@@ -165,14 +165,41 @@ class Widget extends DmYY {
     }
   }
 
+  /**
+   * 绘制高质感呼吸发光光晕小圆点 (Glow Dot)
+   * 采用高亮发光核心 + 双层径向柔光光晕 (Alpha 递减扩散)
+   */
+  drawGlowDot(hexColor, size = 36) {
+    const ctx = new DrawContext();
+    ctx.size = new Size(size, size);
+    ctx.opaque = false;
+    ctx.respectScreenScale = true;
+
+    const drawLayer = (ratio, color, alpha) => {
+      const d = size * ratio;
+      const offset = (size - d) / 2;
+      ctx.setFillColor(new Color(color, alpha));
+      ctx.fillEllipse(new Rect(offset, offset, d, d));
+    };
+
+    drawLayer(1.00, hexColor, 0.22);
+    drawLayer(0.68, hexColor, 0.45);
+    drawLayer(0.44, hexColor, 1.00);
+    drawLayer(0.18, '#FFFFFF', 0.90);
+
+    return ctx.getImage();
+  }
+
   getColor() {
-    if (this.settings && this.settings.lightColor && this.settings.darkColor) {
-      return Color.dynamic(
-        new Color(this.settings.lightColor),
-        new Color(this.settings.darkColor)
-      );
-    }
-    return Color.dynamic(new Color('#111827'), new Color('#F9FAFB'));
+    const light = (this.settings && this.settings.lightColor) || '#000000';
+    const dark = (this.settings && this.settings.darkColor) || '#FFFFFF';
+    return Color.dynamic(new Color(light), new Color(dark));
+  }
+
+  getWidgetBgColor() {
+    const light = (this.settings && this.settings.lightBgColor) || '#FFFFFF';
+    const dark = (this.settings && this.settings.darkBgColor) || '#000000';
+    return Color.dynamic(new Color(light), new Color(dark));
   }
 
   async fetchGasInfo(force = false) {
@@ -460,7 +487,7 @@ class Widget extends DmYY {
    * 绘制科技感胶囊进度条（支持多色阶渐变与平滑单元插值）
    */
   getCardBgColor() {
-    return Color.dynamic(new Color('#F4F5F7'), new Color('#1A2333'));
+    return Color.dynamic(new Color('#F4F5F7'), new Color('#1C1C1E'));
   }
 
 
@@ -505,7 +532,7 @@ class Widget extends DmYY {
     bar.setPadding(0, 0, 0, 0);
 
     const corner = Math.max(2.5 * this.SCALE, Math.round(blockH * 0.22));
-    const bgCol = Color.dynamic(new Color('#E5E7EB'), new Color('#252F40'));
+    const bgCol = Color.dynamic(new Color('#E5E7EB'), new Color('#2C2C2E'));
     const activeHex = (colors && colors.start) || '#FF9500';
 
     const exact = Math.max(0, Math.min(totalSegments, ratio * totalSegments));
@@ -557,7 +584,7 @@ class Widget extends DmYY {
     const segWidth = (width - gap * (totalSegments - 1)) / totalSegments;
     const corner = height / 2;
 
-    const bgCol = Color.dynamic(new Color('#E5E7EB'), new Color('#252F40'));
+    const bgCol = Color.dynamic(new Color('#E5E7EB'), new Color('#2C2C2E'));
     const startHex = (colors && colors.start) || '#FF9500';
     const endHex = (colors && colors.end) || startHex;
 
@@ -590,7 +617,7 @@ class Widget extends DmYY {
     bar.centerAlignContent();
     bar.size = new Size(width, height);
     bar.cornerRadius = height / 2;
-    bar.backgroundColor = Color.dynamic(new Color('#E5E7EB'), new Color('#252F40'));
+    bar.backgroundColor = Color.dynamic(new Color('#E5E7EB'), new Color('#2C2C2E'));
     bar.setPadding(0, 0, 0, 0);
 
     const activeWidth = Math.max(height, Math.round(width * ratio));
@@ -614,7 +641,7 @@ class Widget extends DmYY {
     const segWidth = (width - gap * (totalSegments - 1)) / totalSegments;
     const corner = height / 2;
 
-    const bgCol = Color.dynamic(new Color('#E5E7EB'), new Color('#252F40'));
+    const bgCol = Color.dynamic(new Color('#E5E7EB'), new Color('#2C2C2E'));
 
     const startHex = (colors && colors.start) || '#FF9500';
     const endHex = (colors && colors.end) || startHex;
@@ -670,7 +697,7 @@ class Widget extends DmYY {
     const pX = 14 * this.SCALE;
     const pY = 12 * this.SCALE;
     w.setPadding(pY, pX, pY, pX);
-    w.backgroundColor = Color.dynamic(new Color('#FFFFFF'), new Color('#111827'));
+    w.backgroundColor = this.getWidgetBgColor();
 
     const d = this.gasData || {};
     const themeColor = new Color(this.settings.themeColor || '#FF9500');
@@ -701,9 +728,16 @@ class Widget extends DmYY {
     statePill.backgroundColor = this.getCardBgColor();
     statePill.cornerRadius = 6 * this.SCALE;
     statePill.setPadding(2 * this.SCALE, 6 * this.SCALE, 2 * this.SCALE, 6 * this.SCALE);
-    const stateText = statePill.addText(this.isOffline ? '离线' : '● 正常');
+
+    const dotHex = this.isOffline ? (this.settings.themeColor || '#FF9500') : (this.settings.balanceColor || '#10B981');
+    const glowImg = statePill.addImage(this.drawGlowDot(dotHex, Math.round(36 * this.SCALE)));
+    glowImg.imageSize = new Size(13 * this.SCALE, 13 * this.SCALE);
+
+    statePill.addSpacer(2 * this.SCALE);
+
+    const stateText = statePill.addText(this.isOffline ? '离线' : '正常');
     stateText.font = Font.semiboldSystemFont(9.5 * this.SCALE);
-    stateText.textColor = this.isOffline ? themeColor : balanceColor;
+    stateText.textColor = new Color(dotHex);
 
     body.addSpacer();
 
@@ -793,7 +827,7 @@ class Widget extends DmYY {
     w.setPadding(0, 0, 0, 0);
 
     const cardBg = this.getCardBgColor();
-    const widgetBg = Color.dynamic(new Color('#FFFFFF'), new Color('#111827'));
+    const widgetBg = this.getWidgetBgColor();
     w.backgroundColor = cardBg;
 
     const d = this.gasData || {};
@@ -854,9 +888,12 @@ class Widget extends DmYY {
 
     const stateRow = left.addStack();
     stateRow.centerAlignContent();
-    const dot = stateRow.addText('● ');
-    dot.font = Font.systemFont(8 * this.SCALE);
-    dot.textColor = isOwe ? new Color('#EF4444') : balanceColor;
+
+    const mDotHex = isOwe ? '#EF4444' : (this.isOffline ? (this.settings.themeColor || '#FF9500') : (this.settings.balanceColor || '#10B981'));
+    const mGlowImg = stateRow.addImage(this.drawGlowDot(mDotHex, Math.round(36 * this.SCALE)));
+    mGlowImg.imageSize = new Size(13 * this.SCALE, 13 * this.SCALE);
+
+    stateRow.addSpacer(3 * this.SCALE);
 
     const stateText = stateRow.addText(isOwe ? '账户已欠费 · 请及时充值' : '管网连接正常 · 气压稳定');
     stateText.font = Font.systemFont(10 * this.SCALE);
@@ -864,7 +901,7 @@ class Widget extends DmYY {
 
     const divider = body.addStack();
     divider.size = new Size(1, 0);
-    divider.backgroundColor = Color.dynamic(new Color('#E5E7EB'), new Color('#252F40'));
+    divider.backgroundColor = Color.dynamic(new Color('#E5E7EB'), new Color('#2C2C2E'));
 
     const right = body.addStack();
     right.layoutVertically();
@@ -928,7 +965,7 @@ class Widget extends DmYY {
     const pX = 16 * this.SCALE;
     const pY = 14 * this.SCALE;
     w.setPadding(pY, pX, pY, pX);
-    w.backgroundColor = Color.dynamic(new Color('#FFFFFF'), new Color('#111827'));
+    w.backgroundColor = this.getWidgetBgColor();
 
     const widgetW = this.getWidgetLargeWidth();
     const contentW = widgetW - 2 * pX;
@@ -1091,9 +1128,12 @@ class Widget extends DmYY {
     cardC.addSpacer(4 * this.SCALE);
     const cStatusRow = cardC.addStack();
     cStatusRow.centerAlignContent();
-    const cDot = cStatusRow.addText('● ');
-    cDot.font = Font.systemFont(7 * this.SCALE);
-    cDot.textColor = statusCol;
+
+    const lDotHex = isOwe ? '#EF4444' : (this.isOffline ? (this.settings.themeColor || '#FF9500') : (this.settings.balanceColor || '#10B981'));
+    const lGlowImg = cStatusRow.addImage(this.drawGlowDot(lDotHex, Math.round(36 * this.SCALE)));
+    lGlowImg.imageSize = new Size(13 * this.SCALE, 13 * this.SCALE);
+
+    cStatusRow.addSpacer(3 * this.SCALE);
 
     const cValText = isOwe ? '账户欠费' : (this.isOffline ? '离线保持' : '气压稳定');
     const cVal = cStatusRow.addText(cValText);
@@ -1124,7 +1164,7 @@ class Widget extends DmYY {
 
   renderGuideWidget(w) {
     w.setPadding(16, 16, 16, 16);
-    w.backgroundColor = Color.dynamic(new Color('#FFFFFF'), new Color('#111827'));
+    w.backgroundColor = this.getWidgetBgColor();
     const center = w.addStack();
     center.layoutVertically();
     center.centerAlignContent();
@@ -1151,7 +1191,7 @@ class Widget extends DmYY {
 
   renderErrorWidget(w) {
     w.setPadding(16, 16, 16, 16);
-    w.backgroundColor = Color.dynamic(new Color('#FFFFFF'), new Color('#111827'));
+    w.backgroundColor = this.getWidgetBgColor();
     const center = w.addStack();
     center.layoutVertically();
     center.centerAlignContent();
