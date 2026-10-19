@@ -1,6 +1,6 @@
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v1.8.1
+ * 版本号: v1.8.3
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  */
@@ -9,7 +9,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '1.8.1';
+  version = '1.8.3';
 
   SCALE = 1;
   gasData = null;
@@ -259,14 +259,18 @@ class Widget extends DmYY {
       modified = true;
     }
 
-    const nameMatch = str.match(/(?:custName|custname)['":\s=]+([^'"&\r\n\s]+)/i);
-    if (nameMatch && nameMatch[1]) {
-      let rawName = nameMatch[1].trim();
-      try {
-        rawName = decodeURIComponent(rawName);
-      } catch (_) {}
-      this.settings.custName = rawName;
-      modified = true;
+    const nameRegex = /(?:custName|custname)['":\s=]+([^'"&\r\n\s]+)/gi;
+    let nMatch;
+    while ((nMatch = nameRegex.exec(str)) !== null) {
+      let rawName = nMatch[1].trim();
+      if (!/^https?:\/\//i.test(rawName) && !/^HTTP\/\d/i.test(rawName) && rawName !== 'undefined' && rawName !== 'null') {
+        try {
+          rawName = decodeURIComponent(rawName);
+        } catch (_) {}
+        this.settings.custName = rawName;
+        modified = true;
+        break;
+      }
     }
 
     const compMatch = str.match(/(?:compName|companyName|company|corpName)['":\s=]+([^'"&\r\n]+)/i);
@@ -1244,7 +1248,7 @@ class Widget extends DmYY {
 
           const ignoreAlert = new Alert();
           ignoreAlert.title = '已忽略此版本';
-          ignoreAlert.message = `已忽略 v${remoteVersion} 的日常更新提醒。若日后需要更新，仍可随时在此点击“脚本更新”。`;
+          ignoreAlert.message = `已忽略 v${remoteVersion} 的日常更新提醒。若日后需要更新，仍可随时在此点击"脚本更新"。`;
           ignoreAlert.addAction('确定');
           await ignoreAlert.present();
         }
