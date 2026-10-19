@@ -1,6 +1,6 @@
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v1.8.3
+ * 版本号: v1.8.7
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  */
@@ -9,7 +9,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '1.8.3';
+  version = '1.8.7';
 
   SCALE = 1;
   gasData = null;
@@ -104,20 +104,30 @@ class Widget extends DmYY {
   getWidgetLargeWidth() {
     try {
       const deviceSize = Device.screenSize();
-      const screenW = Math.min(deviceSize.width, deviceSize.height);
-      const screenH = Math.max(deviceSize.width, deviceSize.height);
+      const screenW = Math.round(Math.min(deviceSize.width, deviceSize.height));
+      const screenH = Math.round(Math.max(deviceSize.width, deviceSize.height));
       const sizes = [
         { w: 440, h: 956, largeW: 368 },
         { w: 430, h: 932, largeW: 364 },
         { w: 428, h: 926, largeW: 364 },
         { w: 414, h: 896, largeW: 360 },
+        { w: 414, h: 736, largeW: 348 },
         { w: 402, h: 874, largeW: 348 },
         { w: 393, h: 852, largeW: 338 },
         { w: 390, h: 844, largeW: 338 },
         { w: 375, h: 812, largeW: 329 },
+        { w: 375, h: 667, largeW: 321 },
+        { w: 360, h: 780, largeW: 348 },
       ];
-      const match = sizes.find(s => s.w === screenW && s.h === screenH);
-      return match ? match.largeW : 338;
+      const match = sizes.find(s => Math.abs(s.w - screenW) <= 3 && Math.abs(s.h - screenH) <= 3);
+      if (match) return match.largeW;
+
+      if (screenW >= 435) return 368;
+      if (screenW >= 420) return 364;
+      if (screenW >= 405) return 355;
+      if (screenW >= 398) return 348;
+      if (screenW >= 385) return 338;
+      return 329;
     } catch (_) {
       return 338;
     }
@@ -417,6 +427,10 @@ class Widget extends DmYY {
   /**
    * 绘制科技感胶囊进度条（支持多色阶渐变与平滑单元插值）
    */
+  getCardBgColor() {
+    return Color.dynamic(new Color('#F4F5F7'), new Color('#1A2333'));
+  }
+
   drawCapsuleBar(width, height, totalSegments = 10, activeSegments = 7, colors) {
     const dc = new DrawContext();
     dc.size = new Size(width, height);
@@ -427,7 +441,7 @@ class Widget extends DmYY {
     const segWidth = (width - gap * (totalSegments - 1)) / totalSegments;
     const corner = height / 2;
 
-    const bgCol = Color.dynamic(new Color('#E5E7EB'), new Color('#374151'));
+    const bgCol = Color.dynamic(new Color('#E5E7EB'), new Color('#252F40'));
 
     const startHex = (colors && colors.start) || '#FF9500';
     const endHex = (colors && colors.end) || startHex;
@@ -511,7 +525,7 @@ class Widget extends DmYY {
 
     const statePill = header.addStack();
     statePill.centerAlignContent();
-    statePill.backgroundColor = Color.dynamic(new Color('#F3F4F6'), new Color('#1F2937'));
+    statePill.backgroundColor = this.getCardBgColor();
     statePill.cornerRadius = 6 * this.SCALE;
     statePill.setPadding(2 * this.SCALE, 6 * this.SCALE, 2 * this.SCALE, 6 * this.SCALE);
     const stateText = statePill.addText(this.isOffline ? '离线' : '● 正常');
@@ -549,7 +563,7 @@ class Widget extends DmYY {
 
     const footerCard = body.addStack();
     footerCard.layoutVertically();
-    footerCard.backgroundColor = Color.dynamic(new Color('#F8FAFC'), new Color('#161E2E'));
+    footerCard.backgroundColor = this.getCardBgColor();
     footerCard.cornerRadius = 8 * this.SCALE;
     footerCard.setPadding(6 * this.SCALE, 8 * this.SCALE, 6 * this.SCALE, 8 * this.SCALE);
 
@@ -593,13 +607,16 @@ class Widget extends DmYY {
   }
 
   /**
-   * 中尺寸组件 (Medium) - 余额紧挨进度条，基线精准对齐，动态渐变色
+   * 中尺寸组件 (Medium) - 左右反差色双拼布局，划线分割，卡片阴影色统一
    */
   async renderMedium(w) {
     const pX = 16 * this.SCALE;
     const pY = 12 * this.SCALE;
-    w.setPadding(pY, pX, pY, pX);
-    w.backgroundColor = Color.dynamic(new Color('#FFFFFF'), new Color('#111827'));
+    w.setPadding(0, 0, 0, 0);
+
+    const cardBg = this.getCardBgColor();
+    const widgetBg = Color.dynamic(new Color('#FFFFFF'), new Color('#111827'));
+    w.backgroundColor = cardBg;
 
     const d = this.gasData || {};
     const themeColor = new Color(this.settings.themeColor || '#FF9500');
@@ -611,7 +628,9 @@ class Widget extends DmYY {
 
     const left = body.addStack();
     left.layoutVertically();
-    left.size = new Size(155 * this.SCALE, 0);
+    left.backgroundColor = widgetBg;
+    left.setPadding(pY, pX, pY, 12 * this.SCALE);
+    left.size = new Size(172 * this.SCALE, 0);
 
     const lHeader = left.addStack();
     lHeader.centerAlignContent();
@@ -662,15 +681,13 @@ class Widget extends DmYY {
     stateText.font = Font.systemFont(10 * this.SCALE);
     stateText.textColor = subColor;
 
-    body.addSpacer(12 * this.SCALE);
-
     const divider = body.addStack();
     divider.size = new Size(1, 0);
-    divider.backgroundColor = Color.dynamic(new Color('#E5E7EB'), new Color('#1F2937'));
-    body.addSpacer(12 * this.SCALE);
+    divider.backgroundColor = Color.dynamic(new Color('#E5E7EB'), new Color('#252F40'));
 
     const right = body.addStack();
     right.layoutVertically();
+    right.setPadding(pY, 14 * this.SCALE, pY, pX);
 
     const rTop = right.addStack();
     rTop.centerAlignContent();
@@ -732,6 +749,9 @@ class Widget extends DmYY {
     w.setPadding(pY, pX, pY, pX);
     w.backgroundColor = Color.dynamic(new Color('#FFFFFF'), new Color('#111827'));
 
+    const widgetW = this.getWidgetLargeWidth();
+    const contentW = widgetW - 2 * pX;
+
     const d = this.gasData || {};
     const themeColor = new Color(this.settings.themeColor || '#FF9500');
     const balanceColor = new Color(this.settings.balanceColor || '#10B981');
@@ -742,6 +762,8 @@ class Widget extends DmYY {
 
     const header = body.addStack();
     header.centerAlignContent();
+    header.size = new Size(contentW, 0);
+
     const flame = SFSymbol.named('flame.fill');
     flame.applyHeavyWeight();
     const fImg = header.addImage(flame.image);
@@ -756,7 +778,7 @@ class Widget extends DmYY {
 
     const tagBadge = header.addStack();
     tagBadge.centerAlignContent();
-    tagBadge.backgroundColor = Color.dynamic(new Color('#F3F4F6'), new Color('#1F2937'));
+    tagBadge.backgroundColor = this.getCardBgColor();
     tagBadge.cornerRadius = 6 * this.SCALE;
     tagBadge.setPadding(3 * this.SCALE, 8 * this.SCALE, 3 * this.SCALE, 8 * this.SCALE);
 
@@ -768,7 +790,8 @@ class Widget extends DmYY {
 
     const card = body.addStack();
     card.layoutVertically();
-    card.backgroundColor = Color.dynamic(new Color('#F8FAFC'), new Color('#161E2E'));
+    card.size = new Size(contentW, 0);
+    card.backgroundColor = this.getCardBgColor();
     card.cornerRadius = 14 * this.SCALE;
     card.setPadding(12 * this.SCALE, 16 * this.SCALE, 12 * this.SCALE, 16 * this.SCALE);
 
@@ -787,8 +810,6 @@ class Widget extends DmYY {
 
     card.addSpacer(7 * this.SCALE);
 
-    const widgetW = this.getWidgetLargeWidth();
-    const contentW = widgetW - 2 * pX;
     const barW = Math.max(260 * this.SCALE, contentW - 32 * this.SCALE);
 
     const ratio = this.getBalanceRatio();
@@ -801,6 +822,7 @@ class Widget extends DmYY {
 
     const grid = body.addStack();
     grid.layoutHorizontally();
+    grid.size = new Size(contentW, 0);
 
     const gap = 8 * this.SCALE;
     const colW = Math.floor((contentW - 2 * gap) / 3);
@@ -808,7 +830,7 @@ class Widget extends DmYY {
 
     const cardA = grid.addStack();
     cardA.layoutVertically();
-    cardA.backgroundColor = Color.dynamic(new Color('#F3F4F6'), new Color('#1F2937'));
+    cardA.backgroundColor = this.getCardBgColor();
     cardA.cornerRadius = 10 * this.SCALE;
     cardA.setPadding(9 * this.SCALE, 9 * this.SCALE, 9 * this.SCALE, 9 * this.SCALE);
     cardA.size = new Size(colW, 0);
@@ -836,7 +858,7 @@ class Widget extends DmYY {
 
     const cardB = grid.addStack();
     cardB.layoutVertically();
-    cardB.backgroundColor = Color.dynamic(new Color('#F3F4F6'), new Color('#1F2937'));
+    cardB.backgroundColor = this.getCardBgColor();
     cardB.cornerRadius = 10 * this.SCALE;
     cardB.setPadding(9 * this.SCALE, 9 * this.SCALE, 9 * this.SCALE, 9 * this.SCALE);
     cardB.size = new Size(colW, 0);
@@ -864,7 +886,7 @@ class Widget extends DmYY {
 
     const cardC = grid.addStack();
     cardC.layoutVertically();
-    cardC.backgroundColor = Color.dynamic(new Color('#F3F4F6'), new Color('#1F2937'));
+    cardC.backgroundColor = this.getCardBgColor();
     cardC.cornerRadius = 10 * this.SCALE;
     cardC.setPadding(9 * this.SCALE, 9 * this.SCALE, 9 * this.SCALE, 9 * this.SCALE);
     cardC.size = new Size(colW3, 0);
@@ -900,7 +922,8 @@ class Widget extends DmYY {
 
     const listCard = body.addStack();
     listCard.layoutVertically();
-    listCard.backgroundColor = Color.dynamic(new Color('#F8FAFC'), new Color('#161E2E'));
+    listCard.size = new Size(contentW, 0);
+    listCard.backgroundColor = this.getCardBgColor();
     listCard.cornerRadius = 10 * this.SCALE;
     listCard.setPadding(10 * this.SCALE, 14 * this.SCALE, 10 * this.SCALE, 14 * this.SCALE);
 
