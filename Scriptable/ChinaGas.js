@@ -1,6 +1,6 @@
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v2.1.5
+ * 版本号: v2.1.7
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  * 其他说明: UI 套用请说明来源，其他地区修改接口即可
@@ -10,7 +10,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '2.1.5';
+  version = '2.1.7';
 
   SCALE = 1;
   gasData = null;
@@ -748,13 +748,14 @@ class Widget extends DmYY {
     statePill.cornerRadius = 6 * this.SCALE;
     statePill.setPadding(2 * this.SCALE, 6 * this.SCALE, 2 * this.SCALE, 6 * this.SCALE);
 
-    const dotHex = this.isOffline ? (this.settings.themeColor || '#FF9500') : (this.settings.balanceColor || '#10B981');
+    const isOweDot = d.oweMoney && parseFloat(d.oweMoney) > 0;
+    const dotHex = isOweDot ? '#EF4444' : (this.isOffline ? '#FF9500' : '#10B981');
     const glowImg = statePill.addImage(this.drawGlowDot(dotHex, Math.round(36 * this.SCALE)));
     glowImg.imageSize = new Size(13 * this.SCALE, 13 * this.SCALE);
 
     statePill.addSpacer(2 * this.SCALE);
 
-    const stateText = statePill.addText(this.isOffline ? '离线' : '正常');
+    const stateText = statePill.addText(isOweDot ? '欠费' : (this.isOffline ? '离线' : '正常'));
     stateText.font = Font.semiboldSystemFont(10.5 * this.SCALE);
     stateText.textColor = new Color(dotHex);
 
@@ -923,7 +924,7 @@ class Widget extends DmYY {
     const stateRow = left.addStack();
     stateRow.centerAlignContent();
 
-    const mDotHex = isOwe ? '#EF4444' : (this.isOffline ? (this.settings.themeColor || '#FF9500') : (this.settings.balanceColor || '#10B981'));
+    const mDotHex = isOwe ? '#EF4444' : (this.isOffline ? '#FF9500' : '#10B981');
     const mGlowImg = stateRow.addImage(this.drawGlowDot(mDotHex, Math.round(36 * this.SCALE)));
     mGlowImg.imageSize = new Size(13 * this.SCALE, 13 * this.SCALE);
 
@@ -1187,7 +1188,7 @@ class Widget extends DmYY {
     const cIcon = SFSymbol.named('waveform.path.ecg');
     const cImg = cHead.addImage(cIcon.image);
     cImg.imageSize = new Size(12 * this.SCALE, 12 * this.SCALE);
-    const statusCol = isOwe ? new Color('#EF4444') : (this.isOffline ? themeColor : balanceColor);
+    const statusCol = isOwe ? new Color('#EF4444') : (this.isOffline ? new Color('#FF9500') : new Color('#10B981'));
     cImg.tintColor = statusCol;
     cHead.addSpacer(3 * this.SCALE);
     const cTitle = cHead.addText('管网监控状态');
@@ -1203,7 +1204,7 @@ class Widget extends DmYY {
     cStatusRow.size = new Size(innerW, 0);
     cStatusRow.addSpacer();
 
-    const lDotHex = isOwe ? '#EF4444' : (this.isOffline ? (this.settings.themeColor || '#FF9500') : (this.settings.balanceColor || '#10B981'));
+    const lDotHex = isOwe ? '#EF4444' : (this.isOffline ? '#FF9500' : '#10B981');
     const lGlowImg = cStatusRow.addImage(this.drawGlowDot(lDotHex, Math.round(36 * this.SCALE)));
     lGlowImg.imageSize = new Size(13 * this.SCALE, 13 * this.SCALE);
 
@@ -1534,6 +1535,7 @@ class Widget extends DmYY {
                 this.settings.balanceColor = '#10B981';
                 this.settings.maskCustCode = 'false';
                 this.settings.maskCompName = 'false';
+                this.settings.progressStyle = 'square';
                 this.settings.balanceLimit = '500';
                 this.settings.uiScale = '1';
                 this.saveSettings(false);
@@ -1564,6 +1566,32 @@ class Widget extends DmYY {
     return false;
   }
 
+  async fetchUpdateNotes(remoteVersion) {
+    try {
+      const req = new Request('https://api.github.com/repos/githubdulong/Script/commits?path=Scriptable/ChinaGas.js&per_page=10');
+      req.timeoutInterval = 8;
+      req.headers = { 'Accept': 'application/vnd.github+json', 'User-Agent': 'Scriptable-ChinaGas' };
+      const list = await req.loadJSON();
+      if (!Array.isArray(list) || !list.length) return '';
+      const target = list.find(c => String((c.commit && c.commit.message) || '').includes(remoteVersion)) || list[0];
+      const raw = String((target.commit && target.commit.message) || '').trim();
+      if (!raw) return '';
+      const lines = raw.split('\n').map(s => s.trim()).filter(Boolean);
+      const subject = lines.shift() || '';
+      const body = lines
+        .map(s => s.replace(/^[-*•]\s*/, '').trim())
+        .filter(s => s && !/^co-authored-by:/i.test(s));
+      const items = body.length ? body : (subject ? [subject] : []);
+      if (!items.length) return '';
+      const shown = items.slice(0, 8).map(s => `• ${s}`).join('\n');
+      const more = items.length > 8 ? `\n… 另有 ${items.length - 8} 条未显示` : '';
+      const date = String((target.commit && target.commit.author && target.commit.author.date) || '').slice(0, 10);
+      return { text: shown + more, date };
+    } catch (_) {
+      return '';
+    }
+  }
+
   async checkAndUpdateScript() {
     const downloadUrl = 'https://raw.githubusercontent.com/githubdulong/Script/master/Scriptable/ChinaGas.js';
     const scriptName = Script.name() + '.js';
@@ -1584,9 +1612,18 @@ class Widget extends DmYY {
       this.saveSettings(false);
 
       if (this.isNewerVersion(remoteVersion, this.version)) {
+        const noteInfo = await this.fetchUpdateNotes(remoteVersion);
+        let detail = `当前版本：v${this.version}\n最新版本：v${remoteVersion}`;
+        if (noteInfo && noteInfo.text) {
+          detail += `\n\n【更新内容】\n${noteInfo.text}`;
+          if (noteInfo.date) detail += `\n\n ${noteInfo.date}`;
+        } else {
+          detail += `\n\n【更新内容】\n暂未获取到说明，可前往仓库查看`;
+        }
+        detail += `\n\n请选择操作：`;
         const alert = new Alert();
         alert.title = `检测到新版本 v${remoteVersion}`;
-        alert.message = `当前版本：v${this.version}\n最新版本：v${remoteVersion}\n\n请选择操作：`;
+        alert.message = detail;
         alert.addAction('立即更新');
         alert.addAction('忽略此版');
         alert.addCancelAction('取消');
