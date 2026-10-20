@@ -733,7 +733,7 @@ class Widget extends DmYY {
     flame.applyHeavyWeight();
     const icon = header.addImage(flame.image);
     icon.imageSize = new Size(16 * this.SCALE, 16 * this.SCALE);
-    icon.tintColor = themeColor;
+    icon.tintColor = new Color('#FF5722');
     header.addSpacer(5);
 
     const title = header.addText(this.settings.alias || '中燃在线');
@@ -757,7 +757,7 @@ class Widget extends DmYY {
 
     const stateText = statePill.addText(isOweDot ? '欠费' : (this.isOffline ? '离线' : '正常'));
     stateText.font = Font.semiboldSystemFont(10.5 * this.SCALE);
-    stateText.textColor = new Color(dotHex);
+    stateText.textColor = subColor;
 
     body.addSpacer();
 
@@ -885,7 +885,7 @@ class Widget extends DmYY {
     flame.applyHeavyWeight();
     const fImg = lHeader.addImage(flame.image);
     fImg.imageSize = new Size(16 * this.SCALE, 16 * this.SCALE);
-    fImg.tintColor = themeColor;
+    fImg.tintColor = new Color('#FF5722');
     lHeader.addSpacer(5);
     const lTitle = lHeader.addText(this.settings.alias || '中燃在线');
     lTitle.font = Font.boldSystemFont(14 * this.SCALE);
@@ -1027,7 +1027,7 @@ class Widget extends DmYY {
     flame.applyHeavyWeight();
     const fImg = header.addImage(flame.image);
     fImg.imageSize = new Size(20 * this.SCALE, 20 * this.SCALE);
-    fImg.tintColor = themeColor;
+    fImg.tintColor = new Color('#FF5722');
     header.addSpacer(6);
 
     const title = header.addText(this.settings.alias || '中国燃气在线监控');
@@ -1585,7 +1585,15 @@ class Widget extends DmYY {
       if (!items.length) return '';
       const shown = items.slice(0, 8).map(s => `• ${s}`).join('\n');
       const more = items.length > 8 ? `\n… 另有 ${items.length - 8} 条未显示` : '';
-      const date = String((target.commit && target.commit.author && target.commit.author.date) || '').slice(0, 10);
+      const iso = String((target.commit && target.commit.author && target.commit.author.date) || '');
+      let date = '';
+      if (iso) {
+        const dt = new Date(iso);
+        if (!isNaN(dt.getTime())) {
+          const pad = n => String(n).padStart(2, '0');
+          date = `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
+        }
+      }
       return { text: shown + more, date };
     } catch (_) {
       return '';
