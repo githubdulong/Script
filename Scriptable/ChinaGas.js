@@ -1,6 +1,6 @@
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v2.1.4
+ * 版本号: v2.1.5
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  * 其他说明: UI 套用请说明来源，其他地区修改接口即可
@@ -10,7 +10,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '2.1.4';
+  version = '2.1.5';
 
   SCALE = 1;
   gasData = null;
@@ -76,7 +76,8 @@ class Widget extends DmYY {
                 this.settings.useGradientBar = 'true';
     }
 
-    this.SCALE = this.getWidgetScaleFactor();
+    const uiScale = parseFloat(this.settings.uiScale);
+    this.SCALE = this.getWidgetScaleFactor() * (isFinite(uiScale) && uiScale > 0 ? uiScale : 1);
     await this.fetchGasInfo(false);
   }
 
@@ -736,7 +737,7 @@ class Widget extends DmYY {
     header.addSpacer(5);
 
     const title = header.addText(this.settings.alias || '中燃在线');
-    title.font = Font.boldSystemFont(13 * this.SCALE);
+    title.font = Font.boldSystemFont(14 * this.SCALE);
     title.textColor = this.widgetColor;
 
     header.addSpacer();
@@ -754,7 +755,7 @@ class Widget extends DmYY {
     statePill.addSpacer(2 * this.SCALE);
 
     const stateText = statePill.addText(this.isOffline ? '离线' : '正常');
-    stateText.font = Font.semiboldSystemFont(9.5 * this.SCALE);
+    stateText.font = Font.semiboldSystemFont(10.5 * this.SCALE);
     stateText.textColor = new Color(dotHex);
 
     body.addSpacer();
@@ -763,7 +764,7 @@ class Widget extends DmYY {
     const labelRow = body.addStack();
     labelRow.centerAlignContent();
     const balLabel = labelRow.addText(isOwe ? '燃气欠费' : '账户余额');
-    balLabel.font = Font.mediumSystemFont(11 * this.SCALE);
+    balLabel.font = Font.mediumSystemFont(12 * this.SCALE);
     balLabel.textColor = isOwe ? new Color('#EF4444') : subColor;
 
     body.addSpacer(2 * this.SCALE);
@@ -771,11 +772,11 @@ class Widget extends DmYY {
     const valRow = body.addStack();
     valRow.centerAlignContent();
     const symText = valRow.addText('¥ ');
-    symText.font = Font.boldRoundedSystemFont(24 * this.SCALE);
+    symText.font = Font.boldRoundedSystemFont(25 * this.SCALE);
     symText.textColor = isOwe ? new Color('#EF4444') : balanceColor;
 
     const valText = valRow.addText(this.formatMoney(d.countMoney || d.newCountMoney || '0.00'));
-    valText.font = Font.boldRoundedSystemFont(27 * this.SCALE);
+    valText.font = Font.boldRoundedSystemFont(28 * this.SCALE);
     valText.textColor = isOwe ? new Color('#EF4444') : balanceColor;
     valText.lineLimit = 1;
     valText.minimumScaleFactor = 0.6;
@@ -806,13 +807,22 @@ class Widget extends DmYY {
     fRow1.addSpacer(3);
 
     const mText = fRow1.addText(`抄表: ${d.lastRecord || '0'} m³`);
-    mText.font = Font.systemFont(9.5 * this.SCALE);
+    mText.font = Font.systemFont(10.5 * this.SCALE);
     mText.textColor = subColor;
     fRow1.addSpacer();
 
-    const timeText = fRow1.addText(d._fetchTime || '刚刚');
-    timeText.font = Font.systemFont(9.5 * this.SCALE);
-    timeText.textColor = subColor;
+    let meterDate = '--';
+    if (d.lastRecordTime) {
+      const p = String(d.lastRecordTime).match(/(\d{4})[\-\/\.](\d{1,2})[\-\/\.](\d{1,2})/);
+      if (p) meterDate = `${p[2]}-${p[3]}`;
+      else {
+        const m = String(d.lastRecordTime).match(/(\d{1,2})[\-\/\.](\d{1,2})/);
+        meterDate = m ? `${m[1]}-${m[2]}` : String(d.lastRecordTime);
+      }
+    }
+    const meterDateText = fRow1.addText(meterDate);
+    meterDateText.font = Font.systemFont(10.5 * this.SCALE);
+    meterDateText.textColor = subColor;
 
     footerCard.addSpacer(3 * this.SCALE);
 
@@ -825,13 +835,19 @@ class Widget extends DmYY {
     fRow2.addSpacer(3);
 
     const custCodeText = fRow2.addText(`户号: ${this.formatCustCode(d.custCode, true)}`);
-    custCodeText.font = Font.systemFont(9.5 * this.SCALE);
+    custCodeText.font = Font.systemFont(10.5 * this.SCALE);
     custCodeText.textColor = subColor;
     fRow2.addSpacer();
 
-    const nameText = fRow2.addText(d.custName || '中国燃气');
-    nameText.font = Font.systemFont(9.5 * this.SCALE);
-    nameText.textColor = subColor;
+    const syncIcon = SFSymbol.named('clock.arrow.circlepath');
+    const syncImg = fRow2.addImage(syncIcon.image);
+    syncImg.imageSize = new Size(10 * this.SCALE, 10 * this.SCALE);
+    syncImg.tintColor = subColor;
+    fRow2.addSpacer(2);
+
+    const timeText = fRow2.addText(d._fetchTime || '刚刚');
+    timeText.font = Font.systemFont(10.5 * this.SCALE);
+    timeText.textColor = subColor;
 
     return w;
   }
@@ -871,14 +887,14 @@ class Widget extends DmYY {
     fImg.tintColor = themeColor;
     lHeader.addSpacer(5);
     const lTitle = lHeader.addText(this.settings.alias || '中燃在线');
-    lTitle.font = Font.boldSystemFont(13 * this.SCALE);
+    lTitle.font = Font.boldSystemFont(14 * this.SCALE);
     lTitle.textColor = this.widgetColor;
 
     left.addSpacer();
 
     const isOwe = d.oweMoney && parseFloat(d.oweMoney) > 0;
     const balLabel = left.addText(isOwe ? '燃气欠费 (元)' : '可用气费余额 (元)');
-    balLabel.font = Font.mediumSystemFont(11 * this.SCALE);
+    balLabel.font = Font.mediumSystemFont(12 * this.SCALE);
     balLabel.textColor = isOwe ? new Color('#EF4444') : subColor;
 
     left.addSpacer(2 * this.SCALE);
@@ -886,11 +902,11 @@ class Widget extends DmYY {
     const valRow = left.addStack();
     valRow.centerAlignContent();
     const symText = valRow.addText('¥ ');
-    symText.font = Font.boldRoundedSystemFont(25 * this.SCALE);
+    symText.font = Font.boldRoundedSystemFont(26 * this.SCALE);
     symText.textColor = isOwe ? new Color('#EF4444') : balanceColor;
 
     const valText = valRow.addText(this.formatMoney(d.countMoney || d.newCountMoney || '0.00'));
-    valText.font = Font.boldRoundedSystemFont(28 * this.SCALE);
+    valText.font = Font.boldRoundedSystemFont(29 * this.SCALE);
     valText.textColor = isOwe ? new Color('#EF4444') : balanceColor;
     valText.lineLimit = 1;
     valText.minimumScaleFactor = 0.6;
@@ -914,7 +930,7 @@ class Widget extends DmYY {
     stateRow.addSpacer(3 * this.SCALE);
 
     const stateText = stateRow.addText(isOwe ? '账户已欠费 · 请及时充值' : '管网连接正常 · 气压稳定');
-    stateText.font = Font.systemFont(10 * this.SCALE);
+    stateText.font = Font.systemFont(11 * this.SCALE);
     stateText.textColor = subColor;
 
     const divider = body.addStack();
@@ -936,7 +952,7 @@ class Widget extends DmYY {
     syncImg.tintColor = subColor;
     rTop.addSpacer(4);
     const syncTime = rTop.addText(d._fetchTime ? `更新时间 ${d._fetchTime}` : '实时同步');
-    syncTime.font = Font.systemFont(10 * this.SCALE);
+    syncTime.font = Font.systemFont(11 * this.SCALE);
     syncTime.textColor = subColor;
     rTop.addSpacer();
 
@@ -970,12 +986,12 @@ class Widget extends DmYY {
     row.addSpacer(4);
 
     const lText = row.addText(label);
-    lText.font = Font.systemFont(10.5 * this.SCALE);
+    lText.font = Font.systemFont(11.5 * this.SCALE);
     lText.textColor = subCol;
     row.addSpacer(6);
 
     const vText = row.addText(valStr);
-    vText.font = Font.semiboldSystemFont(11 * this.SCALE);
+    vText.font = Font.semiboldSystemFont(12 * this.SCALE);
     vText.textColor = this.widgetColor;
     vText.lineLimit = 1;
     vText.minimumScaleFactor = 0.7;
@@ -1014,7 +1030,7 @@ class Widget extends DmYY {
     header.addSpacer(6);
 
     const title = header.addText(this.settings.alias || '中国燃气在线监控');
-    title.font = Font.boldSystemFont(15 * this.SCALE);
+    title.font = Font.boldSystemFont(16 * this.SCALE);
     title.textColor = this.widgetColor;
     header.addSpacer();
 
@@ -1033,7 +1049,7 @@ class Widget extends DmYY {
     }
 
     const tag = tagBadge.addText(this.isOffline ? '离线模式' : `更新时间 ${d._fetchTime || '刚刚'}`);
-    tag.font = Font.semiboldSystemFont(10 * this.SCALE);
+    tag.font = Font.semiboldSystemFont(11 * this.SCALE);
     tag.textColor = this.isOffline ? themeColor : subColor;
 
     body.addSpacer();
@@ -1047,7 +1063,7 @@ class Widget extends DmYY {
 
     const isOwe = d.oweMoney && parseFloat(d.oweMoney) > 0;
     const cLabel = card.addText(isOwe ? '账户欠费总额 (元)' : '当前账户可用气费余额 (元)');
-    cLabel.font = Font.mediumSystemFont(11.5 * this.SCALE);
+    cLabel.font = Font.mediumSystemFont(12.5 * this.SCALE);
     cLabel.textColor = isOwe ? new Color('#EF4444') : subColor;
 
     card.addSpacer(3 * this.SCALE);
@@ -1055,11 +1071,11 @@ class Widget extends DmYY {
     const cValRow = card.addStack();
     cValRow.centerAlignContent();
     const cSym = cValRow.addText('¥ ');
-    cSym.font = Font.boldRoundedSystemFont(30 * this.SCALE);
+    cSym.font = Font.boldRoundedSystemFont(31 * this.SCALE);
     cSym.textColor = isOwe ? new Color('#EF4444') : balanceColor;
 
     const val = cValRow.addText(this.formatMoney(d.countMoney || d.newCountMoney || '0.00'));
-    val.font = Font.boldRoundedSystemFont(33 * this.SCALE);
+    val.font = Font.boldRoundedSystemFont(34 * this.SCALE);
     val.textColor = isOwe ? new Color('#EF4444') : balanceColor;
 
     card.addSpacer(7 * this.SCALE);
@@ -1079,17 +1095,21 @@ class Widget extends DmYY {
 
     const gap = 8 * this.SCALE;
     const colW = Math.floor((contentW - 2 * gap) / 3);
-    const colW3 = contentW - 2 * gap - 2 * colW;
+    const realGap = (contentW - 3 * colW) / 2;
+    const innerW = colW - 18 * this.SCALE;
+    const cardH = 54 * this.SCALE;
 
     const cardA = grid.addStack();
     cardA.layoutVertically();
     cardA.backgroundColor = this.getCardBgColor();
     cardA.cornerRadius = 10 * this.SCALE;
     cardA.setPadding(9 * this.SCALE, 9 * this.SCALE, 9 * this.SCALE, 9 * this.SCALE);
-    cardA.size = new Size(colW, 0);
+    cardA.size = new Size(colW, cardH);
 
     const aHead = cardA.addStack();
     aHead.centerAlignContent();
+    aHead.size = new Size(innerW, 0);
+    aHead.addSpacer();
     const aIcon = SFSymbol.named('speedometer');
     const aImg = aHead.addImage(aIcon.image);
     aImg.imageSize = new Size(12 * this.SCALE, 12 * this.SCALE);
@@ -1099,25 +1119,34 @@ class Widget extends DmYY {
     aTitle.font = Font.systemFont(10 * this.SCALE);
     aTitle.textColor = subColor;
     aTitle.lineLimit = 1;
+    aTitle.minimumScaleFactor = 0.7;
+    aHead.addSpacer();
 
     cardA.addSpacer(4 * this.SCALE);
-    const aVal = cardA.addText(`${d.lastRecord || '0'} m³`);
-    aVal.font = Font.boldRoundedSystemFont(16 * this.SCALE);
+    const aValRow = cardA.addStack();
+    aValRow.centerAlignContent();
+    aValRow.size = new Size(innerW, 0);
+    const aVal = aValRow.addText(`${d.lastRecord || '0'} m³`);
+    aVal.font = Font.boldRoundedSystemFont(14 * this.SCALE);
     aVal.textColor = this.widgetColor;
     aVal.lineLimit = 1;
-    aVal.minimumScaleFactor = 0.8;
+    aVal.minimumScaleFactor = 0.95;
+    aVal.centerAlignText();
+    aVal.size = new Size(innerW, 0);
 
-    grid.addSpacer(gap);
+    grid.addSpacer(realGap);
 
     const cardB = grid.addStack();
     cardB.layoutVertically();
     cardB.backgroundColor = this.getCardBgColor();
     cardB.cornerRadius = 10 * this.SCALE;
     cardB.setPadding(9 * this.SCALE, 9 * this.SCALE, 9 * this.SCALE, 9 * this.SCALE);
-    cardB.size = new Size(colW, 0);
+    cardB.size = new Size(colW, cardH);
 
     const bHead = cardB.addStack();
     bHead.centerAlignContent();
+    bHead.size = new Size(innerW, 0);
+    bHead.addSpacer();
     const bIcon = SFSymbol.named('calendar.badge.clock');
     const bImg = bHead.addImage(bIcon.image);
     bImg.imageSize = new Size(12 * this.SCALE, 12 * this.SCALE);
@@ -1127,25 +1156,34 @@ class Widget extends DmYY {
     bTitle.font = Font.systemFont(10 * this.SCALE);
     bTitle.textColor = subColor;
     bTitle.lineLimit = 1;
+    bTitle.minimumScaleFactor = 0.7;
+    bHead.addSpacer();
 
     cardB.addSpacer(4 * this.SCALE);
-    const bVal = cardB.addText(d.lastRecordTime || '近期已核算');
-    bVal.font = Font.boldRoundedSystemFont(13.5 * this.SCALE);
+    const bValRow = cardB.addStack();
+    bValRow.centerAlignContent();
+    bValRow.size = new Size(innerW, 0);
+    const bVal = bValRow.addText(d.lastRecordTime || '近期已核算');
+    bVal.font = Font.boldRoundedSystemFont(14 * this.SCALE);
     bVal.textColor = this.widgetColor;
     bVal.lineLimit = 1;
-    bVal.minimumScaleFactor = 0.8;
+    bVal.minimumScaleFactor = 0.95;
+    bVal.centerAlignText();
+    bVal.size = new Size(innerW, 0);
 
-    grid.addSpacer(gap);
+    grid.addSpacer(realGap);
 
     const cardC = grid.addStack();
     cardC.layoutVertically();
     cardC.backgroundColor = this.getCardBgColor();
     cardC.cornerRadius = 10 * this.SCALE;
     cardC.setPadding(9 * this.SCALE, 9 * this.SCALE, 9 * this.SCALE, 9 * this.SCALE);
-    cardC.size = new Size(colW3, 0);
+    cardC.size = new Size(colW, cardH);
 
     const cHead = cardC.addStack();
     cHead.centerAlignContent();
+    cHead.size = new Size(innerW, 0);
+    cHead.addSpacer();
     const cIcon = SFSymbol.named('waveform.path.ecg');
     const cImg = cHead.addImage(cIcon.image);
     cImg.imageSize = new Size(12 * this.SCALE, 12 * this.SCALE);
@@ -1156,10 +1194,14 @@ class Widget extends DmYY {
     cTitle.font = Font.systemFont(10 * this.SCALE);
     cTitle.textColor = subColor;
     cTitle.lineLimit = 1;
+    cTitle.minimumScaleFactor = 0.7;
+    cHead.addSpacer();
 
     cardC.addSpacer(4 * this.SCALE);
     const cStatusRow = cardC.addStack();
     cStatusRow.centerAlignContent();
+    cStatusRow.size = new Size(innerW, 0);
+    cStatusRow.addSpacer();
 
     const lDotHex = isOwe ? '#EF4444' : (this.isOffline ? (this.settings.themeColor || '#FF9500') : (this.settings.balanceColor || '#10B981'));
     const lGlowImg = cStatusRow.addImage(this.drawGlowDot(lDotHex, Math.round(36 * this.SCALE)));
@@ -1169,10 +1211,11 @@ class Widget extends DmYY {
 
     const cValText = isOwe ? '账户欠费' : (this.isOffline ? '离线保持' : '气压稳定');
     const cVal = cStatusRow.addText(cValText);
-    cVal.font = Font.boldSystemFont(12 * this.SCALE);
+    cVal.font = Font.boldRoundedSystemFont(13 * this.SCALE);
     cVal.textColor = this.widgetColor;
     cVal.lineLimit = 1;
-    cVal.minimumScaleFactor = 0.8;
+    cVal.minimumScaleFactor = 0.95;
+    cStatusRow.addSpacer();
 
     body.addSpacer();
 
@@ -1202,19 +1245,19 @@ class Widget extends DmYY {
     center.centerAlignContent();
 
     const title = center.addText('China Gas');
-    title.font = Font.boldSystemFont(15);
+    title.font = Font.boldSystemFont(16);
     title.textColor = new Color('#FF9500');
 
     center.addSpacer(8);
 
     const tip = center.addText('未检测到凭证配置');
-    tip.font = Font.boldSystemFont(12);
+    tip.font = Font.boldSystemFont(13);
     tip.textColor = this.widgetColor;
 
     center.addSpacer(4);
 
     const desc = center.addText('请点击打开组件，在【账户设置】中输入参数或使用剪贴板智能解析。');
-    desc.font = Font.systemFont(11);
+    desc.font = Font.systemFont(12);
     desc.textColor = new Color('#9CA3AF');
     desc.centerAlignText();
 
@@ -1229,13 +1272,13 @@ class Widget extends DmYY {
     center.centerAlignContent();
 
     const title = center.addText('数据连接失败');
-    title.font = Font.boldSystemFont(14);
+    title.font = Font.boldSystemFont(15);
     title.textColor = new Color('#EF4444');
 
     center.addSpacer(6);
 
     const msg = center.addText('网络超时且无离线缓存，请检查网络或重新配置凭证。');
-    msg.font = Font.systemFont(11);
+    msg.font = Font.systemFont(12);
     msg.textColor = new Color('#9CA3AF');
     msg.centerAlignText();
 
@@ -1458,6 +1501,14 @@ class Widget extends DmYY {
             val: 'balanceLimit',
           },
           {
+            icon: { name: 'arrow.up.left.and.arrow.down.right', color: '#EC4899' },
+            type: 'input',
+            placeholder: '1.0',
+            title: '整体缩放比例',
+            desc: `当前: ${this.settings.uiScale || '1.0'} (0.7 ~ 1.6)`,
+            val: 'uiScale',
+          },
+          {
             icon: { name: 'flame.fill', color: '#10B981' },
             type: 'color',
             title: '余额充沛主题色',
@@ -1484,6 +1535,7 @@ class Widget extends DmYY {
                 this.settings.maskCustCode = 'false';
                 this.settings.maskCompName = 'false';
                 this.settings.balanceLimit = '500';
+                this.settings.uiScale = '1';
                 this.saveSettings(false);
                 const s = new Alert();
                 s.title = '重置成功';
