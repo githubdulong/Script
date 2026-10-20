@@ -3,7 +3,7 @@
 // icon-color: yellow; icon-glyph: fire;
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v2.1.7
+ * 版本号: v2.1.8
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  * 其他说明: UI 套用请说明来源，其他地区修改接口即可
@@ -1348,12 +1348,12 @@ class Widget extends DmYY {
           {
             icon: { name: 'message.fill', color: '#07C160' },
             type: 'input',
-            name: 'open_wechat',
-            val: 'open_wechat',
-            title: '快捷打开微信',
-            desc: '跳转微信打开中燃小程序',
+            name: 'open_zrxcx',
+            val: 'open_zrxcx',
+            title: '打开微信小程序（中燃在线）',
+            desc: '直达中燃在线小程序',
             onClick: () => {
-              Safari.open('weixin://');
+              Safari.open('weixin://dl/business/?t=QIFt52MvEsm');
             }
           },
           {
