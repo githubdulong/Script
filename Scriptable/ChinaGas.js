@@ -13,7 +13,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '2.1.7';
+  version = '2.1.8';
 
   SCALE = 1;
   gasData = null;
@@ -962,7 +962,7 @@ class Widget extends DmYY {
 
     right.addSpacer();
 
-    this.createTechRow(right, 'person.crop.rectangle', '客户户号', `${d.custName || '--'} (${this.formatCustCode(d.custCode)})`, themeColor, subColor);
+    this.createTechRow(right, 'person.crop.rectangle', '客户户号', `${d.custName || '--'} (${this.formatCustCode(d.custCode, true)})`, themeColor, subColor);
     right.addSpacer();
 
     this.createTechRow(right, 'speedometer', '上次抄表', `${d.lastRecord || '0'} m³`, new Color('#3B82F6'), subColor);
