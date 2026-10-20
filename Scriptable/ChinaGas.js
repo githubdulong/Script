@@ -1,3 +1,6 @@
+// Variables used by Scriptable.
+// These must be at the very top of the file. Do not edit.
+// icon-color: yellow; icon-glyph: fire;
 /**
  * 组件名称: 中燃在线 (China Gas)
  * 版本号: v2.1.7
@@ -756,7 +759,7 @@ class Widget extends DmYY {
     statePill.addSpacer(2 * this.SCALE);
 
     const stateText = statePill.addText(isOweDot ? '欠费' : (this.isOffline ? '离线' : '正常'));
-    stateText.font = Font.semiboldSystemFont(10.5 * this.SCALE);
+    stateText.font = Font.systemFont(10.5 * this.SCALE);
     stateText.textColor = subColor;
 
     body.addSpacer();
@@ -1212,7 +1215,7 @@ class Widget extends DmYY {
 
     const cValText = isOwe ? '账户欠费' : (this.isOffline ? '离线保持' : '气压稳定');
     const cVal = cStatusRow.addText(cValText);
-    cVal.font = Font.boldRoundedSystemFont(13 * this.SCALE);
+    cVal.font = Font.boldRoundedSystemFont(12 * this.SCALE);
     cVal.textColor = this.widgetColor;
     cVal.lineLimit = 1;
     cVal.minimumScaleFactor = 0.95;
