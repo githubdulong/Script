@@ -3,7 +3,7 @@
 // icon-color: yellow; icon-glyph: fire;
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v2.1.8
+ * 版本号: v2.4.5
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  * 其他说明: UI 套用请说明来源，其他地区修改接口即可
@@ -13,7 +13,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '2.1.8';
+  version = '2.4.5';
 
   SCALE = 1;
   gasData = null;
@@ -47,9 +47,17 @@ class Widget extends DmYY {
       if (!this.fm.fileExists(this.cachePath)) {
         this.fm.createDirectory(this.cachePath, true);
       }
+      if (!this.fm.fileExists(this.cachePath)) {
+        console.warn('[ChinaGas] 缓存目录创建失败: ' + this.cachePath);
+        return false;
+      }
       const file = this.fm.joinPath(this.cachePath, key);
       this.fm.writeString(file, content);
-    } catch (_) {}
+      return true;
+    } catch (e) {
+      console.warn('[ChinaGas] 写入缓存失败 ' + key + ': ' + e);
+      return false;
+    }
   }
 
   readStorage(key) {
@@ -284,6 +292,7 @@ class Widget extends DmYY {
         this.gasData._updateTimestamp = Date.now();
 
         this.saveCache(cacheKey, JSON.stringify(this.gasData));
+        this.recordDailyBalance();
         this.isOffline = false;
         console.log(`[ChinaGas] 成功获取最新燃气数据并写入沙盒，更新时间: ${this.gasData._fetchTime}`);
       } else {
@@ -414,6 +423,108 @@ class Widget extends DmYY {
       return raw;
     }
     return raw.replace(/城市燃气发展有限公司|燃气发展有限公司|有限责任公司|有限公司/g, '');
+  }
+
+  recordDailyBalance() {
+    try {
+      const d = this.gasData || {};
+      const owe = parseFloat(d.oweMoney || '0');
+      if (owe > 0) return;
+      const bal = parseFloat(d.countMoney || d.newCountMoney || '0');
+      if (!isFinite(bal) || bal < 0) return;
+
+      const now = new Date();
+      const key = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
+      let hist = {};
+      const raw = this.loadCache('gas_balance.json');
+      if (raw) {
+        try {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') hist = parsed;
+        } catch (_) {}
+      }
+      hist[key] = Math.round(bal * 100) / 100;
+
+      const keys = Object.keys(hist).sort();
+      if (keys.length > 7) {
+        keys.slice(0, keys.length - 7).forEach(k => { delete hist[k]; });
+      }
+      const ok = this.saveCache('gas_balance.json', JSON.stringify(hist));
+      if (ok) {
+        console.log(`[ChinaGas] 余额快照已记录 ${key} = ${hist[key]}（共 ${Object.keys(hist).length} 天）`);
+      }
+    } catch (e) {
+      console.warn('[ChinaGas] 余额快照记录异常: ' + e);
+    }
+  }
+
+  getYesterdayUsage() {
+    try {
+      const d = this.gasData || {};
+      const owe = parseFloat(d.oweMoney || '0');
+      if (owe > 0) return null;
+      const cur = parseFloat(d.countMoney || d.newCountMoney || '0');
+      if (!isFinite(cur) || cur <= 0) return null;
+
+      const now = new Date();
+      const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
+      let prev = null;
+
+      const y = new Date(now.getTime() - 86400000);
+      const yKey = `${y.getFullYear()}-${String(y.getMonth() + 1).padStart(2, '0')}-${String(y.getDate()).padStart(2, '0')}`;
+
+      const raw = this.loadCache('gas_balance.json');
+      if (raw) {
+        try {
+          const hist = JSON.parse(raw);
+          if (hist && hist[yKey] !== undefined) {
+            prev = parseFloat(hist[yKey]);
+          }
+        } catch (_) {}
+      }
+
+      if (prev === null || !isFinite(prev)) {
+        const manual = parseFloat(this.settings.yestBal);
+        if (isFinite(manual) && manual > 0) prev = manual;
+      }
+
+      if (prev === null || !isFinite(prev)) return null;
+
+      const diff = prev - cur;
+      if (Math.abs(diff) < 0.005) return 0;
+      return Math.round(diff * 100) / 100;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /**
+   * 生成昨日消耗小字（开关关闭或无数据时返回空字符串）
+   */
+  getYesterdayUsageInfo() {
+    if (this.settings.showYestUsage !== 'true') return null;
+    const v = this.getYesterdayUsage();
+    if (v === null) return null;
+    if (v > 0) return { text: v.toFixed(2), isRecharge: false, isZero: false };
+    if (v < 0) {
+      const a = Math.abs(v);
+      return { text: String(Math.round(a * 100) / 100), isRecharge: true, isZero: false };
+    }
+    return { text: '0.00', isRecharge: false, isZero: true };
+  }
+
+  getUsageColor(info) {
+    if (info.isZero) return new Color('#FFB300');
+    if (info.isRecharge) return new Color('#00D26A');
+    return new Color('#EF4444');
+  }
+
+  getYesterdayUsageText() {
+    const info = this.getYesterdayUsageInfo();
+    if (!info) return '';
+    return info.text;
   }
 
   /**
@@ -776,14 +887,28 @@ class Widget extends DmYY {
     const valRow = body.addStack();
     valRow.centerAlignContent();
     const symText = valRow.addText('¥ ');
-    symText.font = Font.boldRoundedSystemFont(25 * this.SCALE);
+    symText.font = Font.boldRoundedSystemFont(23 * this.SCALE);
     symText.textColor = isOwe ? new Color('#EF4444') : balanceColor;
 
     const valText = valRow.addText(this.formatMoney(d.countMoney || d.newCountMoney || '0.00'));
-    valText.font = Font.boldRoundedSystemFont(28 * this.SCALE);
+    valText.font = Font.boldRoundedSystemFont(26 * this.SCALE);
     valText.textColor = isOwe ? new Color('#EF4444') : balanceColor;
     valText.lineLimit = 1;
     valText.minimumScaleFactor = 0.6;
+
+    const usageS = this.getYesterdayUsageInfo();
+    if (usageS) {
+      const uWrap = valRow.addStack();
+      uWrap.layoutVertically();
+      uWrap.setPadding(0, 3 * this.SCALE, 0, 0);
+      uWrap.addSpacer(7 * this.SCALE);
+      const uTxt = uWrap.addText(usageS.text);
+      uTxt.font = Font.systemFont(11 * this.SCALE);
+      uTxt.textColor = this.getUsageColor(usageS);
+      uTxt.lineLimit = 1;
+      uTxt.minimumScaleFactor = 0.7;
+      uTxt.rightAlignText();
+    }
 
     body.addSpacer(6 * this.SCALE);
 
@@ -897,7 +1022,7 @@ class Widget extends DmYY {
     left.addSpacer();
 
     const isOwe = d.oweMoney && parseFloat(d.oweMoney) > 0;
-    const balLabel = left.addText(isOwe ? '燃气欠费 (元)' : '可用气费余额 (元)');
+    const balLabel = left.addText(isOwe ? '账户燃气欠费' : '账户气费余额');
     balLabel.font = Font.mediumSystemFont(12 * this.SCALE);
     balLabel.textColor = isOwe ? new Color('#EF4444') : subColor;
 
@@ -906,14 +1031,28 @@ class Widget extends DmYY {
     const valRow = left.addStack();
     valRow.centerAlignContent();
     const symText = valRow.addText('¥ ');
-    symText.font = Font.boldRoundedSystemFont(26 * this.SCALE);
+    symText.font = Font.boldRoundedSystemFont(23 * this.SCALE);
     symText.textColor = isOwe ? new Color('#EF4444') : balanceColor;
 
     const valText = valRow.addText(this.formatMoney(d.countMoney || d.newCountMoney || '0.00'));
-    valText.font = Font.boldRoundedSystemFont(29 * this.SCALE);
+    valText.font = Font.boldRoundedSystemFont(26 * this.SCALE);
     valText.textColor = isOwe ? new Color('#EF4444') : balanceColor;
     valText.lineLimit = 1;
     valText.minimumScaleFactor = 0.6;
+
+    const usageM = this.getYesterdayUsageInfo();
+    if (usageM) {
+      const uWrapM = valRow.addStack();
+      uWrapM.layoutVertically();
+      uWrapM.setPadding(0, 3 * this.SCALE, 0, 0);
+      uWrapM.addSpacer(7 * this.SCALE);
+      const uTxtM = uWrapM.addText(usageM.text);
+      uTxtM.font = Font.systemFont(11 * this.SCALE);
+      uTxtM.textColor = this.getUsageColor(usageM);
+      uTxtM.lineLimit = 1;
+      uTxtM.minimumScaleFactor = 0.7;
+      uTxtM.rightAlignText();
+    }
 
     left.addSpacer(7 * this.SCALE);
 
@@ -1066,7 +1205,7 @@ class Widget extends DmYY {
     card.setPadding(12 * this.SCALE, 16 * this.SCALE, 12 * this.SCALE, 16 * this.SCALE);
 
     const isOwe = d.oweMoney && parseFloat(d.oweMoney) > 0;
-    const cLabel = card.addText(isOwe ? '账户欠费总额 (元)' : '当前账户可用气费余额 (元)');
+    const cLabel = card.addText(isOwe ? '账户欠费总额' : '当前账户可用气费余额');
     cLabel.font = Font.mediumSystemFont(12.5 * this.SCALE);
     cLabel.textColor = isOwe ? new Color('#EF4444') : subColor;
 
@@ -1075,12 +1214,27 @@ class Widget extends DmYY {
     const cValRow = card.addStack();
     cValRow.centerAlignContent();
     const cSym = cValRow.addText('¥ ');
-    cSym.font = Font.boldRoundedSystemFont(31 * this.SCALE);
+    cSym.font = Font.boldRoundedSystemFont(29 * this.SCALE);
     cSym.textColor = isOwe ? new Color('#EF4444') : balanceColor;
 
     const val = cValRow.addText(this.formatMoney(d.countMoney || d.newCountMoney || '0.00'));
-    val.font = Font.boldRoundedSystemFont(34 * this.SCALE);
+    val.font = Font.boldRoundedSystemFont(32 * this.SCALE);
     val.textColor = isOwe ? new Color('#EF4444') : balanceColor;
+    val.lineLimit = 1;
+    val.minimumScaleFactor = 0.75;
+
+    const usageL = this.getYesterdayUsageInfo();
+    if (usageL) {
+      const uWrapL = cValRow.addStack();
+      uWrapL.layoutVertically();
+      uWrapL.setPadding(0, 4 * this.SCALE, 0, 0);
+      uWrapL.addSpacer(7 * this.SCALE);
+      const uTxtL = uWrapL.addText(usageL.text);
+      uTxtL.font = Font.systemFont(14 * this.SCALE);
+      uTxtL.textColor = this.getUsageColor(usageL);
+      uTxtL.lineLimit = 1;
+      uTxtL.minimumScaleFactor = 1;
+    }
 
     card.addSpacer(7 * this.SCALE);
 
@@ -1350,10 +1504,10 @@ class Widget extends DmYY {
             type: 'input',
             name: 'open_zrxcx',
             val: 'open_zrxcx',
-            title: '打开微信小程序（中燃在线）',
-            desc: '直达中燃在线小程序',
+            title: '打开微信搜索（中燃在线）',
+            desc: '跳转微信搜索页，手动点开小程序',
             onClick: () => {
-              Safari.open('weixin://dl/business/?t=QIFt52MvEsm');
+              Safari.open('weixin://');
             }
           },
           {
@@ -1435,6 +1589,10 @@ class Widget extends DmYY {
     };
     const curKey = this.settings.progressStyle || 'square';
     const curLabel = styleMap[curKey] || '圆角方块阵';
+    const yestOn = this.settings.showYestUsage === 'true';
+    const yestDesc = yestOn
+      ? (this.settings.yestBal ? `基准 ${this.settings.yestBal} 元` : '点我填昨日余额')
+      : '未开启';
 
     return this.renderAppView([
       {
@@ -1469,14 +1627,6 @@ class Widget extends DmYY {
             }
           },
           {
-            icon: { name: 'slider.horizontal.3', color: '#FF9500' },
-            type: 'switch',
-            title: '进度条余额渐变色',
-            desc: '根据余额多少动态变换绿-青-黄-橙-红5大色阶',
-            val: 'useGradientBar',
-            default: true,
-          },
-          {
             icon: { name: 'paintpalette.fill', color: '#F59E0B' },
             type: 'color',
             title: '自定义品牌强调色(单色)',
@@ -1485,16 +1635,11 @@ class Widget extends DmYY {
             val: 'themeColor',
           },
           {
-            icon: { name: 'number.square.fill', color: '#3B82F6' },
-            type: 'switch',
-            title: '隐藏户号脱敏 (512****03)',
-            val: 'maskCustCode',
-          },
-          {
-            icon: { name: 'building.2', color: '#10B981' },
-            type: 'switch',
-            title: '隐藏服务单位脱敏 (中国燃气)',
-            val: 'maskCompName',
+            icon: { name: 'flame.fill', color: '#10B981' },
+            type: 'color',
+            title: '余额充沛主题色',
+            defaultValue: '#10B981',
+            val: 'balanceColor',
           },
           {
             icon: { name: 'speedometer', color: '#8B5CF6' },
@@ -1513,11 +1658,35 @@ class Widget extends DmYY {
             val: 'uiScale',
           },
           {
-            icon: { name: 'flame.fill', color: '#10B981' },
-            type: 'color',
-            title: '余额充沛主题色',
-            defaultValue: '#10B981',
-            val: 'balanceColor',
+            icon: { name: 'slider.horizontal.3', color: '#FF9500' },
+            type: 'switch',
+            title: '进度条余额渐变色',
+            desc: '根据余额多少动态变换绿-青-黄-橙-红5大色阶',
+            val: 'useGradientBar',
+            default: true,
+          },
+          {
+            icon: { name: 'number.square.fill', color: '#3B82F6' },
+            type: 'switch',
+            title: '隐藏户号脱敏 (512****03)',
+            val: 'maskCustCode',
+          },
+          {
+            icon: { name: 'building.2', color: '#10B981' },
+            type: 'switch',
+            title: '隐藏服务单位脱敏 (中国燃气)',
+            val: 'maskCompName',
+          },
+          {
+            icon: { name: 'minus.circle.fill', color: '#EF4444' },
+            type: 'switch',
+            title: '显示昨日消耗数字',
+            desc: `点击设置 · ${yestDesc}`,
+            val: 'showYestUsage',
+            default: false,
+            onClick: async () => {
+              await this.promptYestUsage();
+            }
           },
           {
             icon: { name: 'arrow.counterclockwise', color: '#EF4444' },
@@ -1528,7 +1697,7 @@ class Widget extends DmYY {
             onClick: async () => {
               const alert = new Alert();
               alert.title = '重置显示配置';
-              alert.message = '确定将所有显示配置（渐变色、脱敏、主题色、满额基准等）恢复为初始默认值吗？';
+              alert.message = '确定将所有显示配置（渐变色、脱敏、主题色、满额基准、缩放比例、昨日消耗显示等）恢复为初始默认值吗？\n\n重置后「显示昨日消耗数字」将关闭，昨日基准一并清空。';
               alert.addAction('确认重置');
               alert.addCancelAction('取消');
               const res = await alert.presentAlert();
@@ -1541,6 +1710,8 @@ class Widget extends DmYY {
                 this.settings.progressStyle = 'square';
                 this.settings.balanceLimit = '500';
                 this.settings.uiScale = '1';
+                this.settings.showYestUsage = 'false';
+                this.settings.yestBal = '';
                 this.saveSettings(false);
                 const s = new Alert();
                 s.title = '重置成功';
@@ -1555,6 +1726,39 @@ class Widget extends DmYY {
       }
     ]);
   };
+
+  async promptYestUsage() {
+    const isOn = this.settings.showYestUsage === 'true';
+    const a = new Alert();
+    a.title = '显示昨日消耗数字';
+    a.message = isOn
+      ? '当前已开启。可修改昨日基准余额，或直接关闭此功能。'
+      : '开启后会在余额右侧显示昨日消耗。昨日余额可不填，次日联网后自动采集。';
+    a.addTextField('昨日基准余额（可留空）', this.settings.yestBal || '');
+    a.addAction('保存基准并开启');
+    a.addAction(isOn ? '关闭此功能' : '先不开，仅存基准');
+    a.addCancelAction('取消');
+    const r = await a.presentAlert();
+    if (r === 2 || r < 0) return;
+
+    const raw = (a.textFieldValue(0) || '').trim();
+    const v = parseFloat(raw);
+    this.settings.yestBal = (isFinite(v) && v > 0) ? String(v) : '';
+
+    if (r === 0) {
+      this.settings.showYestUsage = 'true';
+    } else if (r === 1 && isOn) {
+      this.settings.showYestUsage = 'false';
+    }
+    this.saveSettings(false);
+
+    const tip = new Alert();
+    tip.title = '设置已更新';
+    tip.message = `开关状态：${this.settings.showYestUsage === 'true' ? '已开启' : '已关闭'}\n昨日基准：${this.settings.yestBal ? this.settings.yestBal + ' 元' : '未填（次日自动采集）'}`;
+    tip.addAction('好');
+    await tip.presentAlert();
+    this.reopenScript();
+  }
 
   isNewerVersion(v1, v2) {
     if (!v1 || !v2) return false;
