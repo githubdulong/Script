@@ -3,7 +3,7 @@
 // icon-color: yellow; icon-glyph: fire;
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v2.4.5
+ * 版本号: v2.5.2
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  * 其他说明: UI 套用请说明来源，其他地区修改接口即可
@@ -13,7 +13,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '2.4.5';
+  version = '2.5.2';
 
   SCALE = 1;
   gasData = null;
@@ -177,10 +177,6 @@ class Widget extends DmYY {
     }
   }
 
-  /**
-   * 绘制高质感呼吸发光光晕小圆点 (Glow Dot)
-   * 采用高亮发光核心 + 双层径向柔光光晕 (Alpha 递减扩散)
-   */
   drawGlowDot(hexColor, size = 36) {
     const ctx = new DrawContext();
     ctx.size = new Size(size, size);
@@ -500,19 +496,16 @@ class Widget extends DmYY {
     }
   }
 
-  /**
-   * 生成昨日消耗小字（开关关闭或无数据时返回空字符串）
-   */
   getYesterdayUsageInfo() {
     if (this.settings.showYestUsage !== 'true') return null;
     const v = this.getYesterdayUsage();
     if (v === null) return null;
-    if (v > 0) return { text: v.toFixed(2), isRecharge: false, isZero: false };
+    if (v > 0) return { text: v.toFixed(2), isRecharge: false, isZero: false, arrow: '\u2198' };
     if (v < 0) {
       const a = Math.abs(v);
-      return { text: String(Math.round(a * 100) / 100), isRecharge: true, isZero: false };
+      return { text: String(Math.round(a * 100) / 100), isRecharge: true, isZero: false, arrow: '\u2197' };
     }
-    return { text: '0.00', isRecharge: false, isZero: true };
+    return { text: '0.00', isRecharge: false, isZero: true, arrow: '\u2192' };
   }
 
   getUsageColor(info) {
@@ -521,15 +514,21 @@ class Widget extends DmYY {
     return new Color('#EF4444');
   }
 
+  limitUsageDigits(info, maxInt) {
+    if (!info) return '';
+    const raw = String(info.text);
+    const dot = raw.indexOf('.');
+    const intPart = dot < 0 ? raw : raw.slice(0, dot);
+    if (intPart.length >= maxInt) return info.arrow + ' ' + intPart;
+    return info.arrow + ' ' + raw;
+  }
+
   getYesterdayUsageText() {
     const info = this.getYesterdayUsageInfo();
     if (!info) return '';
     return info.text;
   }
 
-  /**
-   * 计算当前余额占基准的比例
-   */
   getBalanceRatio() {
     const d = this.gasData || {};
     const isOwe = d.oweMoney && parseFloat(d.oweMoney) > 0;
@@ -540,9 +539,6 @@ class Widget extends DmYY {
     return Math.max(0, Math.min(1.0, bal / maxLimit));
   }
 
-  /**
-   * 动态计算胶囊点亮格数（以预设满额为基准）
-   */
   getCapsuleActiveCount(totalSegments = 10) {
     const d = this.gasData || {};
     const isOwe = d.oweMoney && parseFloat(d.oweMoney) > 0;
@@ -554,9 +550,6 @@ class Widget extends DmYY {
     return Math.max(1, Math.round(ratio * totalSegments));
   }
 
-  /**
-   * 动态色阶渐变算法（绿 -> 青 -> 黄 -> 橙 -> 红 5 大色阶）
-   */
   getBarColors(ratio, isOwe) {
     if (this.settings.useGradientBar === 'false') {
       const single = this.settings.themeColor || '#FF9500';
@@ -580,9 +573,6 @@ class Widget extends DmYY {
     }
   }
 
-  /**
-   * 颜色平滑线性插值
-   */
   interpolateColor(color1Hex, color2Hex, factor) {
     try {
       const c1 = parseInt(color1Hex.replace('#', ''), 16);
@@ -598,9 +588,6 @@ class Widget extends DmYY {
     }
   }
 
-  /**
-   * 绘制科技感胶囊进度条（支持多色阶渐变与平滑单元插值）
-   */
   getCardBgColor() {
     const userDarkBg = ((this.settings && this.settings.darkBgColor) || '').trim().toUpperCase();
     let darkCardHex = '#1C1C1E';
@@ -624,9 +611,6 @@ class Widget extends DmYY {
     return Color.dynamic(new Color('#E5E7EB'), new Color(darkHex));
   }
 
-  /**
-   * 进度条统一入口：精选 3 款，100% 满宽对齐
-   */
   addProgressBar(parent, width, height, totalSegments = 10, colors, ratio) {
     const style = this.settings.progressStyle || 'square';
     const validRatio = Math.max(0, Math.min(1.0, ratio !== undefined ? ratio : this.getBalanceRatio()));
@@ -641,9 +625,6 @@ class Widget extends DmYY {
     }
   }
 
-  /**
-   * 圆角方块阵 (square) - Cloudflare 同款矩阵圆角方块
-   */
   addSquareBar(parent, width, height, totalSegments = 10, colors, ratio) {
     let segWidth, blockH;
     if (totalSegments <= 10) {
@@ -704,9 +685,6 @@ class Widget extends DmYY {
     return bar;
   }
 
-  /**
-   * 经典微胶囊 (capsule)
-   */
   addCapsuleBar(parent, width, height, totalSegments = 10, activeSegments = 7, colors) {
     const bar = parent.addStack();
     bar.layoutHorizontally();
@@ -741,9 +719,6 @@ class Widget extends DmYY {
     return bar;
   }
 
-  /**
-   * 一体无缝条 (smooth)
-   */
   addSmoothBar(parent, width, height, colors, ratio) {
     const bar = parent.addStack();
     bar.layoutHorizontally();
@@ -823,9 +798,6 @@ class Widget extends DmYY {
     }
   }
 
-  /**
-   * 小尺寸组件 (Small) - 饱满紧凑对齐
-   */
   async renderSmall(w) {
     const pX = 14 * this.SCALE;
     const pY = 12 * this.SCALE;
@@ -901,8 +873,8 @@ class Widget extends DmYY {
       const uWrap = valRow.addStack();
       uWrap.layoutVertically();
       uWrap.setPadding(0, 3 * this.SCALE, 0, 0);
-      uWrap.addSpacer(7 * this.SCALE);
-      const uTxt = uWrap.addText(usageS.text);
+      uWrap.addSpacer(8 * this.SCALE);
+      const uTxt = uWrap.addText(this.limitUsageDigits(usageS, 3));
       uTxt.font = Font.systemFont(11 * this.SCALE);
       uTxt.textColor = this.getUsageColor(usageS);
       uTxt.lineLimit = 1;
@@ -981,9 +953,6 @@ class Widget extends DmYY {
     return w;
   }
 
-  /**
-   * 中尺寸组件 (Medium) - 左右反差色双拼布局，划线分割，卡片阴影色统一
-   */
   async renderMedium(w) {
     const pX = 16 * this.SCALE;
     const pY = 12 * this.SCALE;
@@ -1045,8 +1014,8 @@ class Widget extends DmYY {
       const uWrapM = valRow.addStack();
       uWrapM.layoutVertically();
       uWrapM.setPadding(0, 3 * this.SCALE, 0, 0);
-      uWrapM.addSpacer(7 * this.SCALE);
-      const uTxtM = uWrapM.addText(usageM.text);
+      uWrapM.addSpacer(8 * this.SCALE);
+      const uTxtM = uWrapM.addText(this.limitUsageDigits(usageM, 3));
       uTxtM.font = Font.systemFont(11 * this.SCALE);
       uTxtM.textColor = this.getUsageColor(usageM);
       uTxtM.lineLimit = 1;
@@ -1141,9 +1110,6 @@ class Widget extends DmYY {
     row.addSpacer();
   }
 
-  /**
-   * 大尺寸组件 (Large) - 颜色同步支持渐变或自定义单色
-   */
   async renderLarge(w) {
     const pX = 16 * this.SCALE;
     const pY = 14 * this.SCALE;
@@ -1228,8 +1194,8 @@ class Widget extends DmYY {
       const uWrapL = cValRow.addStack();
       uWrapL.layoutVertically();
       uWrapL.setPadding(0, 4 * this.SCALE, 0, 0);
-      uWrapL.addSpacer(7 * this.SCALE);
-      const uTxtL = uWrapL.addText(usageL.text);
+      uWrapL.addSpacer(8 * this.SCALE);
+      const uTxtL = uWrapL.addText(usageL.arrow + ' ' + usageL.text);
       uTxtL.font = Font.systemFont(14 * this.SCALE);
       uTxtL.textColor = this.getUsageColor(usageL);
       uTxtL.lineLimit = 1;
