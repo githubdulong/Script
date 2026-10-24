@@ -5,7 +5,7 @@
  * @author: 脑瓜
  * @feedback https://t.me/Scriptable_CN
  * telegram: @anker1209
- * version: 2.6.11
+ * version: 2.6.13
  * update: 2026/10/24
  * 原创UI，修改套用请注明来源
 
@@ -33,7 +33,7 @@ class Widget extends DmYY {
     this.Run();
   }
   
-  version = '2.6.11';
+  version = '2.6.13';
 
   cookie = '';
   gradient = false;
@@ -298,6 +298,25 @@ class Widget extends DmYY {
         .join("; ");
   };
 
+  // Cookie 失效通知：只弹通知提醒，绝不写任何标志文件（内存去重，同一次运行内同账户只提醒一次）
+  notifyCookieInvalid() {
+    try {
+      if (!this._notifiedIndexes) this._notifiedIndexes = {};
+      if (this._notifiedIndexes[this.currIndex]) {
+        console.log(`🔔 账户[${this.currIndex}] 本次已提醒过，跳过`);
+        return;
+      }
+      const noti = new Notification();
+      noti.title = "中国联通";
+      noti.body = `账户[${this.currIndex}] Cookie 已失效或无数据，请重新获取并更新！`;
+      noti.schedule();
+      this._notifiedIndexes[this.currIndex] = true;
+      console.log(`🔔 已发送 Cookie 失效提醒: 账户[${this.currIndex}]`);
+    } catch (e) {
+      console.log(`通知发送失败: ${e}`);
+    }
+  };
+
   maskName(str) {
     if (!str) return "未知";
     if (str.length <= 1) return "*";
@@ -337,11 +356,19 @@ class Widget extends DmYY {
         console.log(`\n🟠 联通数据：缓存 ${diff.toFixed(0)} 分钟前 (设置: ${settingTime}分)`);
         console.log(`🟠 联通数据：读取缓存`);
         try {
-          userInfo = JSON.parse(fm.readString(cachePath));
-          useCache = true;
-          this.refreshUpdateTime(modified); 
+          const cached = JSON.parse(fm.readString(cachePath));
+          // 缓存结构校验：必须含 data.dataList 数组，否则视为无效缓存走网络请求
+          if (cached && cached.code === 'Y' && cached.data && Array.isArray(cached.data.dataList) && cached.data.dataList.length > 0) {
+            userInfo = cached;
+            useCache = true;
+            this.refreshUpdateTime(modified);
+          } else {
+            console.log(`⚠️ 缓存结构不完整(缺 dataList)，删除并重新请求`);
+            fm.remove(cachePath);
+          }
         } catch (e) {
-          console.log(`⚠️ 缓存损坏，刷新数据`);
+          console.log(`⚠️ 缓存损坏，删除并重新请求`);
+          fm.remove(cachePath);
         }
       } else {
          console.log(`\n🔵 联通数据：缓存已过期 (${diff.toFixed(0)} > ${settingTime}分)`);
@@ -356,6 +383,12 @@ class Widget extends DmYY {
         const response = await req.loadJSON();
         
         if (response && response.code === 'Y') {
+          // 写入缓存前先校验结构，残缺响应绝不落盘（避免后续复现解析崩溃）
+          if (!response.data || !Array.isArray(response.data.dataList) || response.data.dataList.length === 0) {
+            console.log(`❌ 联通数据：返回结构异常(缺 dataList)，不写缓存`);
+            this.notifyCookieInvalid();
+            throw `账户[${this.currIndex}] Cookie失效或服务器维护`;
+          }
           console.log(`🟢 联通数据：网络请求成功`);
           userInfo = response;
           if (fm.fileExists(cachePath)) fm.remove(cachePath);
@@ -368,10 +401,7 @@ class Widget extends DmYY {
             userInfo = JSON.parse(fm.readString(cachePath));
             this.refreshUpdateTime(fm.modificationDate(cachePath));
           } else {
-            let noti = new Notification();
-            noti.title = "中国联通";
-            noti.body = `账户[${this.currIndex}] Cookie 已失效或无数据，请重新获取并更新！`;
-            noti.schedule();
+            this.notifyCookieInvalid();
             throw `账户[${this.currIndex}] Cookie失效或服务器维护`;
           }
         }
@@ -382,12 +412,22 @@ class Widget extends DmYY {
           userInfo = JSON.parse(fm.readString(cachePath));
           this.refreshUpdateTime(fm.modificationDate(cachePath));
         } else if (String(e).includes("Cookie失效")) {
-            let noti = new Notification();
-            noti.title = "中国联通";
-            noti.body = `账户[${this.currIndex}] Cookie 已失效或无数据，请重新获取并更新！`;
-            noti.schedule();
+            this.notifyCookieInvalid();
         }
       }
+    }
+
+    // 数据有效性总校验：所有取数路径（缓存/网络/旧缓存兜底）执行完后再校验一次
+    if (!userInfo || userInfo.code !== 'Y' || !userInfo.data || !Array.isArray(userInfo.data.dataList) || userInfo.data.dataList.length === 0) {
+      if (userInfo && userInfo.code === 'Y' && userInfo.data && !Array.isArray(userInfo.data.dataList)) {
+        console.log(`⚠️ 账户[${this.currIndex}] 返回结构异常(缺 dataList)，可能 Cookie 已失效，删除该账户缓存`);
+        if (fm.fileExists(cachePath)) fm.remove(cachePath);
+      } else {
+        console.log(`⚠️ 账户[${this.currIndex}] 无有效数据，跳过渲染`);
+      }
+      // 仅通知提醒，不生成任何额外文件；同一天同一账户只提醒一次
+      this.notifyCookieInvalid();
+      return;
     }
 
     if (userInfo && userInfo.code === 'Y') {
