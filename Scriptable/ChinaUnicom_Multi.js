@@ -1,9 +1,12 @@
+// Variables used by Scriptable.
+// These must be at the very top of the file. Do not edit.
+// icon-color: red; icon-glyph: phone-square;
 /*
  * @author: 脑瓜
  * @feedback https://t.me/Scriptable_CN
  * telegram: @anker1209
- * version: 2.6.10
- * update: 2026/09/15
+ * version: 2.6.11
+ * update: 2026/10/24
  * 原创UI，修改套用请注明来源
 
 联通组件 = type=http-request,pattern=https:\/\/m(?:xx)?\.client\.10010\.com\/(?:.*\/)?smartwisdomCommon(?:New)?(?:\?.*)?$,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,requires-body=true,max-size=0,script-update-interval=0
@@ -30,7 +33,7 @@ class Widget extends DmYY {
     this.Run();
   }
   
-  version = '2.6.10';
+  version = '2.6.11';
 
   cookie = '';
   gradient = false;
@@ -546,7 +549,7 @@ class Widget extends DmYY {
     const mainStack = bodyStack.addStack();
     mainStack.setPadding(8 * this.SCALE, 12 * this.SCALE, 8 * this.SCALE, 12 * this.SCALE);
     mainStack.cornerRadius = 14 * this.SCALE;
-    mainStack.backgroundColor = Color.dynamic(new Color("#E2E2E7", 0.3), new Color("#2C2C2F", 1));
+    mainStack.backgroundColor = Color.dynamic(new Color("#FFFFFF", 0.15), new Color("#000000", 0.25));
     mainStack.layoutVertically();
 
     this.setList(mainStack, this.flow);
