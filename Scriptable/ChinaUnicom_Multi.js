@@ -5,8 +5,8 @@
  * @author: 脑瓜
  * @feedback https://t.me/Scriptable_CN
  * telegram: @anker1209
- * version: 2.6.13
- * update: 2026/10/24
+ * version: 2.6.16
+ * update: 2026/10/26
  * 原创UI，修改套用请注明来源
 
 联通组件 = type=http-request,pattern=https:\/\/m(?:xx)?\.client\.10010\.com\/(?:.*\/)?smartwisdomCommon(?:New)?(?:\?.*)?$,script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js,requires-body=true,max-size=0,script-update-interval=0
@@ -33,7 +33,7 @@ class Widget extends DmYY {
     this.Run();
   }
   
-  version = '2.6.13';
+  version = '2.6.16';
 
   cookie = '';
   gradient = false;
@@ -298,23 +298,51 @@ class Widget extends DmYY {
         .join("; ");
   };
 
-  // Cookie 失效通知：只弹通知提醒，绝不写任何标志文件（内存去重，同一次运行内同账户只提醒一次）
-  notifyCookieInvalid() {
+  // Cookie 失效通知：只弹通知提醒，绝不写任何标志文件
+  // 去重靠 Keychain 中的时间戳（同账户 6 小时内只提醒一次），不产生任何沙箱文件
+  notifyCookieInvalid(reason = '') {
     try {
-      if (!this._notifiedIndexes) this._notifiedIndexes = {};
-      if (this._notifiedIndexes[this.currIndex]) {
-        console.log(`🔔 账户[${this.currIndex}] 本次已提醒过，跳过`);
+      const NOTIFY_KEY = 'Unicom_CKNotify_' + this.currIndex;
+      const COOLDOWN = 6 * 60 * 60 * 1000;
+      let last = 0;
+      try {
+        if (Keychain.contains(NOTIFY_KEY)) last = parseInt(Keychain.get(NOTIFY_KEY)) || 0;
+      } catch (err) {}
+      const now = Date.now();
+      if (last && now - last < COOLDOWN) {
+        console.log(`🔔 账户[${this.currIndex}] ${((now - last) / 3600000).toFixed(1)}h 前已提醒，6小时内不重复`);
         return;
       }
       const noti = new Notification();
       noti.title = "中国联通";
-      noti.body = `账户[${this.currIndex}] Cookie 已失效或无数据，请重新获取并更新！`;
-      noti.schedule();
-      this._notifiedIndexes[this.currIndex] = true;
-      console.log(`🔔 已发送 Cookie 失效提醒: 账户[${this.currIndex}]`);
+      noti.body = `账户[${this.currIndex}] Cookie 已失效，请重新获取并更新！` + (reason ? `\n原因：${reason}` : '');
+      try {
+        noti.schedule();
+      } catch (err) {
+        console.log(`通知调度异常，降级为立即发送: ${err}`);
+        noti.schedule(new Date());
+      }
+      try { Keychain.set(NOTIFY_KEY, String(now)); } catch (err) {}
+      console.log(`🔔 已发送 Cookie 失效提醒: 账户[${this.currIndex}] (${reason})`);
     } catch (e) {
       console.log(`通知发送失败: ${e}`);
     }
+  };
+
+  // 判定接口响应是否代表 CK 失效（而非服务端临时抖动）
+  // 实测依据：CK 失效/未登录时联通该接口返回 code='E'，并附带登录相关提示文案；
+  // 服务端普通抖动通常是其他非 Y 业务码。因此“失败码 + 登录关键字”才判定为失效，
+  // 不单纯凭 code 字母猜测，避免把接口维护/限流误判成 CK 失效。
+  isCookieInvalidResponse(resp) {
+    if (!resp || typeof resp !== 'object') return false;
+    const code = String(resp.code || '').toUpperCase();
+    if (code === 'Y') return false;
+    const msg = String(resp.message || resp.msg || resp.desc || resp.info || '');
+    const keywords = ['登录', '失效', '未登录', '过期', '重新登', '凭证', 'token', 'auth'];
+    const hitMsg = keywords.some((k) => msg.toLowerCase().includes(k.toLowerCase()));
+    if (hitMsg) return true;
+    // 未登录/无凭证类业务码（仅在无文案时兼底）
+    return ['E', '401', '403'].includes(code);
   };
 
   maskName(str) {
@@ -333,7 +361,6 @@ class Widget extends DmYY {
       console.log(`❌ 账户[${this.currIndex}] 未配置 Cookie`);
       return; 
     }
-
     const fm = FileManager.local();
     const cacheDir = fm.joinPath(fm.documentsDirectory(), "ChinaUnicom_Cache");
     const cachePath = fm.joinPath(cacheDir, `account_${this.currIndex}.json`);
@@ -380,14 +407,15 @@ class Widget extends DmYY {
       try {
         const req = new Request(url);
         req.headers = {'cookie': this.cookie};
+        req.timeoutInterval = 15;
         const response = await req.loadJSON();
         
         if (response && response.code === 'Y') {
           // 写入缓存前先校验结构，残缺响应绝不落盘（避免后续复现解析崩溃）
           if (!response.data || !Array.isArray(response.data.dataList) || response.data.dataList.length === 0) {
             console.log(`❌ 联通数据：返回结构异常(缺 dataList)，不写缓存`);
-            this.notifyCookieInvalid();
-            throw `账户[${this.currIndex}] Cookie失效或服务器维护`;
+            this.notifyCookieInvalid('返回结构异常(缺 dataList)');
+            return;
           }
           console.log(`🟢 联通数据：网络请求成功`);
           userInfo = response;
@@ -395,39 +423,61 @@ class Widget extends DmYY {
           fm.writeString(cachePath, JSON.stringify(userInfo));
           this.refreshUpdateTime(new Date());
         } else {
-          console.log(`❌ 联通数据：请求失败 (Code: ${response ? response.code : 'unknown'})`);
+          const code = response ? response.code : 'unknown';
+          const msg = response ? (response.message || response.msg || response.desc || '') : '';
+          console.log(`❌ 联通数据：请求失败 (Code: ${code} Msg: ${msg})`);
+          // 【关键】CK 失效：不论有无旧缓存，立即送达通知，不再静默用旧数据兜底
+          if (this.isCookieInvalidResponse(response)) {
+            console.log(`🔴 联通数据：判定 COOKIE 已失效`);
+            this.notifyCookieInvalid(`接口返回 code=${code}${msg ? ' ' + msg : ''}`);
+          }
           if (fm.fileExists(cachePath)) {
-            console.log(`🟠 联通数据：服务异常，读取旧缓存`);
-            userInfo = JSON.parse(fm.readString(cachePath));
-            this.refreshUpdateTime(fm.modificationDate(cachePath));
+            console.log(`🟠 联通数据：服务异常/无数据，读取旧缓存`);
+            let oldCache = null;
+            try { oldCache = JSON.parse(fm.readString(cachePath)); } catch (err) { console.log(`⚠️ 旧缓存解析失败: ${err}`); }
+            if (oldCache && oldCache.code === 'Y' && oldCache.data && Array.isArray(oldCache.data.dataList) && oldCache.data.dataList.length > 0) {
+              userInfo = oldCache;
+              this.refreshUpdateTime(fm.modificationDate(cachePath));
+            } else {
+              fm.remove(cachePath);
+              if (!this.isCookieInvalidResponse(response)) this.notifyCookieInvalid(`接口异常 code=${code}，缓存也已失效`);
+              return;
+            }
           } else {
-            this.notifyCookieInvalid();
-            throw `账户[${this.currIndex}] Cookie失效或服务器维护`;
+            if (!this.isCookieInvalidResponse(response)) this.notifyCookieInvalid(`接口异常 code=${code}，无可用缓存`);
+            return;
           }
         }
       } catch (e) {
+        // 【网络异常】属于网络问题，不是 CK 失效；优先读旧缓存，不发 CK 失效通知
         console.log(`❌ 联通数据：网络错误 ${e}`);
         if (fm.fileExists(cachePath)) {
           console.log(`🟠 联通数据：网络异常，读取旧缓存`);
-          userInfo = JSON.parse(fm.readString(cachePath));
-          this.refreshUpdateTime(fm.modificationDate(cachePath));
-        } else if (String(e).includes("Cookie失效")) {
-            this.notifyCookieInvalid();
+          let oldCache = null;
+          try { oldCache = JSON.parse(fm.readString(cachePath)); } catch (err) { console.log(`⚠️ 旧缓存解析失败: ${err}`); }
+          if (oldCache && oldCache.code === 'Y' && oldCache.data && Array.isArray(oldCache.data.dataList) && oldCache.data.dataList.length > 0) {
+            userInfo = oldCache;
+            this.refreshUpdateTime(fm.modificationDate(cachePath));
+          } else {
+            fm.remove(cachePath);
+            console.log(`⚠️ 网络异常且无有效缓存，本次跳过渲染（不误报 CK 失效）`);
+            return;
+          }
+        } else {
+          console.log(`⚠️ 网络异常且无缓存，本次跳过渲染（不误报 CK 失效）`);
+          return;
         }
       }
     }
 
-    // 数据有效性总校验：所有取数路径（缓存/网络/旧缓存兜底）执行完后再校验一次
+    // 数据有效性总校验：防任何路径漏检导致后续 forEach 崩溃
     if (!userInfo || userInfo.code !== 'Y' || !userInfo.data || !Array.isArray(userInfo.data.dataList) || userInfo.data.dataList.length === 0) {
-      if (userInfo && userInfo.code === 'Y' && userInfo.data && !Array.isArray(userInfo.data.dataList)) {
-        console.log(`⚠️ 账户[${this.currIndex}] 返回结构异常(缺 dataList)，可能 Cookie 已失效，删除该账户缓存`);
-        if (fm.fileExists(cachePath)) fm.remove(cachePath);
-      } else {
-        console.log(`⚠️ 账户[${this.currIndex}] 无有效数据，跳过渲染`);
-      }
-      // 仅通知提醒，不生成任何额外文件；同一天同一账户只提醒一次
-      this.notifyCookieInvalid();
+      console.log(`⚠️ 账户[${this.currIndex}] 无有效数据，跳过渲染`);
       return;
+    }
+    // 时间戳兜底：确保卡片右上角时间一定有值（不会被格式成 NaN）
+    if (!this.arrUpdateTime || !Array.isArray(this.arrUpdateTime) || this.arrUpdateTime.some((v) => v === undefined || v === null || v === '')) {
+      try { this.refreshUpdateTime(new Date()); } catch (e) { console.log(`更新时间兜底失败: ${e}`); }
     }
 
     if (userInfo && userInfo.code === 'Y') {
