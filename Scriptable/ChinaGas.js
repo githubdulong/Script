@@ -3,7 +3,7 @@
 // icon-color: yellow; icon-glyph: fire;
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v2.8.0
+ * 版本号: v2.8.1
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  * 其他说明: UI 套用请说明来源，其他地区修改接口即可
@@ -13,7 +13,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '2.8.0';
+  version = '2.8.1';
 
   SCALE = 1;
   gasData = null;
@@ -887,7 +887,7 @@ class Widget extends DmYY {
     const header = body.addStack();
     header.centerAlignContent();
 
-    const logoImg = await this.getLogoImage();
+    const logoImg = await this.getLogoImage(20);
     if (logoImg) {
       const icon = header.addImage(logoImg);
       icon.imageSize = new Size(20 * this.SCALE, 20 * this.SCALE);
@@ -1061,7 +1061,7 @@ class Widget extends DmYY {
 
     const lHeader = left.addStack();
     lHeader.centerAlignContent();
-    const logoImg = await this.getLogoImage();
+    const logoImg = await this.getLogoImage(20);
     if (logoImg) {
       const fImg = lHeader.addImage(logoImg);
       fImg.imageSize = new Size(20 * this.SCALE, 20 * this.SCALE);
@@ -1222,7 +1222,7 @@ class Widget extends DmYY {
     header.centerAlignContent();
     header.size = new Size(contentW, 0);
 
-    const logoImg = await this.getLogoImage();
+    const logoImg = await this.getLogoImage(24);
     if (logoImg) {
       const fImg = header.addImage(logoImg);
       fImg.imageSize = new Size(24 * this.SCALE, 24 * this.SCALE);
@@ -1872,34 +1872,49 @@ class Widget extends DmYY {
     }
   }
 
-  async getLogoImage() {
-    if (this._logoImg !== undefined) return this._logoImg;
+  async getLogoImage(sizePt) {
+    const key = sizePt || 24;
+    if (this._logoImg !== undefined && this._logoImgKey === key) return this._logoImg;
     const fm = FileManager.iCloud();
     const cachePath = fm.documentsDirectory() + '/images/ChinaGas/logo_cache_v2.png';
+    let src = null;
     try {
       if (fm.fileExists(cachePath)) {
         const age = (Date.now() - fm.modificationDate(cachePath).getTime()) / 3600000;
-        if (age < 168) {
-          this._logoImg = fm.readImage(cachePath);
-          if (this._logoImg) return this._logoImg;
+        if (age < 168) src = fm.readImage(cachePath);
+      }
+    } catch (e) {}
+    if (!src) {
+      try {
+        const req = new Request(this.logo);
+        req.timeoutInterval = 10;
+        src = await req.loadImage();
+        if (src) {
+          try {
+            if (!fm.isFileStoredIniCloud(cachePath)) fm.createDirectory(fm.documentsDirectory() + '/images/ChinaGas', true);
+            fm.writeImage(cachePath, src);
+          } catch (e) {}
         }
-      }
-    } catch (e) {}
+      } catch (e) {}
+    }
+    if (!src) {
+      this._logoImg = null;
+      return null;
+    }
+    const px = Math.max(24, Math.round(key * (Device.screenScale() || 3)));
+    let out = src;
     try {
-      const req = new Request(this.logo);
-      req.timeoutInterval = 10;
-      const img = await req.loadImage();
-      if (img) {
-        this._logoImg = img;
-        try {
-          if (!fm.isFileStoredIniCloud(cachePath)) fm.createDirectory(fm.documentsDirectory() + '/images/ChinaGas', true);
-          fm.writeImage(cachePath, img);
-        } catch (e) {}
-        return img;
-      }
+      const ctx = new DrawContext();
+      ctx.size = new Size(px, px);
+      ctx.opaque = false;
+      ctx.respectScreenScale = true;
+      ctx.drawImageInRect(src, new Rect(0, 0, px, px));
+      const hi = ctx.getImage();
+      if (hi) out = hi;
     } catch (e) {}
-    this._logoImg = null;
-    return null;
+    this._logoImg = out;
+    this._logoImgKey = key;
+    return out;
   }
 
   async checkAndUpdateScript() {
