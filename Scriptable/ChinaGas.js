@@ -3,7 +3,7 @@
 // icon-color: yellow; icon-glyph: fire;
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v2.7.5
+ * 版本号: v2.7.6
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  * 其他说明: UI 套用请说明来源，其他地区修改接口即可
@@ -13,7 +13,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '2.7.5';
+  version = '2.7.6';
 
   SCALE = 1;
   gasData = null;
@@ -202,10 +202,10 @@ class Widget extends DmYY {
       ctx.fillEllipse(new Rect(offset, offset, d, d));
     };
 
-    drawLayer(1.00, hexColor, 0.22);
-    drawLayer(0.68, hexColor, 0.45);
-    drawLayer(0.44, hexColor, 1.00);
-    drawLayer(0.18, '#FFFFFF', 0.90);
+    drawLayer(1.00, hexColor, 0.26);
+    drawLayer(0.74, hexColor, 0.55);
+    drawLayer(0.52, hexColor, 1.00);
+    drawLayer(0.30, '#FFFFFF', 1.00);
 
     return ctx.getImage();
   }
