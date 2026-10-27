@@ -3,7 +3,7 @@
 // icon-color: yellow; icon-glyph: fire;
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v2.7.9
+ * 版本号: v2.8.0
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  * 其他说明: UI 套用请说明来源，其他地区修改接口即可
@@ -13,7 +13,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '2.7.9';
+  version = '2.8.0';
 
   SCALE = 1;
   gasData = null;
@@ -890,8 +890,8 @@ class Widget extends DmYY {
     const logoImg = await this.getLogoImage();
     if (logoImg) {
       const icon = header.addImage(logoImg);
-      icon.imageSize = new Size(24 * this.SCALE, 24 * this.SCALE);
-      icon.cornerRadius = 5 * this.SCALE;
+      icon.imageSize = new Size(20 * this.SCALE, 20 * this.SCALE);
+      icon.cornerRadius = 4 * this.SCALE;
     } else {
       const flame = SFSymbol.named('flame.fill');
       flame.applyHeavyWeight();
@@ -1064,8 +1064,8 @@ class Widget extends DmYY {
     const logoImg = await this.getLogoImage();
     if (logoImg) {
       const fImg = lHeader.addImage(logoImg);
-      fImg.imageSize = new Size(24 * this.SCALE, 24 * this.SCALE);
-      fImg.cornerRadius = 5 * this.SCALE;
+      fImg.imageSize = new Size(20 * this.SCALE, 20 * this.SCALE);
+      fImg.cornerRadius = 4 * this.SCALE;
     } else {
       const flame = SFSymbol.named('flame.fill');
       flame.applyHeavyWeight();
@@ -1225,7 +1225,7 @@ class Widget extends DmYY {
     const logoImg = await this.getLogoImage();
     if (logoImg) {
       const fImg = header.addImage(logoImg);
-      fImg.imageSize = new Size(26 * this.SCALE, 26 * this.SCALE);
+      fImg.imageSize = new Size(24 * this.SCALE, 24 * this.SCALE);
       fImg.cornerRadius = 5 * this.SCALE;
     } else {
       const flame = SFSymbol.named('flame.fill');
