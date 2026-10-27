@@ -3,7 +3,7 @@
 // icon-color: yellow; icon-glyph: fire;
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v2.5.2
+ * 版本号: v2.7.5
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  * 其他说明: UI 套用请说明来源，其他地区修改接口即可
@@ -13,7 +13,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '2.5.2';
+  version = '2.7.5';
 
   SCALE = 1;
   gasData = null;
@@ -60,14 +60,6 @@ class Widget extends DmYY {
     }
   }
 
-  readStorage(key) {
-    return this.loadCache(key);
-  }
-
-  writeStorage(key, content) {
-    return this.saveCache(key, content);
-  }
-
   clearStorage() {
     try {
       if (this.fm.fileExists(this.cachePath)) {
@@ -79,12 +71,32 @@ class Widget extends DmYY {
   async init() {
     this.settings.alias = this.settings.alias || '中燃在线';
     this.settings.themeColor = this.settings.themeColor || '#FF9500';
-    this.settings.balanceColor = this.settings.balanceColor || '#10B981';
+    if (this.settings.balanceTextColor !== undefined) {
+      delete this.settings.balanceTextColor;
+      this.saveSettings(false);
+    }
+    if (this.settings.balanceColor !== undefined) {
+      delete this.settings.balanceColor;
+      this.saveSettings(false);
+    }
     this.settings.interval = this.settings.interval || '360';
     this.settings.balanceLimit = this.settings.balanceLimit || '500';
+    // 只保留三种稳定款式；旧版曾存过 gradient，已废弃，回落到一体无缝条
+    const VALID_STYLES = ['square', 'capsule', 'smooth'];
+    if (!VALID_STYLES.includes(this.settings.progressStyle)) {
+      this.settings.progressStyle = this.settings.progressStyle === 'gradient' ? 'smooth' : 'square';
+    }
     if (this.settings.useGradientBar === undefined) {
-      this.settings.progressStyle = 'square';
-                this.settings.useGradientBar = 'true';
+      this.settings.useGradientBar = 'true';
+    }
+    if (this.settings.useGradientBalance === undefined) {
+      this.settings.useGradientBalance = 'true';
+    }
+    if (this.settings.maskCustCode === undefined) {
+      this.settings.maskCustCode = 'false';
+    }
+    if (this.settings.maskCompName === undefined) {
+      this.settings.maskCompName = 'false';
     }
 
     const uiScale = parseFloat(this.settings.uiScale);
@@ -464,7 +476,6 @@ class Widget extends DmYY {
       if (!isFinite(cur) || cur <= 0) return null;
 
       const now = new Date();
-      const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
       let prev = null;
 
@@ -523,12 +534,6 @@ class Widget extends DmYY {
     return info.arrow + ' ' + raw;
   }
 
-  getYesterdayUsageText() {
-    const info = this.getYesterdayUsageInfo();
-    if (!info) return '';
-    return info.text;
-  }
-
   getBalanceRatio() {
     const d = this.gasData || {};
     const isOwe = d.oweMoney && parseFloat(d.oweMoney) > 0;
@@ -550,42 +555,64 @@ class Widget extends DmYY {
     return Math.max(1, Math.round(ratio * totalSegments));
   }
 
-  getBarColors(ratio, isOwe) {
-    if (this.settings.useGradientBar === 'false') {
-      const single = this.settings.themeColor || '#FF9500';
-      return { start: single, end: single };
-    }
-
-    if (isOwe) {
-      return { start: '#EF4444', end: '#DC2626' };
-    }
-
-    if (ratio >= 0.8) {
-      return { start: '#10B981', end: '#34D399' };
-    } else if (ratio >= 0.6) {
-      return { start: '#06B6D4', end: '#22D3EE' };
-    } else if (ratio >= 0.4) {
-      return { start: '#EAB308', end: '#FACC15' };
-    } else if (ratio >= 0.2) {
-      return { start: '#F97316', end: '#FB923C' };
-    } else {
-      return { start: '#EF4444', end: '#F87171' };
-    }
+  getBandStops() {
+    return ['#B82020', '#F08A1D', '#F5D627', '#F5D627', '#89C853', '#26A67A'];
   }
 
-  interpolateColor(color1Hex, color2Hex, factor) {
-    try {
-      const c1 = parseInt(color1Hex.replace('#', ''), 16);
-      const c2 = parseInt(color2Hex.replace('#', ''), 16);
-      const r1 = (c1 >> 16) & 255, g1 = (c1 >> 8) & 255, b1 = c1 & 255;
-      const r2 = (c2 >> 16) & 255, g2 = (c2 >> 8) & 255, b2 = c2 & 255;
-      const r = Math.round(r1 + (r2 - r1) * factor);
-      const g = Math.round(g1 + (g2 - g1) * factor);
-      const b = Math.round(b1 + (b2 - b1) * factor);
-      return new Color('#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1));
-    } catch (_) {
-      return new Color(color1Hex);
+  getGlowHex(isOwe) {
+    // 光晕指示点始终跟随账户状态色带，不受进度条渐变色开关影响
+    if (isOwe) return '#B82020';
+    if (this.isOffline) return '#0EA5E9';
+    return this.sampleBandHex(this.getBalanceRatio());
+  }
+
+  getBalanceTextColor(isOwe) {
+    if (isOwe) return new Color('#EF4444');
+    if (this.settings.useGradientBalance === 'false') {
+      return this.widgetColor || this.getColor();
     }
+    const ratio = this.getBalanceRatio();
+    return this.colorAt(this.getBarColors(ratio, false), ratio);
+  }
+
+  sampleBandHex(t) {
+    const stops = this.getBandStops();
+    // NaN / 非数字一律当作 0，防止索引变 NaN 后取到 undefined 而抛 TypeError
+    let n = parseFloat(t);
+    if (!isFinite(n)) n = 0;
+    const x = Math.max(0, Math.min(1, n)) * (stops.length - 1);
+    const i = Math.min(stops.length - 2, Math.floor(x));
+    const f = x - i;
+    const c1 = parseInt(stops[i].replace('#', ''), 16);
+    const c2 = parseInt(stops[i + 1].replace('#', ''), 16);
+    const ch = (shift) => Math.round(((c1 >> shift) & 255) + (((c2 >> shift) & 255) - ((c1 >> shift) & 255)) * f);
+    return '#' + ((1 << 24) + (ch(16) << 16) + (ch(8) << 8) + ch(0)).toString(16).slice(1).toUpperCase();
+  }
+
+  sampleBand(t) {
+    return new Color(this.sampleBandHex(t));
+  }
+
+  getBarColors(ratio, isOwe) {
+    if (isOwe || ratio <= 0) {
+      return { single: '#B82020', gradient: false };
+    }
+
+    if (this.settings.useGradientBar === 'false') {
+      const single = this.settings.themeColor || '#FF9500';
+      return { single: single, gradient: false };
+    }
+
+    return { gradient: true, stops: this.getBandStops() };
+  }
+
+  // 所有进度条样式必须走这里，不得直接调 sampleBand，否则关闭渐变开关会失效
+  colorAt(colors, t) {
+    if (!colors || colors.gradient === false) {
+      const single = (colors && colors.single) || this.settings.themeColor || '#FF9500';
+      return new Color(single);
+    }
+    return this.sampleBand(t);
   }
 
   getCardBgColor() {
@@ -599,7 +626,6 @@ class Widget extends DmYY {
     return Color.dynamic(new Color('#F4F5F7'), new Color(darkCardHex));
   }
 
-
   getProgressBarBgColor() {
     const userDarkBg = ((this.settings && this.settings.darkBgColor) || '').trim().toUpperCase();
     let darkHex = '#2C2C2E';
@@ -611,7 +637,7 @@ class Widget extends DmYY {
     return Color.dynamic(new Color('#E5E7EB'), new Color(darkHex));
   }
 
-  addProgressBar(parent, width, height, totalSegments = 10, colors, ratio) {
+  addProgressBar(parent, width, height, totalSegments = 10, colors, ratio, thin) {
     const style = this.settings.progressStyle || 'square';
     const validRatio = Math.max(0, Math.min(1.0, ratio !== undefined ? ratio : this.getBalanceRatio()));
 
@@ -619,7 +645,7 @@ class Widget extends DmYY {
       const activeSegs = this.getCapsuleActiveCount(totalSegments);
       return this.addCapsuleBar(parent, width, height, totalSegments, activeSegs, colors);
     } else if (style === 'smooth') {
-      return this.addSmoothBar(parent, width, height, colors, validRatio);
+      return this.addSmoothBar(parent, width, height, colors, validRatio, thin);
     } else {
       return this.addSquareBar(parent, width, height, totalSegments, colors, validRatio);
     }
@@ -647,7 +673,6 @@ class Widget extends DmYY {
 
     const corner = Math.max(2.5 * this.SCALE, Math.round(blockH * 0.22));
     const bgCol = this.getProgressBarBgColor();
-    const activeHex = (colors && colors.start) || '#FF9500';
 
     const exact = Math.max(0, Math.min(totalSegments, ratio * totalSegments));
 
@@ -658,9 +683,10 @@ class Widget extends DmYY {
       seg.setPadding(0, 0, 0, 0);
 
       const segProgress = Math.max(0, Math.min(1.0, exact - i));
+      const segColor = this.colorAt(colors, (i + 0.5) / totalSegments);
 
       if (segProgress >= 0.98) {
-        seg.backgroundColor = new Color(activeHex);
+        seg.backgroundColor = segColor;
       } else if (segProgress > 0.05) {
         seg.layoutHorizontally();
         seg.centerAlignContent();
@@ -670,7 +696,7 @@ class Widget extends DmYY {
         const fill = seg.addStack();
         fill.size = new Size(fillW, blockH);
         fill.cornerRadius = corner;
-        fill.backgroundColor = new Color(activeHex);
+        fill.backgroundColor = segColor;
         fill.setPadding(0, 0, 0, 0);
 
         seg.addSpacer();
@@ -696,8 +722,6 @@ class Widget extends DmYY {
     const corner = height / 2;
 
     const bgCol = this.getProgressBarBgColor();
-    const startHex = (colors && colors.start) || '#FF9500';
-    const endHex = (colors && colors.end) || startHex;
 
     for (let i = 0; i < totalSegments; i++) {
       const seg = bar.addStack();
@@ -706,8 +730,7 @@ class Widget extends DmYY {
       seg.setPadding(0, 0, 0, 0);
 
       if (i < activeSegments) {
-        const factor = activeSegments > 1 ? (i / (activeSegments - 1)) : 0;
-        seg.backgroundColor = this.interpolateColor(startHex, endHex, factor);
+        seg.backgroundColor = this.colorAt(colors, (i + 0.5) / totalSegments);
       } else {
         seg.backgroundColor = bgCol;
       }
@@ -719,57 +742,106 @@ class Widget extends DmYY {
     return bar;
   }
 
-  addSmoothBar(parent, width, height, colors, ratio) {
-    const bar = parent.addStack();
+  addSmoothBar(parent, width, height, colors, ratio, thin) {
+    const slotH = Math.max(1, Math.round(height));
+    const barW = Math.max(slotH, Math.round(width));
+    const barH = Math.max(1, Math.round(thin ? slotH * 0.72 : slotH));
+
+    const slot = parent.addStack();
+    slot.layoutHorizontally();
+    slot.centerAlignContent();
+    slot.size = new Size(barW, slotH);
+    slot.setPadding(0, 0, 0, 0);
+
+    const bar = slot.addStack();
     bar.layoutHorizontally();
     bar.centerAlignContent();
-    bar.size = new Size(width, height);
-    bar.cornerRadius = height / 2;
-    bar.backgroundColor = this.getProgressBarBgColor();
+    bar.size = new Size(barW, barH);
     bar.setPadding(0, 0, 0, 0);
+    bar.cornerRadius = barH / 2;
+    bar.backgroundColor = this.getProgressBarBgColor();
 
-    const activeWidth = Math.max(height, Math.round(width * ratio));
-    const activeSeg = bar.addStack();
-    activeSeg.size = new Size(activeWidth, height);
-    activeSeg.cornerRadius = height / 2;
-    activeSeg.backgroundColor = new Color((colors && colors.start) || '#FF9500');
-    activeSeg.setPadding(0, 0, 0, 0);
+    const validRatio = Math.max(0, Math.min(1, ratio));
+    const activeWidth = Math.max(barH, Math.round(barW * validRatio));
+
+    const img = bar.addImage(
+      this.drawSmoothGradient(activeWidth, barH, colors, barH / 2, activeWidth)
+    );
+    img.imageSize = new Size(activeWidth, barH);
+    img.respectSizingMode = true;
 
     bar.addSpacer();
-    return bar;
+    return slot;
   }
 
-  drawCapsuleBar(width, height, totalSegments = 10, activeSegments = 7, colors) {
+  drawSmoothGradient(activeW, h, colors, cornerRadius, totalW) {
+    const W = totalW || activeW;
     const dc = new DrawContext();
-    dc.size = new Size(width, height);
+    dc.size = new Size(W, h);
     dc.opaque = false;
     dc.respectScreenScale = true;
 
-    const gap = 3.5;
-    const segWidth = (width - gap * (totalSegments - 1)) / totalSegments;
-    const corner = height / 2;
+    const r = Math.max(0, Math.min(cornerRadius, h / 2));
+    const solid = !colors || colors.gradient === false;
+    const solidColor = solid ? this.colorAt(colors, 0.5) : null;
 
-    const bgCol = this.getProgressBarBgColor();
+    const COL_STEP = 1;
+    const rows = Math.max(1, Math.round(h * 2));
+    const ROW_STEP = h / rows;
+    const cols = Math.max(1, Math.ceil(W / COL_STEP));
 
-    const startHex = (colors && colors.start) || '#FF9500';
-    const endHex = (colors && colors.end) || startHex;
-
-    for (let i = 0; i < totalSegments; i++) {
-      const x = i * (segWidth + gap);
-      const path = new Path();
-      path.addRoundedRect(new Rect(x, 0, segWidth, height), corner, corner);
-      dc.addPath(path);
-
-      if (i < activeSegments) {
-        const factor = activeSegments > 1 ? (i / (activeSegments - 1)) : 0;
-        dc.setFillColor(this.interpolateColor(startHex, endHex, factor));
-      } else {
-        dc.setFillColor(bgCol);
+    const capsuleInset = (yy, yTop, yBot, rad) => {
+      if (yy < yTop + rad) {
+        const dy = yTop + rad - yy;
+        return rad - Math.sqrt(Math.max(0, rad * rad - dy * dy));
       }
-      dc.fillPath();
+      if (yy > yBot - rad) {
+        const dy = yy - (yBot - rad);
+        return rad - Math.sqrt(Math.max(0, rad * rad - dy * dy));
+      }
+      return 0;
+    };
+
+    const fillRad = Math.min(r, activeW / 2);
+
+    for (let ri = 0; ri < rows; ri++) {
+      const y = ri * ROW_STEP;
+      if (y >= h) break;
+      const rowH = Math.min(ROW_STEP, h - y);
+      if (rowH <= 0) continue;
+
+      const ySample = Math.min(y + ROW_STEP, h);
+      const fIn = capsuleInset((y + ySample) / 2, 0, h, fillRad);
+      const fillL = Math.max(0, fIn);
+      const fillR = Math.max(fillL, activeW - fIn);
+      if (fillR <= fillL) continue;
+
+      for (let ci = 0; ci < cols; ci++) {
+        const gx0 = ci * COL_STEP;
+        const gx1 = Math.min(gx0 + COL_STEP, W);
+        const fx0 = Math.max(gx0, fillL);
+        const fx1 = Math.min(gx1, fillR);
+        if (fx1 <= fx0) continue;
+
+        const t = this.colorRatioAt(fx0, fx1, activeW);
+        dc.setFillColor(solid ? solidColor : this.colorAt(colors, t));
+        dc.fillRect(new Rect(fx0, y, fx1 - fx0, rowH));
+      }
     }
 
     return dc.getImage();
+  }
+
+  colorRatioAt(x0, x1, activeW) {
+    if (!(activeW > 0)) return 0;
+    const t = (x0 + x1) / 2 / activeW;
+    return t < 0 ? 0 : (t > 1 ? 1 : t);
+  }
+
+  colorRatioAt(x0, x1, activeW) {
+    if (!(activeW > 0)) return 0;
+    const t = (x0 + x1) / 2 / activeW;
+    return t < 0 ? 0 : (t > 1 ? 1 : t);
   }
 
   async render() {
@@ -805,8 +877,8 @@ class Widget extends DmYY {
     w.backgroundColor = this.getWidgetBgColor();
 
     const d = this.gasData || {};
-    const themeColor = new Color(this.settings.themeColor || '#FF9500');
-    const balanceColor = new Color(this.settings.balanceColor || '#10B981');
+    const isOwe = d.oweMoney && parseFloat(d.oweMoney) > 0;
+    const balanceColor = this.getBalanceTextColor(isOwe);
     const subColor = Color.dynamic(new Color('#6B7280'), new Color('#9CA3AF'));
 
     const body = w.addStack();
@@ -835,7 +907,7 @@ class Widget extends DmYY {
     statePill.setPadding(2 * this.SCALE, 6 * this.SCALE, 2 * this.SCALE, 6 * this.SCALE);
 
     const isOweDot = d.oweMoney && parseFloat(d.oweMoney) > 0;
-    const dotHex = isOweDot ? '#EF4444' : (this.isOffline ? '#FF9500' : '#10B981');
+    const dotHex = this.getGlowHex(isOweDot);
     const glowImg = statePill.addImage(this.drawGlowDot(dotHex, Math.round(36 * this.SCALE)));
     glowImg.imageSize = new Size(13 * this.SCALE, 13 * this.SCALE);
 
@@ -847,7 +919,6 @@ class Widget extends DmYY {
 
     body.addSpacer();
 
-    const isOwe = d.oweMoney && parseFloat(d.oweMoney) > 0;
     const labelRow = body.addStack();
     labelRow.centerAlignContent();
     const balLabel = labelRow.addText(isOwe ? '燃气欠费' : '账户余额');
@@ -885,7 +956,6 @@ class Widget extends DmYY {
     body.addSpacer(6 * this.SCALE);
 
     const ratio = this.getBalanceRatio();
-    const activeSegs = this.getCapsuleActiveCount(10);
     const barColors = this.getBarColors(ratio, isOwe);
     const smallW = this.getWidgetSmallWidth();
     const contentW = (smallW - 2 * 14) * this.SCALE;
@@ -904,12 +974,15 @@ class Widget extends DmYY {
     const gIcon = SFSymbol.named('gauge.badge.plus');
     const gImg = fRow1.addImage(gIcon.image);
     gImg.imageSize = new Size(11 * this.SCALE, 11 * this.SCALE);
-    gImg.tintColor = themeColor;
+    gImg.tintColor = new Color('#3B82F6');
     fRow1.addSpacer(3);
 
-    const mText = fRow1.addText(`抄表: ${d.lastRecord || '0'} m³`);
+    const mLabel = fRow1.addText('抄表: ');
+    mLabel.font = Font.systemFont(10.5 * this.SCALE);
+    mLabel.textColor = subColor;
+    const mText = fRow1.addText(`${d.lastRecord || '0'} m³`);
     mText.font = Font.systemFont(10.5 * this.SCALE);
-    mText.textColor = subColor;
+    mText.textColor = this.widgetColor;
     fRow1.addSpacer();
 
     let meterDate = '--';
@@ -923,7 +996,7 @@ class Widget extends DmYY {
     }
     const meterDateText = fRow1.addText(meterDate);
     meterDateText.font = Font.systemFont(10.5 * this.SCALE);
-    meterDateText.textColor = subColor;
+    meterDateText.textColor = this.widgetColor;
 
     footerCard.addSpacer(3 * this.SCALE);
 
@@ -932,12 +1005,15 @@ class Widget extends DmYY {
     const idIcon = SFSymbol.named('creditcard');
     const idImg = fRow2.addImage(idIcon.image);
     idImg.imageSize = new Size(11 * this.SCALE, 11 * this.SCALE);
-    idImg.tintColor = new Color('#3B82F6');
+    idImg.tintColor = new Color('#F59E0B');
     fRow2.addSpacer(3);
 
-    const custCodeText = fRow2.addText(`户号: ${this.formatCustCode(d.custCode, true)}`);
+    const ccLabel = fRow2.addText('户号: ');
+    ccLabel.font = Font.systemFont(10.5 * this.SCALE);
+    ccLabel.textColor = subColor;
+    const custCodeText = fRow2.addText(this.formatCustCode(d.custCode, true));
     custCodeText.font = Font.systemFont(10.5 * this.SCALE);
-    custCodeText.textColor = subColor;
+    custCodeText.textColor = this.widgetColor;
     fRow2.addSpacer();
 
     const syncIcon = SFSymbol.named('clock.arrow.circlepath');
@@ -948,7 +1024,7 @@ class Widget extends DmYY {
 
     const timeText = fRow2.addText(d._fetchTime || '刚刚');
     timeText.font = Font.systemFont(10.5 * this.SCALE);
-    timeText.textColor = subColor;
+    timeText.textColor = this.widgetColor;
 
     return w;
   }
@@ -963,8 +1039,8 @@ class Widget extends DmYY {
     w.backgroundColor = cardBg;
 
     const d = this.gasData || {};
-    const themeColor = new Color(this.settings.themeColor || '#FF9500');
-    const balanceColor = new Color(this.settings.balanceColor || '#10B981');
+    const isOwe = d.oweMoney && parseFloat(d.oweMoney) > 0;
+    const balanceColor = this.getBalanceTextColor(isOwe);
     const subColor = Color.dynamic(new Color('#6B7280'), new Color('#9CA3AF'));
 
     const body = w.addStack();
@@ -990,7 +1066,6 @@ class Widget extends DmYY {
 
     left.addSpacer();
 
-    const isOwe = d.oweMoney && parseFloat(d.oweMoney) > 0;
     const balLabel = left.addText(isOwe ? '账户燃气欠费' : '账户气费余额');
     balLabel.font = Font.mediumSystemFont(12 * this.SCALE);
     balLabel.textColor = isOwe ? new Color('#EF4444') : subColor;
@@ -1026,22 +1101,21 @@ class Widget extends DmYY {
     left.addSpacer(7 * this.SCALE);
 
     const ratio = this.getBalanceRatio();
-    const activeSegs = this.getCapsuleActiveCount(10);
     const barColors = this.getBarColors(ratio, isOwe);
-    this.addProgressBar(left, 144 * this.SCALE, 11 * this.SCALE, 10, barColors, ratio);
+    this.addProgressBar(left, 144 * this.SCALE, 11 * this.SCALE, 10, barColors, ratio, true);
 
     left.addSpacer();
 
     const stateRow = left.addStack();
     stateRow.centerAlignContent();
 
-    const mDotHex = isOwe ? '#EF4444' : (this.isOffline ? '#FF9500' : '#10B981');
+    const mDotHex = this.getGlowHex(isOwe);
     const mGlowImg = stateRow.addImage(this.drawGlowDot(mDotHex, Math.round(36 * this.SCALE)));
     mGlowImg.imageSize = new Size(13 * this.SCALE, 13 * this.SCALE);
 
     stateRow.addSpacer(3 * this.SCALE);
 
-    const stateText = stateRow.addText(isOwe ? '账户已欠费 · 请及时充值' : '管网连接正常 · 气压稳定');
+    const stateText = stateRow.addText(isOwe ? '账户已欠费 · 请及时充值' : (this.isOffline ? '离线保持 · 数据为上次缓存' : '管网连接正常 · 气压稳定'));
     stateText.font = Font.systemFont(11 * this.SCALE);
     stateText.textColor = subColor;
 
@@ -1063,14 +1137,17 @@ class Widget extends DmYY {
     syncImg.imageSize = new Size(11 * this.SCALE, 11 * this.SCALE);
     syncImg.tintColor = subColor;
     rTop.addSpacer(4);
-    const syncTime = rTop.addText(d._fetchTime ? `更新时间 ${d._fetchTime}` : '实时同步');
+    const stLabel = rTop.addText(d._fetchTime ? '更新时间 ' : '');
+    stLabel.font = Font.systemFont(11 * this.SCALE);
+    stLabel.textColor = subColor;
+    const syncTime = rTop.addText(d._fetchTime || '实时同步');
     syncTime.font = Font.systemFont(11 * this.SCALE);
-    syncTime.textColor = subColor;
+    syncTime.textColor = this.widgetColor;
     rTop.addSpacer();
 
     right.addSpacer();
 
-    this.createTechRow(right, 'person.crop.rectangle', '客户户号', `${d.custName || '--'} (${this.formatCustCode(d.custCode, true)})`, themeColor, subColor);
+    this.createTechRow(right, 'person.crop.rectangle', '客户户号', `${d.custName || '--'} (${this.formatCustCode(d.custCode, true)})`, new Color('#F59E0B'), subColor);
     right.addSpacer();
 
     this.createTechRow(right, 'speedometer', '上次抄表', `${d.lastRecord || '0'} m³`, new Color('#3B82F6'), subColor);
@@ -1120,8 +1197,8 @@ class Widget extends DmYY {
     const contentW = widgetW - 2 * pX;
 
     const d = this.gasData || {};
-    const themeColor = new Color(this.settings.themeColor || '#FF9500');
-    const balanceColor = new Color(this.settings.balanceColor || '#10B981');
+    const isOwe = d.oweMoney && parseFloat(d.oweMoney) > 0;
+    const balanceColor = this.getBalanceTextColor(isOwe);
     const subColor = Color.dynamic(new Color('#6B7280'), new Color('#9CA3AF'));
 
     const body = w.addStack();
@@ -1159,7 +1236,7 @@ class Widget extends DmYY {
 
     const tag = tagBadge.addText(this.isOffline ? '离线模式' : `更新时间 ${d._fetchTime || '刚刚'}`);
     tag.font = Font.semiboldSystemFont(11 * this.SCALE);
-    tag.textColor = this.isOffline ? themeColor : subColor;
+    tag.textColor = this.isOffline ? new Color('#0EA5E9') : subColor;
 
     body.addSpacer();
 
@@ -1170,7 +1247,6 @@ class Widget extends DmYY {
     card.cornerRadius = 14 * this.SCALE;
     card.setPadding(12 * this.SCALE, 16 * this.SCALE, 12 * this.SCALE, 16 * this.SCALE);
 
-    const isOwe = d.oweMoney && parseFloat(d.oweMoney) > 0;
     const cLabel = card.addText(isOwe ? '账户欠费总额' : '当前账户可用气费余额');
     cLabel.font = Font.mediumSystemFont(12.5 * this.SCALE);
     cLabel.textColor = isOwe ? new Color('#EF4444') : subColor;
@@ -1207,7 +1283,6 @@ class Widget extends DmYY {
     const barW = Math.max(260 * this.SCALE, contentW - 32 * this.SCALE);
 
     const ratio = this.getBalanceRatio();
-    const activeSegs = this.getCapsuleActiveCount(14);
     const barColors = this.getBarColors(ratio, isOwe);
     this.addProgressBar(card, barW, 8 * this.SCALE, 14, barColors, ratio);
 
@@ -1311,7 +1386,7 @@ class Widget extends DmYY {
     const cIcon = SFSymbol.named('waveform.path.ecg');
     const cImg = cHead.addImage(cIcon.image);
     cImg.imageSize = new Size(12 * this.SCALE, 12 * this.SCALE);
-    const statusCol = isOwe ? new Color('#EF4444') : (this.isOffline ? new Color('#FF9500') : new Color('#10B981'));
+    const statusCol = isOwe ? new Color('#EF4444') : (this.isOffline ? new Color('#0EA5E9') : new Color('#10B981'));
     cImg.tintColor = statusCol;
     cHead.addSpacer(3 * this.SCALE);
     const cTitle = cHead.addText('管网监控状态');
@@ -1327,7 +1402,7 @@ class Widget extends DmYY {
     cStatusRow.size = new Size(innerW, 0);
     cStatusRow.addSpacer();
 
-    const lDotHex = isOwe ? '#EF4444' : (this.isOffline ? '#FF9500' : '#10B981');
+    const lDotHex = this.getGlowHex(isOwe);
     const lGlowImg = cStatusRow.addImage(this.drawGlowDot(lDotHex, Math.round(36 * this.SCALE)));
     lGlowImg.imageSize = new Size(13 * this.SCALE, 13 * this.SCALE);
 
@@ -1350,13 +1425,13 @@ class Widget extends DmYY {
     listCard.cornerRadius = 10 * this.SCALE;
     listCard.setPadding(10 * this.SCALE, 14 * this.SCALE, 10 * this.SCALE, 14 * this.SCALE);
 
-    this.createTechRow(listCard, 'person.crop.rectangle', '客户姓名', d.custName || '--', themeColor, subColor);
+    this.createTechRow(listCard, 'person.crop.rectangle', '客户姓名', d.custName || '--', new Color('#F59E0B'), subColor);
     listCard.addSpacer(6 * this.SCALE);
-    this.createTechRow(listCard, 'number', '燃气户号', this.formatCustCode(d.custCode), themeColor, subColor);
+    this.createTechRow(listCard, 'number', '燃气户号', this.formatCustCode(d.custCode), new Color('#F59E0B'), subColor);
     listCard.addSpacer(6 * this.SCALE);
     this.createTechRow(listCard, 'building.2', '服务单位', this.formatCompName(d.compName, true), new Color('#10B981'), subColor);
     listCard.addSpacer(6 * this.SCALE);
-    this.createTechRow(listCard, 'phone.badge.waveform', '全国客服热线', '95007', new Color('#F59E0B'), subColor);
+    this.createTechRow(listCard, 'phone.badge.waveform', '全国客服热线', '95007', new Color('#EF5350'), subColor);
 
     return w;
   }
@@ -1595,17 +1670,10 @@ class Widget extends DmYY {
           {
             icon: { name: 'paintpalette.fill', color: '#F59E0B' },
             type: 'color',
-            title: '自定义品牌强调色(单色)',
-            desc: '关闭渐变色时生效，进度条采用此单色',
+            title: '进度条强调色(单色)',
+            desc: '关闭进度条渐变时生效；欠费或余额为 0 时仍强制深红',
             defaultValue: '#FF9500',
             val: 'themeColor',
-          },
-          {
-            icon: { name: 'flame.fill', color: '#10B981' },
-            type: 'color',
-            title: '余额充沛主题色',
-            defaultValue: '#10B981',
-            val: 'balanceColor',
           },
           {
             icon: { name: 'speedometer', color: '#8B5CF6' },
@@ -1626,22 +1694,32 @@ class Widget extends DmYY {
           {
             icon: { name: 'slider.horizontal.3', color: '#FF9500' },
             type: 'switch',
-            title: '进度条余额渐变色',
-            desc: '根据余额多少动态变换绿-青-黄-橙-红5大色阶',
+            title: '进度条颜色渐变',
+            desc: '开启按余额变换红-橙-黄-黄绿-薄荷绿 5 大色阶；关闭则用上方强调色',
             val: 'useGradientBar',
-            default: true,
+            defaultValue: 'true',
+          },
+          {
+            icon: { name: 'paintbrush.fill', color: '#10B981' },
+            type: 'switch',
+            title: '余额颜色渐变',
+            desc: '开启时余额数字跟随色带；关闭时使用标题文字色（浅色模式为黑色）',
+            val: 'useGradientBalance',
+            defaultValue: 'true',
           },
           {
             icon: { name: 'number.square.fill', color: '#3B82F6' },
             type: 'switch',
             title: '隐藏户号脱敏 (512****03)',
             val: 'maskCustCode',
+            defaultValue: 'false',
           },
           {
             icon: { name: 'building.2', color: '#10B981' },
             type: 'switch',
             title: '隐藏服务单位脱敏 (中国燃气)',
             val: 'maskCompName',
+            defaultValue: 'false',
           },
           {
             icon: { name: 'minus.circle.fill', color: '#EF4444' },
@@ -1649,7 +1727,7 @@ class Widget extends DmYY {
             title: '显示昨日消耗数字',
             desc: `点击设置 · ${yestDesc}`,
             val: 'showYestUsage',
-            default: false,
+            defaultValue: 'false',
             onClick: async () => {
               await this.promptYestUsage();
             }
@@ -1663,14 +1741,14 @@ class Widget extends DmYY {
             onClick: async () => {
               const alert = new Alert();
               alert.title = '重置显示配置';
-              alert.message = '确定将所有显示配置（渐变色、脱敏、主题色、满额基准、缩放比例、昨日消耗显示等）恢复为初始默认值吗？\n\n重置后「显示昨日消耗数字」将关闭，昨日基准一并清空。';
+              alert.message = '确定将本页所有显示配置恢复为初始默认值吗？\n\n将重置：\n• 进度条样式\n• 两个渐变开关（均恢复开启）\n• 进度条强调色 → #FF9500（橙）\n• 脱敏开关\n• 满额基准、缩放比例\n• 昨日消耗显示（关闭并清空基准）';
               alert.addAction('确认重置');
               alert.addCancelAction('取消');
               const res = await alert.presentAlert();
               if (res === 0) {
                 this.settings.useGradientBar = 'true';
+                this.settings.useGradientBalance = 'true';
                 this.settings.themeColor = '#FF9500';
-                this.settings.balanceColor = '#10B981';
                 this.settings.maskCustCode = 'false';
                 this.settings.maskCompName = 'false';
                 this.settings.progressStyle = 'square';
