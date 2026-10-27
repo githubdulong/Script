@@ -3,7 +3,7 @@
 // icon-color: yellow; icon-glyph: fire;
 /**
  * 组件名称: 中燃在线 (China Gas)
- * 版本号: v2.7.6
+ * 版本号: v2.7.7
  * 依赖框架: DmYY
  * 使用说明: 根据 UI 账户设置教程
  * 其他说明: UI 套用请说明来源，其他地区修改接口即可
@@ -13,7 +13,7 @@ if (typeof require === 'undefined') require = importModule;
 const { DmYY, Runing } = require('./DmYY');
 
 class Widget extends DmYY {
-  version = '2.7.6';
+  version = '2.7.7';
 
   SCALE = 1;
   gasData = null;
@@ -23,7 +23,7 @@ class Widget extends DmYY {
     super(arg);
     this.name = '中燃在线';
     this.en = 'ChinaGas';
-    this.logo = 'https://raw.githubusercontent.com/anker1209/Scriptable/main/icon/gas.png';
+    this.logo = 'https://raw.githubusercontent.com/githubdulong/Script/master/Images/ChinaGas_logo.png';
     this.fm = FileManager.local();
     this.cachePath = this.fm.joinPath(this.fm.documentsDirectory(), 'ChinaGas_Cache');
 
@@ -887,11 +887,18 @@ class Widget extends DmYY {
     const header = body.addStack();
     header.centerAlignContent();
 
-    const flame = SFSymbol.named('flame.fill');
-    flame.applyHeavyWeight();
-    const icon = header.addImage(flame.image);
-    icon.imageSize = new Size(16 * this.SCALE, 16 * this.SCALE);
-    icon.tintColor = new Color('#FF5722');
+    const logoImg = await this.getLogoImage();
+    if (logoImg) {
+      const icon = header.addImage(logoImg);
+      icon.imageSize = new Size(16 * this.SCALE, 16 * this.SCALE);
+      icon.cornerRadius = 3 * this.SCALE;
+    } else {
+      const flame = SFSymbol.named('flame.fill');
+      flame.applyHeavyWeight();
+      const icon = header.addImage(flame.image);
+      icon.imageSize = new Size(16 * this.SCALE, 16 * this.SCALE);
+      icon.tintColor = new Color('#FF5722');
+    }
     header.addSpacer(5);
 
     const title = header.addText(this.settings.alias || '中燃在线');
@@ -1054,11 +1061,18 @@ class Widget extends DmYY {
 
     const lHeader = left.addStack();
     lHeader.centerAlignContent();
-    const flame = SFSymbol.named('flame.fill');
-    flame.applyHeavyWeight();
-    const fImg = lHeader.addImage(flame.image);
-    fImg.imageSize = new Size(16 * this.SCALE, 16 * this.SCALE);
-    fImg.tintColor = new Color('#FF5722');
+    const logoImg = await this.getLogoImage();
+    if (logoImg) {
+      const fImg = lHeader.addImage(logoImg);
+      fImg.imageSize = new Size(16 * this.SCALE, 16 * this.SCALE);
+      fImg.cornerRadius = 3 * this.SCALE;
+    } else {
+      const flame = SFSymbol.named('flame.fill');
+      flame.applyHeavyWeight();
+      const fImg = lHeader.addImage(flame.image);
+      fImg.imageSize = new Size(16 * this.SCALE, 16 * this.SCALE);
+      fImg.tintColor = new Color('#FF5722');
+    }
     lHeader.addSpacer(5);
     const lTitle = lHeader.addText(this.settings.alias || '中燃在线');
     lTitle.font = Font.boldSystemFont(14 * this.SCALE);
@@ -1208,11 +1222,18 @@ class Widget extends DmYY {
     header.centerAlignContent();
     header.size = new Size(contentW, 0);
 
-    const flame = SFSymbol.named('flame.fill');
-    flame.applyHeavyWeight();
-    const fImg = header.addImage(flame.image);
-    fImg.imageSize = new Size(20 * this.SCALE, 20 * this.SCALE);
-    fImg.tintColor = new Color('#FF5722');
+    const logoImg = await this.getLogoImage();
+    if (logoImg) {
+      const fImg = header.addImage(logoImg);
+      fImg.imageSize = new Size(20 * this.SCALE, 20 * this.SCALE);
+      fImg.cornerRadius = 4 * this.SCALE;
+    } else {
+      const flame = SFSymbol.named('flame.fill');
+      flame.applyHeavyWeight();
+      const fImg = header.addImage(flame.image);
+      fImg.imageSize = new Size(20 * this.SCALE, 20 * this.SCALE);
+      fImg.tintColor = new Color('#FF5722');
+    }
     header.addSpacer(6);
 
     const title = header.addText(this.settings.alias || '中国燃气在线监控');
@@ -1849,6 +1870,36 @@ class Widget extends DmYY {
     } catch (_) {
       return '';
     }
+  }
+
+  async getLogoImage() {
+    if (this._logoImg !== undefined) return this._logoImg;
+    const fm = FileManager.iCloud();
+    const cachePath = fm.documentsDirectory() + '/images/ChinaGas/logo_cache.png';
+    try {
+      if (fm.fileExists(cachePath)) {
+        const age = (Date.now() - fm.modificationDate(cachePath).getTime()) / 3600000;
+        if (age < 168) {
+          this._logoImg = fm.readImage(cachePath);
+          if (this._logoImg) return this._logoImg;
+        }
+      }
+    } catch (e) {}
+    try {
+      const req = new Request(this.logo);
+      req.timeoutInterval = 10;
+      const img = await req.loadImage();
+      if (img) {
+        this._logoImg = img;
+        try {
+          if (!fm.isFileStoredIniCloud(cachePath)) fm.createDirectory(fm.documentsDirectory() + '/images/ChinaGas', true);
+          fm.writeImage(cachePath, img);
+        } catch (e) {}
+        return img;
+      }
+    } catch (e) {}
+    this._logoImg = null;
+    return null;
   }
 
   async checkAndUpdateScript() {
